@@ -2,25 +2,22 @@ import requests
 from datetime import datetime
 
 
-def get_marine(
+def get_hydrology(
     latitude,
     longitude,
     requested_time
 ):
 
-    url = "https://marine-api.open-meteo.com/v1/marine"
+    url = "https://archive-api.open-meteo.com/v1/archive"
 
 
     params = {
         "latitude": latitude,
         "longitude": longitude,
         "hourly": [
-            "wave_height",
-            "wave_direction",
-            "wave_period",
-            "sea_surface_temperature",
-            "ocean_current_velocity",
-            "ocean_current_direction"
+            "precipitation",
+            "et0_fao_evapotranspiration",
+            "soil_moisture_0_to_7cm"
         ],
         "start_date": requested_time.strftime("%Y-%m-%d"),
         "end_date": requested_time.strftime("%Y-%m-%d"),
@@ -34,10 +31,10 @@ def get_marine(
     )
 
 
-    marine = response.json()
+    hydrology = response.json()
 
 
-    times = marine["hourly"]["time"]
+    times = hydrology["hourly"]["time"]
 
 
     closest_index = min(
@@ -63,7 +60,7 @@ def get_marine(
 
     def extract(variable):
 
-        value = marine["hourly"][variable][closest_index]
+        value = hydrology["hourly"][variable][closest_index]
 
         return {
             "value": value,
@@ -73,12 +70,7 @@ def get_marine(
 
     return {
 
-        "source": "Open-Meteo Marine",
-
-        "location": {
-            "latitude": marine.get("latitude"),
-            "longitude": marine.get("longitude")
-        },
+        "source": "Open-Meteo Archive",
 
         "requested_time": requested_time.isoformat(),
 
@@ -89,28 +81,16 @@ def get_marine(
 
         "observations": {
 
-            "wave_height_m": extract(
-                "wave_height"
+            "precipitation_mm": extract(
+                "precipitation"
             ),
 
-            "wave_direction_deg": extract(
-                "wave_direction"
+            "evapotranspiration_mm": extract(
+                "et0_fao_evapotranspiration"
             ),
 
-            "wave_period_seconds": extract(
-                "wave_period"
-            ),
-
-            "sea_surface_temperature_c": extract(
-                "sea_surface_temperature"
-            ),
-
-            "ocean_current_velocity_kmh": extract(
-                "ocean_current_velocity"
-            ),
-
-            "ocean_current_direction_deg": extract(
-                "ocean_current_direction"
+            "soil_moisture_0_7cm_m3m3": extract(
+                "soil_moisture_0_to_7cm"
             )
 
         }

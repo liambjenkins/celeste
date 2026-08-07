@@ -1,72 +1,80 @@
-import swisseph as swe
+from datetime import datetime
+import json
+
+from providers.astronomy import get_astronomy
+from providers.atmosphere import get_atmosphere
+from providers.marine import get_marine
+from providers.hydrology import get_hydrology
+from providers.tides import get_tides
 
 
 print("✨ Celeste")
-print("Astronomical Reconstruction")
+print("Environmental Reconstruction")
 print()
 
 
-# Birth moment
 year = 1996
 month = 7
 day = 22
-hour = 3.1667  # 3:10 AM in decimal hours
+hour = 3.1667
 
 
-# Convert to Julian Day
-julian_day = swe.julday(
+latitude = -37.8136
+longitude = 144.9631
+
+
+moment = datetime(
     year,
     month,
     day,
-    hour
+    3,
+    10
 )
 
 
-print("Julian Day:")
-print(julian_day)
-print()
+celeste = {
 
+    "astronomy": get_astronomy(
+        year,
+        month,
+        day,
+        hour
+    ),
 
-# Celestial bodies to capture
-bodies = {
-    "sun": swe.SUN,
-    "moon": swe.MOON,
-    "mercury": swe.MERCURY,
-    "venus": swe.VENUS,
-    "mars": swe.MARS,
-    "jupiter": swe.JUPITER,
-    "saturn": swe.SATURN,
-    "uranus": swe.URANUS,
-    "neptune": swe.NEPTUNE,
-    "pluto": swe.PLUTO
+    "atmosphere": get_atmosphere(
+        latitude,
+        longitude,
+        moment
+    ),
+
+    "marine": get_marine(
+        latitude,
+        longitude,
+        moment
+    ),
+
+    "hydrology": get_hydrology(
+        latitude,
+        longitude,
+        moment
+    ),
+
+    "tides": get_tides(
+        latitude,
+        longitude,
+        moment
+    )
+
 }
 
 
-# Calculate observations
-observations = {}
-
-for name, body in bodies.items():
-
-    data = swe.calc_ut(
-        julian_day,
-        body
-    )[0]
-
-    observations[name] = {
-        "longitude": data[0],
-        "latitude": data[1],
-        "distance_au": data[2],
-        "longitude_speed": data[3],
-        "latitude_speed": data[4],
-        "distance_speed": data[5]
-    }
-
-
-# Output
-print("Celeste Astronomy Observation:")
+print("Celeste Snapshot:")
 print()
 
-for body, data in observations.items():
-    print(body.upper())
-    print(data)
-    print()
+
+print(
+    json.dumps(
+        celeste,
+        indent=2
+    )
+)
