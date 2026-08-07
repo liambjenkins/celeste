@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from datetime import datetime
 import json
 
@@ -6,6 +10,11 @@ from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
 from providers.hydrology import get_hydrology
 from providers.tides import get_tides
+from providers.elevation import get_elevation
+from providers.earthquakes import get_earthquakes
+from providers.geology import get_geology
+from providers.land import get_land
+from providers.biosphere import get_biosphere
 
 
 print("✨ Celeste")
@@ -13,20 +22,14 @@ print("Environmental Reconstruction")
 print()
 
 
-year = 1996
-month = 7
-day = 22
-hour = 3.1667
-
-
 latitude = -37.8136
 longitude = 144.9631
 
 
-moment = datetime(
-    year,
-    month,
-    day,
+requested_time = datetime(
+    1996,
+    7,
+    22,
     3,
     10
 )
@@ -35,34 +38,69 @@ moment = datetime(
 celeste = {
 
     "astronomy": get_astronomy(
-        year,
-        month,
-        day,
-        hour
+        1996,
+        7,
+        22,
+        3.1667
     ),
 
     "atmosphere": get_atmosphere(
         latitude,
         longitude,
-        moment
+        requested_time
     ),
 
     "marine": get_marine(
         latitude,
         longitude,
-        moment
+        requested_time
     ),
 
     "hydrology": get_hydrology(
         latitude,
         longitude,
-        moment
+        requested_time
     ),
 
     "tides": get_tides(
         latitude,
         longitude,
-        moment
+        requested_time
+    ),
+
+
+    "earth": {
+
+        "elevation": get_elevation(
+            latitude,
+            longitude
+        ),
+
+        "earthquakes": get_earthquakes(
+            latitude,
+            longitude,
+            requested_time
+        ),
+
+        "geology": get_geology(
+            latitude,
+            longitude
+        )
+
+    },
+
+
+    "land": get_land(
+        latitude,
+        longitude,
+        requested_time
+    ),
+
+
+    "biosphere": get_biosphere(
+        latitude,
+        longitude,
+        requested_time
     )
 
 }
@@ -70,7 +108,6 @@ celeste = {
 
 print("Celeste Snapshot:")
 print()
-
 
 print(
     json.dumps(
