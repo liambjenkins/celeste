@@ -15,7 +15,7 @@ from providers.earthquakes import get_earthquakes
 from providers.geology import get_geology
 from providers.land import get_land
 from providers.biosphere import get_biosphere
-
+from providers.solar import get_solar
 
 print("✨ Celeste")
 print("Environmental Reconstruction")
@@ -101,7 +101,11 @@ celeste = {
         latitude,
         longitude,
         requested_time
-    )
+    ),
+
+    "space_weather": get_solar(
+        requested_time
+    ),
 
 }
 
