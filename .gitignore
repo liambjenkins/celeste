@@ -4,3 +4,10 @@ data/
 
 data/
 snapshot.json
+
+# Local model/runtime artifacts
+llama-*.tar.gz
+
+# Python bytecode
+__pycache__/
+*.py[cod]

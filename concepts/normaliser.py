@@ -26,6 +26,99 @@ def normalise_observations(observations):
                     source
             })
     # --------------------------------------------------------
+    # ASTRONOMY
+    # --------------------------------------------------------
+    #
+    # Astronomy remains observational data here.
+    # Astrological or religious meaning belongs downstream.
+    #
+    astronomy = observations.get(
+        "astronomy",
+        {}
+    )
+
+    if isinstance(astronomy, dict):
+
+        bodies = astronomy.get(
+            "bodies",
+            {}
+        )
+
+        if isinstance(bodies, dict):
+
+            if "sun" in bodies:
+                add_concept(
+                    "sun",
+                    bodies["sun"],
+                    "astronomy.bodies.sun"
+                )
+
+            if "moon" in bodies:
+                add_concept(
+                    "moon",
+                    bodies["moon"],
+                    "astronomy.bodies.moon"
+                )
+
+            planetary = {}
+
+            for body_name, body_data in bodies.items():
+
+                if body_name in (
+                    "sun",
+                    "moon",
+                ):
+                    continue
+
+                planetary[body_name] = body_data
+
+            if planetary:
+                add_concept(
+                    "planetary_positions",
+                    planetary,
+                    "astronomy.bodies"
+                )
+
+        # Julian day is useful provenance/context,
+        # but is not itself an interpretive concept.
+        if "julian_day" in astronomy:
+            add_concept(
+                "astronomical_time",
+                astronomy["julian_day"],
+                "astronomy.julian_day"
+            )
+
+    # --------------------------------------------------------
+    # SEASON
+    # --------------------------------------------------------
+    #
+    # The requested moment is also located within the annual
+    # solar cycle. This is descriptive, not interpretive.
+    #
+    requested_time = observations.get(
+        "_requested_time"
+    )
+
+    if requested_time is not None:
+
+        month = requested_time.month
+
+        if month in (12, 1, 2):
+            season = "summer"
+        elif month in (3, 4, 5):
+            season = "autumn"
+        elif month in (6, 7, 8):
+            season = "winter"
+        else:
+            season = "spring"
+
+        add_concept(
+            "season",
+            season,
+            "derived.season"
+        )
+
+    # --------------------------------------------------------
     # ATMOSPHERE
     # --------------------------------------------------------
     atmosphere = observations.get(

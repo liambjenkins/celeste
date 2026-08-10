@@ -1,0 +1,14 @@
+{
+  "claim_id": "astrology_pipeline_passage_001_1",
+  "lens_id": "astrology",
+  "statement": "A square is traditionally associated with challenge or tension.",
+  "passage_ids": [
+    "pipeline_passage_001"
+  ],
+  "concept_ids": [],
+  "source_ids": [
+    "pipeline_source_001"
+  ],
+  "status": "candidate",
+  "notes": ""
+}

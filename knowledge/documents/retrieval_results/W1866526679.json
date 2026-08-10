@@ -1,0 +1,21 @@
+{
+  "document_id": "W1866526679",
+  "status": "no_document_retrieved",
+  "attempts": [
+    {
+      "location": {
+        "landing_page": "http://nrs.harvard.edu/urn-3:HUL.InstRepos:3209550",
+        "pdf_url": null,
+        "source": "Digital Access to Scholarship at Harvard (DASH) (Harvard University)",
+        "license": "cc-by"
+      },
+      "result": {
+        "status": "temporarily_unavailable",
+        "url": "http://nrs.harvard.edu/urn-3:HUL.InstRepos:3209550",
+        "source": "Digital Access to Scholarship at Harvard (DASH) (Harvard University)",
+        "license": "cc-by",
+        "reason": "Source returned HTTP 429 (Too Many Requests). The repository is rate-limiting automated access."
+      }
+    }
+  ]
+}

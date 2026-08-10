@@ -1,0 +1,150 @@
+{
+  "query": "Aristotle virtue",
+  "source": "openalex",
+  "status": "discovered",
+  "results": [
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W656989050",
+      "title": "Aristotle and the Virtues",
+      "year": 2012,
+      "type": "book",
+      "doi": "https://doi.org/10.1093/acprof:oso/9780199693726.001.0001",
+      "authors": [
+        "Howard J. Curzer"
+      ],
+      "journal": "Oxford University Press eBooks",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.1093/acprof:oso/9780199693726.001.0001"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W1990773926",
+      "title": "38. After Virtue: A Study in Moral Theory",
+      "year": 2015,
+      "type": "book-chapter",
+      "doi": "https://doi.org/10.1515/9781400848393-039",
+      "authors": [
+        "Alasdair MacIntyre"
+      ],
+      "journal": "Princeton University Press eBooks",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.1515/9781400848393-039"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W2753382762",
+      "title": "Aristotle on Reason, Desire, and Virtue",
+      "year": 1975,
+      "type": "article",
+      "doi": "https://doi.org/10.2307/2025069",
+      "authors": [
+        "Terence Irwin"
+      ],
+      "journal": "The Journal of Philosophy",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.2307/2025069"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W428761193",
+      "title": "Aristotle, Virtue and the Mean",
+      "year": 1995,
+      "type": "other",
+      "doi": null,
+      "authors": [
+        "Richard Bosley",
+        "Roger A. Shiner",
+        "Janet Sisson"
+      ],
+      "journal": null,
+      "open_access": false,
+      "landing_page": null
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W1557526876",
+      "title": "Virtue and Reason in Plato and Aristotle",
+      "year": 2011,
+      "type": "book",
+      "doi": "https://doi.org/10.1093/acprof:oso/9780199609611.001.0001",
+      "authors": [
+        "A. W. Price"
+      ],
+      "journal": "Oxford University Press eBooks",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.1093/acprof:oso/9780199609611.001.0001"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W2057441841",
+      "title": "Making a Necessity of Virtue: Aristotle and Kant on Virtue",
+      "year": 2000,
+      "type": "article",
+      "doi": "https://doi.org/10.2307/2693699",
+      "authors": [
+        "David O. Brink",
+        "Nancy Sherman"
+      ],
+      "journal": "The Philosophical Review",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.2307/2693699"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W1866526679",
+      "title": "Aristotle on Function and Virtue",
+      "year": 2008,
+      "type": "book-chapter",
+      "doi": "https://doi.org/10.1093/acprof:oso/9780199552733.003.0006",
+      "authors": [
+        "Christine M. Korsgaard"
+      ],
+      "journal": null,
+      "open_access": true,
+      "landing_page": "https://doi.org/10.1093/acprof:oso/9780199552733.003.0006"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W2806958299",
+      "title": "From Natural Character to Moral Virtue in Aristotle",
+      "year": 2017,
+      "type": "book",
+      "doi": "https://doi.org/10.1093/acprof:oso/9780190602215.001.0001",
+      "authors": [
+        "Mariska Leunissen"
+      ],
+      "journal": "Oxford University Press eBooks",
+      "open_access": true,
+      "landing_page": "https://doi.org/10.1093/acprof:oso/9780190602215.001.0001"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W3133328347",
+      "title": "Aristotle on the Virtues of Slaves and Women",
+      "year": 2003,
+      "type": "book-chapter",
+      "doi": "https://doi.org/10.1093/oso/9780199268245.003.0007",
+      "authors": [
+        "Marguerite Deslauriers"
+      ],
+      "journal": "Oxford studies in ancient philosophy",
+      "open_access": false,
+      "landing_page": "https://doi.org/10.1093/oso/9780199268245.003.0007"
+    },
+    {
+      "source": "openalex",
+      "id": "https://openalex.org/W4232971105",
+      "title": "12. Aristotle on the Role of Intellect in Virtue",
+      "year": 1980,
+      "type": "book-chapter",
+      "doi": "https://doi.org/10.1525/9780520340985-015",
+      "authors": [
+        "Richard Sorabji"
+      ],
+      "journal": null,
+      "open_access": false,
+      "landing_page": "https://doi.org/10.1525/9780520340985-015"
+    }
+  ]
+}

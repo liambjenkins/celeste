@@ -1,74 +1,46 @@
-def classify_observations(observations):
+def classify_observations(concepts):
+    """
+    Classify canonical concepts into elemental domains.
+
+    This operates on the output of normalise_observations(),
+    not on the raw provider data.
+    """
+
+    def get(name):
+        return concepts.get(name)
+
     return {
         "fire": {
-            "solar_activity":
-                observations.get(
-                    "space_weather"
-                ),
-            "thermal":
-                observations.get(
-                    "atmosphere"
-                )
+            "solar_activity": get("solar_activity"),
+            "thermal": get("temperature"),
         },
+
         "water": {
-            "tides":
-                observations.get(
-                    "tides"
-                ),
-            "hydrology":
-                observations.get(
-                    "hydrology"
-                ),
-            "marine":
-                observations.get(
-                    "marine"
-                )
+            "tides": get("tide"),
+            "hydrology": get("precipitation"),
+            "marine": get("marine_conditions"),
         },
+
         "earth": {
-            "geology":
-                observations.get(
-                    "earth",
-                    {}
-                ).get(
-                    "geology"
-                ),
-            "earthquakes":
-                observations.get(
-                    "earth",
-                    {}
-                ).get(
-                    "earthquakes"
-                ),
-            "elevation":
-                observations.get(
-                    "earth",
-                    {}
-                ).get(
-                    "elevation"
-                ),
-            "land":
-                observations.get(
-                    "land"
-                ),
-            "biosphere":
-                observations.get(
-                    "biosphere"
-                )
+            "geology": get("geology"),
+            "earthquakes": get("earthquake"),
+            "elevation": get("elevation"),
+            "land": get("soil_moisture"),
+            "biosphere": get("vegetation"),
+            "soil_temperature": get("soil_temperature"),
         },
+
         "air": {
-            "atmosphere":
-                observations.get(
-                    "atmosphere"
-                )
+            "atmosphere": {
+                "moisture": get("atmospheric_moisture"),
+                "pressure": get("pressure"),
+                "cloud": get("cloud"),
+                "temperature": get("temperature"),
+            },
         },
+
         "space": {
-            "astronomy":
-                observations.get(
-                    "astronomy"
-                ),
-            "space_weather":
-                observations.get(
-                    "space_weather"
-                )
-        }
+            "astronomy": get("astronomy"),
+            "space_weather": get("solar_activity"),
+        },
     }

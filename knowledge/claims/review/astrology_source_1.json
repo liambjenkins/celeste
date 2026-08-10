@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_source_1",
+  "lens_id": "astrology",
+  "statement": "Within traditional astrology, a square aspect is associated with tension, challenge, or friction between the participating planets.",
+  "passage_ids": [
+    "source"
+  ],
+  "concept_ids": [
+    "planetary_aspects",
+    "square"
+  ],
+  "feature_ids": [
+    "aspect:square"
+  ],
+  "source_ids": [
+    "source.txt"
+  ],
+  "status": "candidate",
+  "notes": ""
+}
