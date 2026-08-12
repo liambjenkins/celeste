@@ -78,6 +78,10 @@ class LensInterpretation:
 
     themes: list[str] = field(default_factory=list)
 
+    macro_themes: list[str] = field(default_factory=list)
+
+    elemental_focus: list[str] = field(default_factory=list)
+
     features: dict[str, object] = field(
         default_factory=dict
     )

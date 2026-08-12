@@ -99,6 +99,10 @@ def normalise_observations(observations):
         "_requested_time"
     )
 
+    latitude = observations.get(
+        "_latitude"
+    )
+
     if requested_time is not None:
 
         month = requested_time.month
@@ -111,6 +115,16 @@ def normalise_observations(observations):
             season = "winter"
         else:
             season = "spring"
+
+        # The above mapping is Southern Hemisphere. Flip it for
+        # latitudes at or north of the equator.
+        if latitude is not None and latitude >= 0:
+            season = {
+                "summer": "winter",
+                "winter": "summer",
+                "autumn": "spring",
+                "spring": "autumn",
+            }[season]
 
         add_concept(
             "season",
@@ -269,40 +283,54 @@ def normalise_observations(observations):
     # --------------------------------------------------------
     # EARTH
     # --------------------------------------------------------
-    earth = observations.get(
-        "earth",
+    #
+    # These come from separate top-level provider results
+    # (elevation, geology, earthquake), not a nested "earth" key.
+    #
+    elevation = observations.get(
+        "elevation",
         {}
     )
-    if isinstance(earth, dict):
-        if earth.get("elevation"):
-            elevation = earth[
-                "elevation"
-            ]
-            if elevation.get(
-                "available"
-            ) is True:
-                add_concept(
-                    "elevation",
-                    elevation.get(
-                        "elevation_m"
-                    ),
-                    "earth.elevation.elevation_m"
-                )
-        if earth.get("geology"):
+    if isinstance(elevation, dict):
+        if elevation.get(
+            "available"
+        ) is True:
+            add_concept(
+                "elevation",
+                elevation.get(
+                    "elevation_m"
+                ),
+                "elevation.elevation_m"
+            )
+
+    geology = observations.get(
+        "geology",
+        {}
+    )
+    if isinstance(geology, dict):
+        if geology.get(
+            "available"
+        ) is True:
             add_concept(
                 "geology",
-                earth[
-                    "geology"
-                ],
-                "earth.geology"
+                geology,
+                "geology"
             )
-        if earth.get("earthquakes"):
+
+    earthquake = observations.get(
+        "earthquake",
+        {}
+    )
+    if isinstance(earthquake, dict):
+        # The earthquake provider has no "available" flag; it
+        # always returns a result (possibly with zero events).
+        if earthquake.get(
+            "events_found"
+        ) is not None:
             add_concept(
                 "earthquake",
-                earth[
-                    "earthquakes"
-                ],
-                "earth.earthquakes"
+                earthquake,
+                "earthquake"
             )
     # --------------------------------------------------------
     # LAND
@@ -366,7 +394,7 @@ def normalise_observations(observations):
     # SPACE WEATHER
     # --------------------------------------------------------
     space_weather = observations.get(
-        "space_weather",
+        "solar_activity",
         {}
     )
     if isinstance(space_weather, dict):
@@ -377,12 +405,12 @@ def normalise_observations(observations):
             "solar_activity",
             {}
         )
-        if "sunspot_number" in solar_activity:
+        if solar_activity.get("sunspot_number") is not None:
             add_concept(
                 "solar_activity",
                 solar_activity[
                     "sunspot_number"
                 ],
-                "space_weather.observations.solar_activity.sunspot_number"
+                "solar_activity.observations.solar_activity.sunspot_number"
             )
     return concepts

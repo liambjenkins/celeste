@@ -21,7 +21,7 @@ def get_hydrology(
         ],
         "start_date": requested_time.strftime("%Y-%m-%d"),
         "end_date": requested_time.strftime("%Y-%m-%d"),
-        "timezone": "Australia/Melbourne"
+        "timezone": "UTC"
     }
 
 

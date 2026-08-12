@@ -1,0 +1,598 @@
+"""
+Celeste structural interpretation layer.
+
+For each catalogued tradition, this module derives a small set of
+deterministic, tradition-specific themes from the SAME shared
+feature bundle (lenses/features.py) and elemental classification
+(elements.py).
+
+Important — read before extending this file:
+
+    These interpreters are NOT sourced doctrinal claims. They are
+    structural pattern-matching: mapping physical observations onto
+    a tradition's own descriptive vocabulary (e.g. the classical
+    elements, lunar phase, yin/yang polarity), using associations
+    that are historically documented as part of that tradition's own
+    symbolic language (e.g. the four classical elements in Greco-Roman
+    thought and Western astrology; the pancha mahabhuta in Hindu and
+    Buddhist thought; the four elements in Jungian/alchemical
+    psychology). They do not assert what the tradition teaches is
+    true, and they are never presented as equivalent to a claim
+    reviewed and approved through the knowledge/claims pipeline.
+
+    Every interpreter output is combined, in lenses/pipeline.py, with
+    any actual source-backed approved claims for that lens. The two
+    are always kept visibly distinct in the final interpretation.
+
+Each interpreter returns a dict:
+    {
+        "themes": [...],           # tradition-vocabulary theme labels
+        "macro_themes": [...],     # tags from the shared taxonomy below,
+                                    # used for cross-tradition comparison
+        "elemental_focus": [...],  # elemental domains this tradition's
+                                    # reading foregrounds
+        "notes": [...],            # short structural sentences
+    }
+"""
+
+from lenses.features import FeatureBundle
+
+# ------------------------------------------------------------
+# Shared macro-theme taxonomy.
+#
+# A small controlled vocabulary so that different traditions'
+# structural readings can be compared: two lenses sharing a
+# macro-theme are, for this moment, structurally convergent.
+# ------------------------------------------------------------
+
+CYCLICALITY = "cyclicality"
+DUALITY = "duality_and_polarity"
+ELEMENTAL = "elemental_correspondence"
+BALANCE = "balance_and_order"
+IMPERMANENCE = "impermanence"
+STILLNESS_OR_TURBULENCE = "inner_stillness_or_turbulence"
+CREATION_AND_SIGNS = "creation_and_signs"
+ARCHETYPE = "archetypal_symbolism"
+VITALITY = "vitality_and_transformation"
+TIMEKEEPING = "sacred_timekeeping"
+
+
+def _result(themes=None, macro_themes=None, elemental_focus=None, notes=None):
+    return {
+        "themes": themes or [],
+        "macro_themes": macro_themes or [],
+        "elemental_focus": elemental_focus or [],
+        "notes": notes or [],
+    }
+
+
+def _has(features: FeatureBundle, tag):
+    return tag in features.tags
+
+
+def _turbulent(features: FeatureBundle):
+    return _has(features, "precipitation:active") or _has(features, "pressure:low")
+
+
+def _still(features: FeatureBundle):
+    return _has(features, "cloud:clear") and _has(features, "precipitation:none")
+
+
+def _yin_yang_tilt(features: FeatureBundle):
+    yang_tags = {
+        "temperature:warm",
+        "cloud:clear",
+        "pressure:high",
+        "precipitation:none",
+    }
+    yin_tags = {
+        "temperature:cool",
+        "cloud:overcast",
+        "pressure:low",
+        "precipitation:active",
+        "humidity:high",
+    }
+
+    present = set(features.tags)
+
+    yang = len(present & yang_tags)
+    yin = len(present & yin_tags)
+
+    if yang == 0 and yin == 0:
+        return None
+
+    if yang > yin:
+        return "yang_leaning"
+
+    if yin > yang:
+        return "yin_leaning"
+
+    return "balanced"
+
+
+# ------------------------------------------------------------
+# Astrology
+# ------------------------------------------------------------
+
+def _astrology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.moon_phase_name:
+        themes.append(f"lunar_phase:{features.moon_phase_name}")
+        notes.append(
+            f"The Moon is in its {features.moon_phase_name.replace('_', ' ')} "
+            "phase relative to the Sun."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.sun_moon_aspect:
+        themes.append(f"sun_moon_aspect:{features.sun_moon_aspect}")
+        notes.append(
+            f"Sun and Moon form an approximate {features.sun_moon_aspect} "
+            "in traditional aspect terms."
+        )
+        macro.append(DUALITY)
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+
+    if features.dominant_domains:
+        themes.append(
+            "elemental_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The reconstructed moment carries the most observational "
+            f"weight in the {', '.join(features.dominant_domains)} "
+            "domain(s), which traditional astrology maps onto the "
+            "classical elements associated with the zodiac signs."
+        )
+        macro.append(ELEMENTAL)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Islamic cosmology
+# ------------------------------------------------------------
+
+def _islamic_cosmology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [CREATION_AND_SIGNS]
+
+    observed_domains = [d for d, c in features.elemental_strength.items() if c > 0]
+
+    if observed_domains:
+        themes.append("signs_in_creation:" + "_".join(sorted(observed_domains)))
+        notes.append(
+            "Observable order is present across "
+            f"{len(observed_domains)} elemental domain(s) "
+            f"({', '.join(sorted(observed_domains))}), read here as "
+            "'signs' (ayat) within the created, patterned natural order."
+        )
+
+    if features.moon_phase_name:
+        themes.append(f"lunar_timekeeping:{features.moon_phase_name}")
+        notes.append(
+            "The lunar phase marks a specific point in the lunar "
+            "calendar used for Islamic timekeeping."
+        )
+        macro.append(TIMEKEEPING)
+
+    return _result(themes, macro, observed_domains, notes)
+
+
+# ------------------------------------------------------------
+# Islamic mysticism (Sufism)
+# ------------------------------------------------------------
+
+def _islamic_mysticism(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if _turbulent(features):
+        themes.append("state:turbulence")
+        notes.append(
+            "Active/unsettled atmospheric conditions are read structurally "
+            "as an outward turbulence motif, echoing the mystical theme "
+            "of the heart's states moving between constriction and ease."
+        )
+        macro.append(STILLNESS_OR_TURBULENCE)
+    elif _still(features):
+        themes.append("state:stillness")
+        notes.append(
+            "Clear, calm conditions are read structurally as a stillness "
+            "motif, echoing the mystical theme of presence and "
+            "remembrance (dhikr)."
+        )
+        macro.append(STILLNESS_OR_TURBULENCE)
+
+    return _result(themes, macro, [], notes)
+
+
+# ------------------------------------------------------------
+# Christian mysticism
+# ------------------------------------------------------------
+
+def _christian_mysticism(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [CREATION_AND_SIGNS]
+
+    if features.dominant_domains:
+        themes.append(
+            "creation_attention:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The moment's most-observed elemental domain(s) "
+            f"({', '.join(features.dominant_domains)}) are read as the "
+            "focus of contemplative attention to creation, in the "
+            "spirit of traditions such as the Canticle of the Creatures."
+        )
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Jewish mysticism (Kabbalah)
+# ------------------------------------------------------------
+
+def _jewish_mysticism(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.dominant_domains:
+        themes.append(
+            "elemental_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The dominant elemental domain(s) "
+            f"({', '.join(features.dominant_domains)}) correspond to "
+            "the classical fire/water/air/earth grouping used in some "
+            "later Kabbalistic frameworks."
+        )
+        macro.append(ELEMENTAL)
+
+    if features.moon_phase_name in ("new_moon", "full_moon"):
+        themes.append(f"lunar_marker:{features.moon_phase_name}")
+        notes.append(
+            "The Moon is at a marker point (new or full) relevant to "
+            "the Jewish lunar calendar."
+        )
+        macro.append(TIMEKEEPING)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Hindu cosmology
+# ------------------------------------------------------------
+
+_PANCHA_BHUTA = {
+    "fire": "agni/tejas",
+    "water": "apas/jala",
+    "earth": "prithvi",
+    "air": "vayu",
+    "space": "akasha",
+}
+
+
+def _hindu_cosmology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [ELEMENTAL]
+
+    if features.dominant_domains:
+        labels = [
+            f"{domain} ({_PANCHA_BHUTA.get(domain, domain)})"
+            for domain in features.dominant_domains
+        ]
+        themes.append(
+            "pancha_bhuta_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "Within the pancha mahabhuta (five great elements), this "
+            f"moment carries the most weight in: {', '.join(labels)}."
+        )
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+        notes.append(
+            "The seasonal position situates the moment within a "
+            "recurring cosmic cycle."
+        )
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Buddhist cosmology
+# ------------------------------------------------------------
+
+def _buddhist_cosmology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [IMPERMANENCE]
+
+    populated = [d for d, c in features.elemental_strength.items() if c > 0]
+    empty = [d for d, c in features.elemental_strength.items() if c == 0]
+
+    if empty:
+        themes.append("unobserved_domains:" + "_".join(sorted(empty)))
+        notes.append(
+            "Some elemental domain(s) "
+            f"({', '.join(sorted(empty))}) carry no observation for "
+            "this moment — read structurally as a reminder that any "
+            "single reconstructed snapshot is partial and impermanent."
+        )
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+        notes.append(
+            "The seasonal position reflects dependent, conditioned "
+            "change (the annual cycle) rather than a fixed state."
+        )
+
+    return _result(themes, macro, populated, notes)
+
+
+# ------------------------------------------------------------
+# Taoist cosmology
+# ------------------------------------------------------------
+
+def _taoist_cosmology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [DUALITY]
+
+    tilt = _yin_yang_tilt(features)
+
+    if tilt:
+        themes.append(f"yin_yang:{tilt}")
+        notes.append(
+            f"The observed signals lean {tilt.replace('_', ' ')} "
+            "under a classical yin/yang reading (warmth, clear sky, "
+            "and high pressure read as yang; cool, damp, overcast, "
+            "low-pressure conditions read as yin)."
+        )
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+        notes.append(
+            "The seasonal position marks a point in the turning of "
+            "the natural cycle."
+        )
+
+    return _result(themes, macro, [], notes)
+
+
+# ------------------------------------------------------------
+# Pagan / Wiccan
+# ------------------------------------------------------------
+
+def _pagan_wiccan(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [ELEMENTAL]
+
+    if features.dominant_domains:
+        themes.append(
+            "elemental_correspondence:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The dominant elemental domain(s) "
+            f"({', '.join(features.dominant_domains)}) correspond to "
+            "the fire/water/earth/air/spirit correspondences used in "
+            "modern Pagan and Wiccan elemental symbolism."
+        )
+
+    if features.moon_phase_name:
+        themes.append(f"lunar_phase:{features.moon_phase_name}")
+        notes.append(
+            f"The Moon's {features.moon_phase_name.replace('_', ' ')} "
+            "phase marks a point on the esbat cycle."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        macro.append(CYCLICALITY)
+        notes.append("The season marks a point on the Wheel of the Year.")
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Greco-Roman cosmology
+# ------------------------------------------------------------
+
+def _greco_roman(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [ELEMENTAL]
+
+    if features.dominant_domains:
+        themes.append(
+            "classical_element_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The dominant elemental domain(s) "
+            f"({', '.join(features.dominant_domains)}) correspond "
+            "directly to the classical Greek four/five-element system "
+            "(fire, water, earth, air, aether)."
+        )
+
+    planetary = concepts.get("planetary_positions")
+
+    if planetary and planetary.get("observations"):
+        themes.append("planetary_bodies_named_for_deities")
+        notes.append(
+            "The observed planetary bodies carry the names of "
+            "Greco-Roman deities (Mars, Venus, Jupiter, Saturn, "
+            "Mercury), a direct historical link between the "
+            "astronomical and mythological."
+        )
+        macro.append(ARCHETYPE)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Ancient Egyptian cosmology
+# ------------------------------------------------------------
+
+def _egyptian_cosmology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [BALANCE]
+
+    counts = list(features.elemental_strength.values())
+
+    if counts:
+        spread = max(counts) - min(counts)
+
+        if spread <= 1:
+            themes.append("balance:even")
+            notes.append(
+                "Observational weight is evenly spread across elemental "
+                "domains — read structurally as an image of Ma'at "
+                "(balance/order)."
+            )
+        else:
+            themes.append("balance:skewed")
+            notes.append(
+                "Observational weight is concentrated rather than "
+                "evenly spread across elemental domains — read "
+                "structurally as an image of imbalance against Ma'at."
+            )
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Depth psychology (Jungian)
+# ------------------------------------------------------------
+
+_JUNGIAN_ARCHETYPE = {
+    "fire": "spirit / animating drive",
+    "water": "the unconscious / emotion",
+    "earth": "the body / the shadow",
+    "air": "intellect / persona",
+    "space": "the transcendent Self",
+}
+
+
+def _depth_psychology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = [ARCHETYPE]
+
+    if features.dominant_domains:
+        for domain in features.dominant_domains:
+            archetype = _JUNGIAN_ARCHETYPE.get(domain, domain)
+            themes.append(f"archetype:{domain}:{archetype}")
+
+        notes.append(
+            "In the Jungian/alchemical convention that associates each "
+            "classical element with a psychic function, this moment "
+            "foregrounds: "
+            + ", ".join(
+                f"{domain} ({_JUNGIAN_ARCHETYPE.get(domain, domain)})"
+                for domain in features.dominant_domains
+            )
+            + "."
+        )
+        macro.append(VITALITY)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+STRUCTURAL_INTERPRETERS = {
+    "astrology": _astrology,
+    "islamic_cosmology": _islamic_cosmology,
+    "islamic_mysticism": _islamic_mysticism,
+    "christian_mysticism": _christian_mysticism,
+    "jewish_mysticism": _jewish_mysticism,
+    "hindu_cosmology": _hindu_cosmology,
+    "buddhist_cosmology": _buddhist_cosmology,
+    "taoist_cosmology": _taoist_cosmology,
+    "pagan_wiccan": _pagan_wiccan,
+    "greco_roman": _greco_roman,
+    "egyptian_cosmology": _egyptian_cosmology,
+    "depth_psychology": _depth_psychology,
+}
+
+
+def build_structural_interpretation(lens_id, concepts, features: FeatureBundle):
+    """
+    Produce the structural (non-doctrinal) interpretation for one
+    lens. Falls back to an empty-but-honest result for any lens not
+    yet covered.
+    """
+
+    interpreter = STRUCTURAL_INTERPRETERS.get(lens_id)
+
+    if interpreter is None:
+        return _result()
+
+    return interpreter(concepts, features)
+
+
+if __name__ == "__main__":
+    from lenses.features import build_features
+
+    concepts = {
+        "sun": {
+            "observations": [{"value": {"longitude": 119.6}, "source": "t"}]
+        },
+        "moon": {
+            "observations": [{"value": {"longitude": 209.6}, "source": "t"}]
+        },
+        "temperature": {"observations": [{"value": 8.0, "source": "t"}]},
+        "season": {"observations": [{"value": "winter", "source": "t"}]},
+    }
+
+    elements = {
+        "fire": {"solar_activity": None, "thermal": concepts["temperature"]},
+        "water": {"tides": None, "hydrology": None, "marine": None},
+        "earth": {
+            "geology": None,
+            "earthquakes": None,
+            "elevation": None,
+            "land": None,
+            "biosphere": None,
+            "soil_temperature": None,
+        },
+        "air": {
+            "atmosphere": {
+                "moisture": None,
+                "pressure": None,
+                "cloud": None,
+                "temperature": concepts["temperature"],
+            }
+        },
+        "space": {"astronomy": concepts["sun"], "space_weather": None},
+    }
+
+    features = build_features(concepts, elements)
+
+    for lens_id in STRUCTURAL_INTERPRETERS:
+        result = build_structural_interpretation(lens_id, concepts, features)
+        print(f"[{lens_id}]")
+        for note in result["notes"]:
+            print("  -", note)
+
+    print()
+    print("structural.py: OK")

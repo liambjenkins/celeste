@@ -2,3 +2,6 @@ pyswisseph
 requests
 pydantic
 python-dotenv
+earthaccess
+xarray
+numpy

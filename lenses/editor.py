@@ -58,6 +58,13 @@ def build_editorial_payload(
         "themes": list(
             interpretation.themes
         ),
+        "macro_themes": list(
+            interpretation.macro_themes
+        ),
+        "elemental_focus": list(
+            interpretation.elemental_focus
+        ),
+        "interpretation": interpretation.interpretation,
         "claims": claims,
         "caveats": list(
             interpretation.caveats
