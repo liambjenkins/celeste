@@ -1,11 +1,13 @@
 from dotenv import load_dotenv
 load_dotenv()
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
-from providers.astronomy import get_astronomy
+from astrology.chart import build_chart
+from astrology.houses import HOUSE_SYSTEMS
+from astrology.time import local_to_utc
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
 from providers.earthquakes import get_earthquakes
@@ -48,15 +50,27 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--timezone",
+        default=None,
+        help=(
+            "IANA timezone name for --date/--time (e.g. "
+            "'Australia/Melbourne'). Recommended over --utc-offset: "
+            "it accounts for historical DST rules automatically. "
+            "Takes precedence over --utc-offset if both are given."
+        ),
+    )
+
+    parser.add_argument(
         "--utc-offset",
         type=float,
         default=0.0,
         help=(
             "Hours the supplied date/time is ahead of UTC "
-            "(e.g. 10 for Melbourne AEST). --date/--time are "
-            "treated as local time and converted to UTC using "
-            "this offset before reconstruction. Defaults to 0 "
-            "(i.e. --date/--time are already UTC)."
+            "(e.g. 10 for Melbourne AEST). Used only if --timezone "
+            "is not given. --date/--time are treated as local time "
+            "and converted to UTC using this fixed offset — it does "
+            "NOT account for historical DST. Defaults to 0 (i.e. "
+            "--date/--time are already UTC)."
         ),
     )
 
@@ -78,6 +92,13 @@ def parse_args():
         "--location",
         default=None,
         help="Optional human-readable label for the location.",
+    )
+
+    parser.add_argument(
+        "--house-system",
+        default="placidus",
+        choices=sorted(HOUSE_SYSTEMS),
+        help="Astrological house system to use. Defaults to placidus.",
     )
 
     args = parser.parse_args()
@@ -104,9 +125,19 @@ def parse_args():
             "Use --date YYYY-MM-DD --time HH:MM[:SS]."
         )
 
-    args.requested_time_utc = local_time - timedelta(
-        hours=args.utc_offset
-    )
+    if args.timezone:
+        try:
+            aware_utc = local_to_utc(local_time, args.timezone)
+        except Exception as error:
+            parser.error(
+                f"--timezone {args.timezone!r} could not be used: "
+                f"{error}"
+            )
+        args.requested_time_utc = aware_utc.replace(tzinfo=None)
+    else:
+        args.requested_time_utc = local_time - timedelta(
+            hours=args.utc_offset
+        )
 
     return args
 
@@ -116,22 +147,17 @@ args = parse_args()
 LATITUDE = args.lat
 LONGITUDE = args.lon
 REQUESTED_TIME = args.requested_time_utc
-
-astronomy_hour = (
-    REQUESTED_TIME.hour
-    + REQUESTED_TIME.minute / 60
-    + REQUESTED_TIME.second / 3600
-)
+REQUESTED_TIME_AWARE = REQUESTED_TIME.replace(tzinfo=timezone.utc)
 
 # ------------------------------------------------------------
 # COLLECT
 # ------------------------------------------------------------
 observations = {
-    "astronomy": get_astronomy(
-        REQUESTED_TIME.year,
-        REQUESTED_TIME.month,
-        REQUESTED_TIME.day,
-        astronomy_hour,
+    "astrology": build_chart(
+        REQUESTED_TIME_AWARE,
+        LATITUDE,
+        LONGITUDE,
+        house_system=args.house_system,
     ),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME

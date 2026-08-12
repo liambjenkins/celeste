@@ -19,6 +19,8 @@ the knowledge claim resolver) can consume.
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
+from astrology.normaliser import longitude_to_zodiac
+
 
 @dataclass
 class FeatureBundle:
@@ -31,6 +33,11 @@ class FeatureBundle:
     moon_phase_angle: Optional[float] = None
     moon_phase_name: Optional[str] = None
     sun_moon_aspect: Optional[str] = None
+    sun_moon_aspect_orb: Optional[float] = None
+    sun_moon_aspect_strength: Optional[str] = None
+
+    ascendant_longitude: Optional[float] = None
+    ascendant_sign: Optional[str] = None
 
     elemental_strength: dict[str, int] = field(default_factory=dict)
     dominant_domains: list[str] = field(default_factory=list)
@@ -185,6 +192,29 @@ def _sun_moon_aspect(separation):
     return None
 
 
+def _real_sun_moon_aspect(concepts):
+    """
+    Look up the real Sun-Moon aspect from astrology.aspects'
+    computed aspect list (proper per-aspect orbs, includes
+    quincunx), when the richer astrology engine populated it.
+
+    Returns the raw aspect dict, or None if unavailable.
+    """
+
+    aspects_list = _single_value(concepts.get("astrological_aspects"))
+
+    if not isinstance(aspects_list, list):
+        return None
+
+    for item in aspects_list:
+        pair = {item.get("body_a"), item.get("body_b")}
+
+        if pair == {"sun", "moon"}:
+            return item
+
+    return None
+
+
 # ------------------------------------------------------------
 # Elemental strength
 # ------------------------------------------------------------
@@ -260,18 +290,38 @@ def build_features(concepts: dict[str, Any], elements: dict[str, Any]) -> Featur
     phase_angle = None
     phase_name = None
     aspect = None
+    aspect_orb = None
+    aspect_strength = None
 
     if sun_longitude is not None and moon_longitude is not None:
         phase_angle = (moon_longitude - sun_longitude) % 360
         phase_name = _moon_phase_name(phase_angle)
 
-        separation = min(phase_angle, 360 - phase_angle)
-        aspect = _sun_moon_aspect(separation)
-
         tags.append(f"moon_phase:{phase_name}")
+
+        # Prefer the real, orb-aware aspect from the astrology engine
+        # (astrological_aspects) when it's available; otherwise fall
+        # back to the flat-orb approximation so this still works with
+        # a plain Sun/Moon-longitude-only concept set.
+        real_aspect = _real_sun_moon_aspect(concepts)
+
+        if real_aspect:
+            aspect = real_aspect.get("aspect")
+            aspect_orb = real_aspect.get("orb")
+            aspect_strength = real_aspect.get("orb_strength")
+        else:
+            separation = min(phase_angle, 360 - phase_angle)
+            aspect = _sun_moon_aspect(separation)
 
         if aspect:
             tags.append(f"aspect:{aspect}")
+
+    ascendant_longitude = _single_value(concepts.get("ascendant"))
+    ascendant_sign = None
+
+    if isinstance(ascendant_longitude, (int, float)):
+        ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
+        tags.append(f"ascendant:{ascendant_sign}")
 
     strength = elemental_strength(elements)
     dominant = dominant_domains(strength)
@@ -287,6 +337,10 @@ def build_features(concepts: dict[str, Any], elements: dict[str, Any]) -> Featur
         moon_phase_angle=phase_angle,
         moon_phase_name=phase_name,
         sun_moon_aspect=aspect,
+        sun_moon_aspect_orb=aspect_orb,
+        sun_moon_aspect_strength=aspect_strength,
+        ascendant_longitude=ascendant_longitude,
+        ascendant_sign=ascendant_sign,
         elemental_strength=strength,
         dominant_domains=dominant,
     )

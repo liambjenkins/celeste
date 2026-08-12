@@ -129,11 +129,31 @@ def _astrology(concepts, features: FeatureBundle):
 
     if features.sun_moon_aspect:
         themes.append(f"sun_moon_aspect:{features.sun_moon_aspect}")
-        notes.append(
-            f"Sun and Moon form an approximate {features.sun_moon_aspect} "
-            "in traditional aspect terms."
-        )
+
+        if features.sun_moon_aspect_orb is not None:
+            notes.append(
+                f"Sun and Moon form a {features.sun_moon_aspect} "
+                f"({features.sun_moon_aspect_strength or 'computed'}, "
+                f"orb {features.sun_moon_aspect_orb:.2f}°) in "
+                "traditional aspect terms."
+            )
+        else:
+            notes.append(
+                f"Sun and Moon form an approximate "
+                f"{features.sun_moon_aspect} in traditional aspect "
+                "terms."
+            )
+
         macro.append(DUALITY)
+
+    if features.ascendant_sign:
+        themes.append(f"ascendant:{features.ascendant_sign}")
+        notes.append(
+            f"The Ascendant (rising sign) is {features.ascendant_sign}, "
+            "traditionally read as the chart's outward persona and "
+            "the lens through which the moment first meets the world."
+        )
+        macro.append(ARCHETYPE)
 
     if features.season:
         themes.append(f"season:{features.season}")
@@ -290,6 +310,15 @@ def _hindu_cosmology(concepts, features: FeatureBundle):
     themes = []
     notes = []
     macro = [ELEMENTAL]
+
+    if features.ascendant_sign:
+        themes.append(f"lagna:{features.ascendant_sign}")
+        notes.append(
+            f"The Lagna (ascendant) falls in {features.ascendant_sign}, "
+            "the reference point Vedic astrology uses to anchor the "
+            "rest of the chart."
+        )
+        macro.append(ARCHETYPE)
 
     if features.dominant_domains:
         labels = [

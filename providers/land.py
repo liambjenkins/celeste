@@ -5,6 +5,23 @@ def get_land(
     longitude,
     requested_time
 ):
+    import os
+
+    has_credentials = (
+        bool(os.getenv("EARTHDATA_TOKEN"))
+        or (
+            bool(os.getenv("EARTHDATA_USERNAME"))
+            and bool(os.getenv("EARTHDATA_PASSWORD"))
+        )
+    )
+
+    if not has_credentials:
+        return {
+            "source": "NASA GLDAS",
+            "available": False,
+            "reason": "Earthdata credentials not configured",
+        }
+
     earthaccess.login(
         strategy="environment"
     )

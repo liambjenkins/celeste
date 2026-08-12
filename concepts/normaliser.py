@@ -26,14 +26,18 @@ def normalise_observations(observations):
                     source
             })
     # --------------------------------------------------------
-    # ASTRONOMY
+    # ASTRONOMY / ASTROLOGY
     # --------------------------------------------------------
     #
     # Astronomy remains observational data here.
     # Astrological or religious meaning belongs downstream.
     #
+    # "astrology" is the output of astrology.chart.build_chart():
+    # raw body positions already enriched with sign/house/retrograde,
+    # plus house cusps, chart angles, and computed aspects.
+    #
     astronomy = observations.get(
-        "astronomy",
+        "astrology",
         {}
     )
 
@@ -50,14 +54,14 @@ def normalise_observations(observations):
                 add_concept(
                     "sun",
                     bodies["sun"],
-                    "astronomy.bodies.sun"
+                    "astrology.bodies.sun"
                 )
 
             if "moon" in bodies:
                 add_concept(
                     "moon",
                     bodies["moon"],
-                    "astronomy.bodies.moon"
+                    "astrology.bodies.moon"
                 )
 
             planetary = {}
@@ -76,7 +80,7 @@ def normalise_observations(observations):
                 add_concept(
                     "planetary_positions",
                     planetary,
-                    "astronomy.bodies"
+                    "astrology.bodies"
                 )
 
         # Julian day is useful provenance/context,
@@ -85,7 +89,58 @@ def normalise_observations(observations):
             add_concept(
                 "astronomical_time",
                 astronomy["julian_day"],
-                "astronomy.julian_day"
+                "astrology.julian_day"
+            )
+
+        houses = astronomy.get(
+            "houses",
+            {}
+        )
+
+        if isinstance(houses, dict):
+
+            angles = houses.get(
+                "angles",
+                {}
+            )
+
+            if "ascendant" in angles:
+                add_concept(
+                    "ascendant",
+                    angles["ascendant"],
+                    "astrology.houses.angles.ascendant"
+                )
+
+            if "mc" in angles:
+                add_concept(
+                    "midheaven",
+                    angles["mc"],
+                    "astrology.houses.angles.mc"
+                )
+
+            if houses.get("cusps"):
+                add_concept(
+                    "astrological_houses",
+                    houses,
+                    "astrology.houses"
+                )
+
+            if "system" in houses:
+                add_concept(
+                    "astrological_house_system",
+                    houses["system"],
+                    "astrology.houses.system"
+                )
+
+        aspects = astronomy.get(
+            "aspects"
+        )
+
+        if aspects:
+            add_concept(
+                "astrological_aspects",
+                aspects,
+                "astrology.aspects"
             )
 
     # --------------------------------------------------------
