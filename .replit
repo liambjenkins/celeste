@@ -6,9 +6,6 @@ packages = ["libxcrypt", "nano"]
 [agent]
 expertMode = true
 
-[userenv]
-
-[userenv.shared]
-WORLDTIDES_API_KEY = "474931be-8bda-4116-94f8-95014386b296"
-EARTHDATA_USERNAME = "liambjenkins"
-EARTHDATA_PASSWORD = "Diesel0820!3!"
+# Do not put real credentials in this file — it's committed to git.
+# Set WORLDTIDES_API_KEY, EARTHDATA_USERNAME, EARTHDATA_PASSWORD in
+# Replit's Secrets tab (padlock icon in the sidebar) instead.
