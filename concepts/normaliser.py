@@ -33,7 +33,7 @@ def normalise_observations(observations):
     # Astrological or religious meaning belongs downstream.
     #
     astronomy = observations.get(
-        "astronomy",
+        "astrology",
         {}
     )
 
@@ -89,6 +89,99 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # ASTROLOGY
+    # --------------------------------------------------------
+    #
+    # Astrology is derived from the astronomical state of the
+    # requested birth moment. Keep the structured chart intact
+    # while exposing useful concepts to downstream lenses.
+    #
+    astrology = observations.get(
+        "astrology",
+        {}
+    )
+
+    if isinstance(astrology, dict):
+
+        bodies = astrology.get(
+            "bodies",
+            {}
+        )
+
+        if isinstance(bodies, dict):
+
+            if "sun" in bodies:
+                add_concept(
+                    "astrological_sun",
+                    bodies["sun"],
+                    "astrology.bodies.sun"
+                )
+
+            if "moon" in bodies:
+                add_concept(
+                    "astrological_moon",
+                    bodies["moon"],
+                    "astrology.bodies.moon"
+                )
+
+            if "ascendant" in astrology.get("houses", {}).get("angles", {}):
+                add_concept(
+                    "ascendant",
+                    astrology["houses"]["angles"]["ascendant"],
+                    "astrology.houses.angles.ascendant"
+                )
+
+            if "mc" in astrology.get("houses", {}).get("angles", {}):
+                add_concept(
+                    "midheaven",
+                    astrology["houses"]["angles"]["mc"],
+                    "astrology.houses.angles.mc"
+                )
+
+            add_concept(
+                "astrological_positions",
+                bodies,
+                "astrology.bodies"
+            )
+
+        houses = astrology.get(
+            "houses",
+            {}
+        )
+
+        if isinstance(houses, dict):
+            cusps = houses.get(
+                "cusps",
+                {}
+            )
+
+            if cusps:
+                add_concept(
+                    "astrological_houses",
+                    cusps,
+                    "astrology.houses.cusps"
+                )
+
+        aspects = astrology.get(
+            "aspects",
+            []
+        )
+
+        if isinstance(aspects, list):
+            add_concept(
+                "astrological_aspects",
+                aspects,
+                "astrology.aspects"
+            )
+
+        if "house_system" in astrology:
+            add_concept(
+                "astrological_house_system",
+                astrology["house_system"],
+                "astrology.house_system"
+            )
+
+    # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------
     #
@@ -98,6 +191,11 @@ def normalise_observations(observations):
     requested_time = observations.get(
         "_requested_time"
     )
+
+    if requested_time is None:
+        requested_time = observations.get(
+            "requested_time"
+        )
 
     if requested_time is not None:
 

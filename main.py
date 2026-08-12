@@ -1,10 +1,10 @@
 from dotenv import load_dotenv
 load_dotenv()
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
-from providers.astronomy import get_astronomy
+from astrology.chart import build_chart
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
 from providers.earthquakes import get_earthquakes
@@ -26,7 +26,13 @@ REQUESTED_TIME = datetime(1996, 7, 22, 3, 10)
 # COLLECT
 # ------------------------------------------------------------
 observations = {
-    "astronomy": get_astronomy(1996, 7, 22, 3.1667),
+    "_requested_time": REQUESTED_TIME,
+    "astrology": build_chart(
+        REQUESTED_TIME.astimezone(timezone.utc),
+        LATITUDE,
+        LONGITUDE,
+        house_system="placidus",
+    ),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),
