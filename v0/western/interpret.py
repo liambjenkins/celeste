@@ -30,6 +30,8 @@ class WesternInterpretation:
     sun_statement: str
     moon_statement: str
     ascendant_statement: str
+    sun_house_statement: str
+    moon_house_statement: str
     narrative: str
     relationship: str  # "reinforcement" or "tension"
 
@@ -47,12 +49,32 @@ def _find_claim(all_claims, body, sign):
     )
 
 
+def _ordinal(n):
+    return f"{n}{'st' if n == 1 else 'nd' if n == 2 else 'rd' if n == 3 else 'th'}"
+
+
+def _find_house_claim(all_claims, house_number):
+    claim_id = f"astrology_house_{house_number}"
+
+    for claim in all_claims:
+        if claim.claim_id == claim_id:
+            return claim
+
+    raise LookupError(f"No approved claim found for house {house_number}")
+
+
 def interpret(big_three: WesternBigThree) -> WesternInterpretation:
     all_claims = load_approved_claims(lens_id="astrology")
 
     sun_claim = _find_claim(all_claims, "sun", big_three.sun.sign)
     moon_claim = _find_claim(all_claims, "moon", big_three.moon.sign)
     ascendant_claim = _find_claim(all_claims, "ascendant", big_three.ascendant.sign)
+
+    # The Ascendant's own house is always the 1st by definition — its
+    # sign meaning already covers persona, so there's no separate
+    # "Ascendant's house" statement worth adding on top of that.
+    sun_house_claim = _find_house_claim(all_claims, big_three.sun.house)
+    moon_house_claim = _find_house_claim(all_claims, big_three.moon.house)
 
     relevant = [
         RelevantClaim(claim=sun_claim, matched_concepts=()),
@@ -66,6 +88,14 @@ def interpret(big_three: WesternBigThree) -> WesternInterpretation:
         sun_statement=sun_claim.statement,
         moon_statement=moon_claim.statement,
         ascendant_statement=ascendant_claim.statement,
+        sun_house_statement=(
+            f"The Sun falls in the {_ordinal(big_three.sun.house)} house. "
+            f"{sun_house_claim.statement}"
+        ),
+        moon_house_statement=(
+            f"The Moon falls in the {_ordinal(big_three.moon.house)} house. "
+            f"{moon_house_claim.statement}"
+        ),
         narrative=narrative.paragraph,
         relationship=narrative.relationship,
     )
@@ -85,3 +115,7 @@ if __name__ == "__main__":
     print(result.narrative)
     print()
     print("Relationship:", result.relationship)
+    print()
+    print(result.sun_house_statement)
+    print()
+    print(result.moon_house_statement)

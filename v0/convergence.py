@@ -75,6 +75,8 @@ def gather_data_points() -> list[DataPoint]:
         _point("Western", "Sun (Cancer)", western.sun_statement),
         _point("Western", "Moon (Libra)", western.moon_statement),
         _point("Western", "Ascendant (Taurus)", western.ascendant_statement),
+        _point("Western", "Sun house", western.sun_house_statement),
+        _point("Western", "Moon house", western.moon_house_statement),
         _point(
             "Vedic",
             f"Sun sign (sidereal {vedic_data.sun.sign})",
@@ -105,6 +107,8 @@ def gather_data_points() -> list[DataPoint]:
             f"Ascendant nakshatra ({vedic_data.ascendant.nakshatra})",
             vedic.ascendant.nakshatra_statement,
         ),
+        _point("Vedic", "Sun house", vedic.sun_house_statement),
+        _point("Vedic", "Moon house", vedic.moon_house_statement),
         _point(
             "Chinese",
             f"Day Master ({chinese_data.day_master})",
@@ -163,11 +167,15 @@ def build_compass():
     index = _cluster_index(points)
 
     # Rank clusters by how many INDEPENDENT traditions corroborate
-    # them (not raw hit count, which would over-weight Vedic simply
-    # for having more granular data points per placement).
+    # them first (not raw hit count, which would over-weight Vedic
+    # simply for having more granular data points per placement),
+    # then by total hit count as an honest tiebreaker — ties are real
+    # (e.g. "warmth" and "structure" can both be corroborated by all
+    # three traditions at once) and shouldn't be broken by incidental
+    # dict-insertion order.
     ranked = sorted(
         index.items(),
-        key=lambda kv: len({p.tradition for p in kv[1]}),
+        key=lambda kv: (len({p.tradition for p in kv[1]}), len(kv[1])),
         reverse=True,
     )
 
@@ -176,18 +184,26 @@ def build_compass():
 
     paragraphs = []
 
-    # 1. The load-bearing thread(s): clusters corroborated by all
-    # three traditions, or by two-plus with the most total hits.
-    top_cluster, top_points = ranked[0]
-    top_traditions = sorted({p.tradition for p in top_points})
-    paragraphs.append(
-        f"The clearest through-line in this chart is {top_cluster}: it shows "
-        f"up independently in {', '.join(top_traditions)} astrology — "
-        f"{_describe_points(top_points)}. When {len(top_traditions)} systems "
-        f"built on entirely different calendars and reference frames land on "
-        f"the same quality without being asked to agree, that's the strongest "
-        f"kind of signal this reading can offer."
-    )
+    # 1. The load-bearing thread(s): every cluster tied for the most
+    # independent traditions corroborating it, not just one arbitrary
+    # winner.
+    max_traditions = len({p.tradition for p in ranked[0][1]})
+    top = [
+        (cluster, pts) for cluster, pts in ranked
+        if len({p.tradition for p in pts}) == max_traditions
+    ]
+    top_clusters = {cluster for cluster, _ in top}
+
+    for cluster, cluster_points in top:
+        traditions = sorted({p.tradition for p in cluster_points})
+        paragraphs.append(
+            f"A clear through-line in this chart is {cluster}: it shows up "
+            f"independently in {', '.join(traditions)} astrology — "
+            f"{_describe_points(cluster_points)}. When {len(traditions)} "
+            f"systems built on entirely different calendars and reference "
+            f"frames land on the same quality without being asked to agree, "
+            f"that's the strongest kind of signal this reading can offer."
+        )
 
     # 2. Real tensions — every one, prioritizing any that coexist
     # within a single placement (the most concrete, specific case)
@@ -234,7 +250,7 @@ def build_compass():
         (cluster, pts[0])
         for cluster, pts in index.items()
         if len(pts) == 1
-        and cluster != top_cluster
+        and cluster not in top_clusters
         and cluster not in explained_clusters
     ]
     if unique:

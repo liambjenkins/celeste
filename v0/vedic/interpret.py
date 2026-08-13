@@ -13,9 +13,9 @@ three that actually appear in this chart (Pushya, Hasta, Krittika),
 verified against real sources rather than curating all 27 speculatively.
 
 Source: Brihat Parashara Hora Shastra (Sage Parashara; R. Santhanam's
-1984 translation is the standard English edition) for sign character;
-standard nakshatra deity/symbol tradition (cross-referenced via search,
-not recalled from training alone) for the three nakshatra readings.
+1984 translation is the standard English edition) for sign character,
+bhava (house) significations, and nakshatra readings (cross-referenced
+via search, not recalled from training alone).
 """
 
 from dataclasses import dataclass
@@ -65,6 +65,34 @@ _NAKSHATRA_MEANINGS = {
 }
 
 
+_BHAVA_MEANINGS = {
+    1: ("Tanu Bhava", "the body, personality, and overall vitality — the self as it begins"),
+    2: ("Dhana Bhava", "wealth, accumulated resources, family, speech, and personal values"),
+    3: ("Sahaja Bhava", "courage, effort, siblings, and communication — what's achieved through initiative"),
+    4: ("Sukha Bhava", "home, mother, emotional foundation, property, and inner happiness"),
+    5: ("Putra Bhava", "children, intelligence, creativity, and merit carried in from past effort"),
+    6: ("Ripu Bhava", "obstacles, disease, debt, and service — what must be worked through, not avoided"),
+    7: ("Yuvati Bhava", "marriage, partnership, and open relationships with others as equals"),
+    8: ("Randhra Bhava", "longevity, sudden transformation, inheritance, and the occult — what's hidden until it isn't"),
+    9: ("Dharma Bhava", "fortune, higher learning, the father, and one's larger sense of purpose"),
+    10: ("Karma Bhava", "career, public status, authority, and action taken in the world"),
+    11: ("Labha Bhava", "gains, income, friendships, and the fulfillment of aspirations"),
+    12: ("Vyaya Bhava", "loss, expenditure, foreign lands, isolation, and spiritual liberation"),
+}
+
+
+def _ordinal(n):
+    return f"{n}{'st' if n == 1 else 'nd' if n == 2 else 'rd' if n == 3 else 'th'}"
+
+
+def _bhava_statement(body_label: str, house: int) -> str:
+    name, meaning = _BHAVA_MEANINGS[house]
+    return (
+        f"{body_label} falls in the {_ordinal(house)} house ({name}), which "
+        f"governs {meaning}."
+    )
+
+
 @dataclass(frozen=True)
 class PlacementInterpretation:
     sign_statement: str
@@ -80,6 +108,8 @@ class VedicInterpretation:
     sun: PlacementInterpretation
     moon: PlacementInterpretation
     ascendant: PlacementInterpretation
+    sun_house_statement: str
+    moon_house_statement: str
 
     # Backward-compatible combined-text accessors.
     @property
@@ -126,7 +156,13 @@ def interpret(big_three: VedicBigThree) -> VedicInterpretation:
         ),
     )
 
-    return VedicInterpretation(sun=sun, moon=moon, ascendant=ascendant)
+    return VedicInterpretation(
+        sun=sun,
+        moon=moon,
+        ascendant=ascendant,
+        sun_house_statement=_bhava_statement("The Sun", big_three.sun.house),
+        moon_house_statement=_bhava_statement("The Moon", big_three.moon.house),
+    )
 
 
 if __name__ == "__main__":
@@ -145,3 +181,7 @@ if __name__ == "__main__":
     print(result.moon_statement)
     print()
     print(result.ascendant_statement)
+    print()
+    print(result.sun_house_statement)
+    print()
+    print(result.moon_house_statement)
