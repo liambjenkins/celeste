@@ -49,6 +49,11 @@ class FeatureBundle:
     ascendant_longitude: Optional[float] = None
     ascendant_sign: Optional[str] = None
 
+    sun_sign: Optional[str] = None
+    moon_sign: Optional[str] = None
+    planet_signs: dict[str, str] = field(default_factory=dict)
+    retrograde_planets: list[str] = field(default_factory=list)
+
     star_conjunction_body: Optional[str] = None
     star_conjunction_star: Optional[str] = None
     star_conjunction_orb: Optional[float] = None
@@ -286,6 +291,38 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
     sun_longitude = _longitude(concepts.get("sun"))
     moon_longitude = _longitude(concepts.get("moon"))
 
+    sun_sign = None
+    moon_sign = None
+    planet_signs = {}
+    retrograde_planets = []
+
+    sun_value = _single_value(concepts.get("sun"))
+
+    if isinstance(sun_value, dict) and sun_value.get("sign"):
+        sun_sign = sun_value["sign"]
+        tags.append(f"sign:sun:{sun_sign}")
+
+    moon_value = _single_value(concepts.get("moon"))
+
+    if isinstance(moon_value, dict) and moon_value.get("sign"):
+        moon_sign = moon_value["sign"]
+        tags.append(f"sign:moon:{moon_sign}")
+
+    planetary_value = _single_value(concepts.get("planetary_positions"))
+
+    if isinstance(planetary_value, dict):
+        for planet_name, body in planetary_value.items():
+            if not isinstance(body, dict):
+                continue
+
+            if body.get("sign"):
+                planet_signs[planet_name] = body["sign"]
+                tags.append(f"sign:{planet_name}:{body['sign']}")
+
+            if body.get("retrograde"):
+                retrograde_planets.append(planet_name)
+                tags.append(f"retrograde:{planet_name}")
+
     phase_angle = None
     phase_name = None
     aspect = None
@@ -363,6 +400,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         sun_moon_aspect_strength=aspect_strength,
         ascendant_longitude=ascendant_longitude,
         ascendant_sign=ascendant_sign,
+        sun_sign=sun_sign,
+        moon_sign=moon_sign,
+        planet_signs=planet_signs,
+        retrograde_planets=retrograde_planets,
         star_conjunction_body=star_conjunction_body,
         star_conjunction_star=star_conjunction_star,
         star_conjunction_orb=star_conjunction_orb,
