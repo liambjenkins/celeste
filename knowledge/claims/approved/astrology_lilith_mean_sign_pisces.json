@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_mean_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "Lilith in Pisces expresses through refusing to be the endless emotional container for others, reclaiming boundaries around empathy and sacrifice.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:lilith_mean:Pisces"
+  ],
+  "source_ids": [
+    "hunter_black_moon_lilith_2010"
+  ],
+  "theme_tags": [
+    "shadow",
+    "instinct"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

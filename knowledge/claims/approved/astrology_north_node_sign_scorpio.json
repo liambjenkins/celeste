@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_scorpio",
+  "lens_id": "astrology",
+  "statement": "North Node in Scorpio points toward growth through emotional depth, shared vulnerability, and releasing the need for total self-sufficiency.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Scorpio",
+    "sign:north_node_mean:Scorpio"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

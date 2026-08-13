@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_vesta_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "Vesta in Cancer devotes energy to home and emotional caretaking, most focused when protecting what feels sacred and private.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:vesta:Cancer"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "devotion",
+    "focus"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

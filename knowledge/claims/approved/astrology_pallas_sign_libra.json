@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_pallas_sign_libra",
+  "lens_id": "astrology",
+  "statement": "Pallas in Libra strategizes through diplomacy and fairness, skilled at mediating between opposing sides.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:pallas:Libra"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "wisdom",
+    "strategy"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

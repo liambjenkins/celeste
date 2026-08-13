@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_gemini",
+  "lens_id": "astrology",
+  "statement": "North Node in Gemini points toward growth through curiosity, communication, and staying open to more than one point of view.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Gemini",
+    "sign:north_node_mean:Gemini"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

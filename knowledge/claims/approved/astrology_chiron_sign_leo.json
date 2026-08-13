@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_leo",
+  "lens_id": "astrology",
+  "statement": "Chiron in Leo often carries a wound around being seen or creatively valued, healed by expressing rather than performing the self.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Leo"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

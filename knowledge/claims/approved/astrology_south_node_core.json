@@ -1,0 +1,45 @@
+{
+  "claim_id": "astrology_south_node_core",
+  "lens_id": "astrology",
+  "statement": "The South Node marks deeply familiar territory — inborn talent and comfort, but also the well-worn groove that becomes stagnation if relied on instead of stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:south_node_true:Aries",
+    "sign:south_node_true:Taurus",
+    "sign:south_node_true:Gemini",
+    "sign:south_node_true:Cancer",
+    "sign:south_node_true:Leo",
+    "sign:south_node_true:Virgo",
+    "sign:south_node_true:Libra",
+    "sign:south_node_true:Scorpio",
+    "sign:south_node_true:Sagittarius",
+    "sign:south_node_true:Capricorn",
+    "sign:south_node_true:Aquarius",
+    "sign:south_node_true:Pisces",
+    "sign:south_node_mean:Aries",
+    "sign:south_node_mean:Taurus",
+    "sign:south_node_mean:Gemini",
+    "sign:south_node_mean:Cancer",
+    "sign:south_node_mean:Leo",
+    "sign:south_node_mean:Virgo",
+    "sign:south_node_mean:Libra",
+    "sign:south_node_mean:Scorpio",
+    "sign:south_node_mean:Sagittarius",
+    "sign:south_node_mean:Capricorn",
+    "sign:south_node_mean:Aquarius",
+    "sign:south_node_mean:Pisces"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

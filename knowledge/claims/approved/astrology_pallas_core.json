@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_pallas_core",
+  "lens_id": "astrology",
+  "statement": "Pallas Athena represents creative intelligence, pattern-recognition, and strategic wisdom — the capacity to see structure and solve problems others find intractable.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:pallas:Aries",
+    "sign:pallas:Taurus",
+    "sign:pallas:Gemini",
+    "sign:pallas:Cancer",
+    "sign:pallas:Leo",
+    "sign:pallas:Virgo",
+    "sign:pallas:Libra",
+    "sign:pallas:Scorpio",
+    "sign:pallas:Sagittarius",
+    "sign:pallas:Capricorn",
+    "sign:pallas:Aquarius",
+    "sign:pallas:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "wisdom",
+    "strategy"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

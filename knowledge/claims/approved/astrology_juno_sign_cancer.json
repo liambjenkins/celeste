@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_juno_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "Juno in Cancer seeks emotional security and a partner invested in building a home and family together.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:juno:Cancer"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "partnership",
+    "commitment"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

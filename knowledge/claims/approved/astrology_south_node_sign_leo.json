@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_leo",
+  "lens_id": "astrology",
+  "statement": "South Node in Leo reflects an inborn comfort with being the center of attention, which can tip into self-absorption if not stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Leo",
+    "sign:south_node_mean:Leo"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

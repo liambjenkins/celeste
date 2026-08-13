@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_leo",
+  "lens_id": "astrology",
+  "statement": "North Node in Leo points toward growth through creative self-expression and claiming individual identity rather than blending into the group.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Leo",
+    "sign:north_node_mean:Leo"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

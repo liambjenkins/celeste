@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_libra",
+  "lens_id": "astrology",
+  "statement": "North Node in Libra points toward growth through partnership, compromise, and genuinely valuing another's perspective.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Libra",
+    "sign:north_node_mean:Libra"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -515,6 +515,12 @@ _add(
 # (1923)
 # ------------------------------------------------------------
 
+_STAR_CONJUNCTION_BODIES = _PLANETS_FOR_HOUSE_TAGS + (
+    "lilith_mean", "lilith_true", "chiron", "ceres", "pallas", "juno",
+    "vesta", "north_node_true", "north_node_mean", "south_node_true",
+    "south_node_mean",
+)
+
 _FIXED_STARS = {
     "Aldebaran": (
         "one of the four Persian Royal Stars ('Watcher of the "
@@ -569,6 +575,42 @@ _FIXED_STARS = {
         "traditionally associated with curiosity, learning, and "
         "love of exploration"
     ),
+    "Polaris": (
+        "traditionally associated with sickness, trouble, and "
+        "affliction, but also with spiritual orientation and a fixed "
+        "sense of direction"
+    ),
+    "Alcyone": (
+        "the traditional representative of the Pleiades cluster, "
+        "associated with prominence and intensity, alongside a "
+        "traditional caution about the eyes"
+    ),
+    "Castor": (
+        "traditionally associated with mental brilliance and sharp "
+        "wit, alongside a traditional caution about sudden prominence "
+        "followed by reversal"
+    ),
+    "Pollux": (
+        "traditionally associated with physical courage and "
+        "competitive strength, alongside a traditional caution about "
+        "excess or self-destructive intensity"
+    ),
+    "Procyon": (
+        "traditionally associated with a swift rise to activity and "
+        "prominence, alongside a traditional caution against haste"
+    ),
+    "Denebola": (
+        "traditionally associated with standing apart from "
+        "convention — a nonconformist relationship to the mainstream"
+    ),
+    "Altair": (
+        "traditionally associated with boldness, ambition, and "
+        "sudden but changeable fortune"
+    ),
+    "Deneb": (
+        "traditionally associated with intelligence, originality, "
+        "and creative or literary talent"
+    ),
 }
 
 for _star, _meaning in _FIXED_STARS.items():
@@ -578,7 +620,7 @@ for _star, _meaning in _FIXED_STARS.items():
         concept_ids=["fixed_star_conjunctions"],
         feature_ids=[
             f"star_conjunction:{planet}:{_star.lower().replace(' ', '_')}"
-            for planet in _PLANETS_FOR_HOUSE_TAGS
+            for planet in _STAR_CONJUNCTION_BODIES
         ],
         theme_tags=["fixed_star"],
         source_id="robson_fixed_stars_1923",

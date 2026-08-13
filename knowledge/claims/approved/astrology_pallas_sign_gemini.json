@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_pallas_sign_gemini",
+  "lens_id": "astrology",
+  "statement": "Pallas in Gemini thinks in words and connections, skilled at synthesizing and communicating complex ideas simply.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:pallas:Gemini"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "wisdom",
+    "strategy"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

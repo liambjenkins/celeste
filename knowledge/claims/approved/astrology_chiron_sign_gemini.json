@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_gemini",
+  "lens_id": "astrology",
+  "statement": "Chiron in Gemini often carries a wound around being heard or 'smart enough,' healed through finding one's own authentic voice.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Gemini"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

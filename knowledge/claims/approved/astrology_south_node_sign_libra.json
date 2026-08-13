@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_libra",
+  "lens_id": "astrology",
+  "statement": "South Node in Libra reflects an inborn comfort with accommodating others, which can tip into losing the self in relationship if not stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Libra",
+    "sign:south_node_mean:Libra"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

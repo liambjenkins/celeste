@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_ceres_sign_libra",
+  "lens_id": "astrology",
+  "statement": "Ceres in Libra nurtures through creating harmony and fairness, at times over-accommodating to avoid conflict.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ceres:Libra"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "nurturing",
+    "loss"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

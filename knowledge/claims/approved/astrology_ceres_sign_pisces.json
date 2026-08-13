@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_ceres_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "Ceres in Pisces nurtures through empathy and self-sacrifice, needing to learn where compassion ends and self-erasure begins.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ceres:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "nurturing",
+    "loss"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_mean_sign_libra",
+  "lens_id": "astrology",
+  "statement": "Lilith in Libra expresses through refusing to keep the peace at the cost of the self — open conflict instead of concealed resentment.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:lilith_mean:Libra"
+  ],
+  "source_ids": [
+    "hunter_black_moon_lilith_2010"
+  ],
+  "theme_tags": [
+    "shadow",
+    "instinct"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

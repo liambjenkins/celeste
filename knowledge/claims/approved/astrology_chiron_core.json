@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_chiron_core",
+  "lens_id": "astrology",
+  "statement": "Chiron marks the 'wounded healer' — an area of deep, often unresolvable wound which becomes, through being lived with rather than cured, an unusual capacity to help others facing the same wound.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:chiron:Aries",
+    "sign:chiron:Taurus",
+    "sign:chiron:Gemini",
+    "sign:chiron:Cancer",
+    "sign:chiron:Leo",
+    "sign:chiron:Virgo",
+    "sign:chiron:Libra",
+    "sign:chiron:Scorpio",
+    "sign:chiron:Sagittarius",
+    "sign:chiron:Capricorn",
+    "sign:chiron:Aquarius",
+    "sign:chiron:Pisces"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

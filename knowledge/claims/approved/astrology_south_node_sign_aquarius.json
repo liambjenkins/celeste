@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_aquarius",
+  "lens_id": "astrology",
+  "statement": "South Node in Aquarius reflects an inborn comfort with detachment and ideology, which can tip into aloofness if not stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Aquarius",
+    "sign:south_node_mean:Aquarius"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

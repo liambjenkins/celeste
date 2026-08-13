@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_mean_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "Lilith in Cancer expresses through the parts of nurturing and family life that go against the 'good mother' script — anger, need, or refusal within intimacy.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:lilith_mean:Cancer"
+  ],
+  "source_ids": [
+    "hunter_black_moon_lilith_2010"
+  ],
+  "theme_tags": [
+    "shadow",
+    "instinct"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
