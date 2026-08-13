@@ -410,6 +410,21 @@ CONCEPTS = {
         "astrological_houses"
     ]
 },
+"astronomical_time": {
+    "label": "Astronomical time",
+    "domain": "space",
+    "description": (
+        "The Julian Day of the observation moment — provenance/"
+        "timing context rather than an interpretive concept itself."
+    ),
+    "synonyms": [
+        "julian day"
+    ],
+    "related": [
+        "sun",
+        "moon"
+    ]
+},
 "night": {
     "label": "Nighttime",
     "domain": "space",

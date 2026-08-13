@@ -40,7 +40,13 @@ def classify_observations(concepts):
         },
 
         "space": {
-            "astronomy": get("astronomy"),
+            "sun": get("sun"),
+            "moon": get("moon"),
+            "planetary_positions": get("planetary_positions"),
+            "ascendant": get("ascendant"),
+            "midheaven": get("midheaven"),
+            "astrological_houses": get("astrological_houses"),
+            "astrological_aspects": get("astrological_aspects"),
             "space_weather": get("solar_activity"),
         },
     }
