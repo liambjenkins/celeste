@@ -1,4 +1,82 @@
+from datetime import date
+
 from .registry import CONCEPTS
+
+
+# --------------------------------------------------------
+# Wheel of the Year (Pagan/Wiccan)
+# --------------------------------------------------------
+#
+# The eight sabbats are historically Northern-Hemisphere-dated
+# (Wicca originated in England). Southern Hemisphere practitioners
+# commonly keep each sabbat's SEASONAL MEANING (Yule = the winter
+# solstice sabbat) rather than its calendar date, which means
+# swapping each sabbat for its opposite on the wheel rather than
+# shifting the calendar date itself.
+#
+# Deliberately not hardcoded to one hemisphere: this only supplies
+# the reference dates; which name comes out depends on latitude.
+
+_SABBAT_DATES = (
+    ((10, 31), "Samhain"),
+    ((12, 21), "Yule"),
+    ((2, 1), "Imbolc"),
+    ((3, 20), "Ostara"),
+    ((5, 1), "Beltane"),
+    ((6, 21), "Litha"),
+    ((8, 1), "Lughnasadh"),
+    ((9, 22), "Mabon"),
+)
+
+_SABBAT_OPPOSITE = {
+    "Samhain": "Beltane",
+    "Beltane": "Samhain",
+    "Yule": "Litha",
+    "Litha": "Yule",
+    "Imbolc": "Lughnasadh",
+    "Lughnasadh": "Imbolc",
+    "Ostara": "Mabon",
+    "Mabon": "Ostara",
+}
+
+# A fixed non-leap reference year, used only to compare (month, day)
+# pairs as day-of-year distances.
+_REFERENCE_YEAR = 2001
+
+
+def _day_of_year(month, day):
+    return (
+        date(_REFERENCE_YEAR, month, day)
+        - date(_REFERENCE_YEAR, 1, 1)
+    ).days
+
+
+def nearest_sabbat(month, day, latitude):
+    """
+    Return (sabbat_name, days_away) for the nearest point on the
+    Wheel of the Year to the given (month, day), adjusted for
+    hemisphere by latitude sign.
+    """
+
+    target = _day_of_year(month, day)
+
+    best_name = None
+    best_diff = None
+
+    for (ref_month, ref_day), name in _SABBAT_DATES:
+        point = _day_of_year(ref_month, ref_day)
+        diff = min(abs(target - point), 365 - abs(target - point))
+
+        if best_diff is None or diff < best_diff:
+            best_diff = diff
+            best_name = name
+
+    if latitude is not None and latitude < 0:
+        best_name = _SABBAT_OPPOSITE[best_name]
+
+    return best_name, best_diff
+
+
 def normalise_observations(observations):
     concepts = {}
     def add_concept(
@@ -218,6 +296,21 @@ def normalise_observations(observations):
             "season",
             season,
             "derived.season"
+        )
+
+        sabbat_name, sabbat_days_away = nearest_sabbat(
+            requested_time.month,
+            requested_time.day,
+            latitude,
+        )
+
+        add_concept(
+            "wheel_of_the_year_sabbat",
+            {
+                "sabbat": sabbat_name,
+                "days_away": sabbat_days_away,
+            },
+            "derived.wheel_of_the_year_sabbat"
         )
 
     # --------------------------------------------------------

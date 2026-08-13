@@ -76,6 +76,12 @@ def load_approved_claims(
                         [],
                     )
                 ),
+                theme_tags=tuple(
+                    data.get(
+                        "theme_tags",
+                        [],
+                    )
+                ),
                 editorial_note=data.get(
                     "editorial_note",
                     data.get(

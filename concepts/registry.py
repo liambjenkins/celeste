@@ -515,6 +515,32 @@ CONCEPTS = {
         "sun",
         "vegetation"
     ]
+},
+"wheel_of_the_year_sabbat": {
+    "label": "Wheel of the Year sabbat",
+    "domain": "space",
+    "description": (
+        "The nearest of the eight Pagan/Wiccan sabbats to the "
+        "observation date, adjusted for hemisphere so the sabbat's "
+        "seasonal meaning (e.g. Yule at the winter solstice) matches "
+        "the season actually experienced at that latitude."
+    ),
+    "synonyms": [
+        "sabbat",
+        "wheel of the year",
+        "Samhain",
+        "Yule",
+        "Imbolc",
+        "Ostara",
+        "Beltane",
+        "Litha",
+        "Lughnasadh",
+        "Mabon"
+    ],
+    "related": [
+        "season",
+        "sun"
+    ]
 }
 
 }

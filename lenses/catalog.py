@@ -121,6 +121,17 @@ LENS_CATALOG = [
             "patterns, inner states, and meaning-making."
         ),
     },
+    {
+        "lens_id": "philosophy",
+        "name": "Philosophy",
+        "tradition": "Classical Western philosophical traditions",
+        "description": (
+            "Ethical and metaphysical perspectives grounded in classical "
+            "philosophy — virtue, character, reason, fate, impermanence, "
+            "and how to live well — drawn from Stoic and Aristotelian "
+            "thought in particular."
+        ),
+    },
 ]
 
 

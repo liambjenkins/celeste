@@ -35,6 +35,8 @@ class FeatureBundle:
     tags: list[str] = field(default_factory=list)
 
     season: Optional[str] = None
+    sabbat: Optional[str] = None
+    sabbat_days_away: Optional[int] = None
 
     sun_longitude: Optional[float] = None
     moon_longitude: Optional[float] = None
@@ -270,6 +272,17 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
     if season:
         tags.append(f"season:{season}")
 
+    sabbat_info = _single_value(concepts.get("wheel_of_the_year_sabbat"))
+    sabbat = None
+    sabbat_days_away = None
+
+    if isinstance(sabbat_info, dict):
+        sabbat = sabbat_info.get("sabbat")
+        sabbat_days_away = sabbat_info.get("days_away")
+
+        if sabbat:
+            tags.append(f"sabbat:{sabbat.lower()}")
+
     sun_longitude = _longitude(concepts.get("sun"))
     moon_longitude = _longitude(concepts.get("moon"))
 
@@ -339,6 +352,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
     return FeatureBundle(
         tags=tags,
         season=season,
+        sabbat=sabbat,
+        sabbat_days_away=sabbat_days_away,
         sun_longitude=sun_longitude,
         moon_longitude=moon_longitude,
         moon_phase_angle=phase_angle,

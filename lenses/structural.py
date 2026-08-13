@@ -455,7 +455,25 @@ def _pagan_wiccan(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
-    if features.season:
+    if features.sabbat:
+        themes.append(f"sabbat:{features.sabbat}")
+        macro.append(CYCLICALITY)
+
+        if features.sabbat_days_away == 0:
+            notes.append(
+                f"The moment falls exactly on {features.sabbat}, one "
+                "of the eight sabbats on the Wheel of the Year."
+            )
+        else:
+            notes.append(
+                f"The moment falls nearest {features.sabbat} "
+                f"({features.sabbat_days_away} day"
+                f"{'s' if features.sabbat_days_away != 1 else ''} away) "
+                "on the Wheel of the Year, adjusted for hemisphere so "
+                "the sabbat's seasonal meaning matches the season "
+                "actually occurring at this latitude."
+            )
+    elif features.season:
         themes.append(f"season:{features.season}")
         macro.append(CYCLICALITY)
         notes.append("The season marks a point on the Wheel of the Year.")
@@ -567,6 +585,42 @@ def _depth_psychology(concepts, features: FeatureBundle):
     return _result(themes, macro, list(features.dominant_domains), notes)
 
 
+# ------------------------------------------------------------
+# Philosophy (Stoic / Aristotelian)
+# ------------------------------------------------------------
+
+def _philosophy(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.dominant_domains:
+        themes.append(
+            "material_element_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The chart's dominant element(s) "
+            f"({', '.join(features.dominant_domains)}) correspond to "
+            "Aristotle's own material elements (earth, water, air, "
+            "fire), which his physics used as the substrate of the "
+            "natural world."
+        )
+        macro.append(ELEMENTAL)
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        notes.append(
+            f"The moment falls in {features.season} — in Stoic terms "
+            "an example of what Epictetus's Enchiridion calls a "
+            "thing 'not up to us': the turning of the seasons "
+            "proceeds regardless of preference, the classic Stoic "
+            "illustration of the dichotomy of control."
+        )
+        macro.append(IMPERMANENCE)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
 STRUCTURAL_INTERPRETERS = {
     "astrology": _astrology,
     "islamic_cosmology": _islamic_cosmology,
@@ -580,6 +634,7 @@ STRUCTURAL_INTERPRETERS = {
     "greco_roman": _greco_roman,
     "egyptian_cosmology": _egyptian_cosmology,
     "depth_psychology": _depth_psychology,
+    "philosophy": _philosophy,
 }
 
 
