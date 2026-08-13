@@ -54,6 +54,10 @@ class FeatureBundle:
     planet_signs: dict[str, str] = field(default_factory=dict)
     retrograde_planets: list[str] = field(default_factory=list)
 
+    sun_house: Optional[int] = None
+    moon_house: Optional[int] = None
+    planet_houses: dict[str, int] = field(default_factory=dict)
+
     star_conjunction_body: Optional[str] = None
     star_conjunction_star: Optional[str] = None
     star_conjunction_orb: Optional[float] = None
@@ -296,17 +300,29 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
     planet_signs = {}
     retrograde_planets = []
 
+    sun_house = None
+    moon_house = None
+    planet_houses = {}
+
     sun_value = _single_value(concepts.get("sun"))
 
     if isinstance(sun_value, dict) and sun_value.get("sign"):
         sun_sign = sun_value["sign"]
         tags.append(f"sign:sun:{sun_sign}")
 
+        if sun_value.get("house") is not None:
+            sun_house = sun_value["house"]
+            tags.append(f"house:sun:{sun_house}")
+
     moon_value = _single_value(concepts.get("moon"))
 
     if isinstance(moon_value, dict) and moon_value.get("sign"):
         moon_sign = moon_value["sign"]
         tags.append(f"sign:moon:{moon_sign}")
+
+        if moon_value.get("house") is not None:
+            moon_house = moon_value["house"]
+            tags.append(f"house:moon:{moon_house}")
 
     planetary_value = _single_value(concepts.get("planetary_positions"))
 
@@ -318,6 +334,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             if body.get("sign"):
                 planet_signs[planet_name] = body["sign"]
                 tags.append(f"sign:{planet_name}:{body['sign']}")
+
+            if body.get("house") is not None:
+                planet_houses[planet_name] = body["house"]
+                tags.append(f"house:{planet_name}:{body['house']}")
 
             if body.get("retrograde"):
                 retrograde_planets.append(planet_name)
@@ -404,6 +424,9 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         moon_sign=moon_sign,
         planet_signs=planet_signs,
         retrograde_planets=retrograde_planets,
+        sun_house=sun_house,
+        moon_house=moon_house,
+        planet_houses=planet_houses,
         star_conjunction_body=star_conjunction_body,
         star_conjunction_star=star_conjunction_star,
         star_conjunction_orb=star_conjunction_orb,

@@ -86,6 +86,9 @@ def load_candidate(claim_id):
             "theme_tags",
             [],
         ),
+        life_domain=data.get(
+            "life_domain"
+        ),
         status=data.get(
             "status",
             "candidate",

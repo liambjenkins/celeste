@@ -82,6 +82,9 @@ def load_approved_claims(
                         [],
                     )
                 ),
+                life_domain=data.get(
+                    "life_domain"
+                ),
                 editorial_note=data.get(
                     "editorial_note",
                     data.get(
