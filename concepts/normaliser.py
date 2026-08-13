@@ -143,6 +143,17 @@ def normalise_observations(observations):
                 "astrology.aspects"
             )
 
+        elemental_balance = astronomy.get(
+            "elemental_balance"
+        )
+
+        if elemental_balance:
+            add_concept(
+                "elemental_balance",
+                elemental_balance,
+                "astrology.elemental_balance"
+            )
+
     # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------

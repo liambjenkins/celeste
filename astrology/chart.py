@@ -2,6 +2,7 @@ from datetime import datetime
 
 from astrology.houses import calculate_houses
 from astrology.aspects import calculate_aspects
+from astrology.elemental_balance import chart_elemental_balance
 from astrology.normaliser import normalise_body
 from providers.astronomy import get_astronomy
 
@@ -34,6 +35,7 @@ def build_chart(
         )
 
     aspects = calculate_aspects(bodies)
+    elemental_balance = chart_elemental_balance(bodies)
 
     return {
         "utc_time": astronomy["utc_time"],
@@ -46,4 +48,5 @@ def build_chart(
         "houses": houses,
         "bodies": bodies,
         "aspects": aspects,
+        "elemental_balance": elemental_balance,
     }

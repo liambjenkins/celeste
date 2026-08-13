@@ -1,15 +1,19 @@
 """
 Celeste shared feature extraction.
 
-Turns canonical concepts (and the elemental classification derived
-from them) into a small set of derived, machine-readable feature
-tags that any lens can draw on:
+Turns canonical concepts into a small set of derived, machine-readable
+feature tags that any lens can draw on:
 
     - environmental signal tags (temperature, humidity, pressure, ...)
     - the actual lunar phase, derived from Sun/Moon ecliptic longitude
     - a Sun-Moon aspect tag, for claim resolution (e.g. "aspect:square")
-    - which classical elemental domains (fire/water/earth/air/space)
-    carry the most observational weight for this moment
+    - which classical element (fire/water/earth/air) is dominant in the
+    chart, from the elemental_balance concept (sign triplicities —
+    astrology.elemental_balance) — deliberately NOT derived from
+    environmental/weather data. There's no principled way to make
+    "it was raining" mean "this chart is water-dominant"; the only
+    honest source for a chart's elemental balance is which signs its
+    planets actually occupy.
 
 This module does not interpret. It only derives structured,
 tradition-neutral features that lens-specific code (structural.py,
@@ -216,40 +220,13 @@ def _real_sun_moon_aspect(concepts):
 
 
 # ------------------------------------------------------------
-# Elemental strength
+# Elemental balance (chart-derived, not environmental)
 # ------------------------------------------------------------
 #
-# `elements` is the output of elements.classify_observations(): a
-# nested fire/water/earth/air/space dict whose leaves are either
-# None or a canonical concept dict. Strength is simply how many
-# leaves under a domain carry an actual observation.
-
-def _iter_leaves(node):
-    if node is None:
-        yield None
-        return
-
-    if isinstance(node, dict) and "observations" in node:
-        yield node
-        return
-
-    if isinstance(node, dict):
-        for value in node.values():
-            yield from _iter_leaves(value)
-        return
-
-    yield node
-
-
-def elemental_strength(elements):
-    strength = {}
-
-    for domain, fields in elements.items():
-        count = sum(1 for leaf in _iter_leaves(fields) if leaf is not None)
-        strength[domain] = count
-
-    return strength
-
+# `strength` here is the elemental_balance concept's value: a
+# {"fire": n, "earth": n, "air": n, "water": n} count of how many
+# chart planets fall in a sign of each element (see
+# astrology.elemental_balance.chart_elemental_balance).
 
 def dominant_domains(strength, top=2):
     populated = {domain: count for domain, count in strength.items() if count > 0}
@@ -276,7 +253,7 @@ def dominant_domains(strength, top=2):
 # Public entry point
 # ------------------------------------------------------------
 
-def build_features(concepts: dict[str, Any], elements: dict[str, Any]) -> FeatureBundle:
+def build_features(concepts: dict[str, Any]) -> FeatureBundle:
     tags = _signal_tags(concepts)
 
     season = _single_value(concepts.get("season"))
@@ -323,7 +300,7 @@ def build_features(concepts: dict[str, Any], elements: dict[str, Any]) -> Featur
         ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
         tags.append(f"ascendant:{ascendant_sign}")
 
-    strength = elemental_strength(elements)
+    strength = _single_value(concepts.get("elemental_balance")) or {}
     dominant = dominant_domains(strength)
 
     for domain in dominant:
@@ -361,31 +338,17 @@ if __name__ == "__main__":
         "temperature": {
             "observations": [{"value": 8.0, "source": "atmosphere"}]
         },
+        "elemental_balance": {
+            "observations": [
+                {
+                    "value": {"fire": 3, "earth": 2, "air": 4, "water": 1},
+                    "source": "astrology.elemental_balance",
+                }
+            ]
+        },
     }
 
-    elements = {
-        "fire": {"solar_activity": None, "thermal": concepts["temperature"]},
-        "water": {"tides": None, "hydrology": None, "marine": None},
-        "earth": {
-            "geology": None,
-            "earthquakes": None,
-            "elevation": None,
-            "land": None,
-            "biosphere": None,
-            "soil_temperature": None,
-        },
-        "air": {
-            "atmosphere": {
-                "moisture": None,
-                "pressure": None,
-                "cloud": None,
-                "temperature": concepts["temperature"],
-            }
-        },
-        "space": {"astronomy": concepts["sun"], "space_weather": None},
-    }
-
-    features = build_features(concepts, elements)
+    features = build_features(concepts)
 
     print("Tags:", features.tags)
     print("Moon phase:", features.moon_phase_name)

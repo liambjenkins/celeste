@@ -3,8 +3,10 @@ Celeste structural interpretation layer.
 
 For each catalogued tradition, this module derives a small set of
 deterministic, tradition-specific themes from the SAME shared
-feature bundle (lenses/features.py) and elemental classification
-(elements.py).
+feature bundle (lenses/features.py) — including the chart's
+elemental balance (astrology.elemental_balance: which classical
+element, fire/earth/air/water, the chart's planets fall in most,
+by sign — not environmental/weather data).
 
 Important — read before extending this file:
 
@@ -164,10 +166,10 @@ def _astrology(concepts, features: FeatureBundle):
             "elemental_emphasis:" + "_".join(features.dominant_domains)
         )
         notes.append(
-            "The reconstructed moment carries the most observational "
-            f"weight in the {', '.join(features.dominant_domains)} "
-            "domain(s), which traditional astrology maps onto the "
-            "classical elements associated with the zodiac signs."
+            "The chart's planets fall most heavily in "
+            f"{', '.join(features.dominant_domains)} sign(s), the "
+            "classical element(s) traditional astrology considers "
+            "most emphasised in this chart."
         )
         macro.append(ELEMENTAL)
 
@@ -188,8 +190,8 @@ def _islamic_cosmology(concepts, features: FeatureBundle):
     if observed_domains:
         themes.append("signs_in_creation:" + "_".join(sorted(observed_domains)))
         notes.append(
-            "Observable order is present across "
-            f"{len(observed_domains)} elemental domain(s) "
+            "The chart's planets occupy signs across "
+            f"{len(observed_domains)} classical element(s) "
             f"({', '.join(sorted(observed_domains))}), read here as "
             "'signs' (ayat) within the created, patterned natural order."
         )
@@ -248,7 +250,7 @@ def _christian_mysticism(concepts, features: FeatureBundle):
             "creation_attention:" + "_".join(features.dominant_domains)
         )
         notes.append(
-            "The moment's most-observed elemental domain(s) "
+            "The chart's dominant element(s) "
             f"({', '.join(features.dominant_domains)}) are read as the "
             "focus of contemplative attention to creation, in the "
             "spirit of traditions such as the Canticle of the Creatures."
@@ -302,7 +304,6 @@ _PANCHA_BHUTA = {
     "water": "apas/jala",
     "earth": "prithvi",
     "air": "vayu",
-    "space": "akasha",
 }
 
 
@@ -329,8 +330,8 @@ def _hindu_cosmology(concepts, features: FeatureBundle):
             "pancha_bhuta_emphasis:" + "_".join(features.dominant_domains)
         )
         notes.append(
-            "Within the pancha mahabhuta (five great elements), this "
-            f"moment carries the most weight in: {', '.join(labels)}."
+            "Within the pancha mahabhuta (five great elements), the "
+            f"chart's planets fall most heavily in: {', '.join(labels)}."
         )
 
     if features.season:
@@ -357,12 +358,12 @@ def _buddhist_cosmology(concepts, features: FeatureBundle):
     empty = [d for d, c in features.elemental_strength.items() if c == 0]
 
     if empty:
-        themes.append("unobserved_domains:" + "_".join(sorted(empty)))
+        themes.append("unoccupied_elements:" + "_".join(sorted(empty)))
         notes.append(
-            "Some elemental domain(s) "
-            f"({', '.join(sorted(empty))}) carry no observation for "
-            "this moment — read structurally as a reminder that any "
-            "single reconstructed snapshot is partial and impermanent."
+            "No chart planets fall in "
+            f"{', '.join(sorted(empty))} sign(s) — read structurally "
+            "as a reminder that any single chart is a partial "
+            "configuration, not a complete or fixed state."
         )
 
     if features.season:
@@ -495,15 +496,15 @@ def _egyptian_cosmology(concepts, features: FeatureBundle):
         if spread <= 1:
             themes.append("balance:even")
             notes.append(
-                "Observational weight is evenly spread across elemental "
-                "domains — read structurally as an image of Ma'at "
-                "(balance/order)."
+                "The chart's planets are evenly spread across the "
+                "classical elements — read structurally as an image "
+                "of Ma'at (balance/order)."
             )
         else:
             themes.append("balance:skewed")
             notes.append(
-                "Observational weight is concentrated rather than "
-                "evenly spread across elemental domains — read "
+                "The chart's planets are concentrated in certain "
+                "classical elements rather than evenly spread — read "
                 "structurally as an image of imbalance against Ma'at."
             )
 
@@ -519,7 +520,6 @@ _JUNGIAN_ARCHETYPE = {
     "water": "the unconscious / emotion",
     "earth": "the body / the shadow",
     "air": "intellect / persona",
-    "space": "the transcendent Self",
 }
 
 
@@ -591,31 +591,17 @@ if __name__ == "__main__":
         },
         "temperature": {"observations": [{"value": 8.0, "source": "t"}]},
         "season": {"observations": [{"value": "winter", "source": "t"}]},
+        "elemental_balance": {
+            "observations": [
+                {
+                    "value": {"fire": 3, "earth": 2, "air": 4, "water": 1},
+                    "source": "t",
+                }
+            ]
+        },
     }
 
-    elements = {
-        "fire": {"solar_activity": None, "thermal": concepts["temperature"]},
-        "water": {"tides": None, "hydrology": None, "marine": None},
-        "earth": {
-            "geology": None,
-            "earthquakes": None,
-            "elevation": None,
-            "land": None,
-            "biosphere": None,
-            "soil_temperature": None,
-        },
-        "air": {
-            "atmosphere": {
-                "moisture": None,
-                "pressure": None,
-                "cloud": None,
-                "temperature": concepts["temperature"],
-            }
-        },
-        "space": {"astronomy": concepts["sun"], "space_weather": None},
-    }
-
-    features = build_features(concepts, elements)
+    features = build_features(concepts)
 
     for lens_id in STRUCTURAL_INTERPRETERS:
         result = build_structural_interpretation(lens_id, concepts, features)

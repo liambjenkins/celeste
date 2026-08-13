@@ -136,6 +136,14 @@ if __name__ == "__main__":
         },
         "temperature": {"observations": [{"value": 8.0, "source": "t"}]},
         "season": {"observations": [{"value": "winter", "source": "t"}]},
+        "elemental_balance": {
+            "observations": [
+                {
+                    "value": {"fire": 3, "earth": 2, "air": 4, "water": 1},
+                    "source": "t",
+                }
+            ]
+        },
     }
 
     _, interpretations = run_lenses(concepts)

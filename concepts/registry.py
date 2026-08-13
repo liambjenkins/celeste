@@ -396,6 +396,24 @@ CONCEPTS = {
         "planetary_positions"
     ]
 },
+"elemental_balance": {
+    "label": "Chart elemental balance",
+    "domain": "space",
+    "description": (
+        "Count of chart planets falling in fire/earth/air/water "
+        "signs via classical triplicities — a property of the "
+        "chart's geometry, independent of environmental data."
+    ),
+    "synonyms": [
+        "elemental balance",
+        "triplicity balance"
+    ],
+    "related": [
+        "sun",
+        "moon",
+        "planetary_positions"
+    ]
+},
 "astrological_house_system": {
     "label": "Astrological house system",
     "domain": "space",

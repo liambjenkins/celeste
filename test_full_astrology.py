@@ -120,6 +120,17 @@ assert chart["bodies"]["chiron"]["sign"] == "Libra"
 
 assert len(chart["aspects"]) == 18
 
+print()
+print("-" * 72)
+print("ELEMENTAL BALANCE")
+print("-" * 72)
+
+for element, count in chart["elemental_balance"].items():
+    print(f"{element:8} {count}")
+
+assert sum(chart["elemental_balance"].values()) == 10
+assert chart["elemental_balance"]["water"] == 1  # Sun in Cancer
+assert chart["elemental_balance"]["air"] == 4  # Moon/Venus/Mars/Uranus
 
 print("✓ Placidus")
 print("✓ 12 houses")
@@ -129,6 +140,7 @@ print("✓ Zodiac positions")
 print("✓ House placements")
 print("✓ Retrograde detection")
 print("✓ 18 core aspects")
+print("✓ Elemental balance (sign triplicities)")
 print()
 print("ALL ASTROLOGY ENGINE CHECKS PASSED")
 print("=" * 72)

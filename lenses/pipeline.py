@@ -16,7 +16,6 @@ distinct in the resulting interpretation text and evidence_status.
 
 from typing import Any
 
-from elements import classify_observations
 from knowledge.claims.resolver import resolve_lens_claims
 from lenses.catalog import get_catalog
 from lenses.features import build_features, FeatureBundle
@@ -123,8 +122,7 @@ def run_lenses(concepts: dict[str, Any]) -> tuple[FeatureBundle, dict[str, LensI
     and a lens_id -> LensInterpretation mapping.
     """
 
-    elements = classify_observations(concepts)
-    features = build_features(concepts, elements)
+    features = build_features(concepts)
 
     interpretations = {}
 
@@ -146,6 +144,14 @@ if __name__ == "__main__":
         },
         "temperature": {"observations": [{"value": 8.0, "source": "t"}]},
         "season": {"observations": [{"value": "winter", "source": "t"}]},
+        "elemental_balance": {
+            "observations": [
+                {
+                    "value": {"fire": 3, "earth": 2, "air": 4, "water": 1},
+                    "source": "t",
+                }
+            ]
+        },
     }
 
     features, interpretations = run_lenses(concepts)
