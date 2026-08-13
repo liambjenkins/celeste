@@ -39,7 +39,7 @@ _CLUSTERS = {
     ),
     "assertive": (
         "direct", "competitive", "assertive", "bold", "quick to",
-        "initiat", "immediate", "confront",
+        "initiat", "immediate", "confront", "decisive",
     ),
     "reserved": (
         "private", "reserved", "guarded", "detached", "modest",

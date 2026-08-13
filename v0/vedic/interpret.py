@@ -66,10 +66,33 @@ _NAKSHATRA_MEANINGS = {
 
 
 @dataclass(frozen=True)
+class PlacementInterpretation:
+    sign_statement: str
+    nakshatra_statement: str
+
+    @property
+    def combined(self) -> str:
+        return f"{self.sign_statement} {self.nakshatra_statement}"
+
+
+@dataclass(frozen=True)
 class VedicInterpretation:
-    sun_statement: str
-    moon_statement: str
-    ascendant_statement: str
+    sun: PlacementInterpretation
+    moon: PlacementInterpretation
+    ascendant: PlacementInterpretation
+
+    # Backward-compatible combined-text accessors.
+    @property
+    def sun_statement(self) -> str:
+        return self.sun.combined
+
+    @property
+    def moon_statement(self) -> str:
+        return self.moon.combined
+
+    @property
+    def ascendant_statement(self) -> str:
+        return self.ascendant.combined
 
 
 def _sign_statement(body_label: str, sign: str) -> str:
@@ -84,29 +107,26 @@ def _nakshatra_statement(body_label: str, nakshatra: str, pada: int) -> str:
 
 
 def interpret(big_three: VedicBigThree) -> VedicInterpretation:
-    sun_text = (
-        _sign_statement("Sun", big_three.sun.sign)
-        + " "
-        + _nakshatra_statement("The Sun", big_three.sun.nakshatra, big_three.sun.pada)
+    sun = PlacementInterpretation(
+        sign_statement=_sign_statement("Sun", big_three.sun.sign),
+        nakshatra_statement=_nakshatra_statement(
+            "The Sun", big_three.sun.nakshatra, big_three.sun.pada
+        ),
     )
-    moon_text = (
-        _sign_statement("Moon", big_three.moon.sign)
-        + " "
-        + _nakshatra_statement("The Moon", big_three.moon.nakshatra, big_three.moon.pada)
+    moon = PlacementInterpretation(
+        sign_statement=_sign_statement("Moon", big_three.moon.sign),
+        nakshatra_statement=_nakshatra_statement(
+            "The Moon", big_three.moon.nakshatra, big_three.moon.pada
+        ),
     )
-    ascendant_text = (
-        _sign_statement("Ascendant", big_three.ascendant.sign)
-        + " "
-        + _nakshatra_statement(
+    ascendant = PlacementInterpretation(
+        sign_statement=_sign_statement("Ascendant", big_three.ascendant.sign),
+        nakshatra_statement=_nakshatra_statement(
             "The Ascendant", big_three.ascendant.nakshatra, big_three.ascendant.pada
-        )
+        ),
     )
 
-    return VedicInterpretation(
-        sun_statement=sun_text,
-        moon_statement=moon_text,
-        ascendant_statement=ascendant_text,
-    )
+    return VedicInterpretation(sun=sun, moon=moon, ascendant=ascendant)
 
 
 if __name__ == "__main__":
