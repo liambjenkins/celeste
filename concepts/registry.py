@@ -324,6 +324,125 @@ CONCEPTS = {
         "zodiac"
     ]
 },
+"ascendant": {
+    "label": "Ascendant",
+    "domain": "space",
+    "description": (
+        "The zodiac degree rising on the eastern horizon at the "
+        "observation moment and location — the chart's rising sign."
+    ),
+    "synonyms": [
+        "ascendant",
+        "rising sign",
+        "lagna"
+    ],
+    "related": [
+        "astrological_houses",
+        "sun",
+        "moon"
+    ]
+},
+"midheaven": {
+    "label": "Midheaven",
+    "domain": "space",
+    "description": (
+        "The zodiac degree at the chart's upper meridian (MC) at the "
+        "observation moment and location."
+    ),
+    "synonyms": [
+        "midheaven",
+        "mc",
+        "medium coeli"
+    ],
+    "related": [
+        "astrological_houses",
+        "ascendant"
+    ]
+},
+"astrological_houses": {
+    "label": "Astrological houses",
+    "domain": "space",
+    "description": (
+        "The twelve house cusps computed for the observation moment "
+        "and location under a given house system."
+    ),
+    "synonyms": [
+        "houses",
+        "house cusps",
+        "chart houses"
+    ],
+    "related": [
+        "ascendant",
+        "midheaven",
+        "astrological_house_system"
+    ]
+},
+"astrological_aspects": {
+    "label": "Astrological aspects",
+    "domain": "space",
+    "description": (
+        "Computed angular relationships (conjunction, sextile, square, "
+        "trine, quincunx, opposition) between chart bodies at the "
+        "observation moment."
+    ),
+    "synonyms": [
+        "aspects",
+        "planetary aspects",
+        "chart aspects"
+    ],
+    "related": [
+        "sun",
+        "moon",
+        "planetary_positions"
+    ]
+},
+"elemental_balance": {
+    "label": "Chart elemental balance",
+    "domain": "space",
+    "description": (
+        "Count of chart planets falling in fire/earth/air/water "
+        "signs via classical triplicities — a property of the "
+        "chart's geometry, independent of environmental data."
+    ),
+    "synonyms": [
+        "elemental balance",
+        "triplicity balance"
+    ],
+    "related": [
+        "sun",
+        "moon",
+        "planetary_positions"
+    ]
+},
+"astrological_house_system": {
+    "label": "Astrological house system",
+    "domain": "space",
+    "description": (
+        "The house-division method used to compute the chart's "
+        "houses (e.g. Placidus, whole sign, equal, Koch)."
+    ),
+    "synonyms": [
+        "house system"
+    ],
+    "related": [
+        "astrological_houses"
+    ]
+},
+"astronomical_time": {
+    "label": "Astronomical time",
+    "domain": "space",
+    "description": (
+        "The Julian Day of the observation moment — provenance/"
+        "timing context rather than an interpretive concept itself."
+    ),
+    "synonyms": [
+        "julian day"
+    ],
+    "related": [
+        "sun",
+        "moon"
+    ]
+},
 "night": {
     "label": "Nighttime",
     "domain": "space",

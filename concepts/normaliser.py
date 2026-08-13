@@ -26,14 +26,18 @@ def normalise_observations(observations):
                     source
             })
     # --------------------------------------------------------
-    # ASTRONOMY
+    # ASTRONOMY / ASTROLOGY
     # --------------------------------------------------------
     #
     # Astronomy remains observational data here.
     # Astrological or religious meaning belongs downstream.
     #
+    # "astrology" is the output of astrology.chart.build_chart():
+    # raw body positions already enriched with sign/house/retrograde,
+    # plus house cusps, chart angles, and computed aspects.
+    #
     astronomy = observations.get(
-        "astronomy",
+        "astrology",
         {}
     )
 
@@ -50,14 +54,14 @@ def normalise_observations(observations):
                 add_concept(
                     "sun",
                     bodies["sun"],
-                    "astronomy.bodies.sun"
+                    "astrology.bodies.sun"
                 )
 
             if "moon" in bodies:
                 add_concept(
                     "moon",
                     bodies["moon"],
-                    "astronomy.bodies.moon"
+                    "astrology.bodies.moon"
                 )
 
             planetary = {}
@@ -76,7 +80,7 @@ def normalise_observations(observations):
                 add_concept(
                     "planetary_positions",
                     planetary,
-                    "astronomy.bodies"
+                    "astrology.bodies"
                 )
 
         # Julian day is useful provenance/context,
@@ -85,7 +89,69 @@ def normalise_observations(observations):
             add_concept(
                 "astronomical_time",
                 astronomy["julian_day"],
-                "astronomy.julian_day"
+                "astrology.julian_day"
+            )
+
+        houses = astronomy.get(
+            "houses",
+            {}
+        )
+
+        if isinstance(houses, dict):
+
+            angles = houses.get(
+                "angles",
+                {}
+            )
+
+            if "ascendant" in angles:
+                add_concept(
+                    "ascendant",
+                    angles["ascendant"],
+                    "astrology.houses.angles.ascendant"
+                )
+
+            if "mc" in angles:
+                add_concept(
+                    "midheaven",
+                    angles["mc"],
+                    "astrology.houses.angles.mc"
+                )
+
+            if houses.get("cusps"):
+                add_concept(
+                    "astrological_houses",
+                    houses,
+                    "astrology.houses"
+                )
+
+            if "system" in houses:
+                add_concept(
+                    "astrological_house_system",
+                    houses["system"],
+                    "astrology.houses.system"
+                )
+
+        aspects = astronomy.get(
+            "aspects"
+        )
+
+        if aspects:
+            add_concept(
+                "astrological_aspects",
+                aspects,
+                "astrology.aspects"
+            )
+
+        elemental_balance = astronomy.get(
+            "elemental_balance"
+        )
+
+        if elemental_balance:
+            add_concept(
+                "elemental_balance",
+                elemental_balance,
+                "astrology.elemental_balance"
             )
 
     # --------------------------------------------------------
@@ -97,6 +163,10 @@ def normalise_observations(observations):
     #
     requested_time = observations.get(
         "_requested_time"
+    )
+
+    latitude = observations.get(
+        "_latitude"
     )
 
     if requested_time is not None:
@@ -111,6 +181,16 @@ def normalise_observations(observations):
             season = "winter"
         else:
             season = "spring"
+
+        # The above mapping is Southern Hemisphere. Flip it for
+        # latitudes at or north of the equator.
+        if latitude is not None and latitude >= 0:
+            season = {
+                "summer": "winter",
+                "winter": "summer",
+                "autumn": "spring",
+                "spring": "autumn",
+            }[season]
 
         add_concept(
             "season",
@@ -269,40 +349,54 @@ def normalise_observations(observations):
     # --------------------------------------------------------
     # EARTH
     # --------------------------------------------------------
-    earth = observations.get(
-        "earth",
+    #
+    # These come from separate top-level provider results
+    # (elevation, geology, earthquake), not a nested "earth" key.
+    #
+    elevation = observations.get(
+        "elevation",
         {}
     )
-    if isinstance(earth, dict):
-        if earth.get("elevation"):
-            elevation = earth[
-                "elevation"
-            ]
-            if elevation.get(
-                "available"
-            ) is True:
-                add_concept(
-                    "elevation",
-                    elevation.get(
-                        "elevation_m"
-                    ),
-                    "earth.elevation.elevation_m"
-                )
-        if earth.get("geology"):
+    if isinstance(elevation, dict):
+        if elevation.get(
+            "available"
+        ) is True:
+            add_concept(
+                "elevation",
+                elevation.get(
+                    "elevation_m"
+                ),
+                "elevation.elevation_m"
+            )
+
+    geology = observations.get(
+        "geology",
+        {}
+    )
+    if isinstance(geology, dict):
+        if geology.get(
+            "available"
+        ) is True:
             add_concept(
                 "geology",
-                earth[
-                    "geology"
-                ],
-                "earth.geology"
+                geology,
+                "geology"
             )
-        if earth.get("earthquakes"):
+
+    earthquake = observations.get(
+        "earthquake",
+        {}
+    )
+    if isinstance(earthquake, dict):
+        # The earthquake provider has no "available" flag; it
+        # always returns a result (possibly with zero events).
+        if earthquake.get(
+            "events_found"
+        ) is not None:
             add_concept(
                 "earthquake",
-                earth[
-                    "earthquakes"
-                ],
-                "earth.earthquakes"
+                earthquake,
+                "earthquake"
             )
     # --------------------------------------------------------
     # LAND
@@ -366,7 +460,7 @@ def normalise_observations(observations):
     # SPACE WEATHER
     # --------------------------------------------------------
     space_weather = observations.get(
-        "space_weather",
+        "solar_activity",
         {}
     )
     if isinstance(space_weather, dict):
@@ -377,12 +471,12 @@ def normalise_observations(observations):
             "solar_activity",
             {}
         )
-        if "sunspot_number" in solar_activity:
+        if solar_activity.get("sunspot_number") is not None:
             add_concept(
                 "solar_activity",
                 solar_activity[
                     "sunspot_number"
                 ],
-                "space_weather.observations.solar_activity.sunspot_number"
+                "solar_activity.observations.solar_activity.sunspot_number"
             )
     return concepts

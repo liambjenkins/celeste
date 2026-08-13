@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from lenses.adapters import build_registry
 from lenses.context import build_lens_context
 from knowledge.claims.resolver import resolve_lens_claims
