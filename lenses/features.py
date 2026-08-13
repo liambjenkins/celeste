@@ -7,6 +7,10 @@ feature tags that any lens can draw on:
     - environmental signal tags (temperature, humidity, pressure, ...)
     - the actual lunar phase, derived from Sun/Moon ecliptic longitude
     - a Sun-Moon aspect tag, for claim resolution (e.g. "aspect:square")
+    - the tightest fixed-star conjunction, if any chart body is within
+    orb of a named star (fixed stars are only traditionally read as
+    meaningful in tight conjunction, unlike wide planet-to-planet
+    aspect orbs)
     - which classical element (fire/water/earth/air) is dominant in the
     chart, from the elemental_balance concept (sign triplicities —
     astrology.elemental_balance) — deliberately NOT derived from
@@ -42,6 +46,11 @@ class FeatureBundle:
 
     ascendant_longitude: Optional[float] = None
     ascendant_sign: Optional[str] = None
+
+    star_conjunction_body: Optional[str] = None
+    star_conjunction_star: Optional[str] = None
+    star_conjunction_orb: Optional[float] = None
+    star_conjunction_magnitude: Optional[float] = None
 
     elemental_strength: dict[str, int] = field(default_factory=dict)
     dominant_domains: list[str] = field(default_factory=list)
@@ -300,6 +309,27 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
         tags.append(f"ascendant:{ascendant_sign}")
 
+    star_conjunction_body = None
+    star_conjunction_star = None
+    star_conjunction_orb = None
+    star_conjunction_magnitude = None
+
+    conjunctions = _single_value(concepts.get("fixed_star_conjunctions"))
+
+    if isinstance(conjunctions, list) and conjunctions:
+        # Already sorted tightest-first by find_star_conjunctions().
+        tightest = conjunctions[0]
+        star_conjunction_body = tightest.get("body")
+        star_conjunction_star = tightest.get("star")
+        star_conjunction_orb = tightest.get("orb")
+        star_conjunction_magnitude = tightest.get("star_magnitude")
+
+        if star_conjunction_body and star_conjunction_star:
+            star_slug = star_conjunction_star.lower().replace(" ", "_")
+            tags.append(
+                f"star_conjunction:{star_conjunction_body}:{star_slug}"
+            )
+
     strength = _single_value(concepts.get("elemental_balance")) or {}
     dominant = dominant_domains(strength)
 
@@ -318,6 +348,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         sun_moon_aspect_strength=aspect_strength,
         ascendant_longitude=ascendant_longitude,
         ascendant_sign=ascendant_sign,
+        star_conjunction_body=star_conjunction_body,
+        star_conjunction_star=star_conjunction_star,
+        star_conjunction_orb=star_conjunction_orb,
+        star_conjunction_magnitude=star_conjunction_magnitude,
         elemental_strength=strength,
         dominant_domains=dominant,
     )

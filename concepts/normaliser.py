@@ -154,6 +154,28 @@ def normalise_observations(observations):
                 "astrology.elemental_balance"
             )
 
+        stars = astronomy.get(
+            "stars"
+        )
+
+        if stars:
+            add_concept(
+                "fixed_stars",
+                stars,
+                "astrology.stars"
+            )
+
+        star_conjunctions = astronomy.get(
+            "star_conjunctions"
+        )
+
+        if star_conjunctions:
+            add_concept(
+                "fixed_star_conjunctions",
+                star_conjunctions,
+                "astrology.star_conjunctions"
+            )
+
     # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------

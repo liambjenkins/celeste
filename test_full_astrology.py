@@ -132,6 +132,29 @@ assert sum(chart["elemental_balance"].values()) == 10
 assert chart["elemental_balance"]["water"] == 1  # Sun in Cancer
 assert chart["elemental_balance"]["air"] == 4  # Moon/Venus/Mars/Uranus
 
+print()
+print("-" * 72)
+print("FIXED STARS")
+print("-" * 72)
+
+print(f"Stars resolved: {len(chart['stars'])}")
+print(f"Tight conjunctions (orb <= 1.0°): {len(chart['star_conjunctions'])}")
+print()
+
+for conjunction in chart["star_conjunctions"][:5]:
+    print(
+        f"{conjunction['body']:16} conj {conjunction['star']:20} "
+        f"orb={conjunction['orb']:.3f}° "
+        f"mag={conjunction['star_magnitude']}"
+    )
+
+assert len(chart["stars"]) > 700
+assert chart["star_conjunctions"]
+assert chart["star_conjunctions"][0]["orb"] <= 0.05
+# Conjunctions must stay sorted tightest-first.
+orbs = [c["orb"] for c in chart["star_conjunctions"]]
+assert orbs == sorted(orbs)
+
 print("✓ Placidus")
 print("✓ 12 houses")
 print("✓ 21 chart objects")
@@ -141,6 +164,7 @@ print("✓ House placements")
 print("✓ Retrograde detection")
 print("✓ 18 core aspects")
 print("✓ Elemental balance (sign triplicities)")
+print("✓ Fixed stars (700+ resolved, tight conjunctions found)")
 print()
 print("ALL ASTROLOGY ENGINE CHECKS PASSED")
 print("=" * 72)

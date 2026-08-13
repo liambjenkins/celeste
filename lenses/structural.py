@@ -157,6 +157,25 @@ def _astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.star_conjunction_star:
+        themes.append(
+            f"star_conjunction:{features.star_conjunction_body}:"
+            f"{features.star_conjunction_star}"
+        )
+        magnitude_note = (
+            f", magnitude {features.star_conjunction_magnitude:.2f}"
+            if features.star_conjunction_magnitude is not None
+            else ""
+        )
+        notes.append(
+            f"{features.star_conjunction_body} forms a tight "
+            f"conjunction (orb {features.star_conjunction_orb:.2f}°) "
+            f"with the fixed star {features.star_conjunction_star}"
+            f"{magnitude_note} — fixed stars are traditionally only "
+            "read as significant this close."
+        )
+        macro.append(ARCHETYPE)
+
     if features.season:
         themes.append(f"season:{features.season}")
         macro.append(CYCLICALITY)

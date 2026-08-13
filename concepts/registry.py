@@ -414,6 +414,40 @@ CONCEPTS = {
         "planetary_positions"
     ]
 },
+"fixed_stars": {
+    "label": "Fixed stars",
+    "domain": "space",
+    "description": (
+        "Positions of named fixed stars from the Swiss Ephemeris "
+        "catalog at the observation moment."
+    ),
+    "synonyms": [
+        "fixed stars",
+        "stars",
+        "star catalog"
+    ],
+    "related": [
+        "fixed_star_conjunctions",
+        "planetary_positions"
+    ]
+},
+"fixed_star_conjunctions": {
+    "label": "Fixed star conjunctions",
+    "domain": "space",
+    "description": (
+        "Chart bodies found in tight conjunction (within a small "
+        "orb) with a named fixed star — the traditional threshold "
+        "for a fixed star being considered meaningful."
+    ),
+    "synonyms": [
+        "star conjunctions",
+        "fixed star aspects"
+    ],
+    "related": [
+        "fixed_stars",
+        "astrological_aspects"
+    ]
+},
 "astrological_house_system": {
     "label": "Astrological house system",
     "domain": "space",
