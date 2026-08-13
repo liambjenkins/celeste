@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_saturn_sign_aquarius",
+  "lens_id": "astrology",
+  "statement": "Saturn in Aquarius learns discipline through translating ideals into workable structures.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:saturn:Aquarius"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

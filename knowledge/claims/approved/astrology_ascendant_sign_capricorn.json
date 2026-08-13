@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_ascendant_sign_capricorn",
+  "lens_id": "astrology",
+  "statement": "A Capricorn Ascendant tends to come across as composed, serious, and capable.",
+  "passage_ids": [],
+  "concept_ids": [
+    "ascendant"
+  ],
+  "feature_ids": [
+    "ascendant:Capricorn"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "persona"
+  ],
+  "life_domain": "persona",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

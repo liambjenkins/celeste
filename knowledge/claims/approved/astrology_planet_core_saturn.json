@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_saturn",
+  "lens_id": "astrology",
+  "statement": "Saturn represents structure, responsibility, and where discipline and mastery are ultimately earned.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:saturn:Aries",
+    "sign:saturn:Taurus",
+    "sign:saturn:Gemini",
+    "sign:saturn:Cancer",
+    "sign:saturn:Leo",
+    "sign:saturn:Virgo",
+    "sign:saturn:Libra",
+    "sign:saturn:Scorpio",
+    "sign:saturn:Sagittarius",
+    "sign:saturn:Capricorn",
+    "sign:saturn:Aquarius",
+    "sign:saturn:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

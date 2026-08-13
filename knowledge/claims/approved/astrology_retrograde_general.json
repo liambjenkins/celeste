@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_retrograde_general",
+  "lens_id": "astrology",
+  "statement": "A retrograde planet's energy is turned inward, reworked, and expressed less directly than when the same planet moves direct.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "retrograde:sun",
+    "retrograde:moon",
+    "retrograde:mercury",
+    "retrograde:venus",
+    "retrograde:mars",
+    "retrograde:jupiter",
+    "retrograde:saturn",
+    "retrograde:uranus",
+    "retrograde:neptune",
+    "retrograde:pluto"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "introspection"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

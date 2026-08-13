@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_pluto",
+  "lens_id": "astrology",
+  "statement": "Pluto represents deep transformation, power, and what is hidden until it demands to be faced.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:pluto:Aries",
+    "sign:pluto:Taurus",
+    "sign:pluto:Gemini",
+    "sign:pluto:Cancer",
+    "sign:pluto:Leo",
+    "sign:pluto:Virgo",
+    "sign:pluto:Libra",
+    "sign:pluto:Scorpio",
+    "sign:pluto:Sagittarius",
+    "sign:pluto:Capricorn",
+    "sign:pluto:Aquarius",
+    "sign:pluto:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "transformation",
+    "intensity"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

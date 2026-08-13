@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_mars_sign_capricorn",
+  "lens_id": "astrology",
+  "statement": "Mars in Capricorn acts with discipline and patience, energy directed at long-term goals.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mars:Capricorn"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "drive",
+    "assertiveness"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_mars_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "Mars in Virgo acts through precision and service, energy directed toward improvement.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mars:Virgo"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "drive",
+    "assertiveness"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

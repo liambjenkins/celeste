@@ -80,10 +80,17 @@ def resolve_claims(
                     feature_id
                 )
 
-        if (
-            not matched_concepts
-            and not matched_features
-        ):
+        # A claim's feature_ids scope it to a specific configuration
+        # (a sign, an aspect type, a dominant element, ...). When
+        # feature_ids are present, concept existence alone is not
+        # enough to count as relevant — a claim about Aries Ascendant
+        # must not match every chart that has an Ascendant, only one
+        # whose Ascendant actually IS Aries. concept_ids-only claims
+        # (no feature_ids at all) still match on concept presence.
+        if claim.feature_ids:
+            if not matched_features:
+                continue
+        elif not matched_concepts:
             continue
 
         matched_values = {}

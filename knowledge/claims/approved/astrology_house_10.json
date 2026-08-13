@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_house_10",
+  "lens_id": "astrology",
+  "statement": "The 10th house governs career, public role, and reputation.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:10",
+    "house:moon:10",
+    "house:mercury:10",
+    "house:venus:10",
+    "house:mars:10",
+    "house:jupiter:10",
+    "house:saturn:10",
+    "house:uranus:10",
+    "house:neptune:10",
+    "house:pluto:10"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

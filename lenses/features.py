@@ -394,11 +394,17 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         star_conjunction_orb = tightest.get("orb")
         star_conjunction_magnitude = tightest.get("star_magnitude")
 
-        if star_conjunction_body and star_conjunction_star:
-            star_slug = star_conjunction_star.lower().replace(" ", "_")
-            tags.append(
-                f"star_conjunction:{star_conjunction_body}:{star_slug}"
-            )
+        # Tag EVERY conjunction, not just the single tightest overall —
+        # a documented star (e.g. Regulus) should be able to match a
+        # claim even when some other, undocumented star happens to be
+        # marginally tighter for a different body.
+        for item in conjunctions:
+            body = item.get("body")
+            star = item.get("star")
+
+            if body and star:
+                star_slug = star.lower().replace(" ", "_")
+                tags.append(f"star_conjunction:{body}:{star_slug}")
 
     strength = _single_value(concepts.get("elemental_balance")) or {}
     dominant = dominant_domains(strength)

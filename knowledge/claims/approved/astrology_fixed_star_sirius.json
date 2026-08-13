@@ -1,0 +1,30 @@
+{
+  "claim_id": "astrology_fixed_star_sirius",
+  "lens_id": "astrology",
+  "statement": "Sirius is traditionally associated with honor, ambition, and renown.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:sirius",
+    "star_conjunction:moon:sirius",
+    "star_conjunction:mercury:sirius",
+    "star_conjunction:venus:sirius",
+    "star_conjunction:mars:sirius",
+    "star_conjunction:jupiter:sirius",
+    "star_conjunction:saturn:sirius",
+    "star_conjunction:uranus:sirius",
+    "star_conjunction:neptune:sirius",
+    "star_conjunction:pluto:sirius"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

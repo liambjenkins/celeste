@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_retrograde_mercury",
+  "lens_id": "astrology",
+  "statement": "Mercury retrograde is traditionally treated as a period where communication, technology, and decisions are more prone to misunderstanding or delay — commonly read as a time to review rather than launch.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "retrograde:mercury"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "introspection",
+    "communication"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "The specific 'review, don't launch' framing is a widely repeated modern popular convention built on the traditional retrograde principle documented in Lilly, not a direct 17th-century citation.",
+  "status": "approved"
+}

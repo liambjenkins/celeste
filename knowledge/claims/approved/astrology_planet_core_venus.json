@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_venus",
+  "lens_id": "astrology",
+  "statement": "Venus represents personal values, attraction, and what is found pleasurable or beautiful.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:venus:Aries",
+    "sign:venus:Taurus",
+    "sign:venus:Gemini",
+    "sign:venus:Cancer",
+    "sign:venus:Leo",
+    "sign:venus:Virgo",
+    "sign:venus:Libra",
+    "sign:venus:Scorpio",
+    "sign:venus:Sagittarius",
+    "sign:venus:Capricorn",
+    "sign:venus:Aquarius",
+    "sign:venus:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "relationships",
+    "aesthetics"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

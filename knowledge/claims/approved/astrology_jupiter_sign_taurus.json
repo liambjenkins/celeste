@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_jupiter_sign_taurus",
+  "lens_id": "astrology",
+  "statement": "Jupiter in Taurus grows through building material security, with belief in steady accumulation.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:jupiter:Taurus"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "growth",
+    "optimism"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

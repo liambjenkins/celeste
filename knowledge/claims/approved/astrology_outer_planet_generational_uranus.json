@@ -1,0 +1,30 @@
+{
+  "claim_id": "astrology_outer_planet_generational_uranus",
+  "lens_id": "astrology",
+  "statement": "Uranus moves through one sign for roughly 7 years, so its sign reflects a generational context rather than individual character — its house placement and any aspects it makes to personal planets are what carry individual significance.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:uranus:Aries",
+    "sign:uranus:Taurus",
+    "sign:uranus:Gemini",
+    "sign:uranus:Cancer",
+    "sign:uranus:Leo",
+    "sign:uranus:Virgo",
+    "sign:uranus:Libra",
+    "sign:uranus:Scorpio",
+    "sign:uranus:Sagittarius",
+    "sign:uranus:Capricorn",
+    "sign:uranus:Aquarius",
+    "sign:uranus:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "generational_context"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Standard astrological convention distinguishing generational (outer) from personal planets — not a cut corner, a documented interpretive distinction.",
+  "status": "approved"
+}

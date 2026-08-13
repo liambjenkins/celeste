@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_house_6",
+  "lens_id": "astrology",
+  "statement": "The 6th house governs work, daily routine, health, and service.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:6",
+    "house:moon:6",
+    "house:mercury:6",
+    "house:venus:6",
+    "house:mars:6",
+    "house:jupiter:6",
+    "house:saturn:6",
+    "house:uranus:6",
+    "house:neptune:6",
+    "house:pluto:6"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

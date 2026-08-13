@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_sign_capricorn",
+  "lens_id": "astrology",
+  "statement": "A Capricorn Moon tends to be emotionally controlled; needs achievement and structure, reserved about vulnerability.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:moon:Capricorn"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

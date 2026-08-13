@@ -74,6 +74,8 @@ class LensInterpretation:
 
     relevant_claims: list[RelevantClaim] = field(default_factory=list)
 
+    narratives: list[Any] = field(default_factory=list)
+
     observations: list[dict[str, Any]] = field(default_factory=list)
 
     themes: list[str] = field(default_factory=list)

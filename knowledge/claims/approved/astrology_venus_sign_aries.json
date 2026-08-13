@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_venus_sign_aries",
+  "lens_id": "astrology",
+  "statement": "Venus in Aries is drawn to excitement and pursuit; values directness in relationships.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:venus:Aries"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "relationships",
+    "aesthetics"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

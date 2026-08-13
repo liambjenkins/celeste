@@ -20,6 +20,7 @@ from knowledge.claims.resolver import resolve_lens_claims
 from lenses.catalog import get_catalog
 from lenses.features import build_features, FeatureBundle
 from lenses.model import LensInterpretation
+from lenses.narrative import build_narratives
 from lenses.structural import build_structural_interpretation
 
 BASE_CAVEATS = [
@@ -33,8 +34,19 @@ BASE_CAVEATS = [
 ]
 
 
-def _compose_interpretation_text(lens, structural, relevant_claims):
+def _compose_interpretation_text(lens, structural, relevant_claims, narratives):
     parts = []
+
+    if narratives:
+        parts.append(
+            "\n\n".join(narrative.paragraph for narrative in narratives)
+        )
+
+    combined_ids = {
+        claim_id
+        for narrative in narratives
+        for claim_id in narrative.combined_claim_ids
+    }
 
     if structural["notes"]:
         parts.append(
@@ -46,6 +58,7 @@ def _compose_interpretation_text(lens, structural, relevant_claims):
         item.claim.statement
         for item in relevant_claims
         if getattr(item.claim, "statement", None)
+        and item.claim.claim_id not in combined_ids
     ]
 
     if claim_statements:
@@ -87,6 +100,8 @@ def interpret_lens(lens, concepts, features: FeatureBundle):
         concepts, lens["lens_id"], features=features.tags
     )
 
+    narratives = build_narratives(relevant_claims)
+
     sources = [
         source_id
         for item in relevant_claims
@@ -100,13 +115,14 @@ def interpret_lens(lens, concepts, features: FeatureBundle):
         name=lens["name"],
         tradition=lens["tradition"],
         relevant_claims=relevant_claims,
+        narratives=narratives,
         observations=list(concepts.values()),
         themes=structural["themes"],
         macro_themes=structural["macro_themes"],
         elemental_focus=structural["elemental_focus"],
         features={"tags": features.tags},
         interpretation=_compose_interpretation_text(
-            lens, structural, relevant_claims
+            lens, structural, relevant_claims, narratives
         ),
         evidence_status=_evidence_status(structural, relevant_claims),
         caveats=caveats,

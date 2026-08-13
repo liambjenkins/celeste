@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_jupiter_sign_sagittarius",
+  "lens_id": "astrology",
+  "statement": "Jupiter in Sagittarius grows through exploration and philosophy, with belief in expanding horizons.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:jupiter:Sagittarius"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "growth",
+    "optimism"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

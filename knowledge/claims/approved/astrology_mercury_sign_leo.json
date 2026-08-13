@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_sign_leo",
+  "lens_id": "astrology",
+  "statement": "Mercury in Leo is confident and dramatic, communicating with warmth and flair.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mercury:Leo"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "communication"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

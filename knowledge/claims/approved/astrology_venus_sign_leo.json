@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_venus_sign_leo",
+  "lens_id": "astrology",
+  "statement": "Venus in Leo is drawn to admiration and romance; values generosity and being adored.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:venus:Leo"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "relationships",
+    "aesthetics"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

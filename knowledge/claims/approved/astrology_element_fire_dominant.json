@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_element_fire_dominant",
+  "lens_id": "astrology",
+  "statement": "A fire-dominant chart tends toward an energetic, spirited, and action-oriented temperament.",
+  "passage_ids": [],
+  "concept_ids": [
+    "elemental_balance"
+  ],
+  "feature_ids": [
+    "element_dominant:fire"
+  ],
+  "source_ids": [
+    "ptolemy_tetrabiblos_c150"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

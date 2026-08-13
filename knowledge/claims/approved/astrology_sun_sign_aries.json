@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_sign_aries",
+  "lens_id": "astrology",
+  "statement": "An Aries Sun tends to be initiating, courageous, and direct, with a competitive drive to act first.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:sun:Aries"
+  ],
+  "source_ids": [
+    "goodman_sun_signs_1968"
+  ],
+  "theme_tags": [
+    "identity"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

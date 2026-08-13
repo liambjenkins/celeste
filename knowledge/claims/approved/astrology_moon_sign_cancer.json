@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "A Cancer Moon tends to be deeply feeling; needs emotional safety and nurturing, with a tidal emotional rhythm.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:moon:Cancer"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_ascendant_sign_aquarius",
+  "lens_id": "astrology",
+  "statement": "An Aquarius Ascendant tends to come across as unique and friendly, but somewhat detached.",
+  "passage_ids": [],
+  "concept_ids": [
+    "ascendant"
+  ],
+  "feature_ids": [
+    "ascendant:Aquarius"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "persona"
+  ],
+  "life_domain": "persona",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

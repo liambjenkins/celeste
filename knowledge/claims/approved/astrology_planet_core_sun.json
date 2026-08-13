@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_sun",
+  "lens_id": "astrology",
+  "statement": "The Sun represents core identity, vitality, and the conscious sense of self.",
+  "passage_ids": [],
+  "concept_ids": [
+    "sun"
+  ],
+  "feature_ids": [
+    "sign:sun:Aries",
+    "sign:sun:Taurus",
+    "sign:sun:Gemini",
+    "sign:sun:Cancer",
+    "sign:sun:Leo",
+    "sign:sun:Virgo",
+    "sign:sun:Libra",
+    "sign:sun:Scorpio",
+    "sign:sun:Sagittarius",
+    "sign:sun:Capricorn",
+    "sign:sun:Aquarius",
+    "sign:sun:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "identity",
+    "vitality"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

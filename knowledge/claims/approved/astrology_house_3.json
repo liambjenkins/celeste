@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_house_3",
+  "lens_id": "astrology",
+  "statement": "The 3rd house governs communication, siblings, and everyday learning.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:3",
+    "house:moon:3",
+    "house:mercury:3",
+    "house:venus:3",
+    "house:mars:3",
+    "house:jupiter:3",
+    "house:saturn:3",
+    "house:uranus:3",
+    "house:neptune:3",
+    "house:pluto:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
