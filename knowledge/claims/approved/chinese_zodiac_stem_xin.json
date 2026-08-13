@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_xin",
+  "lens_id": "chinese_zodiac",
+  "statement": "Xin is refined metal — like jewelry: precise, elegant, and sensitive to being handled carelessly.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Xin",
+    "chinese_stem:month:Xin",
+    "chinese_stem:day:Xin",
+    "chinese_stem:hour:Xin",
+    "chinese_day_master:Xin"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

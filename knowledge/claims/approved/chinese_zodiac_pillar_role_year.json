@@ -1,0 +1,19 @@
+{
+  "claim_id": "chinese_zodiac_pillar_role_year",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Year Pillar governs ancestry, early life, and public/social face — the self as it meets the wider world.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "chinese_pillar_position:year"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "pillar_role"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

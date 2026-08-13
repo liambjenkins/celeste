@@ -133,6 +133,19 @@ LENS_CATALOG = [
         ),
     },
     {
+        "lens_id": "chinese_zodiac",
+        "name": "Chinese Astrology (BaZi)",
+        "tradition": "Chinese Four Pillars of Destiny traditions",
+        "description": (
+            "Technical astrology built from the lunisolar sexagenary "
+            "calendar — Year, Month, Day, and Hour pillars, and the "
+            "Day Master as the reading's central reference point. "
+            "Has no native Sun/Moon/Ascendant or Western/Vedic-style "
+            "house system — read on its own terms, not forced into "
+            "an equivalence this tradition doesn't make."
+        ),
+    },
+    {
         "lens_id": "philosophy",
         "name": "Philosophy",
         "tradition": "Classical Western philosophical traditions",

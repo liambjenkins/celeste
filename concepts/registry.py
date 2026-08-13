@@ -616,6 +616,25 @@ CONCEPTS = {
         "vedic_ascendant",
         "planetary_positions"
     ]
+},
+"chinese_pillars": {
+    "label": "Chinese Four Pillars (BaZi)",
+    "domain": "space",
+    "description": (
+        "Year, Month, Day, and Hour pillars (each a Heavenly Stem + "
+        "Earthly Branch) and the Day Master — BaZi's own chart "
+        "structure, built from a lunisolar/sexagenary calendar "
+        "rather than planets-in-signs. Has no native Sun/Moon/"
+        "Ascendant or Western/Vedic-style house system."
+    ),
+    "synonyms": [
+        "bazi",
+        "four pillars",
+        "chinese zodiac",
+        "day master",
+        "sexagenary pillars"
+    ],
+    "related": []
 }
 
 }

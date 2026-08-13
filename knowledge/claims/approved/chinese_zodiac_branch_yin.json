@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_branch_yin",
+  "lens_id": "chinese_zodiac",
+  "statement": "Yin (Tiger) is bold, independent, and pioneering, drawn to leading rather than following.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Yin",
+    "chinese_branch:month:Yin",
+    "chinese_branch:day:Yin",
+    "chinese_branch:hour:Yin",
+    "chinese_year_animal:Tiger"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

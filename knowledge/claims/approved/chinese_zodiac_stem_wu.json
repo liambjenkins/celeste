@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_wu",
+  "lens_id": "chinese_zodiac",
+  "statement": "Wu is mountain earth — solid, stable, and enduring: dependable and steady, sometimes slow to change.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Wu",
+    "chinese_stem:month:Wu",
+    "chinese_stem:day:Wu",
+    "chinese_stem:hour:Wu",
+    "chinese_day_master:Wu"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_yi",
+  "lens_id": "chinese_zodiac",
+  "statement": "Yi is flexible wood — like a vine or grass: adaptable and gentle, resilient by bending rather than breaking.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Yi",
+    "chinese_stem:month:Yi",
+    "chinese_stem:day:Yi",
+    "chinese_stem:hour:Yi",
+    "chinese_day_master:Yi"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

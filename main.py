@@ -9,6 +9,7 @@ from astrology.chart import build_chart
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
+from chinese.pillars import build_four_pillars
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
 from providers.earthquakes import get_earthquakes
@@ -140,6 +141,11 @@ def parse_args():
             hours=args.utc_offset
         )
 
+    # Kept alongside the UTC conversion (not just discarded) because
+    # the Chinese Four Pillars' Day/Hour boundaries are local-civil-
+    # clock-based, not UTC-instant-based like Year/Month.
+    args.requested_time_local = local_time
+
     return args
 
 
@@ -163,6 +169,9 @@ _tropical_chart = build_chart(
 observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": build_sidereal_chart(_tropical_chart),
+    "chinese_pillars": build_four_pillars(
+        _tropical_chart, args.requested_time_local
+    ).to_dict(),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),

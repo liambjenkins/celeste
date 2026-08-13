@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_ding",
+  "lens_id": "chinese_zodiac",
+  "statement": "Ding is a candle's fire — focused, intimate warmth: perceptive and refined, quietly illuminating.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Ding",
+    "chinese_stem:month:Ding",
+    "chinese_stem:day:Ding",
+    "chinese_stem:hour:Ding",
+    "chinese_day_master:Ding"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

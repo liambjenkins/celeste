@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_ji",
+  "lens_id": "chinese_zodiac",
+  "statement": "Ji is field earth — receptive and fertile: adaptable and nurturing, absorbing what's needed to grow.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Ji",
+    "chinese_stem:month:Ji",
+    "chinese_stem:day:Ji",
+    "chinese_stem:hour:Ji",
+    "chinese_day_master:Ji"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

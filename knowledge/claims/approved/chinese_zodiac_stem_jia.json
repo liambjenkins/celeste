@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_stem_jia",
+  "lens_id": "chinese_zodiac",
+  "statement": "Jia is towering, upright wood — like a great tree: principled, direct, and a natural leader, sometimes rigid.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Jia",
+    "chinese_stem:month:Jia",
+    "chinese_stem:day:Jia",
+    "chinese_stem:hour:Jia",
+    "chinese_day_master:Jia"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

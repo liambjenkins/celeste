@@ -80,6 +80,11 @@ class FeatureBundle:
     vedic_moon_house: Optional[int] = None
     vedic_planet_houses: dict[str, int] = field(default_factory=dict)
 
+    chinese_day_master: Optional[str] = None
+    chinese_day_master_element: Optional[str] = None
+    chinese_year_animal: Optional[str] = None
+    chinese_pillar_names: dict[str, str] = field(default_factory=dict)
+
 
 def _single_value(concept):
     if not concept:
@@ -456,6 +461,39 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
             _tag_vedic_point(planet_name, body)
 
+    # Chinese (BaZi) Four Pillars. No sign/house tags — BaZi has
+    # neither; see chinese/pillars.py's module docstring.
+    chinese_day_master = None
+    chinese_day_master_element = None
+    chinese_year_animal = None
+    chinese_pillar_names = {}
+
+    chinese_value = _single_value(concepts.get("chinese_pillars"))
+
+    if isinstance(chinese_value, dict) and chinese_value.get("day_master"):
+        chinese_day_master = chinese_value["day_master"]
+        chinese_day_master_element = chinese_value.get("day_master_element")
+
+        tags.append(f"chinese_day_master:{chinese_day_master}")
+        tags.append(f"chinese_day_master_element:{chinese_day_master_element}")
+
+        for position in ("year", "month", "day", "hour"):
+            pillar = chinese_value.get(position)
+
+            if not isinstance(pillar, dict):
+                continue
+
+            chinese_pillar_names[position] = pillar.get("name")
+            tags.append(f"chinese_pillar_position:{position}")
+            tags.append(f"chinese_pillar:{position}:{pillar.get('name')}")
+            tags.append(f"chinese_stem:{position}:{pillar.get('stem')}")
+            tags.append(f"chinese_branch:{position}:{pillar.get('branch')}")
+            tags.append(f"chinese_element:{pillar.get('stem_element')}")
+
+            if position == "year":
+                chinese_year_animal = pillar.get("branch_animal")
+                tags.append(f"chinese_year_animal:{chinese_year_animal}")
+
     star_conjunction_body = None
     star_conjunction_star = None
     star_conjunction_orb = None
@@ -527,6 +565,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         vedic_sun_house=vedic_sun_house,
         vedic_moon_house=vedic_moon_house,
         vedic_planet_houses=vedic_planet_houses,
+        chinese_day_master=chinese_day_master,
+        chinese_day_master_element=chinese_day_master_element,
+        chinese_year_animal=chinese_year_animal,
+        chinese_pillar_names=chinese_pillar_names,
     )
 
 

@@ -1,0 +1,19 @@
+{
+  "claim_id": "chinese_zodiac_pillar_role_hour",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Hour Pillar governs later life, children, and the private inner world beneath the public self.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "chinese_pillar_position:hour"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "pillar_role"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

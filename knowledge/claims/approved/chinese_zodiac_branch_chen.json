@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_branch_chen",
+  "lens_id": "chinese_zodiac",
+  "statement": "Chen (Dragon) is ambitious and dynamic, carrying natural authority and a taste for the grand.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Chen",
+    "chinese_branch:month:Chen",
+    "chinese_branch:day:Chen",
+    "chinese_branch:hour:Chen",
+    "chinese_year_animal:Dragon"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

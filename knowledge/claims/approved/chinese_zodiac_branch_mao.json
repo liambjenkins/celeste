@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_branch_mao",
+  "lens_id": "chinese_zodiac",
+  "statement": "Mao (Rabbit) is gentle, diplomatic, and quick, skilled at navigating around conflict.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Mao",
+    "chinese_branch:month:Mao",
+    "chinese_branch:day:Mao",
+    "chinese_branch:hour:Mao",
+    "chinese_year_animal:Rabbit"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

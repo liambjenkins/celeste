@@ -314,6 +314,28 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # CHINESE ASTROLOGY (BaZi Four Pillars)
+    # --------------------------------------------------------
+    #
+    # "chinese_pillars" is the output of
+    # chinese.pillars.build_four_pillars(): Year/Month/Day/Hour
+    # pillars and the Day Master. One bundled concept, not split per
+    # pillar — a BaZi reading isn't coherent with only one pillar,
+    # so there's no reason to let claim matching see them separately.
+    #
+    chinese = observations.get(
+        "chinese_pillars",
+        {}
+    )
+
+    if isinstance(chinese, dict) and chinese:
+        add_concept(
+            "chinese_pillars",
+            chinese,
+            "chinese_pillars"
+        )
+
+    # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------
     #

@@ -635,6 +635,44 @@ def _vedic_astrology(concepts, features: FeatureBundle):
     return _result(themes, macro, list(features.dominant_domains), notes)
 
 
+# ------------------------------------------------------------
+# Chinese astrology (BaZi)
+# ------------------------------------------------------------
+
+def _chinese_zodiac(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.chinese_day_master:
+        themes.append(f"day_master:{features.chinese_day_master}")
+        notes.append(
+            f"The Day Master is {features.chinese_day_master} "
+            f"({features.chinese_day_master_element}) — the reading's "
+            "central reference point; everything else in a BaZi "
+            "chart is ultimately read in relation to it."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_year_animal:
+        themes.append(f"year_animal:{features.chinese_year_animal}")
+        notes.append(
+            f"The Year Pillar's branch animal is "
+            f"{features.chinese_year_animal}, governing ancestry, "
+            "early life, and public/social face."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.chinese_pillar_names:
+        themes.append(
+            "four_pillars:"
+            + "_".join(features.chinese_pillar_names.get(p, "?") for p in ("year", "month", "day", "hour"))
+        )
+        macro.append(TIMEKEEPING)
+
+    return _result(themes, macro, [], notes)
+
+
 def _philosophy(concepts, features: FeatureBundle):
     themes = []
     notes = []
@@ -682,6 +720,7 @@ STRUCTURAL_INTERPRETERS = {
     "depth_psychology": _depth_psychology,
     "philosophy": _philosophy,
     "vedic_astrology": _vedic_astrology,
+    "chinese_zodiac": _chinese_zodiac,
 }
 
 

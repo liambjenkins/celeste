@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_branch_hai",
+  "lens_id": "chinese_zodiac",
+  "statement": "Hai (Pig) is generous and easygoing, sincere and diplomatic in relationships.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Hai",
+    "chinese_branch:month:Hai",
+    "chinese_branch:day:Hai",
+    "chinese_branch:hour:Hai",
+    "chinese_year_animal:Pig"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

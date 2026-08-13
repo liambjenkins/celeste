@@ -1,0 +1,25 @@
+{
+  "claim_id": "chinese_zodiac_branch_xu",
+  "lens_id": "chinese_zodiac",
+  "statement": "Xu (Dog) is loyal and protective, guided by a strong sense of duty.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Xu",
+    "chinese_branch:month:Xu",
+    "chinese_branch:day:Xu",
+    "chinese_branch:hour:Xu",
+    "chinese_year_animal:Dog"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
