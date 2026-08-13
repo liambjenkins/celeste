@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_ashlesha",
+  "lens_id": "vedic_astrology",
+  "statement": "Ashlesha's ruling planet (Vimshottari dasha lord) is Mercury; its presiding deity is the Nagas (serpent deities), symbolized by a coiled serpent. It is traditionally associated with penetrating insight and intensity, a hypnotic or entangling quality that can heal or ensnare.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Ashlesha",
+    "nakshatra:moon:Ashlesha",
+    "nakshatra:ascendant:Ashlesha",
+    "nakshatra:mercury:Ashlesha",
+    "nakshatra:venus:Ashlesha",
+    "nakshatra:mars:Ashlesha",
+    "nakshatra:jupiter:Ashlesha",
+    "nakshatra:saturn:Ashlesha",
+    "nakshatra:uranus:Ashlesha",
+    "nakshatra:neptune:Ashlesha",
+    "nakshatra:pluto:Ashlesha",
+    "nakshatra:lilith_mean:Ashlesha",
+    "nakshatra:lilith_true:Ashlesha",
+    "nakshatra:chiron:Ashlesha",
+    "nakshatra:ceres:Ashlesha",
+    "nakshatra:pallas:Ashlesha",
+    "nakshatra:juno:Ashlesha",
+    "nakshatra:vesta:Ashlesha",
+    "nakshatra:north_node_true:Ashlesha",
+    "nakshatra:north_node_mean:Ashlesha",
+    "nakshatra:south_node_true:Ashlesha",
+    "nakshatra:south_node_mean:Ashlesha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

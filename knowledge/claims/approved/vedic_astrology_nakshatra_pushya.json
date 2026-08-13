@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_pushya",
+  "lens_id": "vedic_astrology",
+  "statement": "Pushya's ruling planet (Vimshottari dasha lord) is Saturn; its presiding deity is Brihaspati (Jupiter as guru of the gods), symbolized by the cow's udder. It is traditionally associated with nourishment and abundance, with a strong association with dharmic steadiness: honesty, discipline, and the capacity to provide for others.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Pushya",
+    "nakshatra:moon:Pushya",
+    "nakshatra:ascendant:Pushya",
+    "nakshatra:mercury:Pushya",
+    "nakshatra:venus:Pushya",
+    "nakshatra:mars:Pushya",
+    "nakshatra:jupiter:Pushya",
+    "nakshatra:saturn:Pushya",
+    "nakshatra:uranus:Pushya",
+    "nakshatra:neptune:Pushya",
+    "nakshatra:pluto:Pushya",
+    "nakshatra:lilith_mean:Pushya",
+    "nakshatra:lilith_true:Pushya",
+    "nakshatra:chiron:Pushya",
+    "nakshatra:ceres:Pushya",
+    "nakshatra:pallas:Pushya",
+    "nakshatra:juno:Pushya",
+    "nakshatra:vesta:Pushya",
+    "nakshatra:north_node_true:Pushya",
+    "nakshatra:north_node_mean:Pushya",
+    "nakshatra:south_node_true:Pushya",
+    "nakshatra:south_node_mean:Pushya"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

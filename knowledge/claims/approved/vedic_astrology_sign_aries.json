@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_aries",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Aries tends to be direct, courageous, and quick to act, with a pioneering instinct.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Aries",
+    "vedic_sign:moon:Aries",
+    "vedic_sign:ascendant:Aries",
+    "vedic_sign:mercury:Aries",
+    "vedic_sign:venus:Aries",
+    "vedic_sign:mars:Aries",
+    "vedic_sign:jupiter:Aries",
+    "vedic_sign:saturn:Aries",
+    "vedic_sign:uranus:Aries",
+    "vedic_sign:neptune:Aries",
+    "vedic_sign:pluto:Aries",
+    "vedic_sign:lilith_mean:Aries",
+    "vedic_sign:lilith_true:Aries",
+    "vedic_sign:chiron:Aries",
+    "vedic_sign:ceres:Aries",
+    "vedic_sign:pallas:Aries",
+    "vedic_sign:juno:Aries",
+    "vedic_sign:vesta:Aries",
+    "vedic_sign:north_node_true:Aries",
+    "vedic_sign:north_node_mean:Aries",
+    "vedic_sign:south_node_true:Aries",
+    "vedic_sign:south_node_mean:Aries"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

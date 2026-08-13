@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_purva_phalguni",
+  "lens_id": "vedic_astrology",
+  "statement": "Purva Phalguni's ruling planet (Vimshottari dasha lord) is Venus; its presiding deity is Bhaga (god of fortune and enjoyment), symbolized by the front legs of a bed. It is traditionally associated with pleasure, rest, and creative enjoyment, favoring relaxation and romance.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Purva Phalguni",
+    "nakshatra:moon:Purva Phalguni",
+    "nakshatra:ascendant:Purva Phalguni",
+    "nakshatra:mercury:Purva Phalguni",
+    "nakshatra:venus:Purva Phalguni",
+    "nakshatra:mars:Purva Phalguni",
+    "nakshatra:jupiter:Purva Phalguni",
+    "nakshatra:saturn:Purva Phalguni",
+    "nakshatra:uranus:Purva Phalguni",
+    "nakshatra:neptune:Purva Phalguni",
+    "nakshatra:pluto:Purva Phalguni",
+    "nakshatra:lilith_mean:Purva Phalguni",
+    "nakshatra:lilith_true:Purva Phalguni",
+    "nakshatra:chiron:Purva Phalguni",
+    "nakshatra:ceres:Purva Phalguni",
+    "nakshatra:pallas:Purva Phalguni",
+    "nakshatra:juno:Purva Phalguni",
+    "nakshatra:vesta:Purva Phalguni",
+    "nakshatra:north_node_true:Purva Phalguni",
+    "nakshatra:north_node_mean:Purva Phalguni",
+    "nakshatra:south_node_true:Purva Phalguni",
+    "nakshatra:south_node_mean:Purva Phalguni"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

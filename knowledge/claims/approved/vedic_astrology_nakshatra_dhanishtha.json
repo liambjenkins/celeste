@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_dhanishtha",
+  "lens_id": "vedic_astrology",
+  "statement": "Dhanishtha's ruling planet (Vimshottari dasha lord) is Mars; its presiding deity is the Vasus (gods of material abundance), symbolized by a drum. It is traditionally associated with rhythm, music, and material abundance, favoring group effort and celebration.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Dhanishtha",
+    "nakshatra:moon:Dhanishtha",
+    "nakshatra:ascendant:Dhanishtha",
+    "nakshatra:mercury:Dhanishtha",
+    "nakshatra:venus:Dhanishtha",
+    "nakshatra:mars:Dhanishtha",
+    "nakshatra:jupiter:Dhanishtha",
+    "nakshatra:saturn:Dhanishtha",
+    "nakshatra:uranus:Dhanishtha",
+    "nakshatra:neptune:Dhanishtha",
+    "nakshatra:pluto:Dhanishtha",
+    "nakshatra:lilith_mean:Dhanishtha",
+    "nakshatra:lilith_true:Dhanishtha",
+    "nakshatra:chiron:Dhanishtha",
+    "nakshatra:ceres:Dhanishtha",
+    "nakshatra:pallas:Dhanishtha",
+    "nakshatra:juno:Dhanishtha",
+    "nakshatra:vesta:Dhanishtha",
+    "nakshatra:north_node_true:Dhanishtha",
+    "nakshatra:north_node_mean:Dhanishtha",
+    "nakshatra:south_node_true:Dhanishtha",
+    "nakshatra:south_node_mean:Dhanishtha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

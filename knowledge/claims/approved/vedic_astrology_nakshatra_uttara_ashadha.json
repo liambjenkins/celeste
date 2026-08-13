@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_uttara_ashadha",
+  "lens_id": "vedic_astrology",
+  "statement": "Uttara Ashadha's ruling planet (Vimshottari dasha lord) is Sun; its presiding deity is the Vishwadevas (universal gods), symbolized by an elephant tusk. It is traditionally associated with lasting, hard-won victory — achievement that endures because it was built to last.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Uttara Ashadha",
+    "nakshatra:moon:Uttara Ashadha",
+    "nakshatra:ascendant:Uttara Ashadha",
+    "nakshatra:mercury:Uttara Ashadha",
+    "nakshatra:venus:Uttara Ashadha",
+    "nakshatra:mars:Uttara Ashadha",
+    "nakshatra:jupiter:Uttara Ashadha",
+    "nakshatra:saturn:Uttara Ashadha",
+    "nakshatra:uranus:Uttara Ashadha",
+    "nakshatra:neptune:Uttara Ashadha",
+    "nakshatra:pluto:Uttara Ashadha",
+    "nakshatra:lilith_mean:Uttara Ashadha",
+    "nakshatra:lilith_true:Uttara Ashadha",
+    "nakshatra:chiron:Uttara Ashadha",
+    "nakshatra:ceres:Uttara Ashadha",
+    "nakshatra:pallas:Uttara Ashadha",
+    "nakshatra:juno:Uttara Ashadha",
+    "nakshatra:vesta:Uttara Ashadha",
+    "nakshatra:north_node_true:Uttara Ashadha",
+    "nakshatra:north_node_mean:Uttara Ashadha",
+    "nakshatra:south_node_true:Uttara Ashadha",
+    "nakshatra:south_node_mean:Uttara Ashadha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

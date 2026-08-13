@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_sagittarius",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Sagittarius tends to be philosophical and freedom-loving, guided by belief and higher learning.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Sagittarius",
+    "vedic_sign:moon:Sagittarius",
+    "vedic_sign:ascendant:Sagittarius",
+    "vedic_sign:mercury:Sagittarius",
+    "vedic_sign:venus:Sagittarius",
+    "vedic_sign:mars:Sagittarius",
+    "vedic_sign:jupiter:Sagittarius",
+    "vedic_sign:saturn:Sagittarius",
+    "vedic_sign:uranus:Sagittarius",
+    "vedic_sign:neptune:Sagittarius",
+    "vedic_sign:pluto:Sagittarius",
+    "vedic_sign:lilith_mean:Sagittarius",
+    "vedic_sign:lilith_true:Sagittarius",
+    "vedic_sign:chiron:Sagittarius",
+    "vedic_sign:ceres:Sagittarius",
+    "vedic_sign:pallas:Sagittarius",
+    "vedic_sign:juno:Sagittarius",
+    "vedic_sign:vesta:Sagittarius",
+    "vedic_sign:north_node_true:Sagittarius",
+    "vedic_sign:north_node_mean:Sagittarius",
+    "vedic_sign:south_node_true:Sagittarius",
+    "vedic_sign:south_node_mean:Sagittarius"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

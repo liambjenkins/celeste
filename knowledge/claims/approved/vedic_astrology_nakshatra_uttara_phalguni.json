@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_uttara_phalguni",
+  "lens_id": "vedic_astrology",
+  "statement": "Uttara Phalguni's ruling planet (Vimshottari dasha lord) is Sun; its presiding deity is Aryaman (god of patronage and contracts), symbolized by the back legs of a bed. It is traditionally associated with patronage, partnership, and the honoring of agreements and commitments.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Uttara Phalguni",
+    "nakshatra:moon:Uttara Phalguni",
+    "nakshatra:ascendant:Uttara Phalguni",
+    "nakshatra:mercury:Uttara Phalguni",
+    "nakshatra:venus:Uttara Phalguni",
+    "nakshatra:mars:Uttara Phalguni",
+    "nakshatra:jupiter:Uttara Phalguni",
+    "nakshatra:saturn:Uttara Phalguni",
+    "nakshatra:uranus:Uttara Phalguni",
+    "nakshatra:neptune:Uttara Phalguni",
+    "nakshatra:pluto:Uttara Phalguni",
+    "nakshatra:lilith_mean:Uttara Phalguni",
+    "nakshatra:lilith_true:Uttara Phalguni",
+    "nakshatra:chiron:Uttara Phalguni",
+    "nakshatra:ceres:Uttara Phalguni",
+    "nakshatra:pallas:Uttara Phalguni",
+    "nakshatra:juno:Uttara Phalguni",
+    "nakshatra:vesta:Uttara Phalguni",
+    "nakshatra:north_node_true:Uttara Phalguni",
+    "nakshatra:north_node_mean:Uttara Phalguni",
+    "nakshatra:south_node_true:Uttara Phalguni",
+    "nakshatra:south_node_mean:Uttara Phalguni"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

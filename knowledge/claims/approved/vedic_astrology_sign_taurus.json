@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_taurus",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Taurus tends to be steady, patient, and grounded, valuing security and sensory comfort.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Taurus",
+    "vedic_sign:moon:Taurus",
+    "vedic_sign:ascendant:Taurus",
+    "vedic_sign:mercury:Taurus",
+    "vedic_sign:venus:Taurus",
+    "vedic_sign:mars:Taurus",
+    "vedic_sign:jupiter:Taurus",
+    "vedic_sign:saturn:Taurus",
+    "vedic_sign:uranus:Taurus",
+    "vedic_sign:neptune:Taurus",
+    "vedic_sign:pluto:Taurus",
+    "vedic_sign:lilith_mean:Taurus",
+    "vedic_sign:lilith_true:Taurus",
+    "vedic_sign:chiron:Taurus",
+    "vedic_sign:ceres:Taurus",
+    "vedic_sign:pallas:Taurus",
+    "vedic_sign:juno:Taurus",
+    "vedic_sign:vesta:Taurus",
+    "vedic_sign:north_node_true:Taurus",
+    "vedic_sign:north_node_mean:Taurus",
+    "vedic_sign:south_node_true:Taurus",
+    "vedic_sign:south_node_mean:Taurus"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

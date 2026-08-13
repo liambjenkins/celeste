@@ -589,6 +589,52 @@ def _depth_psychology(concepts, features: FeatureBundle):
 # Philosophy (Stoic / Aristotelian)
 # ------------------------------------------------------------
 
+# ------------------------------------------------------------
+# Vedic astrology (Jyotish)
+# ------------------------------------------------------------
+
+def _vedic_astrology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.vedic_ascendant_sign:
+        themes.append(f"lagna:{features.vedic_ascendant_sign}")
+        notes.append(
+            f"The Lagna (rising sign) is sidereal "
+            f"{features.vedic_ascendant_sign}, the reference point "
+            "Vedic whole-sign houses are counted from."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.vedic_sun_nakshatra:
+        themes.append(f"nakshatra:sun:{features.vedic_sun_nakshatra}")
+        notes.append(
+            f"The Sun falls in {features.vedic_sun_nakshatra} "
+            "nakshatra, the lunar-mansion subdivision unique to "
+            "Jyotish."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.vedic_moon_nakshatra:
+        themes.append(f"nakshatra:moon:{features.vedic_moon_nakshatra}")
+        notes.append(
+            f"The Moon falls in {features.vedic_moon_nakshatra} "
+            "nakshatra — in Jyotish the Moon's nakshatra is "
+            "traditionally considered the single most important "
+            "placement in the chart."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.dominant_domains:
+        themes.append(
+            "elemental_emphasis:" + "_".join(features.dominant_domains)
+        )
+        macro.append(ELEMENTAL)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
 def _philosophy(concepts, features: FeatureBundle):
     themes = []
     notes = []
@@ -635,6 +681,7 @@ STRUCTURAL_INTERPRETERS = {
     "egyptian_cosmology": _egyptian_cosmology,
     "depth_psychology": _depth_psychology,
     "philosophy": _philosophy,
+    "vedic_astrology": _vedic_astrology,
 }
 
 

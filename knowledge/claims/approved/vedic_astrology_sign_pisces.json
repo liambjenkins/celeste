@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_pisces",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Pisces tends to be compassionate and intuitive, porous to emotion and spiritually inclined.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Pisces",
+    "vedic_sign:moon:Pisces",
+    "vedic_sign:ascendant:Pisces",
+    "vedic_sign:mercury:Pisces",
+    "vedic_sign:venus:Pisces",
+    "vedic_sign:mars:Pisces",
+    "vedic_sign:jupiter:Pisces",
+    "vedic_sign:saturn:Pisces",
+    "vedic_sign:uranus:Pisces",
+    "vedic_sign:neptune:Pisces",
+    "vedic_sign:pluto:Pisces",
+    "vedic_sign:lilith_mean:Pisces",
+    "vedic_sign:lilith_true:Pisces",
+    "vedic_sign:chiron:Pisces",
+    "vedic_sign:ceres:Pisces",
+    "vedic_sign:pallas:Pisces",
+    "vedic_sign:juno:Pisces",
+    "vedic_sign:vesta:Pisces",
+    "vedic_sign:north_node_true:Pisces",
+    "vedic_sign:north_node_mean:Pisces",
+    "vedic_sign:south_node_true:Pisces",
+    "vedic_sign:south_node_mean:Pisces"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

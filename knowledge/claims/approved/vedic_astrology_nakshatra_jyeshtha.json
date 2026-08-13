@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_jyeshtha",
+  "lens_id": "vedic_astrology",
+  "statement": "Jyeshtha's ruling planet (Vimshottari dasha lord) is Mercury; its presiding deity is Indra (king of the gods), symbolized by an umbrella or earring. It is traditionally associated with seniority and protection, a natural, sometimes burdensome, position of responsibility over others.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Jyeshtha",
+    "nakshatra:moon:Jyeshtha",
+    "nakshatra:ascendant:Jyeshtha",
+    "nakshatra:mercury:Jyeshtha",
+    "nakshatra:venus:Jyeshtha",
+    "nakshatra:mars:Jyeshtha",
+    "nakshatra:jupiter:Jyeshtha",
+    "nakshatra:saturn:Jyeshtha",
+    "nakshatra:uranus:Jyeshtha",
+    "nakshatra:neptune:Jyeshtha",
+    "nakshatra:pluto:Jyeshtha",
+    "nakshatra:lilith_mean:Jyeshtha",
+    "nakshatra:lilith_true:Jyeshtha",
+    "nakshatra:chiron:Jyeshtha",
+    "nakshatra:ceres:Jyeshtha",
+    "nakshatra:pallas:Jyeshtha",
+    "nakshatra:juno:Jyeshtha",
+    "nakshatra:vesta:Jyeshtha",
+    "nakshatra:north_node_true:Jyeshtha",
+    "nakshatra:north_node_mean:Jyeshtha",
+    "nakshatra:south_node_true:Jyeshtha",
+    "nakshatra:south_node_mean:Jyeshtha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

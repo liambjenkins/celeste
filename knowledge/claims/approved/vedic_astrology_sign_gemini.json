@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_gemini",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Gemini tends to be curious, communicative, and adaptable, with a quick, dual-natured mind.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Gemini",
+    "vedic_sign:moon:Gemini",
+    "vedic_sign:ascendant:Gemini",
+    "vedic_sign:mercury:Gemini",
+    "vedic_sign:venus:Gemini",
+    "vedic_sign:mars:Gemini",
+    "vedic_sign:jupiter:Gemini",
+    "vedic_sign:saturn:Gemini",
+    "vedic_sign:uranus:Gemini",
+    "vedic_sign:neptune:Gemini",
+    "vedic_sign:pluto:Gemini",
+    "vedic_sign:lilith_mean:Gemini",
+    "vedic_sign:lilith_true:Gemini",
+    "vedic_sign:chiron:Gemini",
+    "vedic_sign:ceres:Gemini",
+    "vedic_sign:pallas:Gemini",
+    "vedic_sign:juno:Gemini",
+    "vedic_sign:vesta:Gemini",
+    "vedic_sign:north_node_true:Gemini",
+    "vedic_sign:north_node_mean:Gemini",
+    "vedic_sign:south_node_true:Gemini",
+    "vedic_sign:south_node_mean:Gemini"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

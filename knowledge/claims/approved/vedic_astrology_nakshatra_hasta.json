@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_hasta",
+  "lens_id": "vedic_astrology",
+  "statement": "Hasta's ruling planet (Vimshottari dasha lord) is Moon; its presiding deity is Savitar (a solar deity of skill and inspiration), symbolized by a hand. It is traditionally associated with dexterity, precision, and the ability to turn intention into skilled action — a hands-on capacity to build, refine, and heal.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Hasta",
+    "nakshatra:moon:Hasta",
+    "nakshatra:ascendant:Hasta",
+    "nakshatra:mercury:Hasta",
+    "nakshatra:venus:Hasta",
+    "nakshatra:mars:Hasta",
+    "nakshatra:jupiter:Hasta",
+    "nakshatra:saturn:Hasta",
+    "nakshatra:uranus:Hasta",
+    "nakshatra:neptune:Hasta",
+    "nakshatra:pluto:Hasta",
+    "nakshatra:lilith_mean:Hasta",
+    "nakshatra:lilith_true:Hasta",
+    "nakshatra:chiron:Hasta",
+    "nakshatra:ceres:Hasta",
+    "nakshatra:pallas:Hasta",
+    "nakshatra:juno:Hasta",
+    "nakshatra:vesta:Hasta",
+    "nakshatra:north_node_true:Hasta",
+    "nakshatra:north_node_mean:Hasta",
+    "nakshatra:south_node_true:Hasta",
+    "nakshatra:south_node_mean:Hasta"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

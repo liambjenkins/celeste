@@ -7,6 +7,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from astrology.chart import build_chart
 from astrology.houses import HOUSE_SYSTEMS
+from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
@@ -152,13 +153,16 @@ REQUESTED_TIME_AWARE = REQUESTED_TIME.replace(tzinfo=timezone.utc)
 # ------------------------------------------------------------
 # COLLECT
 # ------------------------------------------------------------
+_tropical_chart = build_chart(
+    REQUESTED_TIME_AWARE,
+    LATITUDE,
+    LONGITUDE,
+    house_system=args.house_system,
+)
+
 observations = {
-    "astrology": build_chart(
-        REQUESTED_TIME_AWARE,
-        LATITUDE,
-        LONGITUDE,
-        house_system=args.house_system,
-    ),
+    "astrology": _tropical_chart,
+    "vedic_astrology": build_sidereal_chart(_tropical_chart),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),

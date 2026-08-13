@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_libra",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Libra tends to be diplomatic and relationship-oriented, seeking balance and fairness.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Libra",
+    "vedic_sign:moon:Libra",
+    "vedic_sign:ascendant:Libra",
+    "vedic_sign:mercury:Libra",
+    "vedic_sign:venus:Libra",
+    "vedic_sign:mars:Libra",
+    "vedic_sign:jupiter:Libra",
+    "vedic_sign:saturn:Libra",
+    "vedic_sign:uranus:Libra",
+    "vedic_sign:neptune:Libra",
+    "vedic_sign:pluto:Libra",
+    "vedic_sign:lilith_mean:Libra",
+    "vedic_sign:lilith_true:Libra",
+    "vedic_sign:chiron:Libra",
+    "vedic_sign:ceres:Libra",
+    "vedic_sign:pallas:Libra",
+    "vedic_sign:juno:Libra",
+    "vedic_sign:vesta:Libra",
+    "vedic_sign:north_node_true:Libra",
+    "vedic_sign:north_node_mean:Libra",
+    "vedic_sign:south_node_true:Libra",
+    "vedic_sign:south_node_mean:Libra"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_leo",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Leo tends to be confident and warm, with a natural authority and need for recognition.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Leo",
+    "vedic_sign:moon:Leo",
+    "vedic_sign:ascendant:Leo",
+    "vedic_sign:mercury:Leo",
+    "vedic_sign:venus:Leo",
+    "vedic_sign:mars:Leo",
+    "vedic_sign:jupiter:Leo",
+    "vedic_sign:saturn:Leo",
+    "vedic_sign:uranus:Leo",
+    "vedic_sign:neptune:Leo",
+    "vedic_sign:pluto:Leo",
+    "vedic_sign:lilith_mean:Leo",
+    "vedic_sign:lilith_true:Leo",
+    "vedic_sign:chiron:Leo",
+    "vedic_sign:ceres:Leo",
+    "vedic_sign:pallas:Leo",
+    "vedic_sign:juno:Leo",
+    "vedic_sign:vesta:Leo",
+    "vedic_sign:north_node_true:Leo",
+    "vedic_sign:north_node_mean:Leo",
+    "vedic_sign:south_node_true:Leo",
+    "vedic_sign:south_node_mean:Leo"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

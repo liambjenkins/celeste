@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_krittika",
+  "lens_id": "vedic_astrology",
+  "statement": "Krittika's ruling planet (Vimshottari dasha lord) is Sun; its presiding deity is Agni (the god of fire), symbolized by a razor or flame. It is traditionally associated with sharp intellect and purification — a decisive willingness to cut away what doesn't serve.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Krittika",
+    "nakshatra:moon:Krittika",
+    "nakshatra:ascendant:Krittika",
+    "nakshatra:mercury:Krittika",
+    "nakshatra:venus:Krittika",
+    "nakshatra:mars:Krittika",
+    "nakshatra:jupiter:Krittika",
+    "nakshatra:saturn:Krittika",
+    "nakshatra:uranus:Krittika",
+    "nakshatra:neptune:Krittika",
+    "nakshatra:pluto:Krittika",
+    "nakshatra:lilith_mean:Krittika",
+    "nakshatra:lilith_true:Krittika",
+    "nakshatra:chiron:Krittika",
+    "nakshatra:ceres:Krittika",
+    "nakshatra:pallas:Krittika",
+    "nakshatra:juno:Krittika",
+    "nakshatra:vesta:Krittika",
+    "nakshatra:north_node_true:Krittika",
+    "nakshatra:north_node_mean:Krittika",
+    "nakshatra:south_node_true:Krittika",
+    "nakshatra:south_node_mean:Krittika"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

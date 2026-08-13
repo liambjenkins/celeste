@@ -541,6 +541,81 @@ CONCEPTS = {
         "season",
         "sun"
     ]
+},
+"vedic_sun": {
+    "label": "Vedic Sun placement",
+    "domain": "space",
+    "description": (
+        "Sun's sidereal (Lahiri ayanamsa) sign, nakshatra, and "
+        "whole-sign house, as used in Vedic/Jyotish astrology — "
+        "distinct from the tropical Sun used elsewhere in this chart."
+    ),
+    "synonyms": [
+        "sidereal sun",
+        "vedic sun",
+        "jyotish sun"
+    ],
+    "related": [
+        "sun",
+        "vedic_moon",
+        "vedic_ascendant"
+    ]
+},
+"vedic_moon": {
+    "label": "Vedic Moon placement",
+    "domain": "space",
+    "description": (
+        "Moon's sidereal (Lahiri ayanamsa) sign, nakshatra, and "
+        "whole-sign house."
+    ),
+    "synonyms": [
+        "sidereal moon",
+        "vedic moon",
+        "jyotish moon"
+    ],
+    "related": [
+        "moon",
+        "vedic_sun",
+        "vedic_ascendant"
+    ]
+},
+"vedic_ascendant": {
+    "label": "Vedic Ascendant (Lagna)",
+    "domain": "space",
+    "description": (
+        "Sidereal Ascendant sign and nakshatra — the Lagna, the "
+        "reference point whole-sign houses are counted from."
+    ),
+    "synonyms": [
+        "lagna",
+        "sidereal ascendant",
+        "vedic ascendant"
+    ],
+    "related": [
+        "ascendant",
+        "vedic_sun",
+        "vedic_moon"
+    ]
+},
+"vedic_positions": {
+    "label": "Vedic planetary positions",
+    "domain": "space",
+    "description": (
+        "Sidereal (Lahiri ayanamsa) sign, nakshatra, and whole-sign "
+        "house for chart bodies other than the Sun, Moon, and "
+        "Ascendant."
+    ),
+    "synonyms": [
+        "sidereal positions",
+        "jyotish positions",
+        "vedic planets"
+    ],
+    "related": [
+        "vedic_sun",
+        "vedic_moon",
+        "vedic_ascendant",
+        "planetary_positions"
+    ]
 }
 
 }

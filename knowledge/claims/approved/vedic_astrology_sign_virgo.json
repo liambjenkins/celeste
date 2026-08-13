@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_virgo",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Virgo tends to be analytical and precise, oriented toward service and careful discernment.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Virgo",
+    "vedic_sign:moon:Virgo",
+    "vedic_sign:ascendant:Virgo",
+    "vedic_sign:mercury:Virgo",
+    "vedic_sign:venus:Virgo",
+    "vedic_sign:mars:Virgo",
+    "vedic_sign:jupiter:Virgo",
+    "vedic_sign:saturn:Virgo",
+    "vedic_sign:uranus:Virgo",
+    "vedic_sign:neptune:Virgo",
+    "vedic_sign:pluto:Virgo",
+    "vedic_sign:lilith_mean:Virgo",
+    "vedic_sign:lilith_true:Virgo",
+    "vedic_sign:chiron:Virgo",
+    "vedic_sign:ceres:Virgo",
+    "vedic_sign:pallas:Virgo",
+    "vedic_sign:juno:Virgo",
+    "vedic_sign:vesta:Virgo",
+    "vedic_sign:north_node_true:Virgo",
+    "vedic_sign:north_node_mean:Virgo",
+    "vedic_sign:south_node_true:Virgo",
+    "vedic_sign:south_node_mean:Virgo"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

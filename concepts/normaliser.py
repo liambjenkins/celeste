@@ -255,6 +255,65 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # VEDIC ASTROLOGY (sidereal)
+    # --------------------------------------------------------
+    #
+    # "vedic_astrology" is the output of
+    # astrology.sidereal.build_sidereal_chart(): sidereal body
+    # positions (sign, nakshatra, whole-sign house) plus the
+    # sidereal Ascendant. Same split as tropical astrology above —
+    # Sun and Moon get their own concepts, everything else is
+    # bundled into vedic_positions.
+    #
+    vedic = observations.get(
+        "vedic_astrology",
+        {}
+    )
+
+    if isinstance(vedic, dict):
+
+        vedic_bodies = vedic.get(
+            "bodies",
+            {}
+        )
+
+        if isinstance(vedic_bodies, dict):
+
+            if "sun" in vedic_bodies:
+                add_concept(
+                    "vedic_sun",
+                    vedic_bodies["sun"],
+                    "vedic_astrology.bodies.sun"
+                )
+
+            if "moon" in vedic_bodies:
+                add_concept(
+                    "vedic_moon",
+                    vedic_bodies["moon"],
+                    "vedic_astrology.bodies.moon"
+                )
+
+            vedic_planetary = {
+                name: data
+                for name, data in vedic_bodies.items()
+                if name not in ("sun", "moon")
+            }
+
+            if vedic_planetary:
+                add_concept(
+                    "vedic_positions",
+                    vedic_planetary,
+                    "vedic_astrology.bodies"
+                )
+
+        if vedic.get("ascendant"):
+            add_concept(
+                "vedic_ascendant",
+                vedic["ascendant"],
+                "vedic_astrology.ascendant"
+            )
+
+    # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------
     #

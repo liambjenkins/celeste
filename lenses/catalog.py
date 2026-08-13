@@ -122,6 +122,17 @@ LENS_CATALOG = [
         ),
     },
     {
+        "lens_id": "vedic_astrology",
+        "name": "Vedic Astrology",
+        "tradition": "Jyotish (Vedic astrological traditions)",
+        "description": (
+            "Technical, predictive astrology using the sidereal "
+            "zodiac (Lahiri ayanamsa) and nakshatras — distinct from "
+            "the Hindu Cosmology lens, which covers cosmological and "
+            "philosophical perspectives rather than chart technique."
+        ),
+    },
+    {
         "lens_id": "philosophy",
         "name": "Philosophy",
         "tradition": "Classical Western philosophical traditions",

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_bhava_3",
+  "lens_id": "vedic_astrology",
+  "statement": "The 3rd house (Sahaja Bhava) governs courage, effort, siblings, and communication — what's achieved through initiative.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:sun:3",
+    "vedic_house:moon:3",
+    "vedic_house:ascendant:3",
+    "vedic_house:mercury:3",
+    "vedic_house:venus:3",
+    "vedic_house:mars:3",
+    "vedic_house:jupiter:3",
+    "vedic_house:saturn:3",
+    "vedic_house:uranus:3",
+    "vedic_house:neptune:3",
+    "vedic_house:pluto:3",
+    "vedic_house:lilith_mean:3",
+    "vedic_house:lilith_true:3",
+    "vedic_house:chiron:3",
+    "vedic_house:ceres:3",
+    "vedic_house:pallas:3",
+    "vedic_house:juno:3",
+    "vedic_house:vesta:3",
+    "vedic_house:north_node_true:3",
+    "vedic_house:north_node_mean:3",
+    "vedic_house:south_node_true:3",
+    "vedic_house:south_node_mean:3"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_purva_bhadrapada",
+  "lens_id": "vedic_astrology",
+  "statement": "Purva Bhadrapada's ruling planet (Vimshottari dasha lord) is Jupiter; its presiding deity is Aja Ekapada (the one-footed goat, a fierce form of Rudra), symbolized by the front legs of a funeral cot. It is traditionally associated with intensity and vision, a penetrating, sometimes uncomfortable clarity about what must end.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Purva Bhadrapada",
+    "nakshatra:moon:Purva Bhadrapada",
+    "nakshatra:ascendant:Purva Bhadrapada",
+    "nakshatra:mercury:Purva Bhadrapada",
+    "nakshatra:venus:Purva Bhadrapada",
+    "nakshatra:mars:Purva Bhadrapada",
+    "nakshatra:jupiter:Purva Bhadrapada",
+    "nakshatra:saturn:Purva Bhadrapada",
+    "nakshatra:uranus:Purva Bhadrapada",
+    "nakshatra:neptune:Purva Bhadrapada",
+    "nakshatra:pluto:Purva Bhadrapada",
+    "nakshatra:lilith_mean:Purva Bhadrapada",
+    "nakshatra:lilith_true:Purva Bhadrapada",
+    "nakshatra:chiron:Purva Bhadrapada",
+    "nakshatra:ceres:Purva Bhadrapada",
+    "nakshatra:pallas:Purva Bhadrapada",
+    "nakshatra:juno:Purva Bhadrapada",
+    "nakshatra:vesta:Purva Bhadrapada",
+    "nakshatra:north_node_true:Purva Bhadrapada",
+    "nakshatra:north_node_mean:Purva Bhadrapada",
+    "nakshatra:south_node_true:Purva Bhadrapada",
+    "nakshatra:south_node_mean:Purva Bhadrapada"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

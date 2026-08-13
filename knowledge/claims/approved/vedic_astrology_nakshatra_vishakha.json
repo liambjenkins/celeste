@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_vishakha",
+  "lens_id": "vedic_astrology",
+  "statement": "Vishakha's ruling planet (Vimshottari dasha lord) is Jupiter; its presiding deity is Indra and Agni (twin deities), symbolized by a triumphal archway. It is traditionally associated with focused purpose and determined achievement, pursuing a goal with steady intensity.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Vishakha",
+    "nakshatra:moon:Vishakha",
+    "nakshatra:ascendant:Vishakha",
+    "nakshatra:mercury:Vishakha",
+    "nakshatra:venus:Vishakha",
+    "nakshatra:mars:Vishakha",
+    "nakshatra:jupiter:Vishakha",
+    "nakshatra:saturn:Vishakha",
+    "nakshatra:uranus:Vishakha",
+    "nakshatra:neptune:Vishakha",
+    "nakshatra:pluto:Vishakha",
+    "nakshatra:lilith_mean:Vishakha",
+    "nakshatra:lilith_true:Vishakha",
+    "nakshatra:chiron:Vishakha",
+    "nakshatra:ceres:Vishakha",
+    "nakshatra:pallas:Vishakha",
+    "nakshatra:juno:Vishakha",
+    "nakshatra:vesta:Vishakha",
+    "nakshatra:north_node_true:Vishakha",
+    "nakshatra:north_node_mean:Vishakha",
+    "nakshatra:south_node_true:Vishakha",
+    "nakshatra:south_node_mean:Vishakha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_capricorn",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Capricorn tends to be disciplined and ambitious, patient in building toward long-term achievement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Capricorn",
+    "vedic_sign:moon:Capricorn",
+    "vedic_sign:ascendant:Capricorn",
+    "vedic_sign:mercury:Capricorn",
+    "vedic_sign:venus:Capricorn",
+    "vedic_sign:mars:Capricorn",
+    "vedic_sign:jupiter:Capricorn",
+    "vedic_sign:saturn:Capricorn",
+    "vedic_sign:uranus:Capricorn",
+    "vedic_sign:neptune:Capricorn",
+    "vedic_sign:pluto:Capricorn",
+    "vedic_sign:lilith_mean:Capricorn",
+    "vedic_sign:lilith_true:Capricorn",
+    "vedic_sign:chiron:Capricorn",
+    "vedic_sign:ceres:Capricorn",
+    "vedic_sign:pallas:Capricorn",
+    "vedic_sign:juno:Capricorn",
+    "vedic_sign:vesta:Capricorn",
+    "vedic_sign:north_node_true:Capricorn",
+    "vedic_sign:north_node_mean:Capricorn",
+    "vedic_sign:south_node_true:Capricorn",
+    "vedic_sign:south_node_mean:Capricorn"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

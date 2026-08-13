@@ -66,6 +66,20 @@ class FeatureBundle:
     elemental_strength: dict[str, int] = field(default_factory=dict)
     dominant_domains: list[str] = field(default_factory=list)
 
+    vedic_sun_sign: Optional[str] = None
+    vedic_moon_sign: Optional[str] = None
+    vedic_ascendant_sign: Optional[str] = None
+    vedic_planet_signs: dict[str, str] = field(default_factory=dict)
+
+    vedic_sun_nakshatra: Optional[str] = None
+    vedic_moon_nakshatra: Optional[str] = None
+    vedic_ascendant_nakshatra: Optional[str] = None
+    vedic_planet_nakshatras: dict[str, str] = field(default_factory=dict)
+
+    vedic_sun_house: Optional[int] = None
+    vedic_moon_house: Optional[int] = None
+    vedic_planet_houses: dict[str, int] = field(default_factory=dict)
+
 
 def _single_value(concept):
     if not concept:
@@ -379,6 +393,69 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
         tags.append(f"ascendant:{ascendant_sign}")
 
+    # Vedic (sidereal) placements — same sign:/house: tag shapes as
+    # tropical, prefixed vedic_sign:/vedic_house:, plus nakshatra
+    # tags that have no tropical equivalent.
+    vedic_sun_sign = None
+    vedic_moon_sign = None
+    vedic_ascendant_sign = None
+    vedic_planet_signs = {}
+
+    vedic_sun_nakshatra = None
+    vedic_moon_nakshatra = None
+    vedic_ascendant_nakshatra = None
+    vedic_planet_nakshatras = {}
+
+    vedic_sun_house = None
+    vedic_moon_house = None
+    vedic_planet_houses = {}
+
+    def _tag_vedic_point(body_name, point):
+        tags.append(f"vedic_sign:{body_name}:{point['sign']}")
+        tags.append(f"nakshatra:{body_name}:{point['nakshatra']}")
+        tags.append(f"nakshatra_pada:{body_name}:{point['nakshatra_pada']}")
+
+        if point.get("house") is not None:
+            tags.append(f"vedic_house:{body_name}:{point['house']}")
+
+    vedic_sun_value = _single_value(concepts.get("vedic_sun"))
+
+    if isinstance(vedic_sun_value, dict) and vedic_sun_value.get("sign"):
+        vedic_sun_sign = vedic_sun_value["sign"]
+        vedic_sun_nakshatra = vedic_sun_value.get("nakshatra")
+        vedic_sun_house = vedic_sun_value.get("house")
+        _tag_vedic_point("sun", vedic_sun_value)
+
+    vedic_moon_value = _single_value(concepts.get("vedic_moon"))
+
+    if isinstance(vedic_moon_value, dict) and vedic_moon_value.get("sign"):
+        vedic_moon_sign = vedic_moon_value["sign"]
+        vedic_moon_nakshatra = vedic_moon_value.get("nakshatra")
+        vedic_moon_house = vedic_moon_value.get("house")
+        _tag_vedic_point("moon", vedic_moon_value)
+
+    vedic_ascendant_value = _single_value(concepts.get("vedic_ascendant"))
+
+    if isinstance(vedic_ascendant_value, dict) and vedic_ascendant_value.get("sign"):
+        vedic_ascendant_sign = vedic_ascendant_value["sign"]
+        vedic_ascendant_nakshatra = vedic_ascendant_value.get("nakshatra")
+        _tag_vedic_point("ascendant", vedic_ascendant_value)
+
+    vedic_planetary_value = _single_value(concepts.get("vedic_positions"))
+
+    if isinstance(vedic_planetary_value, dict):
+        for planet_name, body in vedic_planetary_value.items():
+            if not isinstance(body, dict) or not body.get("sign"):
+                continue
+
+            vedic_planet_signs[planet_name] = body["sign"]
+            vedic_planet_nakshatras[planet_name] = body.get("nakshatra")
+
+            if body.get("house") is not None:
+                vedic_planet_houses[planet_name] = body["house"]
+
+            _tag_vedic_point(planet_name, body)
+
     star_conjunction_body = None
     star_conjunction_star = None
     star_conjunction_orb = None
@@ -439,6 +516,17 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         star_conjunction_magnitude=star_conjunction_magnitude,
         elemental_strength=strength,
         dominant_domains=dominant,
+        vedic_sun_sign=vedic_sun_sign,
+        vedic_moon_sign=vedic_moon_sign,
+        vedic_ascendant_sign=vedic_ascendant_sign,
+        vedic_planet_signs=vedic_planet_signs,
+        vedic_sun_nakshatra=vedic_sun_nakshatra,
+        vedic_moon_nakshatra=vedic_moon_nakshatra,
+        vedic_ascendant_nakshatra=vedic_ascendant_nakshatra,
+        vedic_planet_nakshatras=vedic_planet_nakshatras,
+        vedic_sun_house=vedic_sun_house,
+        vedic_moon_house=vedic_moon_house,
+        vedic_planet_houses=vedic_planet_houses,
     )
 
 

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_bharani",
+  "lens_id": "vedic_astrology",
+  "statement": "Bharani's ruling planet (Vimshottari dasha lord) is Venus; its presiding deity is Yama (god of death and dharma), symbolized by the yoni. It is traditionally associated with bearing difficulty with discipline, and transformation through what must be carried.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Bharani",
+    "nakshatra:moon:Bharani",
+    "nakshatra:ascendant:Bharani",
+    "nakshatra:mercury:Bharani",
+    "nakshatra:venus:Bharani",
+    "nakshatra:mars:Bharani",
+    "nakshatra:jupiter:Bharani",
+    "nakshatra:saturn:Bharani",
+    "nakshatra:uranus:Bharani",
+    "nakshatra:neptune:Bharani",
+    "nakshatra:pluto:Bharani",
+    "nakshatra:lilith_mean:Bharani",
+    "nakshatra:lilith_true:Bharani",
+    "nakshatra:chiron:Bharani",
+    "nakshatra:ceres:Bharani",
+    "nakshatra:pallas:Bharani",
+    "nakshatra:juno:Bharani",
+    "nakshatra:vesta:Bharani",
+    "nakshatra:north_node_true:Bharani",
+    "nakshatra:north_node_mean:Bharani",
+    "nakshatra:south_node_true:Bharani",
+    "nakshatra:south_node_mean:Bharani"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

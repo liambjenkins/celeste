@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_shravana",
+  "lens_id": "vedic_astrology",
+  "statement": "Shravana's ruling planet (Vimshottari dasha lord) is Moon; its presiding deity is Vishnu (the preserver), symbolized by an ear, or three footprints. It is traditionally associated with listening and learning, absorbing knowledge and connecting people through what's heard and passed on.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Shravana",
+    "nakshatra:moon:Shravana",
+    "nakshatra:ascendant:Shravana",
+    "nakshatra:mercury:Shravana",
+    "nakshatra:venus:Shravana",
+    "nakshatra:mars:Shravana",
+    "nakshatra:jupiter:Shravana",
+    "nakshatra:saturn:Shravana",
+    "nakshatra:uranus:Shravana",
+    "nakshatra:neptune:Shravana",
+    "nakshatra:pluto:Shravana",
+    "nakshatra:lilith_mean:Shravana",
+    "nakshatra:lilith_true:Shravana",
+    "nakshatra:chiron:Shravana",
+    "nakshatra:ceres:Shravana",
+    "nakshatra:pallas:Shravana",
+    "nakshatra:juno:Shravana",
+    "nakshatra:vesta:Shravana",
+    "nakshatra:north_node_true:Shravana",
+    "nakshatra:north_node_mean:Shravana",
+    "nakshatra:south_node_true:Shravana",
+    "nakshatra:south_node_mean:Shravana"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

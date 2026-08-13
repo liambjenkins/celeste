@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_aquarius",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Aquarius tends to be independent and unconventional, oriented toward community and ideas.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Aquarius",
+    "vedic_sign:moon:Aquarius",
+    "vedic_sign:ascendant:Aquarius",
+    "vedic_sign:mercury:Aquarius",
+    "vedic_sign:venus:Aquarius",
+    "vedic_sign:mars:Aquarius",
+    "vedic_sign:jupiter:Aquarius",
+    "vedic_sign:saturn:Aquarius",
+    "vedic_sign:uranus:Aquarius",
+    "vedic_sign:neptune:Aquarius",
+    "vedic_sign:pluto:Aquarius",
+    "vedic_sign:lilith_mean:Aquarius",
+    "vedic_sign:lilith_true:Aquarius",
+    "vedic_sign:chiron:Aquarius",
+    "vedic_sign:ceres:Aquarius",
+    "vedic_sign:pallas:Aquarius",
+    "vedic_sign:juno:Aquarius",
+    "vedic_sign:vesta:Aquarius",
+    "vedic_sign:north_node_true:Aquarius",
+    "vedic_sign:north_node_mean:Aquarius",
+    "vedic_sign:south_node_true:Aquarius",
+    "vedic_sign:south_node_mean:Aquarius"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

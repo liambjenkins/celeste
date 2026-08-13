@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_revati",
+  "lens_id": "vedic_astrology",
+  "statement": "Revati's ruling planet (Vimshottari dasha lord) is Mercury; its presiding deity is Pushan (nurturer and guide of souls), symbolized by a fish, or a drum. It is traditionally associated with completion and nourishment, gently guiding a journey — or a cycle — to its close.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Revati",
+    "nakshatra:moon:Revati",
+    "nakshatra:ascendant:Revati",
+    "nakshatra:mercury:Revati",
+    "nakshatra:venus:Revati",
+    "nakshatra:mars:Revati",
+    "nakshatra:jupiter:Revati",
+    "nakshatra:saturn:Revati",
+    "nakshatra:uranus:Revati",
+    "nakshatra:neptune:Revati",
+    "nakshatra:pluto:Revati",
+    "nakshatra:lilith_mean:Revati",
+    "nakshatra:lilith_true:Revati",
+    "nakshatra:chiron:Revati",
+    "nakshatra:ceres:Revati",
+    "nakshatra:pallas:Revati",
+    "nakshatra:juno:Revati",
+    "nakshatra:vesta:Revati",
+    "nakshatra:north_node_true:Revati",
+    "nakshatra:north_node_mean:Revati",
+    "nakshatra:south_node_true:Revati",
+    "nakshatra:south_node_mean:Revati"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_sign_scorpio",
+  "lens_id": "vedic_astrology",
+  "statement": "A placement in sidereal Scorpio tends to be intense and private, drawn to depth, transformation, and hidden truth.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_sign:sun:Scorpio",
+    "vedic_sign:moon:Scorpio",
+    "vedic_sign:ascendant:Scorpio",
+    "vedic_sign:mercury:Scorpio",
+    "vedic_sign:venus:Scorpio",
+    "vedic_sign:mars:Scorpio",
+    "vedic_sign:jupiter:Scorpio",
+    "vedic_sign:saturn:Scorpio",
+    "vedic_sign:uranus:Scorpio",
+    "vedic_sign:neptune:Scorpio",
+    "vedic_sign:pluto:Scorpio",
+    "vedic_sign:lilith_mean:Scorpio",
+    "vedic_sign:lilith_true:Scorpio",
+    "vedic_sign:chiron:Scorpio",
+    "vedic_sign:ceres:Scorpio",
+    "vedic_sign:pallas:Scorpio",
+    "vedic_sign:juno:Scorpio",
+    "vedic_sign:vesta:Scorpio",
+    "vedic_sign:north_node_true:Scorpio",
+    "vedic_sign:north_node_mean:Scorpio",
+    "vedic_sign:south_node_true:Scorpio",
+    "vedic_sign:south_node_mean:Scorpio"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "temperament"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
