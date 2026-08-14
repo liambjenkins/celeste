@@ -1239,6 +1239,38 @@ for _strength, _meaning in _SARVASHTAKAVARGA_STRENGTH.items():
     )
 
 
+# ------------------------------------------------------------
+# Shadbala (partial) — a single technique-overview claim, matched by
+# concept presence only (no feature_ids needed). Deliberately does
+# NOT interpret specific numeric strength levels or compare against
+# classical Rashmana thresholds, since this computation is an
+# explicitly partial subset of the full six-fold system (see
+# astrology/shadbala.py's module docstring for exactly what's
+# included and excluded, and why).
+# Source: Brihat Parashara Hora Shastra, cross-referenced via search
+# during curation against multiple independent technical sources for
+# the specific formulas actually implemented.
+# ------------------------------------------------------------
+
+_add(
+    "shadbala_core",
+    "Shadbala ('six-fold strength') is the classical system for "
+    "comparing how strongly each planet is placed to deliver its "
+    "significations — a planet high in Shadbala tends to give its "
+    "results more fully and reliably, while a weaker one may need "
+    "support from other strong placements to express its themes at "
+    "all. This computation covers the positional, directional, and "
+    "innate-strength factors with an uncontested classical formula; "
+    "it is a deliberately partial reading, not the complete "
+    "six-component system used for a full Rashmana (minimum "
+    "required strength) judgment.",
+    concept_ids=["vedic_shadbala"],
+    theme_tags=["shadbala", "underlying_strength"],
+    life_domain="underlying_strength",
+    source_id="parashara_bphs_1984",
+)
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

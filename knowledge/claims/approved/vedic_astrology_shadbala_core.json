@@ -1,0 +1,20 @@
+{
+  "claim_id": "vedic_astrology_shadbala_core",
+  "lens_id": "vedic_astrology",
+  "statement": "Shadbala ('six-fold strength') is the classical system for comparing how strongly each planet is placed to deliver its significations — a planet high in Shadbala tends to give its results more fully and reliably, while a weaker one may need support from other strong placements to express its themes at all. This computation covers the positional, directional, and innate-strength factors with an uncontested classical formula; it is a deliberately partial reading, not the complete six-component system used for a full Rashmana (minimum required strength) judgment.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_shadbala"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "shadbala",
+    "underlying_strength"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

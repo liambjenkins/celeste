@@ -910,6 +910,20 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         for point, strength in sorted(features.sarvashtakavarga_strength.items()):
             themes.append(f"sarvashtakavarga:{point}:{strength}")
 
+    if features.shadbala_strongest_planet and features.shadbala_weakest_planet:
+        themes.append(f"shadbala_strongest:{features.shadbala_strongest_planet}")
+        themes.append(f"shadbala_weakest:{features.shadbala_weakest_planet}")
+        notes.append(
+            f"By Shadbala's well-verified positional/directional/"
+            f"natural-strength factors (a deliberately partial "
+            f"reading, not the full six-fold classical total), "
+            f"{features.shadbala_strongest_planet} is comparatively "
+            f"the strongest placement in this chart and "
+            f"{features.shadbala_weakest_planet} the comparatively "
+            "weakest."
+        )
+        macro.append(ARCHETYPE)
+
     if features.vedic_yogas:
         for yoga_id in features.vedic_yogas:
             themes.append(f"yoga:{yoga_id}")

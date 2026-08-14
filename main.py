@@ -12,6 +12,7 @@ from astrology.jaimini import build_chara_karakas, build_marak_planets
 from astrology.yogini_dasha import build_yogini_dasha
 from astrology.chara_dasha import build_chara_dasha
 from astrology.ashtakavarga import build_ashtakavarga
+from astrology.shadbala import build_shadbala_partial
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
@@ -264,6 +265,7 @@ observations = {
     "vedic_karakas": build_chara_karakas(_sidereal_chart),
     "vedic_marak": build_marak_planets(_sidereal_chart),
     "vedic_ashtakavarga": build_ashtakavarga(_sidereal_chart),
+    "vedic_shadbala": build_shadbala_partial(_sidereal_chart),
     "chinese_pillars": _four_pillars.to_dict(),
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity

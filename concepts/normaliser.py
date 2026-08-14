@@ -629,6 +629,18 @@ def normalise_observations(observations):
             "vedic_ashtakavarga"
         )
 
+    vedic_shadbala = observations.get(
+        "vedic_shadbala",
+        {}
+    )
+
+    if isinstance(vedic_shadbala, dict) and vedic_shadbala:
+        add_concept(
+            "vedic_shadbala",
+            vedic_shadbala,
+            "vedic_shadbala"
+        )
+
     # --------------------------------------------------------
     # CHINESE ASTROLOGY (BaZi Four Pillars)
     # --------------------------------------------------------

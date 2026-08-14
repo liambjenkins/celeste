@@ -120,6 +120,9 @@ class FeatureBundle:
     ashtakavarga_own_sign_strength: dict[str, str] = field(default_factory=dict)
     sarvashtakavarga_strength: dict[str, str] = field(default_factory=dict)
 
+    shadbala_strongest_planet: Optional[str] = None
+    shadbala_weakest_planet: Optional[str] = None
+
     vedic_yogas: list[str] = field(default_factory=list)
 
     has_dasha: bool = False
@@ -947,6 +950,31 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             sarvashtakavarga_strength[point_name] = strength
             tags.append(f"sarvashtakavarga:{point_name}:{strength}")
 
+    # Shadbala (partial) — astrology.shadbala's output. Only the
+    # relative strongest/weakest planet by the well-verified subset
+    # of components is surfaced (see astrology/shadbala.py's module
+    # docstring for what's excluded and why) -- deliberately not a
+    # true Shadbala grand total or Rashmana-threshold comparison.
+    shadbala_strongest_planet = None
+    shadbala_weakest_planet = None
+
+    shadbala_value = _single_value(concepts.get("vedic_shadbala"))
+
+    if isinstance(shadbala_value, dict) and shadbala_value:
+        _ranked = sorted(
+            (
+                (planet, scores["partial_total"])
+                for planet, scores in shadbala_value.items()
+                if isinstance(scores, dict) and "partial_total" in scores
+            ),
+            key=lambda item: item[1],
+        )
+        if _ranked:
+            shadbala_weakest_planet = _ranked[0][0]
+            shadbala_strongest_planet = _ranked[-1][0]
+            tags.append(f"shadbala_strongest:{shadbala_strongest_planet}")
+            tags.append(f"shadbala_weakest:{shadbala_weakest_planet}")
+
     # Vedic yogas (classical planetary combinations) — a flat list of
     # whichever yogas from the curated set (astrology/yogas.py) are
     # present in this chart; can be empty.
@@ -1298,6 +1326,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         marak_planets=marak_planets,
         ashtakavarga_own_sign_strength=ashtakavarga_own_sign_strength,
         sarvashtakavarga_strength=sarvashtakavarga_strength,
+        shadbala_strongest_planet=shadbala_strongest_planet,
+        shadbala_weakest_planet=shadbala_weakest_planet,
         vedic_yogas=vedic_yogas,
         has_dasha=has_dasha,
         dasha_mahadasha_lord=dasha_mahadasha_lord,

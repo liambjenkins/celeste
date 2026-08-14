@@ -1095,6 +1095,25 @@ CONCEPTS = {
     ],
     "related": ["vedic_dignity", "vedic_positions"]
 },
+"vedic_shadbala": {
+    "label": "Shadbala (partial)",
+    "domain": "space",
+    "description": (
+        "A deliberately partial computation of the classical Vedic "
+        "six-fold planetary strength system — Uchcha, Ojayugma, "
+        "Kendradi, and Drekkana Bala (four of Sthana Bala's five "
+        "sub-parts), Dig Bala, and Naisargika Bala, each with a "
+        "single well-verified classical formula. Explicitly does "
+        "NOT include Saptavargaja Bala, Kala Bala, Chesta Bala, or "
+        "Drik Bala — components research found genuinely contested "
+        "or under-sourced — so this does not represent a true "
+        "Shadbala grand total or a comparison against classical "
+        "minimum-strength thresholds, only a relative comparison "
+        "among the 7 classical planets on the well-verified factors."
+    ),
+    "synonyms": ["shadbala", "planetary strength", "sthana bala", "dig bala"],
+    "related": ["vedic_dignity", "vedic_positions"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",
