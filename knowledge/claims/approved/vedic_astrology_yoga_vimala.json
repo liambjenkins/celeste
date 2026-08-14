@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_vimala",
+  "lens_id": "vedic_astrology",
+  "statement": "Vimala Yoga (the 12th house's lord confined to the 6th, 8th, or 12th house) is traditionally read as carrying loss and expenditure kept contained rather than compounding — traditionally read as a protective, steadying influence despite the houses involved.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:vimala"
+  ],
+  "source_ids": [
+    "mantreswara_phaladeepika"
+  ],
+  "theme_tags": [
+    "yoga",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

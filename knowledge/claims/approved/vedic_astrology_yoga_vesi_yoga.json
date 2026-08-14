@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_vesi_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Vesi Yoga (a planet other than the Moon in the 2nd house from the Sun) is traditionally read as carrying a truthful, even-tempered, well-formed character, though per Brihat Parashara Hora Shastra somewhat inclined toward indolence, with modest wealth.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:vesi_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "temperament"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

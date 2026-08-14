@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_dhana_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Dhana Yoga (the 2nd house's lord and the 11th house's lord connected by conjunction, aspect, or sign exchange) is traditionally read as carrying steady financial prosperity — accumulated wealth (2nd) reinforcing the flow of gains and income (11th), strength modulated by the dignity of the planets involved.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:dhana_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "wealth"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

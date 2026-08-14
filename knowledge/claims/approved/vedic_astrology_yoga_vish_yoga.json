@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_vish_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Vish Yoga (Moon and Saturn sharing a sign) is traditionally read as carrying emotional heaviness, delay, and friction — a classical 'poison combination,' though also, per some commentary, unusual resilience and depth once the difficulty is metabolized.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:vish_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "difficulty"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

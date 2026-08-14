@@ -468,6 +468,325 @@ for _yoga_id, (_definition, _trait, _domain, _themes) in _MAHAPURUSHA_MEANINGS.i
 
 
 # ------------------------------------------------------------
+# Second tranche of yogas (F6) — researched and cross-referenced
+# against Brihat Parashara Hora Shastra, Phaladeepika, Saravali, and
+# independent technical Jyotish sources during curation. Each entry
+# below carries the sourcing-confidence tier the research pass
+# assigned it, reflected in which source_id it cites: BPHS/Phaladeepika
+# for high/medium-high confidence entries with real primary-text
+# grounding, and "modern_jyotish_technical_convention" for entries
+# that are real, well-documented, and unambiguous but whose classical-
+# textual pedigree is weaker (asserted broadly across secondary
+# sources rather than verse-pinned to a primary text). Several
+# genuinely-contested yogas researched (a single-formula Putra/
+# Kalatra/Arishta Yoga, the Dainya/Khala Parivartana naming split,
+# and Kalasarpa Yoga -- found to have NO classical BPHS/Saravali/
+# Brihat Jataka attestation at all) were left out entirely rather
+# than implemented on a guessed rule.
+# ------------------------------------------------------------
+
+_YOGA_TRANCHE_2 = {
+    "raja_yoga": (
+        "Raja Yoga (a kendra-house lord and a trikona-house lord "
+        "connected by conjunction, aspect, or sign exchange)",
+        "a structural elevation in status and authority — the "
+        "classical template most other named 'success' yogas build "
+        "on, strength scaling with the dignity of the planets "
+        "involved.",
+        "drive_and_ambition",
+        ["drive", "achievement"],
+        "parashara_bphs_1984",
+    ),
+    "neecha_bhanga_raja_yoga": (
+        "Neecha Bhanga Raja Yoga (a debilitated planet whose "
+        "debility is cancelled by a well-placed dispositor, and "
+        "which itself rules a kendra or trikona house)",
+        "a rise from adversity or compromised beginnings into "
+        "genuine strength and status — a planet's apparent weakness "
+        "converting into one of its most powerful placements once "
+        "the chart's structural support is accounted for.",
+        "transformation",
+        ["resilience", "transformation"],
+        "parashara_bphs_1984",
+    ),
+    "harsha": (
+        "Harsha Yoga (the 6th house's lord confined to the 6th, "
+        "8th, or 12th house)",
+        "victory over rivals and adversity contained rather than "
+        "spreading — a 'bad house' lord kept to bad houses, read as "
+        "resilience and the capacity to overcome opposition.",
+        "discipline",
+        ["resilience"],
+        "mantreswara_phaladeepika",
+    ),
+    "sarala": (
+        "Sarala Yoga (the 8th house's lord confined to the 6th, "
+        "8th, or 12th house)",
+        "resilience through crisis and unexpected recovery — "
+        "obstacles that stay contained rather than compounding.",
+        "discipline",
+        ["resilience"],
+        "mantreswara_phaladeepika",
+    ),
+    "vimala": (
+        "Vimala Yoga (the 12th house's lord confined to the 6th, "
+        "8th, or 12th house)",
+        "loss and expenditure kept contained rather than "
+        "compounding — traditionally read as a protective, "
+        "steadying influence despite the houses involved.",
+        "discipline",
+        ["resilience"],
+        "mantreswara_phaladeepika",
+    ),
+    "maha_parivartana": (
+        "Maha Parivartana Yoga (a mutual sign exchange between two "
+        "planets that each rule a kendra or trikona house)",
+        "a compounded, mutual elevation — each planet lending its "
+        "strength to the other's good house, generally considered "
+        "one of the most auspicious structural combinations.",
+        "drive_and_ambition",
+        ["achievement"],
+        "modern_jyotish_technical_convention",
+    ),
+    "dhana_yoga": (
+        "Dhana Yoga (the 2nd house's lord and the 11th house's "
+        "lord connected by conjunction, aspect, or sign exchange)",
+        "steady financial prosperity — accumulated wealth (2nd) "
+        "reinforcing the flow of gains and income (11th), strength "
+        "modulated by the dignity of the planets involved.",
+        "values_and_desire",
+        ["wealth"],
+        "parashara_bphs_1984",
+    ),
+    "kubera_yoga": (
+        "Kubera Yoga (a direct sign exchange specifically between "
+        "the 2nd and 11th lords, both in good dignity)",
+        "durable, compounding wealth built through disciplined "
+        "accumulation rather than sudden windfall.",
+        "values_and_desire",
+        ["wealth"],
+        "modern_jyotish_technical_convention",
+    ),
+    "lakshmi_yoga": (
+        "Lakshmi Yoga (a strong, angularly or trinally placed 9th "
+        "lord, alongside a well-placed Ascendant lord)",
+        "prosperity, good fortune, and an ethical, generous "
+        "character — one of the more prestigious named wealth "
+        "combinations.",
+        "values_and_desire",
+        ["wealth", "fortune"],
+        "parashara_bphs_1984",
+    ),
+    "vasumati_yoga": (
+        "Vasumati Yoga (natural benefics occupying the upachaya "
+        "houses -- 3rd, 6th, 10th, or 11th)",
+        "prosperity and comfort that build and increase "
+        "progressively over a lifetime, rather than being present "
+        "from birth.",
+        "values_and_desire",
+        ["growth"],
+        "modern_jyotish_technical_convention",
+    ),
+    "sunapha_yoga": (
+        "Sunapha Yoga (a planet other than the Sun in the 2nd "
+        "house from the Moon)",
+        "self-made wealth and intelligence — a reputation built "
+        "through one's own effort rather than inherited fortune.",
+        "drive_and_ambition",
+        ["self_reliance"],
+        "parashara_bphs_1984",
+    ),
+    "anapha_yoga": (
+        "Anapha Yoga (a planet other than the Sun in the 12th "
+        "house from the Moon)",
+        "good physical health, personal comfort, and an appealing, "
+        "dignified presence.",
+        "foundation_and_security",
+        ["wellbeing"],
+        "parashara_bphs_1984",
+    ),
+    "durudhara_yoga": (
+        "Durudhara Yoga (the Moon flanked by planets in both the "
+        "2nd and 12th houses from it)",
+        "the compounded benefits of Sunapha and Anapha together — "
+        "wealth, comfort, and a generally fortunate, well-supported "
+        "life.",
+        "foundation_and_security",
+        ["wellbeing", "wealth"],
+        "parashara_bphs_1984",
+    ),
+    "kemadruma_yoga": (
+        "Kemadruma Yoga (no planet occupying either the 2nd or "
+        "12th house from the Moon)",
+        "emotional isolation and difficulty gaining sustained "
+        "support from others — one of the most heavily 'cancellable' "
+        "yogas in the whole system, so its presence alone is rarely "
+        "decisive.",
+        "emotion",
+        ["isolation"],
+        "parashara_bphs_1984",
+    ),
+    "adhi_yoga": (
+        "Adhi Yoga (Jupiter, Venus, and/or Mercury occupying the "
+        "6th, 7th, or 8th house from the Moon)",
+        "leadership and authority, described in Brihat Parashara "
+        "Hora Shastra as producing a commander, minister, or ruler, "
+        "along with good health and relative freedom from open "
+        "enemies.",
+        "drive_and_ambition",
+        ["leadership"],
+        "parashara_bphs_1984",
+    ),
+    "chandra_mangala_yoga": (
+        "Chandra-Mangala Yoga (Moon and Mars sharing a sign)",
+        "entrepreneurial energy and business acumen — financial "
+        "gain through one's own initiative, though classically noted "
+        "to run 'hot' (impulsive, argumentative) without a tempering "
+        "influence.",
+        "drive_and_ambition",
+        ["ambition"],
+        "modern_jyotish_technical_convention",
+    ),
+    "vish_yoga": (
+        "Vish Yoga (Moon and Saturn sharing a sign)",
+        "emotional heaviness, delay, and friction — a classical "
+        "'poison combination,' though also, per some commentary, "
+        "unusual resilience and depth once the difficulty is "
+        "metabolized.",
+        "emotion",
+        ["difficulty"],
+        "modern_jyotish_technical_convention",
+    ),
+    "shakata_yoga": (
+        "Shakata Yoga (the Moon in the 6th, 8th, or 12th house from "
+        "Jupiter, and not itself angular from the Ascendant)",
+        "alternating fortune — cycles of gain and loss rather than "
+        "steady stability, though reliably cancelled by an angular "
+        "Moon.",
+        "cyclicality",
+        ["instability"],
+        "mantreswara_phaladeepika",
+    ),
+    "vesi_yoga": (
+        "Vesi Yoga (a planet other than the Moon in the 2nd house "
+        "from the Sun)",
+        "a truthful, even-tempered, well-formed character, though "
+        "per Brihat Parashara Hora Shastra somewhat inclined toward "
+        "indolence, with modest wealth.",
+        "identity",
+        ["temperament"],
+        "parashara_bphs_1984",
+    ),
+    "vasi_yoga": (
+        "Vasi Yoga (a planet other than the Moon in the 12th house "
+        "from the Sun)",
+        "skillfulness, charitable inclination, learning, and a "
+        "strong reputation, per Brihat Parashara Hora Shastra.",
+        "identity",
+        ["temperament"],
+        "parashara_bphs_1984",
+    ),
+    "ubhayachari_yoga": (
+        "Ubhayachari Yoga (planets flanking the Sun on both the 2nd "
+        "and 12th houses)",
+        "good name, fame, and elevated social standing — the "
+        "combined, strongest form of the Sun's flanking yogas.",
+        "identity",
+        ["reputation"],
+        "parashara_bphs_1984",
+    ),
+    "guru_chandal_yoga": (
+        "Guru Chandal Yoga (Jupiter and Rahu sharing a sign)",
+        "either unconventional or foreign-oriented wisdom, or -- in "
+        "its more commonly emphasized reading -- a distortion of "
+        "Jupiter's normally ethical, expansive nature, heavily "
+        "dependent on the rest of the chart.",
+        "expansion_and_meaning",
+        ["complexity"],
+        "modern_jyotish_technical_convention",
+    ),
+    "angarak_yoga": (
+        "Angarak Yoga (Mars conjunct a lunar node -- Rahu or Ketu)",
+        "impulsiveness and conflict-proneness, or, read more "
+        "neutrally, intensified drive and courage that needs "
+        "constructive channeling.",
+        "drive_and_ambition",
+        ["intensity"],
+        "modern_jyotish_technical_convention",
+    ),
+    "amala_yoga_lagna": (
+        "Amala Yoga from the Lagna (only natural benefics occupying "
+        "the 10th house from the Ascendant)",
+        "lasting fame and an unblemished, respected public "
+        "reputation.",
+        "drive_and_ambition",
+        ["reputation"],
+        "parashara_bphs_1984",
+    ),
+    "amala_yoga_chandra": (
+        "Amala Yoga from the Moon (only natural benefics occupying "
+        "the 10th house from the Moon)",
+        "lasting fame and an unblemished, respected public "
+        "reputation, read through the Moon rather than the "
+        "Ascendant.",
+        "drive_and_ambition",
+        ["reputation"],
+        "parashara_bphs_1984",
+    ),
+    "saraswati_yoga": (
+        "Saraswati Yoga (Jupiter, Venus, and Mercury together "
+        "placed in kendra, trikona, or 2nd houses, with Jupiter "
+        "well-dignified)",
+        "exceptional learning, eloquence, and artistic or "
+        "intellectual accomplishment — named for Saraswati, goddess "
+        "of knowledge and the arts.",
+        "expansion_and_meaning",
+        ["intellect", "creativity"],
+        "modern_jyotish_technical_convention",
+    ),
+    "shubha_kartari_yoga": (
+        "Shubha Kartari Yoga (the Ascendant 'hemmed' on both sides "
+        "-- 2nd and 12th houses -- exclusively by natural benefics)",
+        "ease, support, and a generally smooth, well-resourced "
+        "life, protectively enclosed by favorable influence on "
+        "either side of the self.",
+        "foundation_and_security",
+        ["support"],
+        "modern_jyotish_technical_convention",
+    ),
+    "papa_kartari_yoga": (
+        "Papa Kartari Yoga (the Ascendant 'hemmed' on both sides -- "
+        "2nd and 12th houses -- exclusively by natural malefics)",
+        "obstruction and isolation from support — the self cut off "
+        "from the chart's beneficial resources on either side, the "
+        "negative mirror of Shubha Kartari.",
+        "foundation_and_security",
+        ["difficulty"],
+        "modern_jyotish_technical_convention",
+    ),
+    "guru_mangala_yoga": (
+        "Guru-Mangala Yoga (Jupiter and Mars sharing a sign)",
+        "strong leadership capacity and moral courage — wisdom and "
+        "ethics combined with decisive action.",
+        "drive_and_ambition",
+        ["leadership"],
+        "modern_jyotish_technical_convention",
+    ),
+}
+
+for _yoga_id, (_definition, _trait, _domain, _themes, _source) in _YOGA_TRANCHE_2.items():
+    _add(
+        f"yoga_{_yoga_id}",
+        f"{_definition} is traditionally read as carrying {_trait}",
+        concept_ids=["vedic_yogas"],
+        feature_ids=[f"yoga:{_yoga_id}"],
+        theme_tags=["yoga"] + _themes,
+        life_domain=_domain,
+        source_id=_source,
+    )
+
+
+# ------------------------------------------------------------
 # Vimshottari Dasha — general (non-dignity-conditional) effects per
 # planet's Mahadasha/Antardasha. BPHS distinguishes "general" effects
 # (from a planet's natural characteristics) from "distinctive"

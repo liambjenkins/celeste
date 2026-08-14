@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_angarak_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Angarak Yoga (Mars conjunct a lunar node -- Rahu or Ketu) is traditionally read as carrying impulsiveness and conflict-proneness, or, read more neutrally, intensified drive and courage that needs constructive channeling.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:angarak_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "intensity"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

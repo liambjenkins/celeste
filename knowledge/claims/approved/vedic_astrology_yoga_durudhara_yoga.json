@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_durudhara_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Durudhara Yoga (the Moon flanked by planets in both the 2nd and 12th houses from it) is traditionally read as carrying the compounded benefits of Sunapha and Anapha together — wealth, comfort, and a generally fortunate, well-supported life.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:durudhara_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "wellbeing",
+    "wealth"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

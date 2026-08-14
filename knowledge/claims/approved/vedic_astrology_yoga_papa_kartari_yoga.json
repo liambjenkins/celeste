@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_papa_kartari_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Papa Kartari Yoga (the Ascendant 'hemmed' on both sides -- 2nd and 12th houses -- exclusively by natural malefics) is traditionally read as carrying obstruction and isolation from support — the self cut off from the chart's beneficial resources on either side, the negative mirror of Shubha Kartari.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:papa_kartari_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "difficulty"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

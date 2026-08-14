@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_saraswati_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Saraswati Yoga (Jupiter, Venus, and Mercury together placed in kendra, trikona, or 2nd houses, with Jupiter well-dignified) is traditionally read as carrying exceptional learning, eloquence, and artistic or intellectual accomplishment — named for Saraswati, goddess of knowledge and the arts.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:saraswati_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "intellect",
+    "creativity"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_maha_parivartana",
+  "lens_id": "vedic_astrology",
+  "statement": "Maha Parivartana Yoga (a mutual sign exchange between two planets that each rule a kendra or trikona house) is traditionally read as carrying a compounded, mutual elevation — each planet lending its strength to the other's good house, generally considered one of the most auspicious structural combinations.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:maha_parivartana"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "achievement"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

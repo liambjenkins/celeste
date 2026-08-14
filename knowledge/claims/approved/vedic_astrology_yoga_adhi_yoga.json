@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_adhi_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Adhi Yoga (Jupiter, Venus, and/or Mercury occupying the 6th, 7th, or 8th house from the Moon) is traditionally read as carrying leadership and authority, described in Brihat Parashara Hora Shastra as producing a commander, minister, or ruler, along with good health and relative freedom from open enemies.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:adhi_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "leadership"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

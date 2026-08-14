@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_guru_chandal_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Guru Chandal Yoga (Jupiter and Rahu sharing a sign) is traditionally read as carrying either unconventional or foreign-oriented wisdom, or -- in its more commonly emphasized reading -- a distortion of Jupiter's normally ethical, expansive nature, heavily dependent on the rest of the chart.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:guru_chandal_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "complexity"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

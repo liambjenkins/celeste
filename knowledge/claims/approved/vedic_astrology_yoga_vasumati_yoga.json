@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_vasumati_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Vasumati Yoga (natural benefics occupying the upachaya houses -- 3rd, 6th, 10th, or 11th) is traditionally read as carrying prosperity and comfort that build and increase progressively over a lifetime, rather than being present from birth.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:vasumati_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "growth"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
