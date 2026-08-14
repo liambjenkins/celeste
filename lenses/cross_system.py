@@ -44,12 +44,24 @@ _LENS_LABELS = {
 }
 
 
+# Theme tags that mark a claim as describing a TIMING technique
+# (current Dasha/Antardasha, transits, progressions, Da Yun, Liu
+# Nian, ...) rather than a fixed natal placement -- used to detect
+# "timing synchrony" separately from ordinary placement convergence,
+# per this project's F9 cross-tradition extension.
+TIMING_THEME_TAGS = frozenset({
+    "timing_and_technique", "dasha", "dayun", "liu_nian", "jaimini",
+})
+
+
 @dataclass(frozen=True)
 class ClaimPoint:
     lens_id: str
     claim_id: str
     statement: str
     clusters: frozenset
+    life_domain: str = None
+    is_timing: bool = False
 
     @property
     def tradition(self) -> str:
@@ -76,12 +88,16 @@ def gather_claim_points(interpretations: dict) -> list[ClaimPoint]:
             if not statement:
                 continue
 
+            theme_tags = set(getattr(item.claim, "theme_tags", ()) or ())
+
             points.append(
                 ClaimPoint(
                     lens_id=lens_id,
                     claim_id=item.claim.claim_id,
                     statement=statement,
                     clusters=frozenset(clusters_in(statement)),
+                    life_domain=getattr(item.claim, "life_domain", None),
+                    is_timing=bool(theme_tags & TIMING_THEME_TAGS),
                 )
             )
 
@@ -133,6 +149,29 @@ class CrossSystemResult:
     narrative: str = ""
 
 
+# Cap on how many clusters can be presented as "clear through-lines"
+# per reading. Early in this project's life, 2-3 clusters typically
+# tied for maximum independent-lens corroboration and the cap never
+# bound. Once Phase F's expansion (F1-F8) grew the pooled claim count
+# well past 100 per chart, EVERY cluster in the fixed vocabulary
+# began tying at 3-lens corroboration on real charts, silently
+# collapsing the "clear through-line" signal into "everything is a
+# through-line" -- the exact dilution this project's own plan flagged
+# as needing revisiting. The fix is this cap: once lens-count ties,
+# fall through to total hit count (already the existing tiebreak) and
+# only surface the top MAX_TOP_CLUSTERS by that full ranking, rather
+# than every cluster that merely matches the single best lens-count.
+MAX_TOP_CLUSTERS = 3
+
+
+def _life_domain_index(points: list) -> dict:
+    index = defaultdict(list)
+    for point in points:
+        if point.life_domain:
+            index[point.life_domain].append(point)
+    return index
+
+
 def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
     points = gather_claim_points(interpretations)
 
@@ -144,10 +183,7 @@ def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
     # Rank clusters by how many INDEPENDENT lenses corroborate them
     # first (not raw hit count, which would over-weight whichever
     # lens has more granular claims for this chart), then by total
-    # hit count as an honest tiebreaker — ties are real (two
-    # qualities can both be corroborated by all three traditions at
-    # once) and shouldn't be broken by incidental dict-insertion
-    # order.
+    # hit count as an honest tiebreaker.
     ranked = sorted(
         index.items(),
         key=lambda kv: (len({p.lens_id for p in kv[1]}), len(kv[1])),
@@ -159,15 +195,13 @@ def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
 
     paragraphs = []
 
-    max_traditions = len({p.lens_id for p in ranked[0][1]})
-    top = [
-        (cluster, pts) for cluster, pts in ranked
-        if len({p.lens_id for p in pts}) == max_traditions
-    ]
+    top = ranked[:MAX_TOP_CLUSTERS]
     top_clusters = {cluster for cluster, _ in top}
 
     for cluster, cluster_points in top:
         traditions = sorted({p.tradition for p in cluster_points})
+        timing_share = sum(1 for p in cluster_points if p.is_timing)
+
         paragraphs.append(
             f"A clear through-line in this chart is {cluster}: it shows up "
             f"independently in {', '.join(traditions)} astrology — "
@@ -177,6 +211,18 @@ def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
             f"agree, that's the strongest kind of signal this reading can "
             f"offer."
         )
+
+        if timing_share >= 2:
+            timing_traditions = sorted({p.tradition for p in cluster_points if p.is_timing})
+            paragraphs.append(
+                f"Notably, part of that {cluster} through-line is TIMING "
+                f"synchrony, not just fixed placement: "
+                f"{', '.join(timing_traditions)} independently place their "
+                f"currently active period (Dasha, transit/progression, or "
+                f"Da Yun/Liu Nian) on this same theme right now — the "
+                "systems agree not just on the quality, but on it being "
+                "active in this particular window of time."
+            )
 
     explained_pairs = set()
     explained_clusters = set()
@@ -223,6 +269,37 @@ def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
             f"other systems — not contradicted, just not cross-validated "
             f"either: {facet_text}. These read as real texture rather "
             f"than defining threads."
+        )
+
+    # Life-domain convergence: a second, complementary view alongside
+    # the keyword-cluster one above, grouping by the life_domain
+    # already carried on every claim (identity, relationships, drive_
+    # and_ambition, ...) rather than surface-level wording. A cluster
+    # like "assertive" and a life domain like "drive_and_ambition"
+    # often overlap but aren't the same cut of the data -- houses,
+    # bhavas, and pillar roles that all point at the same life area
+    # can use completely different words to say so.
+    domain_index = _life_domain_index(points)
+    domain_ranked = sorted(
+        (
+            (domain, pts) for domain, pts in domain_index.items()
+            if len({p.lens_id for p in pts}) >= 2
+        ),
+        key=lambda kv: (len({p.lens_id for p in kv[1]}), len(kv[1])),
+        reverse=True,
+    )[:MAX_TOP_CLUSTERS]
+
+    if domain_ranked:
+        domain_text = "; ".join(
+            f"{domain.replace('_', ' ')} ({', '.join(sorted({p.tradition for p in pts}))})"
+            for domain, pts in domain_ranked
+        )
+        paragraphs.append(
+            "Read by life area rather than by wording, the same "
+            f"cross-tradition agreement shows up in: {domain_text} — "
+            "houses, bhavas, and pillar roles that point at the same "
+            "part of life across two or more systems, independent of "
+            "whether their claims happen to share vocabulary."
         )
 
     return CrossSystemResult(points=points, narrative="\n\n".join(paragraphs))

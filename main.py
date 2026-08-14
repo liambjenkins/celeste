@@ -45,6 +45,7 @@ from concepts.normaliser import normalise_observations
 from concepts.summary import build_summary
 from elements import classify_observations
 from lenses.cross_system import build_cross_system_convergence
+from lenses.elemental_alignment import build_elemental_alignment
 from lenses.editor import build_editorial_payload
 from lenses.pipeline import run_lenses
 from lenses.synthesis import build_synthesis
@@ -362,6 +363,9 @@ lenses_output = {
 
 synthesis = build_synthesis(interpretations)
 cross_system = build_cross_system_convergence(interpretations)
+elemental_alignment = build_elemental_alignment(
+    _tropical_chart, _sidereal_chart, observations["chinese_elemental_balance"]
+)
 # ------------------------------------------------------------
 # OUTPUT
 # ------------------------------------------------------------
@@ -387,6 +391,7 @@ result = {
         "claims_pooled": len(cross_system.points),
         "narrative": cross_system.narrative,
     },
+    "elemental_alignment": elemental_alignment,
 }
 print("✨ Celeste")
 print("Environmental Reconstruction")
