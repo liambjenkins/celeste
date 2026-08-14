@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_transit_technique_core",
+  "lens_id": "astrology",
+  "statement": "A transit is the present position of a planet compared against the birth chart — where that planet is moving right now, read against where it was fixed at birth. The slower a transiting planet moves, the longer and broader the period it marks; the faster it moves, the shorter and more specific the window.",
+  "passage_ids": [],
+  "concept_ids": [
+    "current_transits"
+  ],
+  "feature_ids": [
+    "timing:transits"
+  ],
+  "source_ids": [
+    "brady_predictive_astrology_1992"
+  ],
+  "theme_tags": [
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

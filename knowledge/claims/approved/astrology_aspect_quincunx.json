@@ -5,7 +5,9 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:quincunx"
+    "aspect:quincunx",
+    "transit_aspect:quincunx",
+    "progression_aspect:quincunx"
   ],
   "source_ids": [
     "lilly_christian_astrology_1647"

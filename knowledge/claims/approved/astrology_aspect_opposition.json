@@ -5,7 +5,9 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:opposition"
+    "aspect:opposition",
+    "transit_aspect:opposition",
+    "progression_aspect:opposition"
   ],
   "source_ids": [
     "lilly_christian_astrology_1647"

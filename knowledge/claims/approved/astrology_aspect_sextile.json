@@ -5,7 +5,9 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:sextile"
+    "aspect:sextile",
+    "transit_aspect:sextile",
+    "progression_aspect:sextile"
   ],
   "source_ids": [
     "lilly_christian_astrology_1647"

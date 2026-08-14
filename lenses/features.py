@@ -91,6 +91,16 @@ class FeatureBundle:
     chinese_year_animal: Optional[str] = None
     chinese_pillar_names: dict[str, str] = field(default_factory=dict)
 
+    has_transits: bool = False
+    transit_signs: dict[str, str] = field(default_factory=dict)
+    transit_houses: dict[str, int] = field(default_factory=dict)
+    transit_retrograde: list[str] = field(default_factory=list)
+
+    has_progressions: bool = False
+    progressed_signs: dict[str, str] = field(default_factory=dict)
+    progressed_houses: dict[str, int] = field(default_factory=dict)
+    progressed_moon_sign: Optional[str] = None
+
 
 def _single_value(concept):
     if not concept:
@@ -534,6 +544,84 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                 chinese_year_animal = pillar.get("branch_animal")
                 tags.append(f"chinese_year_animal:{chinese_year_animal}")
 
+    # Transits and secondary progressions — both optional, only
+    # present when the CLI was given --as-of-date/--as-of-time.
+    has_transits = False
+    transit_signs = {}
+    transit_houses = {}
+    transit_retrograde = []
+
+    transits_value = _single_value(concepts.get("current_transits"))
+
+    if isinstance(transits_value, dict) and transits_value.get("bodies"):
+        has_transits = True
+
+        for body_name, body in transits_value["bodies"].items():
+            if not isinstance(body, dict) or not body.get("sign"):
+                continue
+
+            transit_signs[body_name] = body["sign"]
+            tags.append(f"transit_sign:{body_name}:{body['sign']}")
+
+            if body.get("natal_house") is not None:
+                transit_houses[body_name] = body["natal_house"]
+                tags.append(f"transit_house:{body_name}:{body['natal_house']}")
+
+            if body.get("retrograde"):
+                transit_retrograde.append(body_name)
+                tags.append(f"transit_retrograde:{body_name}")
+
+        for item in transits_value.get("aspects", []):
+            aspect = item.get("aspect")
+
+            if not aspect:
+                continue
+
+            tags.append(f"transit_aspect:{aspect}")
+            tags.append(
+                f"transit_aspect_pair:{item.get('transiting_body')}:"
+                f"{aspect}:{item.get('natal_body')}"
+            )
+
+    has_progressions = False
+    progressed_signs = {}
+    progressed_houses = {}
+    progressed_moon_sign = None
+
+    progressions_value = _single_value(concepts.get("secondary_progressions"))
+
+    if isinstance(progressions_value, dict) and progressions_value.get("bodies"):
+        has_progressions = True
+
+        for body_name, body in progressions_value["bodies"].items():
+            if not isinstance(body, dict) or not body.get("sign"):
+                continue
+
+            progressed_signs[body_name] = body["sign"]
+            tags.append(f"progressed_sign:{body_name}:{body['sign']}")
+
+            if body_name == "moon":
+                progressed_moon_sign = body["sign"]
+                tags.append(f"progressed_moon_sign:{body['sign']}")
+
+            if body.get("natal_house") is not None:
+                progressed_houses[body_name] = body["natal_house"]
+                tags.append(
+                    f"progressed_house:{body_name}:{body['natal_house']}"
+                )
+
+        for item in progressions_value.get("aspects", []):
+            aspect = item.get("aspect")
+
+            if not aspect:
+                continue
+
+            tags.append(f"progression_aspect:{aspect}")
+            tags.append(
+                f"progression_aspect_pair:{item.get('progressed_body')}:"
+                f"{aspect}:{item.get('natal_body')}"
+            )
+
     star_conjunction_body = None
     star_conjunction_star = None
     star_conjunction_orb = None
@@ -614,6 +702,14 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,
         chinese_pillar_names=chinese_pillar_names,
+        has_transits=has_transits,
+        transit_signs=transit_signs,
+        transit_houses=transit_houses,
+        transit_retrograde=transit_retrograde,
+        has_progressions=has_progressions,
+        progressed_signs=progressed_signs,
+        progressed_houses=progressed_houses,
+        progressed_moon_sign=progressed_moon_sign,
     )
 
 

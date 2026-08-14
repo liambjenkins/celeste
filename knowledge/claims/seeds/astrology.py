@@ -445,7 +445,17 @@ for _aspect, _meaning in _ASPECTS.items():
     _add(
         f"aspect_{_aspect}",
         f"{_article(_aspect)} {_aspect} {_meaning}.",
-        feature_ids=[f"aspect:{_aspect}"],
+        # Matches this aspect wherever it's found: natal-to-natal
+        # (aspect:), a current transit to the natal chart
+        # (transit_aspect:), or a secondary-progressed placement to
+        # the natal chart (progression_aspect:) — the meaning of a
+        # square or trine doesn't change with which two moments the
+        # two ends belong to.
+        feature_ids=[
+            f"aspect:{_aspect}",
+            f"transit_aspect:{_aspect}",
+            f"progression_aspect:{_aspect}",
+        ],
         theme_tags=["relationship_between_placements"],
         source_id="lilly_christian_astrology_1647",
     )

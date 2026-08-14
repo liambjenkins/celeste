@@ -676,6 +676,49 @@ CONCEPTS = {
         "sun",
         "moon"
     ]
+},
+"current_transits": {
+    "label": "Current transits",
+    "domain": "space",
+    "description": (
+        "Present-moment planetary positions (Sun through Pluto) at a "
+        "specified 'as of' date, placed in the natal house wheel and "
+        "checked for aspects to natal planetary positions — the "
+        "classical technique for reading a specific span of time "
+        "against a birth chart."
+    ),
+    "synonyms": [
+        "transits",
+        "transiting planets",
+        "current planetary positions"
+    ],
+    "related": [
+        "planetary_positions",
+        "astrological_aspects",
+        "secondary_progressions"
+    ]
+},
+"secondary_progressions": {
+    "label": "Secondary progressions",
+    "domain": "space",
+    "description": (
+        "The 'day for a year' progressed chart at a specified 'as "
+        "of' date — personal/social planetary positions recomputed "
+        "at natal Julian day plus elapsed years, placed in the natal "
+        "house wheel and checked for aspects to natal planetary "
+        "positions."
+    ),
+    "synonyms": [
+        "progressions",
+        "progressed chart",
+        "progressed planets",
+        "progressed moon"
+    ],
+    "related": [
+        "planetary_positions",
+        "astrological_aspects",
+        "current_transits"
+    ]
 }
 
 }

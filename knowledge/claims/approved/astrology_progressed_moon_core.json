@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_progressed_moon_core",
+  "lens_id": "astrology",
+  "statement": "The progressed Moon is the classical focus of secondary progression: moving roughly one degree a day, it changes sign about every two and a half years, marking the current emotional and developmental chapter more precisely than any other progressed body.",
+  "passage_ids": [],
+  "concept_ids": [
+    "secondary_progressions"
+  ],
+  "feature_ids": [
+    "progressed_sign:moon:Aries",
+    "progressed_sign:moon:Taurus",
+    "progressed_sign:moon:Gemini",
+    "progressed_sign:moon:Cancer",
+    "progressed_sign:moon:Leo",
+    "progressed_sign:moon:Virgo",
+    "progressed_sign:moon:Libra",
+    "progressed_sign:moon:Scorpio",
+    "progressed_sign:moon:Sagittarius",
+    "progressed_sign:moon:Capricorn",
+    "progressed_sign:moon:Aquarius",
+    "progressed_sign:moon:Pisces"
+  ],
+  "source_ids": [
+    "brady_predictive_astrology_1992"
+  ],
+  "theme_tags": [
+    "timing_and_technique",
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "",
+  "status": "approved"
+}

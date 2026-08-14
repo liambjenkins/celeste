@@ -59,6 +59,14 @@ VITALITY = "vitality_and_transformation"
 TIMEKEEPING = "sacred_timekeeping"
 
 
+def _ordinal(number):
+    if 10 <= number % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
+    return f"{number}{suffix}"
+
+
 def _result(themes=None, macro_themes=None, elemental_focus=None, notes=None):
     return {
         "themes": themes or [],
@@ -194,6 +202,34 @@ def _astrology(concepts, features: FeatureBundle):
             "read as significant this close."
         )
         macro.append(ARCHETYPE)
+
+    if features.has_transits:
+        themes.append("timing:transits")
+        outer_transits = [
+            f"{body} in your {_ordinal(house)} house"
+            for body, house in features.transit_houses.items()
+            if body in ("jupiter", "saturn", "uranus", "neptune", "pluto")
+        ]
+        if outer_transits:
+            notes.append(
+                "Currently transiting: " + ", ".join(sorted(outer_transits))
+                + " — the slower-moving planets whose house transit "
+                "marks the broadest current period, in traditional "
+                "predictive technique."
+            )
+        macro.append(CYCLICALITY)
+
+    if features.has_progressions:
+        themes.append("timing:secondary_progressions")
+        if features.progressed_moon_sign:
+            notes.append(
+                f"The progressed Moon is currently in "
+                f"{features.progressed_moon_sign} — the 'day for a "
+                "year' technique's classical focus, changing sign "
+                "roughly every two and a half years to mark the "
+                "current emotional chapter."
+            )
+        macro.append(CYCLICALITY)
 
     if features.season:
         themes.append(f"season:{features.season}")

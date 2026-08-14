@@ -5,7 +5,9 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:square"
+    "aspect:square",
+    "transit_aspect:square",
+    "progression_aspect:square"
   ],
   "source_ids": [
     "lilly_christian_astrology_1647"

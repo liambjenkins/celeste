@@ -5,7 +5,9 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:trine"
+    "aspect:trine",
+    "transit_aspect:trine",
+    "progression_aspect:trine"
   ],
   "source_ids": [
     "lilly_christian_astrology_1647"

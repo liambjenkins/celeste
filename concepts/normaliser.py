@@ -362,6 +362,44 @@ def normalise_observations(observations):
         )
 
     # --------------------------------------------------------
+    # TRANSITS AND SECONDARY PROGRESSIONS (both optional — only
+    # present when --as-of-date/--as-of-time were supplied)
+    # --------------------------------------------------------
+    #
+    # "transits" is the output of astrology.transits.build_transits();
+    # "secondary_progressions" is the output of
+    # astrology.progressions.build_secondary_progressions(). Both are
+    # bundled concepts (all bodies + aspects together) rather than
+    # split per body, matching the chinese_pillars pattern — a
+    # transit or progression reading isn't coherent from one isolated
+    # body, so there's no reason to let claim matching see them
+    # separately.
+    #
+    transits = observations.get(
+        "transits",
+        {}
+    )
+
+    if isinstance(transits, dict) and transits:
+        add_concept(
+            "current_transits",
+            transits,
+            "transits"
+        )
+
+    secondary_progressions = observations.get(
+        "secondary_progressions",
+        {}
+    )
+
+    if isinstance(secondary_progressions, dict) and secondary_progressions:
+        add_concept(
+            "secondary_progressions",
+            secondary_progressions,
+            "secondary_progressions"
+        )
+
+    # --------------------------------------------------------
     # SEASON
     # --------------------------------------------------------
     #

@@ -7,8 +7,10 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from astrology.chart import build_chart
 from astrology.houses import HOUSE_SYSTEMS
+from astrology.progressions import build_secondary_progressions
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
+from astrology.transits import build_transits
 from chinese.pillars import build_four_pillars
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
@@ -104,6 +106,27 @@ def parse_args():
         help="Astrological house system to use. Defaults to placidus.",
     )
 
+    parser.add_argument(
+        "--as-of-date",
+        default=None,
+        help=(
+            "Optional date (YYYY-MM-DD) to evaluate transits and "
+            "secondary progressions against the birth chart. Must be "
+            "given together with --as-of-time. Interpreted in the "
+            "same --timezone/--utc-offset as --date/--time. Omit to "
+            "skip transits and progressions entirely."
+        ),
+    )
+
+    parser.add_argument(
+        "--as-of-time",
+        default=None,
+        help=(
+            "Optional time (HH:MM or HH:MM:SS) paired with "
+            "--as-of-date."
+        ),
+    )
+
     args = parser.parse_args()
 
     if not (-90 <= args.lat <= 90):
@@ -146,6 +169,38 @@ def parse_args():
     # the Chinese Four Pillars' Day/Hour boundaries are local-civil-
     # clock-based, not UTC-instant-based like Year/Month.
     args.requested_time_local = local_time
+
+    if bool(args.as_of_date) != bool(args.as_of_time):
+        parser.error(
+            "--as-of-date and --as-of-time must be given together."
+        )
+
+    args.as_of_time_utc = None
+
+    if args.as_of_date and args.as_of_time:
+        for time_format in ("%H:%M:%S", "%H:%M"):
+            try:
+                as_of_local = datetime.strptime(
+                    f"{args.as_of_date} {args.as_of_time}",
+                    f"%Y-%m-%d {time_format}",
+                )
+                break
+            except ValueError:
+                as_of_local = None
+
+        if as_of_local is None:
+            parser.error(
+                "--as-of-date/--as-of-time could not be parsed. "
+                "Use --as-of-date YYYY-MM-DD --as-of-time HH:MM[:SS]."
+            )
+
+        if args.timezone:
+            as_of_aware_utc = local_to_utc(as_of_local, args.timezone)
+            args.as_of_time_utc = as_of_aware_utc.replace(tzinfo=None)
+        else:
+            args.as_of_time_utc = as_of_local - timedelta(
+                hours=args.utc_offset
+            )
 
     return args
 
@@ -206,6 +261,15 @@ observations = {
     "_requested_time": REQUESTED_TIME,
     "_latitude": LATITUDE,
 }
+
+if args.as_of_time_utc is not None:
+    AS_OF_TIME_AWARE = args.as_of_time_utc.replace(tzinfo=timezone.utc)
+    observations["transits"] = build_transits(
+        _tropical_chart, AS_OF_TIME_AWARE
+    )
+    observations["secondary_progressions"] = build_secondary_progressions(
+        _tropical_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
+    )
 # ------------------------------------------------------------
 # PROCESS
 # ------------------------------------------------------------
