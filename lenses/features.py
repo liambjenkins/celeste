@@ -86,6 +86,11 @@ class FeatureBundle:
     vedic_moon_house: Optional[int] = None
     vedic_planet_houses: dict[str, int] = field(default_factory=dict)
 
+    navamsa_sun_sign: Optional[str] = None
+    navamsa_moon_sign: Optional[str] = None
+    navamsa_ascendant_sign: Optional[str] = None
+    navamsa_planet_signs: dict[str, str] = field(default_factory=dict)
+
     chinese_day_master: Optional[str] = None
     chinese_day_master_element: Optional[str] = None
     chinese_year_animal: Optional[str] = None
@@ -511,6 +516,49 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
             _tag_vedic_point(planet_name, body)
 
+    # Navamsa (D9 divisional chart) — its own sign:/house: tag shapes,
+    # prefixed navamsa_sign:/navamsa_house: since D9 has its own house
+    # wheel counted from its own D9 Ascendant, distinct from the D1
+    # sidereal houses above.
+    navamsa_sun_sign = None
+    navamsa_moon_sign = None
+    navamsa_ascendant_sign = None
+    navamsa_planet_signs = {}
+
+    def _tag_navamsa_point(body_name, point):
+        tags.append(f"navamsa_sign:{body_name}:{point['sign']}")
+
+        if point.get("house") is not None:
+            tags.append(f"navamsa_house:{body_name}:{point['house']}")
+
+    navamsa_sun_value = _single_value(concepts.get("navamsa_sun"))
+
+    if isinstance(navamsa_sun_value, dict) and navamsa_sun_value.get("sign"):
+        navamsa_sun_sign = navamsa_sun_value["sign"]
+        _tag_navamsa_point("sun", navamsa_sun_value)
+
+    navamsa_moon_value = _single_value(concepts.get("navamsa_moon"))
+
+    if isinstance(navamsa_moon_value, dict) and navamsa_moon_value.get("sign"):
+        navamsa_moon_sign = navamsa_moon_value["sign"]
+        _tag_navamsa_point("moon", navamsa_moon_value)
+
+    navamsa_ascendant_value = _single_value(concepts.get("navamsa_ascendant"))
+
+    if isinstance(navamsa_ascendant_value, dict) and navamsa_ascendant_value.get("sign"):
+        navamsa_ascendant_sign = navamsa_ascendant_value["sign"]
+        _tag_navamsa_point("ascendant", navamsa_ascendant_value)
+
+    navamsa_planetary_value = _single_value(concepts.get("navamsa_positions"))
+
+    if isinstance(navamsa_planetary_value, dict):
+        for planet_name, body in navamsa_planetary_value.items():
+            if not isinstance(body, dict) or not body.get("sign"):
+                continue
+
+            navamsa_planet_signs[planet_name] = body["sign"]
+            _tag_navamsa_point(planet_name, body)
+
     # Chinese (BaZi) Four Pillars. No sign/house tags — BaZi has
     # neither; see chinese/pillars.py's module docstring.
     chinese_day_master = None
@@ -698,6 +746,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         vedic_sun_house=vedic_sun_house,
         vedic_moon_house=vedic_moon_house,
         vedic_planet_houses=vedic_planet_houses,
+        navamsa_sun_sign=navamsa_sun_sign,
+        navamsa_moon_sign=navamsa_moon_sign,
+        navamsa_ascendant_sign=navamsa_ascendant_sign,
+        navamsa_planet_signs=navamsa_planet_signs,
         chinese_day_master=chinese_day_master,
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,

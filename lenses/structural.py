@@ -681,6 +681,47 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.navamsa_ascendant_sign:
+        themes.append(f"navamsa_ascendant:{features.navamsa_ascendant_sign}")
+        notes.append(
+            f"The D9 (Navamsa) Ascendant is {features.navamsa_ascendant_sign} "
+            "— the reference point the Navamsa's own whole-sign "
+            "houses are counted from, distinct from the D1 chart's "
+            "Ascendant above."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.navamsa_sun_sign:
+        agree = features.navamsa_sun_sign == features.vedic_sun_sign
+        themes.append(f"navamsa_sign:sun:{features.navamsa_sun_sign}")
+        notes.append(
+            f"The Sun's Navamsa sign is {features.navamsa_sun_sign}"
+            + (
+                ", the same sign as its D1 placement — traditionally "
+                "read as a placement whose strength is confirmed "
+                "rather than complicated by this deeper subdivision."
+                if agree
+                else f" (its D1 sign is {features.vedic_sun_sign}) — "
+                "traditionally read alongside the D1 sign rather "
+                "than in place of it, for a subtler picture of the "
+                "placement's underlying strength."
+            )
+        )
+        macro.append(ARCHETYPE)
+
+    if features.navamsa_moon_sign:
+        agree = features.navamsa_moon_sign == features.vedic_moon_sign
+        themes.append(f"navamsa_sign:moon:{features.navamsa_moon_sign}")
+        notes.append(
+            f"The Moon's Navamsa sign is {features.navamsa_moon_sign}"
+            + (
+                ", the same sign as its D1 placement."
+                if agree
+                else f" (its D1 sign is {features.vedic_moon_sign})."
+            )
+        )
+        macro.append(ARCHETYPE)
+
     if features.dominant_domains:
         themes.append(
             "elemental_emphasis:" + "_".join(features.dominant_domains)

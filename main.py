@@ -7,6 +7,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from astrology.chart import build_chart
 from astrology.houses import HOUSE_SYSTEMS
+from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
@@ -222,9 +223,12 @@ _tropical_chart = build_chart(
     house_system=args.house_system,
 )
 
+_sidereal_chart = build_sidereal_chart(_tropical_chart)
+
 observations = {
     "astrology": _tropical_chart,
-    "vedic_astrology": build_sidereal_chart(_tropical_chart),
+    "vedic_astrology": _sidereal_chart,
+    "navamsa": build_navamsa_chart(_sidereal_chart),
     "chinese_pillars": build_four_pillars(
         _tropical_chart, args.requested_time_local
     ).to_dict(),

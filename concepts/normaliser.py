@@ -340,6 +340,63 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # NAVAMSA (D9 divisional chart)
+    # --------------------------------------------------------
+    #
+    # "navamsa" is the output of astrology.navamsa.build_navamsa_chart():
+    # each body's sign and D9-house in the ninth-harmonic divisional
+    # chart. Same sun/moon/ascendant-split pattern as the sidereal
+    # chart above.
+    #
+    navamsa = observations.get(
+        "navamsa",
+        {}
+    )
+
+    if isinstance(navamsa, dict):
+
+        navamsa_bodies = navamsa.get(
+            "bodies",
+            {}
+        )
+
+        if isinstance(navamsa_bodies, dict):
+
+            if "sun" in navamsa_bodies:
+                add_concept(
+                    "navamsa_sun",
+                    navamsa_bodies["sun"],
+                    "navamsa.bodies.sun"
+                )
+
+            if "moon" in navamsa_bodies:
+                add_concept(
+                    "navamsa_moon",
+                    navamsa_bodies["moon"],
+                    "navamsa.bodies.moon"
+                )
+
+            navamsa_planetary = {
+                name: data
+                for name, data in navamsa_bodies.items()
+                if name not in ("sun", "moon")
+            }
+
+            if navamsa_planetary:
+                add_concept(
+                    "navamsa_positions",
+                    navamsa_planetary,
+                    "navamsa.bodies"
+                )
+
+        if navamsa.get("ascendant"):
+            add_concept(
+                "navamsa_ascendant",
+                navamsa["ascendant"],
+                "navamsa.ascendant"
+            )
+
+    # --------------------------------------------------------
     # CHINESE ASTROLOGY (BaZi Four Pillars)
     # --------------------------------------------------------
     #

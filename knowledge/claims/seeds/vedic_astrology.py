@@ -120,7 +120,15 @@ for _sign, _meaning in _SIGN_MEANINGS.items():
         f"sign_{_sign.lower()}",
         f"A placement in sidereal {_sign} tends to be {_meaning}.",
         concept_ids=["vedic_positions"],
-        feature_ids=[f"vedic_sign:{body}:{_sign}" for body in _ALL_BODIES],
+        # A sign's inherent nature doesn't change between the D1
+        # (Rasi) and D9 (Navamsa) charts — only the domain of life
+        # the divisional chart is being read for does. Same claim,
+        # matched against both vedic_sign: (D1) and navamsa_sign:
+        # (D9) tags rather than duplicated.
+        feature_ids=(
+            [f"vedic_sign:{body}:{_sign}" for body in _ALL_BODIES]
+            + [f"navamsa_sign:{body}:{_sign}" for body in _ALL_BODIES]
+        ),
         theme_tags=["temperament"],
         source_id="parashara_bphs_1984",
     )
@@ -216,6 +224,26 @@ for _house, (_name, _meaning) in _BHAVAS.items():
         life_domain=_BHAVA_LIFE_DOMAINS[_house],
         source_id="parashara_bphs_1984",
     )
+
+
+# ------------------------------------------------------------
+# Navamsa (D9) core meaning
+# Source: Brihat Parashara Hora Shastra, ch. 6 (divisional charts)
+# ------------------------------------------------------------
+
+_add(
+    "navamsa_core",
+    "The Navamsa (D9) is traditionally read as the 'soul' of the "
+    "birth chart — a subtler confirmation of what the D1 (Rasi) "
+    "chart promises, consulted above all for marriage and dharma "
+    "(one's deeper life direction), and for whether a placement's "
+    "apparent strength in the D1 chart actually holds up under this "
+    "finer subdivision.",
+    concept_ids=["navamsa_ascendant"],
+    theme_tags=["marriage_and_dharma", "underlying_strength"],
+    life_domain="relationships",
+    source_id="parashara_bphs_1984",
+)
 
 
 def write_claims():

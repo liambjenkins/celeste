@@ -677,6 +677,78 @@ CONCEPTS = {
         "moon"
     ]
 },
+"navamsa_sun": {
+    "label": "Navamsa (D9) Sun placement",
+    "domain": "space",
+    "description": (
+        "Sun's sign and whole-sign house in the Navamsa (D9) "
+        "divisional chart — the ninth-harmonic subdivision of the "
+        "sidereal chart, read as a subtler confirmation of the D1 "
+        "chart's strength."
+    ),
+    "synonyms": [
+        "D9 sun",
+        "navamsa sun"
+    ],
+    "related": [
+        "vedic_sun",
+        "navamsa_moon",
+        "navamsa_ascendant"
+    ]
+},
+"navamsa_moon": {
+    "label": "Navamsa (D9) Moon placement",
+    "domain": "space",
+    "description": (
+        "Moon's sign and whole-sign house in the Navamsa (D9) "
+        "divisional chart."
+    ),
+    "synonyms": [
+        "D9 moon",
+        "navamsa moon"
+    ],
+    "related": [
+        "vedic_moon",
+        "navamsa_sun",
+        "navamsa_ascendant"
+    ]
+},
+"navamsa_ascendant": {
+    "label": "Navamsa (D9) Ascendant",
+    "domain": "space",
+    "description": (
+        "The D9 chart's own Ascendant sign — the reference point its "
+        "whole-sign houses are counted from, distinct from the D1 "
+        "(Rasi) Ascendant."
+    ),
+    "synonyms": [
+        "D9 ascendant",
+        "navamsa lagna"
+    ],
+    "related": [
+        "vedic_ascendant",
+        "navamsa_sun",
+        "navamsa_moon"
+    ]
+},
+"navamsa_positions": {
+    "label": "Navamsa (D9) planetary positions",
+    "domain": "space",
+    "description": (
+        "Sign and whole-sign house in the Navamsa (D9) divisional "
+        "chart for bodies other than the Sun, Moon, and Ascendant."
+    ),
+    "synonyms": [
+        "D9 positions",
+        "navamsa planets"
+    ],
+    "related": [
+        "navamsa_sun",
+        "navamsa_moon",
+        "navamsa_ascendant",
+        "vedic_positions"
+    ]
+},
 "current_transits": {
     "label": "Current transits",
     "domain": "space",
