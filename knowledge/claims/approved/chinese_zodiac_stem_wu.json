@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Wu",
     "chinese_hidden_stem:day:Wu",
     "chinese_hidden_stem:hour:Wu",
-    "chinese_dayun_stem:Wu"
+    "chinese_dayun_stem:Wu",
+    "chinese_liu_nian_stem:Wu"
   ],
   "source_ids": [
     "augier_bazi_2010"

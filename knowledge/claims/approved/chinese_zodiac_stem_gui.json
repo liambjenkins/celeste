@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Gui",
     "chinese_hidden_stem:day:Gui",
     "chinese_hidden_stem:hour:Gui",
-    "chinese_dayun_stem:Gui"
+    "chinese_dayun_stem:Gui",
+    "chinese_liu_nian_stem:Gui"
   ],
   "source_ids": [
     "augier_bazi_2010"

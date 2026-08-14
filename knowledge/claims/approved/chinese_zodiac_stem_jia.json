@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Jia",
     "chinese_hidden_stem:day:Jia",
     "chinese_hidden_stem:hour:Jia",
-    "chinese_dayun_stem:Jia"
+    "chinese_dayun_stem:Jia",
+    "chinese_liu_nian_stem:Jia"
   ],
   "source_ids": [
     "augier_bazi_2010"

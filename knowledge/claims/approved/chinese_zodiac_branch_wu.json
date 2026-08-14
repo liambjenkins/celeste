@@ -12,7 +12,8 @@
     "chinese_branch:day:Wu",
     "chinese_branch:hour:Wu",
     "chinese_year_animal:Horse",
-    "chinese_dayun_branch:Wu"
+    "chinese_dayun_branch:Wu",
+    "chinese_liu_nian_branch:Wu"
   ],
   "source_ids": [
     "augier_bazi_2010"

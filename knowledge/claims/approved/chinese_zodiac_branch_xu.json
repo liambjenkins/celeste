@@ -12,7 +12,8 @@
     "chinese_branch:day:Xu",
     "chinese_branch:hour:Xu",
     "chinese_year_animal:Dog",
-    "chinese_dayun_branch:Xu"
+    "chinese_dayun_branch:Xu",
+    "chinese_liu_nian_branch:Xu"
   ],
   "source_ids": [
     "augier_bazi_2010"

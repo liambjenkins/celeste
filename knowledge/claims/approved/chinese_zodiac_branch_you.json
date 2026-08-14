@@ -12,7 +12,8 @@
     "chinese_branch:day:You",
     "chinese_branch:hour:You",
     "chinese_year_animal:Rooster",
-    "chinese_dayun_branch:You"
+    "chinese_dayun_branch:You",
+    "chinese_liu_nian_branch:You"
   ],
   "source_ids": [
     "augier_bazi_2010"

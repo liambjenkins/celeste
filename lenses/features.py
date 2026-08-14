@@ -140,6 +140,8 @@ class FeatureBundle:
     chinese_pillar_names: dict[str, str] = field(default_factory=dict)
 
     chinese_ten_gods: list[str] = field(default_factory=list)
+    has_liu_nian: bool = False
+    liu_nian_pillar_name: Optional[str] = None
     chinese_interactions_present: list[str] = field(default_factory=list)
     chinese_missing_elements: list[str] = field(default_factory=list)
     chinese_dominant_elements: list[str] = field(default_factory=list)
@@ -1123,6 +1125,21 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         tags.append(f"chinese_dayun_branch:{current.get('branch')}")
         tags.append(f"dayun_direction:{dayun_value.get('direction')}")
 
+    # Liu Nian (annual pillar) — optional, only present when the CLI
+    # was given --as-of-date/--as-of-time.
+    has_liu_nian = False
+    liu_nian_pillar_name = None
+
+    liu_nian_value = _single_value(concepts.get("chinese_liu_nian"))
+
+    if isinstance(liu_nian_value, dict) and liu_nian_value.get("pillar"):
+        has_liu_nian = True
+        pillar = liu_nian_value["pillar"]
+        liu_nian_pillar_name = pillar.get("name")
+
+        tags.append(f"chinese_liu_nian_stem:{pillar.get('stem')}")
+        tags.append(f"chinese_liu_nian_branch:{pillar.get('branch')}")
+
     # Chinese stem/branch interactions (chinese.interactions' output)
     # — presence tags per interaction category, generic across which
     # specific pair/pillars are involved (the specific stems/branches
@@ -1389,6 +1406,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         chinese_year_animal=chinese_year_animal,
         chinese_pillar_names=chinese_pillar_names,
         chinese_ten_gods=chinese_ten_gods,
+        has_liu_nian=has_liu_nian,
+        liu_nian_pillar_name=liu_nian_pillar_name,
         chinese_interactions_present=chinese_interactions_present,
         chinese_missing_elements=chinese_missing_elements,
         chinese_dominant_elements=chinese_dominant_elements,

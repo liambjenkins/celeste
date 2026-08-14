@@ -12,7 +12,8 @@
     "chinese_branch:day:Mao",
     "chinese_branch:hour:Mao",
     "chinese_year_animal:Rabbit",
-    "chinese_dayun_branch:Mao"
+    "chinese_dayun_branch:Mao",
+    "chinese_liu_nian_branch:Mao"
   ],
   "source_ids": [
     "augier_bazi_2010"

@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Ren",
     "chinese_hidden_stem:day:Ren",
     "chinese_hidden_stem:hour:Ren",
-    "chinese_dayun_stem:Ren"
+    "chinese_dayun_stem:Ren",
+    "chinese_liu_nian_stem:Ren"
   ],
   "source_ids": [
     "augier_bazi_2010"

@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Ding",
     "chinese_hidden_stem:day:Ding",
     "chinese_hidden_stem:hour:Ding",
-    "chinese_dayun_stem:Ding"
+    "chinese_dayun_stem:Ding",
+    "chinese_liu_nian_stem:Ding"
   ],
   "source_ids": [
     "augier_bazi_2010"

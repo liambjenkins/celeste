@@ -16,7 +16,8 @@
     "chinese_hidden_stem:month:Xin",
     "chinese_hidden_stem:day:Xin",
     "chinese_hidden_stem:hour:Xin",
-    "chinese_dayun_stem:Xin"
+    "chinese_dayun_stem:Xin",
+    "chinese_liu_nian_stem:Xin"
   ],
   "source_ids": [
     "augier_bazi_2010"

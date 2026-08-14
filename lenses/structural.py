@@ -1030,6 +1030,16 @@ def _chinese_zodiac(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.has_liu_nian:
+        themes.append(f"liu_nian_current:{features.liu_nian_pillar_name}")
+        notes.append(
+            f"The current Liu Nian (Flowing Year) pillar is "
+            f"{features.liu_nian_pillar_name} — the finer, "
+            "year-by-year layer of BaZi timing, read alongside the "
+            "current Da Yun."
+        )
+        macro.append(CYCLICALITY)
+
     if features.chinese_interactions_present:
         for interaction in features.chinese_interactions_present:
             themes.append(f"chinese_interaction:{interaction}")

@@ -98,6 +98,7 @@ for _stem, _meaning in _STEMS.items():
             + [f"chinese_day_master:{_stem}"]
             + [f"chinese_hidden_stem:{pos}:{_stem}" for pos in _POSITIONS]
             + [f"chinese_dayun_stem:{_stem}"]
+            + [f"chinese_liu_nian_stem:{_stem}"]
         ),
         theme_tags=["stem_element"],
         life_domain="identity",
@@ -133,6 +134,7 @@ for _branch, (_animal, _meaning) in _BRANCHES.items():
             [f"chinese_branch:{pos}:{_branch}" for pos in _POSITIONS]
             + [f"chinese_year_animal:{_animal}"]
             + [f"chinese_dayun_branch:{_branch}"]
+            + [f"chinese_liu_nian_branch:{_branch}"]
         ),
         theme_tags=["branch_animal"],
     )
@@ -158,6 +160,45 @@ for _position, (_meaning, _domain) in _PILLAR_ROLES.items():
         theme_tags=["pillar_role"],
         life_domain=_domain,
     )
+
+
+# ------------------------------------------------------------
+# Day Branch (Spouse Palace) and Hour Pillar (Children's Palace) —
+# more specific classical significations beyond each position's
+# general role above. Source: San Ming Tong Hui (Xu Ziping, Ming
+# dynasty) for the Hour Pillar framing, explicitly quoted during
+# curation: "The hour is the place of rest and return, and also the
+# palace of children" — cross-referenced against standard modern
+# BaZi convention for the Day Branch's Spouse Palace role.
+# ------------------------------------------------------------
+
+_add(
+    "spouse_palace",
+    "The Day Branch is traditionally called the 'Spouse Palace' — "
+    "distinct from the Day Stem's role as the Day Master, it is read "
+    "specifically for marriage and the closest long-term "
+    "relationship: its own qualities and its interactions with the "
+    "chart's other branches describe the environment and dynamics "
+    "of that partnership.",
+    concept_ids=["chinese_pillars"],
+    feature_ids=["chinese_pillar_position:day"],
+    theme_tags=["pillar_role", "marriage"],
+    life_domain="relationships",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "childrens_palace",
+    "The Hour Pillar is traditionally called the 'Children's "
+    "Palace' — San Ming Tong Hui describes the hour as 'the place of "
+    "rest and return, and also the palace of children,' read for "
+    "children and for the shape of one's later years.",
+    concept_ids=["chinese_pillars"],
+    feature_ids=["chinese_pillar_position:hour"],
+    theme_tags=["pillar_role", "children"],
+    life_domain="relationships",
+    source_id="xu_ziping_san_ming_tong_hui",
+)
 
 
 # ------------------------------------------------------------
@@ -279,6 +320,18 @@ _add(
     "during a given decade of life.",
     concept_ids=["chinese_dayun"],
     theme_tags=["dayun", "timing_and_technique"],
+    life_domain="cyclicality",
+    source_id="yap_destiny_code_2005",
+)
+
+_add(
+    "liu_nian_core",
+    "Liu Nian (Flowing Year) is the annual pillar overlaid on the "
+    "Four Pillars — the same sexagenary construction as the natal "
+    "Year Pillar, applied to the current year, read alongside Da Yun "
+    "as the finer, year-by-year layer of BaZi timing technique.",
+    concept_ids=["chinese_liu_nian"],
+    theme_tags=["liu_nian", "timing_and_technique"],
     life_domain="cyclicality",
     source_id="yap_destiny_code_2005",
 )

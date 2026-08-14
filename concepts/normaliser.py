@@ -687,6 +687,18 @@ def normalise_observations(observations):
             "chinese_dayun"
         )
 
+    liu_nian = observations.get(
+        "chinese_liu_nian",
+        {}
+    )
+
+    if isinstance(liu_nian, dict) and liu_nian:
+        add_concept(
+            "chinese_liu_nian",
+            liu_nian,
+            "chinese_liu_nian"
+        )
+
     chinese_interactions = observations.get(
         "chinese_interactions",
         {}

@@ -1148,6 +1148,19 @@ CONCEPTS = {
     ],
     "related": ["chinese_pillars"]
 },
+"chinese_liu_nian": {
+    "label": "Chinese Liu Nian (Flowing Year)",
+    "domain": "space",
+    "description": (
+        "The annual pillar overlaid on the Four Pillars as of a "
+        "specified 'as of' date — the same sexagenary Year Pillar "
+        "construction as the natal Year Pillar, applied to the "
+        "current year. Read alongside Da Yun as the finer, "
+        "year-by-year layer of BaZi timing technique."
+    ),
+    "synonyms": ["liu nian", "flowing year", "annual pillar"],
+    "related": ["chinese_pillars", "chinese_dayun"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",

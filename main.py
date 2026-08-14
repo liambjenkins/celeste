@@ -23,6 +23,7 @@ from astrology.time import local_to_utc
 from astrology.transits import build_transits
 from astrology.yogas import find_yogas
 from chinese.dayun import build_da_yun
+from chinese.liu_nian import build_liu_nian
 from chinese.interactions import find_all_interactions
 from chinese.elemental_balance import build_elemental_balance
 from chinese.pillars import build_four_pillars
@@ -328,6 +329,7 @@ if args.as_of_time_utc is not None:
     observations["vedic_chara_dasha"] = build_chara_dasha(
         _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
+    observations["chinese_liu_nian"] = build_liu_nian(AS_OF_TIME_AWARE)
 
     if args.gender is not None:
         year_stem_polarity = STEMS[STEM_INDEX[_four_pillars.year.stem]][2]
