@@ -7,6 +7,8 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from astrology.chart import build_chart
 from astrology.dasha import build_vimshottari_dasha
+from astrology.dignity import build_dignity
+from astrology.jaimini import build_chara_karakas, build_marak_planets
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
@@ -255,6 +257,9 @@ observations = {
     "vedic_yogas": find_yogas(_sidereal_chart),
     "navamsa": build_navamsa_chart(_sidereal_chart),
     "vedic_vargas": build_all_vargas(_sidereal_chart),
+    "vedic_dignity": build_dignity(_sidereal_chart),
+    "vedic_karakas": build_chara_karakas(_sidereal_chart),
+    "vedic_marak": build_marak_planets(_sidereal_chart),
     "chinese_pillars": _four_pillars.to_dict(),
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity

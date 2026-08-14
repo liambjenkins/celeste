@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_own_sign",
+  "lens_id": "vedic_astrology",
+  "statement": "Own sign (Swakshetra) — a planet here is naturally comfortable and stable, expressing its significations steadily without needing to compensate for foreign terrain.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:own_sign",
+    "dignity:moon:own_sign",
+    "dignity:mars:own_sign",
+    "dignity:mercury:own_sign",
+    "dignity:jupiter:own_sign",
+    "dignity:venus:own_sign",
+    "dignity:saturn:own_sign"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

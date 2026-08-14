@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_enemy_sign",
+  "lens_id": "vedic_astrology",
+  "statement": "Enemy sign — a planet placed in a sign ruled by a natural enemy, complicating its expression with friction that has to be worked through rather than flowing naturally.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:enemy_sign",
+    "dignity:moon:enemy_sign",
+    "dignity:mars:enemy_sign",
+    "dignity:mercury:enemy_sign",
+    "dignity:jupiter:enemy_sign",
+    "dignity:venus:enemy_sign",
+    "dignity:saturn:enemy_sign"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -112,6 +112,11 @@ class FeatureBundle:
 
     varga_ascendant_signs: dict[int, str] = field(default_factory=dict)
 
+    exalted_planets: list[str] = field(default_factory=list)
+    debilitated_planets: list[str] = field(default_factory=list)
+    atmakaraka_planet: Optional[str] = None
+    marak_planets: list[str] = field(default_factory=list)
+
     vedic_yogas: list[str] = field(default_factory=list)
 
     has_dasha: bool = False
@@ -816,6 +821,67 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
             tags.append(f"varga_present:{varga_n}")
 
+    # Vedic planetary dignity + Baladi Avastha (astrology.dignity's
+    # output: {planet: {"dignity": ..., "avastha": ...}}). Body-
+    # agnostic tags, matched the same way sign/nakshatra/bhava claims
+    # already are. Exalted/debilitated planet lists are tracked
+    # separately since they're the two narratively strongest states,
+    # worth a direct structural note.
+    exalted_planets = []
+    debilitated_planets = []
+
+    vedic_dignity_value = _single_value(concepts.get("vedic_dignity"))
+
+    if isinstance(vedic_dignity_value, dict):
+        for planet_name, info in vedic_dignity_value.items():
+            if not isinstance(info, dict):
+                continue
+
+            dignity = info.get("dignity")
+            avastha = info.get("avastha")
+
+            if dignity:
+                tags.append(f"dignity:{planet_name}:{dignity}")
+
+                if dignity == "exalted":
+                    exalted_planets.append(planet_name)
+                elif dignity == "debilitated":
+                    debilitated_planets.append(planet_name)
+
+            if avastha:
+                tags.append(f"avastha:{planet_name}:{avastha}")
+
+    # Jaimini Chara Karakas (astrology.jaimini's output: {karaka_name:
+    # {"planet": ..., "degree_in_sign": ...}}). Atmakaraka is tracked
+    # separately as the single most consulted rank in Jaimini technique.
+    atmakaraka_planet = None
+
+    vedic_karakas_value = _single_value(concepts.get("vedic_karakas"))
+
+    if isinstance(vedic_karakas_value, dict):
+        for karaka_name, info in vedic_karakas_value.items():
+            if not isinstance(info, dict) or not info.get("planet"):
+                continue
+
+            tags.append(f"karaka:{karaka_name}:{info['planet']}")
+
+            if karaka_name == "Atmakaraka":
+                atmakaraka_planet = info["planet"]
+
+    # Marak (2nd/7th lord) planets — astrology.jaimini's output: a
+    # flat list of planet names, can be empty (Dwi Marak Na Marak).
+    marak_planets = []
+
+    vedic_marak_value = _single_value(concepts.get("vedic_marak"))
+
+    if isinstance(vedic_marak_value, list):
+        for planet_name in vedic_marak_value:
+            if not planet_name:
+                continue
+
+            marak_planets.append(planet_name)
+            tags.append(f"marak:{planet_name}")
+
     # Vedic yogas (classical planetary combinations) — a flat list of
     # whichever yogas from the curated set (astrology/yogas.py) are
     # present in this chart; can be empty.
@@ -1129,6 +1195,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         navamsa_ascendant_sign=navamsa_ascendant_sign,
         navamsa_planet_signs=navamsa_planet_signs,
         varga_ascendant_signs=varga_ascendant_signs,
+        exalted_planets=exalted_planets,
+        debilitated_planets=debilitated_planets,
+        atmakaraka_planet=atmakaraka_planet,
+        marak_planets=marak_planets,
         vedic_yogas=vedic_yogas,
         has_dasha=has_dasha,
         dasha_mahadasha_lord=dasha_mahadasha_lord,

@@ -845,6 +845,48 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.exalted_planets or features.debilitated_planets:
+        for planet in features.exalted_planets:
+            themes.append(f"dignity_exalted:{planet}")
+        for planet in features.debilitated_planets:
+            themes.append(f"dignity_debilitated:{planet}")
+
+        parts = []
+        if features.exalted_planets:
+            parts.append(f"exalted: {', '.join(sorted(features.exalted_planets))}")
+        if features.debilitated_planets:
+            parts.append(f"debilitated: {', '.join(sorted(features.debilitated_planets))}")
+
+        notes.append(
+            "Planetary dignity extremes present — "
+            + "; ".join(parts)
+            + " — a placement's strength (exalted) or difficulty "
+            "(debilitated) by classical sign lordship, the strongest "
+            "and weakest of the six dignity levels."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.atmakaraka_planet:
+        themes.append(f"atmakaraka:{features.atmakaraka_planet}")
+        notes.append(
+            f"The Atmakaraka (soul significator, Jaimini technique) is "
+            f"{features.atmakaraka_planet} — the planet at the highest "
+            "degree within its sign, traditionally read as the chart's "
+            "single most emphasized indicator of the soul's own agenda."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.marak_planets:
+        for planet in features.marak_planets:
+            themes.append(f"marak:{planet}")
+        notes.append(
+            "Marak (2nd/7th house lord) planet(s): "
+            + ", ".join(sorted(features.marak_planets))
+            + " — traditional timing significators for periods of "
+            "vulnerability via Dasha, not literal predictions."
+        )
+        macro.append(CYCLICALITY)
+
     if features.vedic_yogas:
         for yoga_id in features.vedic_yogas:
             themes.append(f"yoga:{yoga_id}")

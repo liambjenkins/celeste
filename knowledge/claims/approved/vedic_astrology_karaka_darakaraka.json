@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_karaka_darakaraka",
+  "lens_id": "vedic_astrology",
+  "statement": "Darakaraka (\"spouse significator\") — the planet at the lowest degree within its sign, traditionally read as the chart's primary indicator of marriage and spouse.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_karakas"
+  ],
+  "feature_ids": [
+    "karaka:Darakaraka:sun",
+    "karaka:Darakaraka:moon",
+    "karaka:Darakaraka:mars",
+    "karaka:Darakaraka:mercury",
+    "karaka:Darakaraka:jupiter",
+    "karaka:Darakaraka:venus",
+    "karaka:Darakaraka:saturn"
+  ],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "chara_karaka"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

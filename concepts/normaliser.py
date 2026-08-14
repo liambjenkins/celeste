@@ -542,6 +542,50 @@ def normalise_observations(observations):
         )
 
     # --------------------------------------------------------
+    # VEDIC DIGNITY, JAIMINI KARAKAS, MARAK PLANETS
+    # --------------------------------------------------------
+    #
+    # Outputs of astrology.dignity.build_dignity(),
+    # astrology.jaimini.build_chara_karakas(), and
+    # astrology.jaimini.build_marak_planets() respectively.
+    #
+    vedic_dignity = observations.get(
+        "vedic_dignity",
+        {}
+    )
+
+    if isinstance(vedic_dignity, dict) and vedic_dignity:
+        add_concept(
+            "vedic_dignity",
+            vedic_dignity,
+            "vedic_dignity"
+        )
+
+    vedic_karakas = observations.get(
+        "vedic_karakas",
+        {}
+    )
+
+    if isinstance(vedic_karakas, dict) and vedic_karakas:
+        add_concept(
+            "vedic_karakas",
+            vedic_karakas,
+            "vedic_karakas"
+        )
+
+    vedic_marak = observations.get(
+        "vedic_marak",
+        []
+    )
+
+    if isinstance(vedic_marak, list) and vedic_marak:
+        add_concept(
+            "vedic_marak",
+            vedic_marak,
+            "vedic_marak"
+        )
+
+    # --------------------------------------------------------
     # CHINESE ASTROLOGY (BaZi Four Pillars)
     # --------------------------------------------------------
     #

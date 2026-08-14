@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_avastha_vriddha",
+  "lens_id": "vedic_astrology",
+  "statement": "Vriddha (old age) — declining strength; results connected to this planet are fading, past their most capable phase.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "avastha:sun:Vriddha",
+    "avastha:moon:Vriddha",
+    "avastha:mars:Vriddha",
+    "avastha:mercury:Vriddha",
+    "avastha:jupiter:Vriddha",
+    "avastha:venus:Vriddha",
+    "avastha:saturn:Vriddha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "baladi_avastha"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

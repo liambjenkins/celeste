@@ -1,0 +1,28 @@
+{
+  "claim_id": "vedic_astrology_marak_core",
+  "lens_id": "vedic_astrology",
+  "statement": "A Marak (\"killer\") planet is a lord of the 2nd or 7th house from the Ascendant — traditionally consulted, especially via its Dasha or Antardasha periods, as a timing significator for periods of vulnerability, illness, or major transition, not as a literal prediction of death.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_marak"
+  ],
+  "feature_ids": [
+    "marak:sun",
+    "marak:moon",
+    "marak:mars",
+    "marak:mercury",
+    "marak:jupiter",
+    "marak:venus",
+    "marak:saturn"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "maraka",
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "A single planet ruling both the 2nd and 7th house loses Marak status entirely (\"Dwi Marak Na Marak\") — this chart's Marak computation already applies that exception, so an empty Marak list is a real, meaningful result, not a gap in the data.",
+  "status": "approved"
+}

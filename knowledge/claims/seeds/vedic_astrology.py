@@ -571,6 +571,201 @@ for _lord, (_effect, _domain, _themes) in _DASHA_GENERAL_EFFECTS.items():
     )
 
 
+# ------------------------------------------------------------
+# Planetary dignity (6 levels + debilitation) and Baladi Avastha
+# (5 degree-based states) — body-agnostic, matched via
+# dignity:{planet}:{level} and avastha:{planet}:{state} tags for any
+# of the 7 classical planets (astrology/dignity.py).
+# Source: Brihat Parashara Hora Shastra (verified via search during
+# curation — exaltation degrees, Moolatrikona ranges, and the
+# Naisargika/natural friend-enemy table all cross-referenced against
+# multiple independent technical sources).
+# ------------------------------------------------------------
+
+_CLASSICAL_PLANETS = (
+    "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn",
+)
+
+_DIGNITY_LEVELS = {
+    "exalted": (
+        "Exalted — the strongest classical dignity. A planet here "
+        "expresses its natural significations at their fullest and "
+        "most confident, largely free of the difficulty a weaker "
+        "placement would carry.",
+        "underlying_strength",
+    ),
+    "moolatrikona": (
+        "Moolatrikona (\"root triangle\") — a specific degree range, "
+        "almost as strong as exaltation, where a planet is "
+        "particularly comfortable and effective, distinct from its "
+        "plain own sign.",
+        "underlying_strength",
+    ),
+    "own_sign": (
+        "Own sign (Swakshetra) — a planet here is naturally "
+        "comfortable and stable, expressing its significations "
+        "steadily without needing to compensate for foreign terrain.",
+        "underlying_strength",
+    ),
+    "friendly_sign": (
+        "Friendly sign — a planet placed in a sign ruled by a "
+        "natural friend, lending it a supportive, cooperative "
+        "quality even though the terrain isn't fully its own.",
+        "underlying_strength",
+    ),
+    "neutral_sign": (
+        "Neutral sign — a planet placed in a sign ruled by neither "
+        "friend nor enemy, expressing its significations in a "
+        "fairly even, unmodified way.",
+        "underlying_strength",
+    ),
+    "enemy_sign": (
+        "Enemy sign — a planet placed in a sign ruled by a natural "
+        "enemy, complicating its expression with friction that has "
+        "to be worked through rather than flowing naturally.",
+        "underlying_strength",
+    ),
+    "debilitated": (
+        "Debilitated — the weakest classical dignity, directly "
+        "opposite the planet's exaltation. Its significations are "
+        "hardest to access here, though classical technique also "
+        "allows for Neecha Bhanga (debilitation-cancellation) under "
+        "specific chart conditions not evaluated by this dignity "
+        "computation.",
+        "underlying_strength",
+    ),
+}
+
+for _level, (_meaning, _domain) in _DIGNITY_LEVELS.items():
+    _add(
+        f"dignity_{_level}",
+        _meaning,
+        concept_ids=["vedic_dignity"],
+        feature_ids=[
+            f"dignity:{_planet}:{_level}" for _planet in _CLASSICAL_PLANETS
+        ],
+        theme_tags=["planetary_dignity"],
+        source_id="parashara_bphs_1984",
+    )
+
+_BALADI_AVASTHAS = {
+    "Bala": "Bala (infant) — early, undeveloped strength; results connected to this planet tend to be slow to mature and only partially realized.",
+    "Kumara": "Kumara (youth) — growing strength; results connected to this planet are emerging but not yet at full capacity.",
+    "Yuva": "Yuva (young adult) — peak strength; results connected to this planet are at their fullest and most capable expression.",
+    "Vriddha": "Vriddha (old age) — declining strength; results connected to this planet are fading, past their most capable phase.",
+    "Mrita": "Mrita (dead) — minimal strength; results connected to this planet are the hardest to access in this state.",
+}
+
+for _state, _meaning in _BALADI_AVASTHAS.items():
+    _add(
+        f"avastha_{_state.lower()}",
+        _meaning,
+        concept_ids=["vedic_dignity"],
+        feature_ids=[
+            f"avastha:{_planet}:{_state}" for _planet in _CLASSICAL_PLANETS
+        ],
+        theme_tags=["baladi_avastha"],
+        source_id="parashara_bphs_1984",
+    )
+
+
+# ------------------------------------------------------------
+# Jaimini Chara Karakas (7-karaka scheme) — body-agnostic, matched
+# via karaka:{name}:{planet} tags for any of the 7 classical planets
+# (astrology/jaimini.py).
+# Source: Jaimini Sutras, as documented in classical/modern Jaimini
+# astrology references, cross-referenced via search during curation.
+# ------------------------------------------------------------
+
+_CHARA_KARAKAS = {
+    "Atmakaraka": (
+        "Atmakaraka (\"soul significator\") — the planet at the "
+        "highest degree within its sign, traditionally read as the "
+        "single most important indicator of the soul's own agenda "
+        "and deepest motivation in this lifetime.",
+        "identity",
+    ),
+    "Amatyakaraka": (
+        "Amatyakaraka (\"minister significator\") — indicates career, "
+        "counsel, and the guiding influences a person turns to for "
+        "direction.",
+        "drive_and_ambition",
+    ),
+    "Bhratrikaraka": (
+        "Bhratrikaraka (\"sibling significator\") — indicates "
+        "siblings and courage, the capacity to act alongside or in "
+        "support of others.",
+        "relationships",
+    ),
+    "Matrikaraka": (
+        "Matrikaraka (\"mother significator\") — indicates the "
+        "mother and nurturing, emotionally foundational influences.",
+        "foundation_and_security",
+    ),
+    "Putrakaraka": (
+        "Putrakaraka (\"children significator\") — indicates "
+        "children and creative or intellectual legacy.",
+        "values_and_desire",
+    ),
+    "Gnatikaraka": (
+        "Gnatikaraka (\"kin/obstacles significator\") — indicates "
+        "extended relatives, competition, and obstacles to be worked "
+        "through.",
+        "discipline",
+    ),
+    "Darakaraka": (
+        "Darakaraka (\"spouse significator\") — the planet at the "
+        "lowest degree within its sign, traditionally read as the "
+        "chart's primary indicator of marriage and spouse.",
+        "relationships",
+    ),
+}
+
+for _karaka_name, (_meaning, _domain) in _CHARA_KARAKAS.items():
+    _add(
+        f"karaka_{_karaka_name.lower()}",
+        _meaning,
+        concept_ids=["vedic_karakas"],
+        feature_ids=[
+            f"karaka:{_karaka_name}:{_planet}" for _planet in _CLASSICAL_PLANETS
+        ],
+        theme_tags=["chara_karaka"],
+        life_domain=_domain,
+        source_id="jaimini_sutras",
+    )
+
+
+# ------------------------------------------------------------
+# Marak (2nd/7th house lord) planets — matched via marak:{planet}
+# tags for any of the 7 classical planets (astrology/jaimini.py).
+# Source: standard classical Maraka doctrine (2nd/7th house lordship
+# from the Ascendant, with the "Dwi Marak Na Marak" exception when a
+# single planet rules both), cross-referenced via search during
+# curation.
+# ------------------------------------------------------------
+
+_add(
+    "marak_core",
+    "A Marak (\"killer\") planet is a lord of the 2nd or 7th house "
+    "from the Ascendant — traditionally consulted, especially via "
+    "its Dasha or Antardasha periods, as a timing significator for "
+    "periods of vulnerability, illness, or major transition, not as "
+    "a literal prediction of death.",
+    concept_ids=["vedic_marak"],
+    feature_ids=[f"marak:{_planet}" for _planet in _CLASSICAL_PLANETS],
+    theme_tags=["maraka", "timing_and_technique"],
+    life_domain="cyclicality",
+    source_id="parashara_bphs_1984",
+    notes=(
+        "A single planet ruling both the 2nd and 7th house loses "
+        "Marak status entirely (\"Dwi Marak Na Marak\") — this "
+        "chart's Marak computation already applies that exception, "
+        "so an empty Marak list is a real, meaningful result, not a "
+        "gap in the data."
+    ),
+)
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

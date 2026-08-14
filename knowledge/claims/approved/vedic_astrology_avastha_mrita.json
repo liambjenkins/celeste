@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_avastha_mrita",
+  "lens_id": "vedic_astrology",
+  "statement": "Mrita (dead) — minimal strength; results connected to this planet are the hardest to access in this state.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "avastha:sun:Mrita",
+    "avastha:moon:Mrita",
+    "avastha:mars:Mrita",
+    "avastha:mercury:Mrita",
+    "avastha:jupiter:Mrita",
+    "avastha:venus:Mrita",
+    "avastha:saturn:Mrita"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "baladi_avastha"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_avastha_yuva",
+  "lens_id": "vedic_astrology",
+  "statement": "Yuva (young adult) — peak strength; results connected to this planet are at their fullest and most capable expression.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "avastha:sun:Yuva",
+    "avastha:moon:Yuva",
+    "avastha:mars:Yuva",
+    "avastha:mercury:Yuva",
+    "avastha:jupiter:Yuva",
+    "avastha:venus:Yuva",
+    "avastha:saturn:Yuva"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "baladi_avastha"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

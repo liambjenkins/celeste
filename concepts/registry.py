@@ -1010,6 +1010,50 @@ CONCEPTS = {
     ],
     "related": ["navamsa_ascendant", "vedic_positions"]
 },
+"vedic_dignity": {
+    "label": "Vedic planetary dignity",
+    "domain": "space",
+    "description": (
+        "Classical dignity (exalted, moolatrikona, own sign, "
+        "friendly sign, neutral sign, enemy sign, or debilitated) "
+        "and Baladi Avastha (degree-based Bala/Kumara/Yuva/Vriddha/ "
+        "Mrita 'age' state) for each of the 7 classical planets, per "
+        "Brihat Parashara Hora Shastra."
+    ),
+    "synonyms": [
+        "planetary dignity", "exaltation", "debilitation",
+        "moolatrikona", "own sign", "avastha", "baladi avastha"
+    ],
+    "related": ["vedic_positions"]
+},
+"vedic_karakas": {
+    "label": "Jaimini Chara Karakas",
+    "domain": "space",
+    "description": (
+        "The classical 7-karaka Jaimini scheme: the 7 planets ranked "
+        "by degree within their sign, from Atmakaraka (soul "
+        "significator, highest degree) to Darakaraka (spouse "
+        "significator, lowest degree)."
+    ),
+    "synonyms": [
+        "chara karaka", "atmakaraka", "amatyakaraka", "darakaraka",
+        "jaimini karaka"
+    ],
+    "related": ["vedic_positions"]
+},
+"vedic_marak": {
+    "label": "Marak (killer) planets",
+    "domain": "space",
+    "description": (
+        "The lords of the 2nd and 7th houses from the Ascendant, "
+        "traditionally consulted as timing significators for periods "
+        "of vulnerability via Dasha — unless a single planet rules "
+        "both houses, in which case it loses maraka status (Dwi "
+        "Marak Na Marak)."
+    ),
+    "synonyms": ["maraka", "killer planets", "marak planets"],
+    "related": ["vedic_positions", "vedic_dasha"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",
