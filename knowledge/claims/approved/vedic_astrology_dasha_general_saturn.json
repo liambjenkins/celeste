@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_saturn",
   "lens_id": "vedic_astrology",
-  "statement": "A Saturn Dasha (Mahadasha or Antardasha) generally brings a period of discipline, delay, and hard-won achievement — favors are earned slowly through sustained effort rather than given easily, a genuine test of endurance rather than a purely difficult period.",
+  "statement": "A Saturn Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of discipline, delay, and hard-won achievement — favors are earned slowly through sustained effort rather than given easily, a genuine test of endurance rather than a purely difficult period.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:saturn",
-    "dasha_antardasha:saturn"
+    "dasha_antardasha:saturn",
+    "dasha_pratyantardasha:saturn",
+    "dasha_sookshma:saturn",
+    "yogini_dasha:Ulka"
   ],
   "source_ids": [
     "parashara_bphs_1984"

@@ -9,6 +9,8 @@ from astrology.chart import build_chart
 from astrology.dasha import build_vimshottari_dasha
 from astrology.dignity import build_dignity
 from astrology.jaimini import build_chara_karakas, build_marak_planets
+from astrology.yogini_dasha import build_yogini_dasha
+from astrology.chara_dasha import build_chara_dasha
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
@@ -310,6 +312,12 @@ if args.as_of_time_utc is not None:
         _tropical_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
     observations["vedic_dasha"] = build_vimshottari_dasha(
+        _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
+    )
+    observations["vedic_yogini_dasha"] = build_yogini_dasha(
+        _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
+    )
+    observations["vedic_chara_dasha"] = build_chara_dasha(
         _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
 

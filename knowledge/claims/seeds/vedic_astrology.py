@@ -134,6 +134,7 @@ for _sign, _meaning in _SIGN_MEANINGS.items():
                 for _n in (2, 3, 4, 7, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60)
                 for body in ("sun", "moon", "ascendant")
             ]
+            + [f"chara_dasha_sign:{_sign}"]
         ),
         theme_tags=["temperament"],
         source_id="parashara_bphs_1984",
@@ -548,16 +549,34 @@ _DASHA_GENERAL_EFFECTS = {
     ),
 }
 
+_YOGINI_LORD_TO_NAME = {
+    "moon": "Mangala", "sun": "Pingala", "jupiter": "Dhanya",
+    "mars": "Bhramari", "mercury": "Bhadrika", "saturn": "Ulka",
+    "venus": "Siddha", "rahu": "Sankata",
+}
+
 for _lord, (_effect, _domain, _themes) in _DASHA_GENERAL_EFFECTS.items():
+    # Same planetary theme applies across every timescale this
+    # project computes for that lord — Mahadasha, Antardasha,
+    # Pratyantardasha, Sookshma Dasha, and (where the 8-Yogini scheme
+    # includes that planet at all) Yogini Dasha aren't different
+    # qualities, just different durations/systems built on the same
+    # underlying planetary nature.
+    _feature_ids = [
+        f"dasha_mahadasha:{_lord}",
+        f"dasha_antardasha:{_lord}",
+        f"dasha_pratyantardasha:{_lord}",
+        f"dasha_sookshma:{_lord}",
+    ]
+    if _lord in _YOGINI_LORD_TO_NAME:
+        _feature_ids.append(f"yogini_dasha:{_YOGINI_LORD_TO_NAME[_lord]}")
+
     _add(
         f"dasha_general_{_lord}",
-        f"A {_lord.capitalize()} Dasha (Mahadasha or Antardasha) generally "
-        f"{_effect}",
+        f"A {_lord.capitalize()} Dasha (at any timescale — Mahadasha, "
+        f"Antardasha, or finer) generally {_effect}",
         concept_ids=["vedic_dasha"],
-        # Same planetary theme applies at both timescales — a
-        # Mahadasha and its Antardasha of the same lord aren't
-        # different qualities, just different durations.
-        feature_ids=[f"dasha_mahadasha:{_lord}", f"dasha_antardasha:{_lord}"],
+        feature_ids=_feature_ids,
         theme_tags=["dasha"] + _themes,
         life_domain=_domain,
         source_id="parashara_bphs_1984",
@@ -569,6 +588,45 @@ for _lord, (_effect, _domain, _themes) in _DASHA_GENERAL_EFFECTS.items():
             "doesn't evaluate planetary dignity or strength."
         ),
     )
+
+
+# ------------------------------------------------------------
+# Yogini Dasha and Chara Dasha (Jaimini) — technique-overview claims.
+# Yogini period effects reuse the planetary-effect claims above (see
+# yogini_dasha:{name} tags added to _feature_ids); Chara Dasha's
+# per-sign period reuses the sign-meaning claims (feature_ids
+# extended below), the same compositional pattern D9/vargas already
+# use rather than duplicating content.
+# Source: standard classical Yogini Dasha and Jaimini Chara Dasha
+# convention, verified via search during curation.
+# ------------------------------------------------------------
+
+_add(
+    "yogini_dasha_core",
+    "Yogini Dasha is a distinct, faster 36-year Vedic timing cycle, "
+    "entered via the Moon's birth nakshatra — read alongside "
+    "Vimshottari Dasha for a second, independent timing perspective, "
+    "prized for its comparative simplicity and quick applicability.",
+    concept_ids=["vedic_yogini_dasha"],
+    theme_tags=["dasha", "timing_and_technique"],
+    life_domain="cyclicality",
+    source_id="parashara_bphs_1984",
+)
+
+_add(
+    "chara_dasha_core",
+    "Chara Dasha is the Jaimini school's sign-based (not planet-"
+    "based) timing technique — each of the 12 signs rules a period "
+    "of 1 to 12 years, its length set by counting from the sign to "
+    "wherever its own ruling planet currently sits. Read alongside "
+    "Vimshottari Dasha for a second, structurally different timing "
+    "perspective, since it tracks houses/life-areas through the sign "
+    "period rather than planetary periods directly.",
+    concept_ids=["vedic_chara_dasha"],
+    theme_tags=["dasha", "timing_and_technique", "jaimini"],
+    life_domain="cyclicality",
+    source_id="jaimini_sutras",
+)
 
 
 # ------------------------------------------------------------

@@ -92,7 +92,8 @@
     "varga:45:ascendant:Leo",
     "varga:60:sun:Leo",
     "varga:60:moon:Leo",
-    "varga:60:ascendant:Leo"
+    "varga:60:ascendant:Leo",
+    "chara_dasha_sign:Leo"
   ],
   "source_ids": [
     "parashara_bphs_1984"

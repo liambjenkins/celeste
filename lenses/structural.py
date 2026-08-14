@@ -910,6 +910,26 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.has_yogini_dasha:
+        themes.append(f"yogini_dasha:{features.yogini_dasha_current}")
+        notes.append(
+            f"The current Yogini Dasha period is {features.yogini_dasha_current} "
+            "— a distinct, faster 36-year Vedic timing cycle read "
+            "alongside (not instead of) Vimshottari Dasha."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.has_chara_dasha:
+        themes.append(f"chara_dasha_sign:{features.chara_dasha_current_sign}")
+        notes.append(
+            f"The current Chara Dasha sign period is "
+            f"{features.chara_dasha_current_sign} — the Jaimini "
+            "school's sign-based (not planet-based) timing technique, "
+            "read alongside Vimshottari Dasha for a second, "
+            "independent timing perspective."
+        )
+        macro.append(CYCLICALITY)
+
     if features.dominant_domains:
         themes.append(
             "elemental_emphasis:" + "_".join(features.dominant_domains)

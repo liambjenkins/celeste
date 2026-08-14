@@ -92,7 +92,8 @@
     "varga:45:ascendant:Capricorn",
     "varga:60:sun:Capricorn",
     "varga:60:moon:Capricorn",
-    "varga:60:ascendant:Capricorn"
+    "varga:60:ascendant:Capricorn",
+    "chara_dasha_sign:Capricorn"
   ],
   "source_ids": [
     "parashara_bphs_1984"

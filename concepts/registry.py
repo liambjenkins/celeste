@@ -1054,6 +1054,30 @@ CONCEPTS = {
     "synonyms": ["maraka", "killer planets", "marak planets"],
     "related": ["vedic_positions", "vedic_dasha"]
 },
+"vedic_yogini_dasha": {
+    "label": "Yogini Dasha",
+    "domain": "space",
+    "description": (
+        "A distinct, compact 36-year Vedic timing cycle (8 Yoginis "
+        "ruling 1-8 years each in fixed sequence), entered via the "
+        "Moon's birth nakshatra — read alongside, not instead of, "
+        "Vimshottari Dasha."
+    ),
+    "synonyms": ["yogini dasha", "36 year cycle", "yogini period"],
+    "related": ["vedic_dasha"]
+},
+"vedic_chara_dasha": {
+    "label": "Chara Dasha (Jaimini)",
+    "domain": "space",
+    "description": (
+        "The Jaimini school's sign-based (not planet-based) timing "
+        "system — each of the 12 signs rules a period of 1-12 years, "
+        "determined by counting from the sign to wherever its lord "
+        "sits."
+    ),
+    "synonyms": ["chara dasha", "char dasha", "jaimini dasha", "rashi dasha"],
+    "related": ["vedic_dasha", "vedic_karakas"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",

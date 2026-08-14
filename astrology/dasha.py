@@ -18,7 +18,11 @@ period remains) is proportional to how far the Moon has already
 progressed through that nakshatra at birth. Every Mahadasha lord's
 own period is further subdivided among all nine planets in the same
 fixed order for its Antardashas (sub-periods), each lasting
-(mahadasha_years * antardasha_lord_years / 120).
+(mahadasha_years * antardasha_lord_years / 120). Pratyantardasha (3rd
+level) and Sookshma Dasha (4th level) apply the identical subdivision
+mechanism recursively -- each level subdivides its parent period among
+all nine planets in the same fixed order, starting from the parent's
+own lord.
 
 Year length: 365.25 days (the modern standard convention — verified
 via search; the older 360-day 'savana' convention drifts by roughly
@@ -138,6 +142,25 @@ def build_vimshottari_dasha(
     )
     current_antardasha = _find_covering(antardashas, as_of_utc_time)
 
+    # Pratyantardasha (3rd level) and Sookshma Dasha (4th level) are
+    # the same subdivision mechanism recursed further -- a
+    # Pratyantardasha subdivides the current Antardasha exactly as
+    # the Antardasha subdivides its Mahadasha, and Sookshma subdivides
+    # the current Pratyantardasha the same way again.
+    pratyantardashas = _sub_periods(
+        current_antardasha["lord"],
+        current_antardasha["start"],
+        current_antardasha["years"],
+    )
+    current_pratyantardasha = _find_covering(pratyantardashas, as_of_utc_time)
+
+    sookshma_dashas = _sub_periods(
+        current_pratyantardasha["lord"],
+        current_pratyantardasha["start"],
+        current_pratyantardasha["years"],
+    )
+    current_sookshma_dasha = _find_covering(sookshma_dashas, as_of_utc_time)
+
     return {
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "birth_nakshatra": NAKSHATRAS[nakshatra_index],
@@ -146,6 +169,8 @@ def build_vimshottari_dasha(
         "mahadasha_sequence": [_serialise(m) for m in mahadashas],
         "current_mahadasha": _serialise(current_mahadasha),
         "current_antardasha": _serialise(current_antardasha),
+        "current_pratyantardasha": _serialise(current_pratyantardasha),
+        "current_sookshma_dasha": _serialise(current_sookshma_dasha),
     }
 
 

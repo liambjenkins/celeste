@@ -461,6 +461,38 @@ def normalise_observations(observations):
         )
 
     # --------------------------------------------------------
+    # YOGINI DASHA, CHARA DASHA (Jaimini)
+    # --------------------------------------------------------
+    #
+    # Outputs of astrology.yogini_dasha.build_yogini_dasha() and
+    # astrology.chara_dasha.build_chara_dasha() respectively — both
+    # optional and --as-of-dependent, same as vedic_dasha above.
+    #
+    yogini_dasha = observations.get(
+        "vedic_yogini_dasha",
+        {}
+    )
+
+    if isinstance(yogini_dasha, dict) and yogini_dasha:
+        add_concept(
+            "vedic_yogini_dasha",
+            yogini_dasha,
+            "vedic_yogini_dasha"
+        )
+
+    chara_dasha = observations.get(
+        "vedic_chara_dasha",
+        {}
+    )
+
+    if isinstance(chara_dasha, dict) and chara_dasha:
+        add_concept(
+            "vedic_chara_dasha",
+            chara_dasha,
+            "vedic_chara_dasha"
+        )
+
+    # --------------------------------------------------------
     # NAVAMSA (D9 divisional chart)
     # --------------------------------------------------------
     #

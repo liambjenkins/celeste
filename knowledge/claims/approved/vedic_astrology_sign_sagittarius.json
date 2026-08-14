@@ -92,7 +92,8 @@
     "varga:45:ascendant:Sagittarius",
     "varga:60:sun:Sagittarius",
     "varga:60:moon:Sagittarius",
-    "varga:60:ascendant:Sagittarius"
+    "varga:60:ascendant:Sagittarius",
+    "chara_dasha_sign:Sagittarius"
   ],
   "source_ids": [
     "parashara_bphs_1984"

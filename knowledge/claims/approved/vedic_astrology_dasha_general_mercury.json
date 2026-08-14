@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_mercury",
   "lens_id": "vedic_astrology",
-  "statement": "A Mercury Dasha (Mahadasha or Antardasha) generally brings a period of sharpened intellect and communication — favorable for education, business, and adaptability, with an emphasis on how information and ideas are exchanged.",
+  "statement": "A Mercury Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of sharpened intellect and communication — favorable for education, business, and adaptability, with an emphasis on how information and ideas are exchanged.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:mercury",
-    "dasha_antardasha:mercury"
+    "dasha_antardasha:mercury",
+    "dasha_pratyantardasha:mercury",
+    "dasha_sookshma:mercury",
+    "yogini_dasha:Bhadrika"
   ],
   "source_ids": [
     "parashara_bphs_1984"

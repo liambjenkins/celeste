@@ -92,7 +92,8 @@
     "varga:45:ascendant:Cancer",
     "varga:60:sun:Cancer",
     "varga:60:moon:Cancer",
-    "varga:60:ascendant:Cancer"
+    "varga:60:ascendant:Cancer",
+    "chara_dasha_sign:Cancer"
   ],
   "source_ids": [
     "parashara_bphs_1984"

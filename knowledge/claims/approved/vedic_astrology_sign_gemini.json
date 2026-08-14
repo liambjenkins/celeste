@@ -92,7 +92,8 @@
     "varga:45:ascendant:Gemini",
     "varga:60:sun:Gemini",
     "varga:60:moon:Gemini",
-    "varga:60:ascendant:Gemini"
+    "varga:60:ascendant:Gemini",
+    "chara_dasha_sign:Gemini"
   ],
   "source_ids": [
     "parashara_bphs_1984"

@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_rahu",
   "lens_id": "vedic_astrology",
-  "statement": "A Rahu Dasha (Mahadasha or Antardasha) generally brings a period of intensified worldly ambition and unconventional opportunity — often bringing sudden, significant change and material gain, alongside a restlessness that isn't easily satisfied.",
+  "statement": "A Rahu Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of intensified worldly ambition and unconventional opportunity — often bringing sudden, significant change and material gain, alongside a restlessness that isn't easily satisfied.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:rahu",
-    "dasha_antardasha:rahu"
+    "dasha_antardasha:rahu",
+    "dasha_pratyantardasha:rahu",
+    "dasha_sookshma:rahu",
+    "yogini_dasha:Sankata"
   ],
   "source_ids": [
     "parashara_bphs_1984"

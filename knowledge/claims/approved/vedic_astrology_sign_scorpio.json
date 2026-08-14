@@ -92,7 +92,8 @@
     "varga:45:ascendant:Scorpio",
     "varga:60:sun:Scorpio",
     "varga:60:moon:Scorpio",
-    "varga:60:ascendant:Scorpio"
+    "varga:60:ascendant:Scorpio",
+    "chara_dasha_sign:Scorpio"
   ],
   "source_ids": [
     "parashara_bphs_1984"

@@ -92,7 +92,8 @@
     "varga:45:ascendant:Taurus",
     "varga:60:sun:Taurus",
     "varga:60:moon:Taurus",
-    "varga:60:ascendant:Taurus"
+    "varga:60:ascendant:Taurus",
+    "chara_dasha_sign:Taurus"
   ],
   "source_ids": [
     "parashara_bphs_1984"

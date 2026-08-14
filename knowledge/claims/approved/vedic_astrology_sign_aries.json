@@ -92,7 +92,8 @@
     "varga:45:ascendant:Aries",
     "varga:60:sun:Aries",
     "varga:60:moon:Aries",
-    "varga:60:ascendant:Aries"
+    "varga:60:ascendant:Aries",
+    "chara_dasha_sign:Aries"
   ],
   "source_ids": [
     "parashara_bphs_1984"

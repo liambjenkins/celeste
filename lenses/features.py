@@ -123,6 +123,11 @@ class FeatureBundle:
     dasha_mahadasha_lord: Optional[str] = None
     dasha_antardasha_lord: Optional[str] = None
 
+    has_yogini_dasha: bool = False
+    yogini_dasha_current: Optional[str] = None
+    has_chara_dasha: bool = False
+    chara_dasha_current_sign: Optional[str] = None
+
     chinese_day_master: Optional[str] = None
     chinese_day_master_element: Optional[str] = None
     chinese_year_animal: Optional[str] = None
@@ -915,6 +920,38 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             dasha_antardasha_lord = current_antardasha.get("lord")
             tags.append(f"dasha_antardasha:{dasha_antardasha_lord}")
 
+        current_pratyantardasha = dasha_value.get("current_pratyantardasha")
+        if isinstance(current_pratyantardasha, dict) and current_pratyantardasha.get("lord"):
+            tags.append(f"dasha_pratyantardasha:{current_pratyantardasha['lord']}")
+
+        current_sookshma = dasha_value.get("current_sookshma_dasha")
+        if isinstance(current_sookshma, dict) and current_sookshma.get("lord"):
+            tags.append(f"dasha_sookshma:{current_sookshma['lord']}")
+
+    # Yogini Dasha — a distinct 36-year timing cycle, also optional
+    # and --as-of-dependent.
+    has_yogini_dasha = False
+    yogini_dasha_current = None
+
+    yogini_dasha_value = _single_value(concepts.get("vedic_yogini_dasha"))
+
+    if isinstance(yogini_dasha_value, dict) and yogini_dasha_value.get("current_yogini_dasha"):
+        has_yogini_dasha = True
+        yogini_dasha_current = yogini_dasha_value["current_yogini_dasha"].get("yogini")
+        tags.append(f"yogini_dasha:{yogini_dasha_current}")
+
+    # Chara Dasha (Jaimini) — sign-based, also optional and
+    # --as-of-dependent.
+    has_chara_dasha = False
+    chara_dasha_current_sign = None
+
+    chara_dasha_value = _single_value(concepts.get("vedic_chara_dasha"))
+
+    if isinstance(chara_dasha_value, dict) and chara_dasha_value.get("current_sign_dasha"):
+        has_chara_dasha = True
+        chara_dasha_current_sign = chara_dasha_value["current_sign_dasha"].get("sign")
+        tags.append(f"chara_dasha_sign:{chara_dasha_current_sign}")
+
     # Chinese (BaZi) Four Pillars. No sign/house tags — BaZi has
     # neither; see chinese/pillars.py's module docstring.
     chinese_day_master = None
@@ -1203,6 +1240,10 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         has_dasha=has_dasha,
         dasha_mahadasha_lord=dasha_mahadasha_lord,
         dasha_antardasha_lord=dasha_antardasha_lord,
+        has_yogini_dasha=has_yogini_dasha,
+        yogini_dasha_current=yogini_dasha_current,
+        has_chara_dasha=has_chara_dasha,
+        chara_dasha_current_sign=chara_dasha_current_sign,
         chinese_day_master=chinese_day_master,
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,

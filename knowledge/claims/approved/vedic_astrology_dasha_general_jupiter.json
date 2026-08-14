@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_jupiter",
   "lens_id": "vedic_astrology",
-  "statement": "A Jupiter Dasha (Mahadasha or Antardasha) generally brings a period of growth, wisdom, and expansion — favorable for prosperity, higher learning, teachers or mentors, and matters concerning children.",
+  "statement": "A Jupiter Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of growth, wisdom, and expansion — favorable for prosperity, higher learning, teachers or mentors, and matters concerning children.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:jupiter",
-    "dasha_antardasha:jupiter"
+    "dasha_antardasha:jupiter",
+    "dasha_pratyantardasha:jupiter",
+    "dasha_sookshma:jupiter",
+    "yogini_dasha:Dhanya"
   ],
   "source_ids": [
     "parashara_bphs_1984"

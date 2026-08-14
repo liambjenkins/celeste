@@ -92,7 +92,8 @@
     "varga:45:ascendant:Pisces",
     "varga:60:sun:Pisces",
     "varga:60:moon:Pisces",
-    "varga:60:ascendant:Pisces"
+    "varga:60:ascendant:Pisces",
+    "chara_dasha_sign:Pisces"
   ],
   "source_ids": [
     "parashara_bphs_1984"

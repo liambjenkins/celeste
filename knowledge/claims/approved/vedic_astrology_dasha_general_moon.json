@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_moon",
   "lens_id": "vedic_astrology",
-  "statement": "A Moon Dasha (Mahadasha or Antardasha) generally brings a period centered on emotional life, home, and the mind — attentive to domestic matters and inner state, with the Moon's own changeable nature making this a more fluctuating period than most.",
+  "statement": "A Moon Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period centered on emotional life, home, and the mind — attentive to domestic matters and inner state, with the Moon's own changeable nature making this a more fluctuating period than most.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:moon",
-    "dasha_antardasha:moon"
+    "dasha_antardasha:moon",
+    "dasha_pratyantardasha:moon",
+    "dasha_sookshma:moon",
+    "yogini_dasha:Mangala"
   ],
   "source_ids": [
     "parashara_bphs_1984"

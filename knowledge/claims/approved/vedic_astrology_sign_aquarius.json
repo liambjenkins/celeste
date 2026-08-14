@@ -92,7 +92,8 @@
     "varga:45:ascendant:Aquarius",
     "varga:60:sun:Aquarius",
     "varga:60:moon:Aquarius",
-    "varga:60:ascendant:Aquarius"
+    "varga:60:ascendant:Aquarius",
+    "chara_dasha_sign:Aquarius"
   ],
   "source_ids": [
     "parashara_bphs_1984"

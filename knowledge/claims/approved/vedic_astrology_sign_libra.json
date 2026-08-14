@@ -92,7 +92,8 @@
     "varga:45:ascendant:Libra",
     "varga:60:sun:Libra",
     "varga:60:moon:Libra",
-    "varga:60:ascendant:Libra"
+    "varga:60:ascendant:Libra",
+    "chara_dasha_sign:Libra"
   ],
   "source_ids": [
     "parashara_bphs_1984"

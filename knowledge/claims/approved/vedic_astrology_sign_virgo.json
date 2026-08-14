@@ -92,7 +92,8 @@
     "varga:45:ascendant:Virgo",
     "varga:60:sun:Virgo",
     "varga:60:moon:Virgo",
-    "varga:60:ascendant:Virgo"
+    "varga:60:ascendant:Virgo",
+    "chara_dasha_sign:Virgo"
   ],
   "source_ids": [
     "parashara_bphs_1984"

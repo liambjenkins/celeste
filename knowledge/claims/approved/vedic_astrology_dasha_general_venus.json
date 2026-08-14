@@ -1,14 +1,17 @@
 {
   "claim_id": "vedic_astrology_dasha_general_venus",
   "lens_id": "vedic_astrology",
-  "statement": "A Venus Dasha (Mahadasha or Antardasha) generally brings a period centered on relationships, comfort, and the arts — favorable for marriage, pleasure, and material enjoyment.",
+  "statement": "A Venus Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period centered on relationships, comfort, and the arts — favorable for marriage, pleasure, and material enjoyment.",
   "passage_ids": [],
   "concept_ids": [
     "vedic_dasha"
   ],
   "feature_ids": [
     "dasha_mahadasha:venus",
-    "dasha_antardasha:venus"
+    "dasha_antardasha:venus",
+    "dasha_pratyantardasha:venus",
+    "dasha_sookshma:venus",
+    "yogini_dasha:Siddha"
   ],
   "source_ids": [
     "parashara_bphs_1984"
