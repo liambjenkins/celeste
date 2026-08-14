@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_12_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Dwadasamsa (D12) is read for parents and ancestry — the inherited circumstances and family lineage a person is born into.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:12"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

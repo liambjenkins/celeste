@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_45_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Akshavedamsa (D45) is read for general conduct and character across a lifetime, inherited through the paternal line — a broad, cumulative picture of how a person carries themselves.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:45"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

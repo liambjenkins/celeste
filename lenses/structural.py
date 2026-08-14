@@ -830,6 +830,21 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.varga_ascendant_signs:
+        for varga_n, sign in sorted(features.varga_ascendant_signs.items()):
+            themes.append(f"varga_ascendant:{varga_n}:{sign}")
+        notes.append(
+            "Divisional chart (varga) Ascendant(s): "
+            + ", ".join(
+                f"D{n} in {sign}"
+                for n, sign in sorted(features.varga_ascendant_signs.items())
+            )
+            + " — each divisional chart's own Ascendant, the reference "
+            "point its own domain-specific reading (D10 career, D12 "
+            "parents, D7 children, and so on) is built from."
+        )
+        macro.append(ARCHETYPE)
+
     if features.vedic_yogas:
         for yoga_id in features.vedic_yogas:
             themes.append(f"yoga:{yoga_id}")

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_30_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Trimshamsa (D30) is read for misfortune, vulnerability to harm, and moral conduct — traditionally the chart consulted for a placement's darker, more difficult potentials, uniquely built from planetary lordship rather than equal sign-division like the other Shodasavarga charts.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:30"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

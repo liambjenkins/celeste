@@ -110,6 +110,8 @@ class FeatureBundle:
     navamsa_ascendant_sign: Optional[str] = None
     navamsa_planet_signs: dict[str, str] = field(default_factory=dict)
 
+    varga_ascendant_signs: dict[int, str] = field(default_factory=dict)
+
     vedic_yogas: list[str] = field(default_factory=list)
 
     has_dasha: bool = False
@@ -780,6 +782,40 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             navamsa_planet_signs[planet_name] = body["sign"]
             _tag_navamsa_point(planet_name, body)
 
+    # Remaining Shodasavarga divisional charts (D2, D3, D4, D7, D10,
+    # D12, D16, D20, D24, D27, D30, D40, D45, D60) — one generic
+    # concept (astrology.varga.build_all_vargas' output) rather than
+    # per-chart concepts, same reasoning as the harmonic-chart block
+    # above. Tagged for Sun/Moon/Ascendant only, same scope as
+    # harmonics; varga:{n}:{body}:{sign} tags are matched by the
+    # existing Vedic sign-meaning claims (extended to cover them),
+    # reusing content the same way navamsa_sign: already does.
+    varga_ascendant_signs = {}
+
+    vedic_vargas_value = _single_value(concepts.get("vedic_vargas"))
+
+    if isinstance(vedic_vargas_value, dict):
+        for varga_n, chart in vedic_vargas_value.items():
+            if not isinstance(chart, dict):
+                continue
+
+            varga_n = int(varga_n)
+            varga_bodies = chart.get("bodies", {})
+            varga_ascendant = chart.get("ascendant", {})
+
+            for point_name, point in (
+                ("sun", varga_bodies.get("sun")),
+                ("moon", varga_bodies.get("moon")),
+                ("ascendant", varga_ascendant),
+            ):
+                if isinstance(point, dict) and point.get("sign"):
+                    tags.append(f"varga:{varga_n}:{point_name}:{point['sign']}")
+
+                    if point_name == "ascendant":
+                        varga_ascendant_signs[varga_n] = point["sign"]
+
+            tags.append(f"varga_present:{varga_n}")
+
     # Vedic yogas (classical planetary combinations) — a flat list of
     # whichever yogas from the curated set (astrology/yogas.py) are
     # present in this chart; can be empty.
@@ -1092,6 +1128,7 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         navamsa_moon_sign=navamsa_moon_sign,
         navamsa_ascendant_sign=navamsa_ascendant_sign,
         navamsa_planet_signs=navamsa_planet_signs,
+        varga_ascendant_signs=varga_ascendant_signs,
         vedic_yogas=vedic_yogas,
         has_dasha=has_dasha,
         dasha_mahadasha_lord=dasha_mahadasha_lord,

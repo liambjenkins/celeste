@@ -11,6 +11,7 @@ from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
 from astrology.tertiary_progressions import build_tertiary_progressions
+from astrology.varga import build_all_vargas
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
@@ -253,6 +254,7 @@ observations = {
     "vedic_astrology": _sidereal_chart,
     "vedic_yogas": find_yogas(_sidereal_chart),
     "navamsa": build_navamsa_chart(_sidereal_chart),
+    "vedic_vargas": build_all_vargas(_sidereal_chart),
     "chinese_pillars": _four_pillars.to_dict(),
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity

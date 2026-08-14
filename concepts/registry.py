@@ -985,6 +985,31 @@ CONCEPTS = {
         "vedic_positions"
     ]
 },
+"vedic_vargas": {
+    "label": "Vedic divisional charts (Shodasavarga)",
+    "domain": "space",
+    "description": (
+        "The remaining Shodasavarga divisional charts beyond D1 "
+        "(Rasi) and D9 (Navamsa, its own dedicated concept) — D2 "
+        "(Hora, wealth), D3 (Drekkana, siblings/courage), D4 "
+        "(Chaturthamsa, property), D7 (Saptamsa, children), D10 "
+        "(Dasamsa, career), D12 (Dwadasamsa, parents), D16 "
+        "(Shodasamsa, vehicles/comforts), D20 (Vimshamsa, spiritual "
+        "practice), D24 (Chaturvimshamsa, learning), D27 "
+        "(Saptavimshamsa, inherent strength), D30 (Trimshamsa, "
+        "misfortune), D40 (Khavedamsa, auspicious/inauspicious "
+        "effects), D45 (Akshavedamsa, general life conduct), and D60 "
+        "(Shashtyamsa, past-life karma). Each divides the sidereal "
+        "chart's signs by its own classical rule, per Brihat "
+        "Parashara Hora Shastra ch. 6."
+    ),
+    "synonyms": [
+        "divisional charts", "varga charts", "amsha charts",
+        "Shodasavarga", "D2", "D3", "D4", "D7", "D10", "D12", "D16",
+        "D20", "D24", "D27", "D30", "D40", "D45", "D60"
+    ],
+    "related": ["navamsa_ascendant", "vedic_positions"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_60_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Shashtyamsa (D60) is read as the most granular of the Shodasavarga charts — traditionally tied to karma carried in from past lives, and consulted last, to fine-tune or resolve ambiguity left by the coarser divisional charts.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:60"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

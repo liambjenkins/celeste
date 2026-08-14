@@ -518,6 +518,30 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # VEDIC DIVISIONAL CHARTS (Shodasavarga, beyond D1/D9)
+    # --------------------------------------------------------
+    #
+    # "vedic_vargas" is the output of astrology.varga.build_all_vargas():
+    # {n: {"bodies": {...}, "ascendant": {...}}} for D2, D3, D4, D7,
+    # D10, D12, D16, D20, D24, D27, D30, D40, D45, D60. Kept as one
+    # generic concept (mirroring astrology.harmonic_charts' pattern)
+    # rather than per-chart concepts — 14 charts would otherwise mean
+    # 14x the per-body concept sprawl D9 already has its own dedicated
+    # concepts for.
+    #
+    vedic_vargas = observations.get(
+        "vedic_vargas",
+        {}
+    )
+
+    if isinstance(vedic_vargas, dict) and vedic_vargas:
+        add_concept(
+            "vedic_vargas",
+            vedic_vargas,
+            "vedic_vargas"
+        )
+
+    # --------------------------------------------------------
     # CHINESE ASTROLOGY (BaZi Four Pillars)
     # --------------------------------------------------------
     #

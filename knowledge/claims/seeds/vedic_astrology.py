@@ -121,13 +121,19 @@ for _sign, _meaning in _SIGN_MEANINGS.items():
         f"A placement in sidereal {_sign} tends to be {_meaning}.",
         concept_ids=["vedic_positions"],
         # A sign's inherent nature doesn't change between the D1
-        # (Rasi) and D9 (Navamsa) charts — only the domain of life
-        # the divisional chart is being read for does. Same claim,
-        # matched against both vedic_sign: (D1) and navamsa_sign:
-        # (D9) tags rather than duplicated.
+        # (Rasi), D9 (Navamsa), or any other divisional chart — only
+        # the domain of life the divisional chart is being read for
+        # does. Same claim, matched against vedic_sign: (D1),
+        # navamsa_sign: (D9), and varga:{n}: (the remaining
+        # Shodasavarga charts) tags rather than duplicated per chart.
         feature_ids=(
             [f"vedic_sign:{body}:{_sign}" for body in _ALL_BODIES]
             + [f"navamsa_sign:{body}:{_sign}" for body in _ALL_BODIES]
+            + [
+                f"varga:{_n}:{body}:{_sign}"
+                for _n in (2, 3, 4, 7, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60)
+                for body in ("sun", "moon", "ascendant")
+            ]
         ),
         theme_tags=["temperament"],
         source_id="parashara_bphs_1984",
@@ -244,6 +250,127 @@ _add(
     life_domain="relationships",
     source_id="parashara_bphs_1984",
 )
+
+
+# ------------------------------------------------------------
+# Remaining Shodasavarga divisional charts (D2, D3, D4, D7, D10,
+# D12, D16, D20, D24, D27, D30, D40, D45, D60). Core meaning only,
+# per divisional chart — matched via varga_present:{n}, generic
+# across any chart. Each chart's own sign-by-sign reading reuses the
+# _SIGN_MEANINGS claims above (extended to match varga:{n}: tags),
+# same as Navamsa already does, rather than duplicating 12 sign
+# entries per chart.
+# Source: Brihat Parashara Hora Shastra, ch. 6 (verified via search
+# during curation, cross-referenced against multiple independent
+# technical sources for the calculation rule; theme/usage per
+# standard Vedic astrological convention).
+# ------------------------------------------------------------
+
+_VARGAS = {
+    2: (
+        "The Hora (D2) is read for wealth and material resources — "
+        "which of the two hora lords, Sun or Moon, a placement falls "
+        "under colors whether that resource shows up as actively "
+        "earned or passively accumulated.",
+        "values_and_desire",
+    ),
+    3: (
+        "The Drekkana (D3) is read for siblings, courage, and "
+        "self-initiated effort — the capacity to act on one's own "
+        "resources rather than through others.",
+        "drive_and_ambition",
+    ),
+    4: (
+        "The Chaturthamsa (D4) is read for property, fixed assets, "
+        "home, and general fortune — what one comes to own and "
+        "settle into over a lifetime.",
+        "foundation_and_security",
+    ),
+    7: (
+        "The Saptamsa (D7) is read for children and creative "
+        "legacy — what a person brings into being and passes "
+        "forward, whether offspring or lasting creative work.",
+        "values_and_desire",
+    ),
+    10: (
+        "The Dasamsa (D10) is read for career, public status, and "
+        "professional achievement — the second most consulted "
+        "divisional chart after Navamsa, and the primary one for "
+        "questions of vocation.",
+        "drive_and_ambition",
+    ),
+    12: (
+        "The Dwadasamsa (D12) is read for parents and ancestry — "
+        "the inherited circumstances and family lineage a person is "
+        "born into.",
+        "foundation_and_security",
+    ),
+    16: (
+        "The Shodasamsa (D16) is read for vehicles, comforts, and "
+        "material happiness — the ease and pleasure available in "
+        "day-to-day material life.",
+        "values_and_desire",
+    ),
+    20: (
+        "The Vimshamsa (D20) is read for spiritual practice and "
+        "religious inclination — a person's capacity for devotion "
+        "and inner discipline distinct from outward achievement.",
+        "expansion_and_meaning",
+    ),
+    24: (
+        "The Chaturvimshamsa (D24, also called Siddhamsa) is read "
+        "for learning, education, and accumulated knowledge — "
+        "formal study as well as the deeper wisdom gained through it.",
+        "expansion_and_meaning",
+    ),
+    27: (
+        "The Saptavimshamsa (D27, also called Nakshatramsa or "
+        "Bhamsa) is read for inherent strengths and weaknesses of "
+        "character — the chart's own account of what a person is "
+        "fundamentally built of.",
+        "identity",
+    ),
+    30: (
+        "The Trimshamsa (D30) is read for misfortune, vulnerability "
+        "to harm, and moral conduct — traditionally the chart "
+        "consulted for a placement's darker, more difficult "
+        "potentials, uniquely built from planetary lordship rather "
+        "than equal sign-division like the other Shodasavarga charts.",
+        "discipline",
+    ),
+    40: (
+        "The Khavedamsa (D40) is read for auspicious and "
+        "inauspicious effects inherited through the maternal line — "
+        "general life conditions handed down independent of one's "
+        "own effort.",
+        "foundation_and_security",
+    ),
+    45: (
+        "The Akshavedamsa (D45) is read for general conduct and "
+        "character across a lifetime, inherited through the "
+        "paternal line — a broad, cumulative picture of how a "
+        "person carries themselves.",
+        "identity",
+    ),
+    60: (
+        "The Shashtyamsa (D60) is read as the most granular of the "
+        "Shodasavarga charts — traditionally tied to karma carried "
+        "in from past lives, and consulted last, to fine-tune or "
+        "resolve ambiguity left by the coarser divisional charts.",
+        "expansion_and_meaning",
+    ),
+}
+
+for _n, (_meaning, _domain) in _VARGAS.items():
+    _add(
+        f"varga_{_n}_core",
+        _meaning,
+        concept_ids=["vedic_vargas"],
+        feature_ids=[f"varga_present:{_n}"],
+        theme_tags=["divisional_chart"],
+        life_domain=_domain,
+        source_id="parashara_bphs_1984",
+    )
 
 
 # ------------------------------------------------------------

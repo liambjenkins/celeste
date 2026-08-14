@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_2_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Hora (D2) is read for wealth and material resources — which of the two hora lords, Sun or Moon, a placement falls under colors whether that resource shows up as actively earned or passively accumulated.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:2"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
