@@ -621,6 +621,144 @@ _FIXED_STARS = {
         "traditionally associated with intelligence, originality, "
         "and creative or literary talent"
     ),
+    # Phase F2 expansion (27 more stars, verified via search against
+    # Robson and cross-referenced modern compilations during
+    # curation) — bringing the curated catalog to 47 traditionally
+    # documented stars, short of the 50+ aspiration stated for this
+    # phase but each entry genuinely sourced rather than padded to
+    # hit a round number.
+    "Bellatrix": (
+        "of the nature of Mars and Mercury, traditionally associated "
+        "with civil or military honor, renown, and wealth, alongside "
+        "a traditional warning of sudden dishonor"
+    ),
+    "Alphecca": (
+        "traditionally associated with honor, dignity, and artistic "
+        "or occult ability"
+    ),
+    "Menkar": (
+        "traditionally associated with turbulence and insight — the "
+        "capacity to understand collective needs, which can also "
+        "bring disturbance and isolation if not well handled"
+    ),
+    "Markab": (
+        "of the nature of Mars and Mercury, traditionally associated "
+        "with honor, riches, and fortune, alongside a traditional "
+        "warning of injury or danger from fire or blows"
+    ),
+    "Scheat": (
+        "of the nature of Mars and Mercury, traditionally a "
+        "challenging star that can nonetheless bring 'great mastery' "
+        "when its difficulties are consciously worked with"
+    ),
+    "Algenib": (
+        "of the nature of Mars and Mercury, traditionally associated "
+        "with a penetrating mind, strong will, and determination"
+    ),
+    "Alpheratz": (
+        "of the nature of Jupiter and Venus, traditionally one of "
+        "the more fortunate fixed stars, associated with a contented, "
+        "honorable, and philosophical disposition"
+    ),
+    "Alnilam": (
+        "one of the three stars of Orion's Belt, traditionally "
+        "associated with public honor and the capacity for great "
+        "achievement when well aspected"
+    ),
+    "Alnitak": (
+        "one of the three stars of Orion's Belt, of the nature of "
+        "the Moon and Jupiter, traditionally associated with "
+        "notoriety, good fortune, and lasting happiness"
+    ),
+    "Mintaka": (
+        "one of the three stars of Orion's Belt, sharing with "
+        "Alnilam and Alnitak a traditional association with "
+        "strength, organizing ability, and a sharp mind"
+    ),
+    "Saiph": (
+        "part of the Orion constellation's traditional significance "
+        "for strength, industry, and a sharp, well-organized mind"
+    ),
+    "Zuben Elgenubi": (
+        "traditionally associated with social reform and tireless "
+        "work on behalf of groups or associations, favoring careers "
+        "in politics or community affairs"
+    ),
+    "Zuben Eschamali": (
+        "traditionally associated with social reform pursued for "
+        "personal gain — working on behalf of groups specifically "
+        "where it brings power, influence, or financial benefit"
+    ),
+    "Unukalhai": (
+        "traditionally associated with early success followed by "
+        "reversal, and a warning around accidents and difficulties "
+        "in love"
+    ),
+    "Toliman": (
+        "traditionally associated with occult and philosophical "
+        "learning, self-analysis, and honors, alongside a tendency "
+        "toward stubbornness"
+    ),
+    "Sabik": (
+        "traditionally associated with a capacity to overcome "
+        "difficulty and danger through one's own resourcefulness, "
+        "though sometimes at some moral cost"
+    ),
+    "Sadalsuud": (
+        "traditionally considered one of the most fortunate fixed "
+        "stars, associated with great fortune, astrology, the "
+        "occult, and visionary or psychic ability"
+    ),
+    "Sadalmelek": (
+        "traditionally associated with a fortunate mind, honors, and "
+        "success in astrology, occult study, and government"
+    ),
+    "Deneb Algedi": (
+        "traditionally associated with wise leadership and finding "
+        "purpose through sorrow — glory and fame if difficulty is "
+        "navigated well, with a warning about betrayal"
+    ),
+    "Zosma": (
+        "traditionally associated with a period of hard work and "
+        "toil, sometimes through being victimized or pressured, or "
+        "through working directly with people in difficult "
+        "circumstances"
+    ),
+    "Alnair": (
+        "traditionally associated with good fortune, generosity, and "
+        "a strong sense of honor"
+    ),
+    "Rigil Kentaurus": (
+        "of the nature of Venus and Jupiter, traditionally a "
+        "beneficial star associated with benevolence, friendship, "
+        "refinement, and an honorable position"
+    ),
+    "Acrux": (
+        "the head of the Southern Cross, traditionally associated "
+        "with religious devotion, ceremony, justice, and an interest "
+        "in mystery and the occult"
+    ),
+    "Alkaid": (
+        "traditionally associated with creativity, high preferment "
+        "in business or government, a fondness for power, and "
+        "victory over rivals"
+    ),
+    "Alderamin": (
+        "traditionally associated with gentle authority and "
+        "strength — the capacity to make reasoned decisions without "
+        "resorting to force"
+    ),
+    "Rasalgethi": (
+        "traditionally associated with a need for order and balance, "
+        "a deep love of nature, and — when well aspected — high "
+        "public preferment, courage, and fame"
+    ),
+    "Rasalhague": (
+        "traditionally associated with facility for working with "
+        "symbols and systems, from science and engineering to "
+        "astrology and psychoanalysis, with a Saturnine character "
+        "and some Neptunian sensitivity"
+    ),
 }
 
 for _star, _meaning in _FIXED_STARS.items():

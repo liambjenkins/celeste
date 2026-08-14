@@ -4,6 +4,7 @@ from astrology.antiscia import build_antiscia
 from astrology.arabic_parts import build_arabic_parts
 from astrology.aspect_patterns import find_aspect_patterns
 from astrology.declination import find_declination_aspects, get_declinations
+from astrology.harmonics import build_harmonic_charts
 from astrology.houses import calculate_houses
 from astrology.rulership import build_rulership
 from astrology.aspects import calculate_aspects
@@ -21,6 +22,7 @@ def build_chart(
     include_minor_aspects: bool = False,
     include_declinations: bool = False,
     include_antiscia: bool = False,
+    include_harmonics: bool = False,
 ):
     astronomy = get_astronomy(utc_time)
 
@@ -82,6 +84,11 @@ def build_chart(
 
     aspect_patterns = find_aspect_patterns({"aspects": aspects, "bodies": bodies})
 
+    harmonic_charts = {}
+
+    if include_harmonics:
+        harmonic_charts = build_harmonic_charts({"houses": houses, "bodies": bodies})
+
     return {
         "utc_time": astronomy["utc_time"],
         "julian_day": astronomy["julian_day"],
@@ -103,4 +110,5 @@ def build_chart(
         "antiscia": antiscia,
         "rulership": rulership,
         "aspect_patterns": aspect_patterns,
+        "harmonic_charts": harmonic_charts,
     }

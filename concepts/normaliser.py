@@ -254,6 +254,15 @@ def normalise_observations(observations):
                 "astrology.star_conjunctions"
             )
 
+        harmonic_charts_value = astronomy.get("harmonic_charts")
+
+        if harmonic_charts_value:
+            add_concept(
+                "harmonic_charts",
+                harmonic_charts_value,
+                "astrology.harmonic_charts"
+            )
+
         aspect_patterns_value = astronomy.get("aspect_patterns")
 
         if isinstance(aspect_patterns_value, dict) and aspect_patterns_value.get("chart_shape", {}).get("shape"):
@@ -590,6 +599,18 @@ def normalise_observations(observations):
             "secondary_progressions",
             secondary_progressions,
             "secondary_progressions"
+        )
+
+    tertiary_progressions = observations.get(
+        "tertiary_progressions",
+        {}
+    )
+
+    if isinstance(tertiary_progressions, dict) and tertiary_progressions:
+        add_concept(
+            "tertiary_progressions",
+            tertiary_progressions,
+            "tertiary_progressions"
         )
 
     # --------------------------------------------------------

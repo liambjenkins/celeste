@@ -420,6 +420,47 @@ for _shape, _meaning in _CHART_SHAPES.items():
     )
 
 
+# ------------------------------------------------------------
+# Harmonic charts (5H, 7H, 9H)
+# Source: John Addey, Harmonics in Astrology (1976) — the founding
+# text of modern harmonic theory, cross-referenced against standard
+# aspect-family meanings (verified via search). Core meaning only —
+# no per-sign delineations, matching this file's established
+# discipline for points without a confirmed dedicated sign-by-sign
+# source.
+# ------------------------------------------------------------
+
+_HARMONICS = {
+    5: (
+        "creativity and individual talent — the 'gift' harmonic, "
+        "corresponding to the quintile aspect family",
+        "values_and_desire",
+    ),
+    7: (
+        "the mystical and non-rational — inspiration and subtle "
+        "sensitivity that resists direct explanation, corresponding "
+        "to the septile aspect family",
+        "expansion_and_meaning",
+    ),
+    9: (
+        "completion and new beginning — initiations undertaken in "
+        "this lifetime, corresponding to the novile aspect family",
+        "expansion_and_meaning",
+    ),
+}
+
+for _n, (_meaning, _domain) in _HARMONICS.items():
+    _add(
+        f"harmonic_{_n}_core",
+        f"The {_n}th harmonic chart (H{_n}) highlights {_meaning}.",
+        concept_ids=["harmonic_charts"],
+        feature_ids=[f"harmonic_present:{_n}"],
+        theme_tags=["harmonic_chart"],
+        life_domain=_domain,
+        source_id="addey_harmonics_in_astrology_1976",
+    )
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

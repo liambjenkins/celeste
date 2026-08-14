@@ -66,6 +66,8 @@ class FeatureBundle:
     aspect_patterns_present: set = field(default_factory=set)
     chart_shape: Optional[str] = None
 
+    harmonic_sun_signs: dict[int, str] = field(default_factory=dict)
+
     day_chart: Optional[bool] = None
     fortune_sign: Optional[str] = None
     fortune_house: Optional[int] = None
@@ -133,6 +135,9 @@ class FeatureBundle:
     progressed_signs: dict[str, str] = field(default_factory=dict)
     progressed_houses: dict[str, int] = field(default_factory=dict)
     progressed_moon_sign: Optional[str] = None
+
+    has_tertiary: bool = False
+    tertiary_moon_sign: Optional[str] = None
 
 
 def _single_value(concept):
@@ -509,6 +514,37 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
             if isinstance(contra, dict) and contra.get("sign"):
                 tags.append(f"contra_antiscion:{body_name}:{contra['sign']}")
+
+    # Harmonic charts (5H/7H/9H) — only present when the chart was
+    # built with include_harmonics=True. Tagged for Sun/Moon/
+    # Ascendant only (the three points most commonly read in a
+    # harmonic chart), generic across harmonics rather than one
+    # FeatureBundle field per harmonic.
+    harmonic_sun_signs = {}
+
+    harmonic_charts_value = _single_value(concepts.get("harmonic_charts"))
+
+    if isinstance(harmonic_charts_value, dict):
+        for harmonic_n, chart in harmonic_charts_value.items():
+            if not isinstance(chart, dict):
+                continue
+
+            harmonic_n = int(harmonic_n)
+            harmonic_bodies = chart.get("bodies", {})
+            harmonic_ascendant = chart.get("ascendant", {})
+
+            for point_name, point in (
+                ("sun", harmonic_bodies.get("sun")),
+                ("moon", harmonic_bodies.get("moon")),
+                ("ascendant", harmonic_ascendant),
+            ):
+                if isinstance(point, dict) and point.get("sign"):
+                    tags.append(f"harmonic:{harmonic_n}:{point_name}:{point['sign']}")
+
+                    if point_name == "sun":
+                        harmonic_sun_signs[harmonic_n] = point["sign"]
+
+            tags.append(f"harmonic_present:{harmonic_n}")
 
     # Aspect patterns + chart shape
     aspect_patterns_present = set()
@@ -935,6 +971,35 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                 f"{aspect}:{item.get('natal_body')}"
             )
 
+    has_tertiary = False
+    tertiary_moon_sign = None
+
+    tertiary_value = _single_value(concepts.get("tertiary_progressions"))
+
+    if isinstance(tertiary_value, dict) and tertiary_value.get("bodies"):
+        has_tertiary = True
+
+        for body_name, body in tertiary_value["bodies"].items():
+            if not isinstance(body, dict) or not body.get("sign"):
+                continue
+
+            tags.append(f"tertiary_sign:{body_name}:{body['sign']}")
+
+            if body_name == "moon":
+                tertiary_moon_sign = body["sign"]
+                tags.append(f"tertiary_moon_sign:{body['sign']}")
+
+            if body.get("natal_house") is not None:
+                tags.append(f"tertiary_house:{body_name}:{body['natal_house']}")
+
+        for item in tertiary_value.get("aspects", []):
+            aspect = item.get("aspect")
+
+            if not aspect:
+                continue
+
+            tags.append(f"tertiary_aspect:{aspect}")
+
     star_conjunction_body = None
     star_conjunction_star = None
     star_conjunction_orb = None
@@ -993,6 +1058,7 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         final_dispositor=final_dispositor,
         aspect_patterns_present=aspect_patterns_present,
         chart_shape=chart_shape,
+        harmonic_sun_signs=harmonic_sun_signs,
         day_chart=day_chart,
         fortune_sign=fortune_sign,
         fortune_house=fortune_house,
@@ -1045,6 +1111,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         progressed_signs=progressed_signs,
         progressed_houses=progressed_houses,
         progressed_moon_sign=progressed_moon_sign,
+        has_tertiary=has_tertiary,
+        tertiary_moon_sign=tertiary_moon_sign,
     )
 
 

@@ -118,6 +118,34 @@ _add(
     source_id="brady_predictive_astrology_1992",
 )
 
+# ------------------------------------------------------------
+# Tertiary progressions
+# Source: Garth Allen (originator of the technique) as documented in
+# Astrodienst's Astrowiki (astro.com/astrowiki/en/Tertiary_Progression)
+# and cross-referenced against Solunars/Aldebaran Sidereal Academy
+# discussion of the same technique (verified via search during
+# curation). Matched via tertiary_moon_sign: tags — the tertiary-
+# progressed Moon, like the secondary-progressed Moon above, is the
+# technique's most commonly read point.
+# ------------------------------------------------------------
+
+_add(
+    "tertiary_technique_core",
+    "A tertiary progression symbolically advances the birth chart by "
+    "one day for each sidereal month (about 27.3 days) of life — "
+    "roughly twelve times faster than a secondary progression's one "
+    "day per year. It reads as a fast, month-by-month unfolding, "
+    "prized for timing the specific month of a shift that a "
+    "secondary progression only marks in broad, year-scale strokes.",
+    concept_ids=["tertiary_progressions"],
+    feature_ids=[
+        f"tertiary_moon_sign:{sign}" for sign in _ZODIAC_SIGNS
+    ],
+    theme_tags=["timing_and_technique", "emotional_depth"],
+    life_domain="cyclicality",
+    source_id="allen_tertiary_progressions_astrowiki",
+)
+
 
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)

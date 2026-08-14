@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_harmonic_5_core",
+  "lens_id": "astrology",
+  "statement": "The 5th harmonic chart (H5) highlights creativity and individual talent — the 'gift' harmonic, corresponding to the quintile aspect family.",
+  "passage_ids": [],
+  "concept_ids": [
+    "harmonic_charts"
+  ],
+  "feature_ids": [
+    "harmonic_present:5"
+  ],
+  "source_ids": [
+    "addey_harmonics_in_astrology_1976"
+  ],
+  "theme_tags": [
+    "harmonic_chart"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "",
+  "status": "approved"
+}

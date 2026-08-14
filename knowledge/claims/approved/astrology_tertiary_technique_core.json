@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_tertiary_technique_core",
+  "lens_id": "astrology",
+  "statement": "A tertiary progression symbolically advances the birth chart by one day for each sidereal month (about 27.3 days) of life — roughly twelve times faster than a secondary progression's one day per year. It reads as a fast, month-by-month unfolding, prized for timing the specific month of a shift that a secondary progression only marks in broad, year-scale strokes.",
+  "passage_ids": [],
+  "concept_ids": [
+    "tertiary_progressions"
+  ],
+  "feature_ids": [
+    "tertiary_moon_sign:Aries",
+    "tertiary_moon_sign:Taurus",
+    "tertiary_moon_sign:Gemini",
+    "tertiary_moon_sign:Cancer",
+    "tertiary_moon_sign:Leo",
+    "tertiary_moon_sign:Virgo",
+    "tertiary_moon_sign:Libra",
+    "tertiary_moon_sign:Scorpio",
+    "tertiary_moon_sign:Sagittarius",
+    "tertiary_moon_sign:Capricorn",
+    "tertiary_moon_sign:Aquarius",
+    "tertiary_moon_sign:Pisces"
+  ],
+  "source_ids": [
+    "allen_tertiary_progressions_astrowiki"
+  ],
+  "theme_tags": [
+    "timing_and_technique",
+    "emotional_depth"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_harmonic_7_core",
+  "lens_id": "astrology",
+  "statement": "The 7th harmonic chart (H7) highlights the mystical and non-rational — inspiration and subtle sensitivity that resists direct explanation, corresponding to the septile aspect family.",
+  "passage_ids": [],
+  "concept_ids": [
+    "harmonic_charts"
+  ],
+  "feature_ids": [
+    "harmonic_present:7"
+  ],
+  "source_ids": [
+    "addey_harmonics_in_astrology_1976"
+  ],
+  "theme_tags": [
+    "harmonic_chart"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "",
+  "status": "approved"
+}

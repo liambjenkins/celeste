@@ -156,6 +156,20 @@ def _astrology(concepts, features: FeatureBundle):
 
         macro.append(DUALITY)
 
+    if features.harmonic_sun_signs:
+        for harmonic_n, sign in sorted(features.harmonic_sun_signs.items()):
+            themes.append(f"harmonic_sun:{harmonic_n}:{sign}")
+        notes.append(
+            "Harmonic Sun position(s): "
+            + ", ".join(
+                f"H{n} Sun in {sign}"
+                for n, sign in sorted(features.harmonic_sun_signs.items())
+            )
+            + " — the same birth moment viewed through the "
+            "quintile/septile/novile harmonic lenses."
+        )
+        macro.append(ARCHETYPE)
+
     if features.aspect_patterns_present:
         for pattern in sorted(features.aspect_patterns_present):
             themes.append(f"aspect_pattern:{pattern}")
@@ -310,6 +324,18 @@ def _astrology(concepts, features: FeatureBundle):
                 "year' technique's classical focus, changing sign "
                 "roughly every two and a half years to mark the "
                 "current emotional chapter."
+            )
+        macro.append(CYCLICALITY)
+
+    if features.has_tertiary:
+        themes.append("timing:tertiary_progressions")
+        if features.tertiary_moon_sign:
+            notes.append(
+                f"The tertiary-progressed Moon is currently in "
+                f"{features.tertiary_moon_sign} — the faster, "
+                "month-by-month resolution tertiary progressions "
+                "add alongside secondary progressions' year-by-year "
+                "view."
             )
         macro.append(CYCLICALITY)
 

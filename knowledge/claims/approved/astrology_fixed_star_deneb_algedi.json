@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_deneb_algedi",
+  "lens_id": "astrology",
+  "statement": "Deneb Algedi is traditionally associated with wise leadership and finding purpose through sorrow — glory and fame if difficulty is navigated well, with a warning about betrayal.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:deneb_algedi",
+    "star_conjunction:moon:deneb_algedi",
+    "star_conjunction:mercury:deneb_algedi",
+    "star_conjunction:venus:deneb_algedi",
+    "star_conjunction:mars:deneb_algedi",
+    "star_conjunction:jupiter:deneb_algedi",
+    "star_conjunction:saturn:deneb_algedi",
+    "star_conjunction:uranus:deneb_algedi",
+    "star_conjunction:neptune:deneb_algedi",
+    "star_conjunction:pluto:deneb_algedi",
+    "star_conjunction:lilith_mean:deneb_algedi",
+    "star_conjunction:lilith_true:deneb_algedi",
+    "star_conjunction:chiron:deneb_algedi",
+    "star_conjunction:ceres:deneb_algedi",
+    "star_conjunction:pallas:deneb_algedi",
+    "star_conjunction:juno:deneb_algedi",
+    "star_conjunction:vesta:deneb_algedi",
+    "star_conjunction:north_node_true:deneb_algedi",
+    "star_conjunction:north_node_mean:deneb_algedi",
+    "star_conjunction:south_node_true:deneb_algedi",
+    "star_conjunction:south_node_mean:deneb_algedi"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

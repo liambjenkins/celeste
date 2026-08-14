@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_saiph",
+  "lens_id": "astrology",
+  "statement": "Saiph is part of the Orion constellation's traditional significance for strength, industry, and a sharp, well-organized mind.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:saiph",
+    "star_conjunction:moon:saiph",
+    "star_conjunction:mercury:saiph",
+    "star_conjunction:venus:saiph",
+    "star_conjunction:mars:saiph",
+    "star_conjunction:jupiter:saiph",
+    "star_conjunction:saturn:saiph",
+    "star_conjunction:uranus:saiph",
+    "star_conjunction:neptune:saiph",
+    "star_conjunction:pluto:saiph",
+    "star_conjunction:lilith_mean:saiph",
+    "star_conjunction:lilith_true:saiph",
+    "star_conjunction:chiron:saiph",
+    "star_conjunction:ceres:saiph",
+    "star_conjunction:pallas:saiph",
+    "star_conjunction:juno:saiph",
+    "star_conjunction:vesta:saiph",
+    "star_conjunction:north_node_true:saiph",
+    "star_conjunction:north_node_mean:saiph",
+    "star_conjunction:south_node_true:saiph",
+    "star_conjunction:south_node_mean:saiph"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

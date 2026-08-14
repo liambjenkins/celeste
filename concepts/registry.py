@@ -656,6 +656,24 @@ CONCEPTS = {
     ],
     "related": ["aspect_patterns"]
 },
+"harmonic_charts": {
+    "label": "Harmonic charts",
+    "domain": "space",
+    "description": (
+        "5th, 7th, and 9th harmonic charts (John Addey's harmonic "
+        "theory) — every body's longitude multiplied by the harmonic "
+        "number and wrapped to 360 degrees, with Equal House "
+        "placements from the harmonic Ascendant. A different lens on "
+        "the same birth moment, corresponding to the quintile "
+        "(5th), septile (7th), and novile (9th) aspect families."
+    ),
+    "synonyms": [
+        "harmonic chart",
+        "H5", "H7", "H9",
+        "quintile chart", "septile chart", "novile chart"
+    ],
+    "related": ["astrological_aspects"]
+},
 "aspect_patterns": {
     "label": "Aspect patterns",
     "domain": "space",
@@ -1063,6 +1081,28 @@ CONCEPTS = {
         "planetary_positions",
         "astrological_aspects",
         "current_transits"
+    ]
+},
+"tertiary_progressions": {
+    "label": "Tertiary progressions",
+    "domain": "space",
+    "description": (
+        "The 'day for a sidereal month' progressed chart at a "
+        "specified 'as of' date — a faster, month-by-month symbolic "
+        "timing technique than secondary progressions, personal/"
+        "social planetary positions recomputed at natal Julian day "
+        "plus elapsed sidereal months, checked for aspects to natal "
+        "planetary positions."
+    ),
+    "synonyms": [
+        "tertiary progressions",
+        "tertiary progressed chart",
+        "T I progressions"
+    ],
+    "related": [
+        "planetary_positions",
+        "astrological_aspects",
+        "secondary_progressions"
     ]
 }
 

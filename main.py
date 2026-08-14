@@ -10,6 +10,7 @@ from astrology.dasha import build_vimshottari_dasha
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
+from astrology.tertiary_progressions import build_tertiary_progressions
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
@@ -296,6 +297,9 @@ if args.as_of_time_utc is not None:
         _tropical_chart, AS_OF_TIME_AWARE
     )
     observations["secondary_progressions"] = build_secondary_progressions(
+        _tropical_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
+    )
+    observations["tertiary_progressions"] = build_tertiary_progressions(
         _tropical_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
     observations["vedic_dasha"] = build_vimshottari_dasha(

@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_scheat",
+  "lens_id": "astrology",
+  "statement": "Scheat is of the nature of Mars and Mercury, traditionally a challenging star that can nonetheless bring 'great mastery' when its difficulties are consciously worked with.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:scheat",
+    "star_conjunction:moon:scheat",
+    "star_conjunction:mercury:scheat",
+    "star_conjunction:venus:scheat",
+    "star_conjunction:mars:scheat",
+    "star_conjunction:jupiter:scheat",
+    "star_conjunction:saturn:scheat",
+    "star_conjunction:uranus:scheat",
+    "star_conjunction:neptune:scheat",
+    "star_conjunction:pluto:scheat",
+    "star_conjunction:lilith_mean:scheat",
+    "star_conjunction:lilith_true:scheat",
+    "star_conjunction:chiron:scheat",
+    "star_conjunction:ceres:scheat",
+    "star_conjunction:pallas:scheat",
+    "star_conjunction:juno:scheat",
+    "star_conjunction:vesta:scheat",
+    "star_conjunction:north_node_true:scheat",
+    "star_conjunction:north_node_mean:scheat",
+    "star_conjunction:south_node_true:scheat",
+    "star_conjunction:south_node_mean:scheat"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}
