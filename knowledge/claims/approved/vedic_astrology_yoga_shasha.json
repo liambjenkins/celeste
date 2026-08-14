@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_shasha",
+  "lens_id": "vedic_astrology",
+  "statement": "Shasha Yoga (Saturn in its own or exaltation sign, in a kendra from the Ascendant) carries disciplined persistence that outlasts more impulsive competitors — traditionally read as favoring achievement earned slowly, through structure and endurance, rather than given easily.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:shasha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_budhaditya",
+  "lens_id": "vedic_astrology",
+  "statement": "Budhaditya Yoga (Sun and Mercury sharing a sign) combines solar authority with Mercury's analytical sharpness — traditionally associated with intelligence, clear communication, and an aptitude for teaching, writing, or business.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:budhaditya"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "communication"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

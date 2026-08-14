@@ -340,6 +340,27 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # VEDIC YOGAS (classical planetary combinations)
+    # --------------------------------------------------------
+    #
+    # "vedic_yogas" is the output of astrology.yogas.find_yogas(): a
+    # list of yoga dicts, one per yoga found in the sidereal chart.
+    # One bundled concept — a specific list, not a per-yoga concept,
+    # since which yogas exist varies chart to chart.
+    #
+    yogas = observations.get(
+        "vedic_yogas",
+        []
+    )
+
+    if isinstance(yogas, list) and yogas:
+        add_concept(
+            "vedic_yogas",
+            yogas,
+            "vedic_yogas"
+        )
+
+    # --------------------------------------------------------
     # NAVAMSA (D9 divisional chart)
     # --------------------------------------------------------
     #

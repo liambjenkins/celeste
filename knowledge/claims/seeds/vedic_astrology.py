@@ -246,6 +246,99 @@ _add(
 )
 
 
+# ------------------------------------------------------------
+# Yogas (classical planetary combinations) — curated set: Gajakesari,
+# Budhaditya, and the five Pancha Mahapurusha yogas.
+# Source: Brihat Parashara Hora Shastra (verified via search).
+# ------------------------------------------------------------
+
+_add(
+    "yoga_gajakesari",
+    "Gajakesari Yoga (Jupiter in a kendra from the Moon) combines "
+    "the Moon's receptivity with Jupiter's wisdom and expansiveness "
+    "— traditionally associated with a strong, quick mind, good "
+    "reputation, and a generally fortunate, respected life.",
+    concept_ids=["vedic_yogas"],
+    feature_ids=["yoga:gajakesari"],
+    theme_tags=["yoga", "expansion_and_meaning"],
+    life_domain="expansion_and_meaning",
+    source_id="parashara_bphs_1984",
+)
+
+_add(
+    "yoga_budhaditya",
+    "Budhaditya Yoga (Sun and Mercury sharing a sign) combines solar "
+    "authority with Mercury's analytical sharpness — traditionally "
+    "associated with intelligence, clear communication, and an "
+    "aptitude for teaching, writing, or business.",
+    concept_ids=["vedic_yogas"],
+    feature_ids=["yoga:budhaditya"],
+    theme_tags=["yoga", "communication"],
+    life_domain="communication",
+    source_id="parashara_bphs_1984",
+)
+
+_MAHAPURUSHA_MEANINGS = {
+    "ruchaka": (
+        "Ruchaka Yoga (Mars in its own or exaltation sign, in a "
+        "kendra from the Ascendant)",
+        "physical courage, leadership, and a pioneering, "
+        "action-oriented drive — traditionally read as favoring "
+        "fields that call for strength or decisive action.",
+        "drive",
+        ["drive", "assertiveness"],
+    ),
+    "bhadra": (
+        "Bhadra Yoga (Mercury in its own or exaltation sign, in a "
+        "kendra from the Ascendant)",
+        "eloquence, sharp intellect, and commercial or diplomatic "
+        "skill — traditionally read as favoring communication, "
+        "writing, or business.",
+        "communication",
+        ["communication", "intellect"],
+    ),
+    "hamsa": (
+        "Hamsa Yoga (Jupiter in its own or exaltation sign, in a "
+        "kendra from the Ascendant)",
+        "spiritual wisdom, benevolence, and a dignified, respected "
+        "bearing — traditionally read as favoring teaching or "
+        "guidance roles.",
+        "expansion_and_meaning",
+        ["spirituality", "growth"],
+    ),
+    "malavya": (
+        "Malavya Yoga (Venus in its own or exaltation sign, in a "
+        "kendra from the Ascendant)",
+        "artistic sensibility, appreciation of beauty, and "
+        "comfortable, harmonious circumstances — traditionally read "
+        "as favoring the arts and relationships.",
+        "values_and_desire",
+        ["aesthetics", "relationships"],
+    ),
+    "shasha": (
+        "Shasha Yoga (Saturn in its own or exaltation sign, in a "
+        "kendra from the Ascendant)",
+        "disciplined persistence that outlasts more impulsive "
+        "competitors — traditionally read as favoring achievement "
+        "earned slowly, through structure and endurance, rather "
+        "than given easily.",
+        "discipline",
+        ["discipline", "resilience"],
+    ),
+}
+
+for _yoga_id, (_definition, _trait, _domain, _themes) in _MAHAPURUSHA_MEANINGS.items():
+    _add(
+        f"yoga_{_yoga_id}",
+        f"{_definition} carries {_trait}",
+        concept_ids=["vedic_yogas"],
+        feature_ids=[f"yoga:{_yoga_id}"],
+        theme_tags=["yoga"] + _themes,
+        life_domain=_domain,
+        source_id="parashara_bphs_1984",
+    )
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

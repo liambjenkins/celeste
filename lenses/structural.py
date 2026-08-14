@@ -722,6 +722,17 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.vedic_yogas:
+        for yoga_id in features.vedic_yogas:
+            themes.append(f"yoga:{yoga_id}")
+        notes.append(
+            f"{len(features.vedic_yogas)} classical yoga(s) "
+            "(planetary combination) from the curated set are "
+            "present in this chart — specific configurations, not "
+            "just individual sign or house placements."
+        )
+        macro.append(ARCHETYPE)
+
     if features.dominant_domains:
         themes.append(
             "elemental_emphasis:" + "_".join(features.dominant_domains)

@@ -12,6 +12,7 @@ from astrology.progressions import build_secondary_progressions
 from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
+from astrology.yogas import find_yogas
 from chinese.pillars import build_four_pillars
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
@@ -228,6 +229,7 @@ _sidereal_chart = build_sidereal_chart(_tropical_chart)
 observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": _sidereal_chart,
+    "vedic_yogas": find_yogas(_sidereal_chart),
     "navamsa": build_navamsa_chart(_sidereal_chart),
     "chinese_pillars": build_four_pillars(
         _tropical_chart, args.requested_time_local

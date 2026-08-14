@@ -91,6 +91,8 @@ class FeatureBundle:
     navamsa_ascendant_sign: Optional[str] = None
     navamsa_planet_signs: dict[str, str] = field(default_factory=dict)
 
+    vedic_yogas: list[str] = field(default_factory=list)
+
     chinese_day_master: Optional[str] = None
     chinese_day_master_element: Optional[str] = None
     chinese_year_animal: Optional[str] = None
@@ -559,6 +561,21 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             navamsa_planet_signs[planet_name] = body["sign"]
             _tag_navamsa_point(planet_name, body)
 
+    # Vedic yogas (classical planetary combinations) — a flat list of
+    # whichever yogas from the curated set (astrology/yogas.py) are
+    # present in this chart; can be empty.
+    vedic_yogas = []
+
+    yogas_value = _single_value(concepts.get("vedic_yogas"))
+
+    if isinstance(yogas_value, list):
+        for yoga in yogas_value:
+            if not isinstance(yoga, dict) or not yoga.get("id"):
+                continue
+
+            vedic_yogas.append(yoga["id"])
+            tags.append(f"yoga:{yoga['id']}")
+
     # Chinese (BaZi) Four Pillars. No sign/house tags — BaZi has
     # neither; see chinese/pillars.py's module docstring.
     chinese_day_master = None
@@ -750,6 +767,7 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         navamsa_moon_sign=navamsa_moon_sign,
         navamsa_ascendant_sign=navamsa_ascendant_sign,
         navamsa_planet_signs=navamsa_planet_signs,
+        vedic_yogas=vedic_yogas,
         chinese_day_master=chinese_day_master,
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,

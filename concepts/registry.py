@@ -677,6 +677,29 @@ CONCEPTS = {
         "moon"
     ]
 },
+"vedic_yogas": {
+    "label": "Vedic yogas",
+    "domain": "space",
+    "description": (
+        "Classical planetary combinations (Gajakesari, Budhaditya, "
+        "and the five Pancha Mahapurusha yogas) present in the "
+        "sidereal chart — specific, named configurations distinct "
+        "from any single planet's sign or house on its own."
+    ),
+    "synonyms": [
+        "yogas",
+        "yoga",
+        "planetary combinations",
+        "gajakesari",
+        "budhaditya",
+        "pancha mahapurusha"
+    ],
+    "related": [
+        "vedic_positions",
+        "vedic_sun",
+        "vedic_moon"
+    ]
+},
 "navamsa_sun": {
     "label": "Navamsa (D9) Sun placement",
     "domain": "space",
