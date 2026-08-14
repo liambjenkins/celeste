@@ -254,6 +254,64 @@ def normalise_observations(observations):
                 "astrology.star_conjunctions"
             )
 
+        aspect_patterns_value = astronomy.get("aspect_patterns")
+
+        if isinstance(aspect_patterns_value, dict) and aspect_patterns_value.get("chart_shape", {}).get("shape"):
+            add_concept(
+                "chart_shape",
+                aspect_patterns_value["chart_shape"],
+                "astrology.aspect_patterns.chart_shape"
+            )
+
+        if isinstance(aspect_patterns_value, dict) and any(
+            aspect_patterns_value.get(key)
+            for key in (
+                "grand_trines", "t_squares", "grand_crosses", "yods",
+                "kites", "mystic_rectangles", "stelliums",
+            )
+        ):
+            add_concept(
+                "aspect_patterns",
+                aspect_patterns_value,
+                "astrology.aspect_patterns"
+            )
+
+        rulership_value = astronomy.get("rulership")
+
+        if isinstance(rulership_value, dict) and rulership_value.get("chart_ruler"):
+            add_concept(
+                "rulership",
+                rulership_value,
+                "astrology.rulership"
+            )
+
+        antiscia_value = astronomy.get("antiscia")
+
+        if antiscia_value:
+            add_concept(
+                "antiscia",
+                antiscia_value,
+                "astrology.antiscia"
+            )
+
+        declination_aspects = astronomy.get("declination_aspects")
+
+        if declination_aspects:
+            add_concept(
+                "declination_aspects",
+                declination_aspects,
+                "astrology.declination_aspects"
+            )
+
+        vertex_point = astronomy.get("vertex")
+
+        if isinstance(vertex_point, dict) and vertex_point.get("sign"):
+            add_concept(
+                "vertex",
+                vertex_point,
+                "astrology.vertex"
+            )
+
         arabic_parts = astronomy.get(
             "arabic_parts"
         )
@@ -279,6 +337,17 @@ def normalise_observations(observations):
                     },
                     "astrology.arabic_parts.spirit"
                 )
+
+            for _lot_key in ("eros", "necessity", "courage", "victory", "nemesis"):
+                if arabic_parts.get(_lot_key):
+                    add_concept(
+                        f"part_of_{_lot_key}",
+                        {
+                            **arabic_parts[_lot_key],
+                            "day_chart": arabic_parts.get("day_chart"),
+                        },
+                        f"astrology.arabic_parts.{_lot_key}"
+                    )
 
     # --------------------------------------------------------
     # VEDIC ASTROLOGY (sidereal)

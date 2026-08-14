@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_courage_core",
+  "lens_id": "astrology",
+  "statement": "The Lot of Courage (built from Mars and the Lot of Fortune) marks boldness, physical energy, and assertive action — where the capacity for bravery and risk-taking shows itself.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_courage"
+  ],
+  "feature_ids": [
+    "sign:courage:Aries",
+    "sign:courage:Taurus",
+    "sign:courage:Gemini",
+    "sign:courage:Cancer",
+    "sign:courage:Leo",
+    "sign:courage:Virgo",
+    "sign:courage:Libra",
+    "sign:courage:Scorpio",
+    "sign:courage:Sagittarius",
+    "sign:courage:Capricorn",
+    "sign:courage:Aquarius",
+    "sign:courage:Pisces"
+  ],
+  "source_ids": [
+    "hermetic_panaretos_lots"
+  ],
+  "theme_tags": [
+    "hermetic_lot"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "",
+  "status": "approved"
+}

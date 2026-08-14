@@ -1,0 +1,22 @@
+{
+  "claim_id": "astrology_declination_parallel",
+  "lens_id": "astrology",
+  "statement": "A parallel (two bodies sharing the same declination, same hemisphere) is traditionally read like a strong conjunction — a reinforcing link on a different axis (distance from the celestial equator) from the zodiac.",
+  "passage_ids": [],
+  "concept_ids": [
+    "declination_aspects"
+  ],
+  "feature_ids": [
+    "declination_aspect:parallel"
+  ],
+  "source_ids": [
+    "declinations_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "declination_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

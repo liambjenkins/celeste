@@ -636,6 +636,132 @@ CONCEPTS = {
     ],
     "related": []
 },
+"chart_shape": {
+    "label": "Chart shape",
+    "domain": "space",
+    "description": (
+        "Marc Edmund Jones' chart-shape classification (Bundle, "
+        "Bowl, Locomotive, Splash, ...) based on how the chart's "
+        "bodies are distributed around the 360-degree wheel — the "
+        "size of the largest empty gap between them."
+    ),
+    "synonyms": [
+        "bundle",
+        "bowl",
+        "bucket",
+        "locomotive",
+        "splash",
+        "splay",
+        "planetary pattern"
+    ],
+    "related": ["aspect_patterns"]
+},
+"aspect_patterns": {
+    "label": "Aspect patterns",
+    "domain": "space",
+    "description": (
+        "Recurring geometric configurations formed by three or more "
+        "aspects linking chart points (Grand Trine, T-Square, Grand "
+        "Cross, Yod, Kite, Mystic Rectangle), plus sign-based "
+        "Stelliums and the overall chart shape (how bodies are "
+        "distributed around the wheel) — distinct from any single "
+        "aspect on its own."
+    ),
+    "synonyms": [
+        "grand trine",
+        "t-square",
+        "yod",
+        "grand cross",
+        "kite",
+        "mystic rectangle",
+        "stellium",
+        "chart shape"
+    ],
+    "related": ["astrological_aspects"]
+},
+"rulership": {
+    "label": "Chart ruler and dispositor chains",
+    "domain": "space",
+    "description": (
+        "The chart ruler (traditional ruler of the Ascendant sign), "
+        "its own sign and house, and every classical planet's "
+        "dispositor chain — which planet's sign each is placed in, "
+        "followed until it reaches a planet in its own sign (final "
+        "dispositor) or a mutual-reception loop."
+    ),
+    "synonyms": [
+        "chart ruler",
+        "ruling planet",
+        "dispositor",
+        "final dispositor",
+        "rulership chain"
+    ],
+    "related": ["ascendant"]
+},
+"antiscia": {
+    "label": "Antiscia and contra-antiscia",
+    "domain": "space",
+    "description": (
+        "Mirror points across the zodiac's two symmetry axes: "
+        "antiscion (mirrored across the solstice axis, 0 Cancer/0 "
+        "Capricorn — a 'hidden harmony' point) and contra-antiscion "
+        "(mirrored across the equinox axis, 0 Aries/0 Libra — a "
+        "'hidden tension' point), computed for the Sun and Moon."
+    ),
+    "synonyms": [
+        "antiscia",
+        "antiscion",
+        "contra-antiscia",
+        "contrantiscia",
+        "shadow point"
+    ],
+    "related": [
+        "sun",
+        "moon"
+    ]
+},
+"declination_aspects": {
+    "label": "Declination aspects (parallels)",
+    "domain": "space",
+    "description": (
+        "Parallel and contraparallel aspects — a body pair sharing "
+        "the same declination (angular distance from the celestial "
+        "equator), either in the same hemisphere (parallel, read "
+        "like a strong conjunction) or opposite hemispheres "
+        "(contraparallel, read like a weaker opposition). A "
+        "different coordinate axis from the longitude-based aspects "
+        "above, computed only when opted in."
+    ),
+    "synonyms": [
+        "parallel",
+        "contraparallel",
+        "declination aspect"
+    ],
+    "related": [
+        "astrological_aspects"
+    ]
+},
+"vertex": {
+    "label": "Vertex",
+    "domain": "space",
+    "description": (
+        "A mathematically calculated point — the intersection of the "
+        "ecliptic and the prime vertical — traditionally read as an "
+        "'auxiliary Descendant' marking fated or karmic encounters. "
+        "Falls in the Vertex's own sign and house; the Anti-Vertex is "
+        "the exact opposite point."
+    ),
+    "synonyms": [
+        "vertex",
+        "anti-vertex",
+        "antivertex",
+        "third angle"
+    ],
+    "related": [
+        "ascendant",
+        "midheaven"
+    ]
+},
 "part_of_fortune": {
     "label": "Part of Fortune",
     "domain": "space",
@@ -840,6 +966,61 @@ CONCEPTS = {
         "navamsa_ascendant",
         "vedic_positions"
     ]
+},
+"part_of_eros": {
+    "label": "Lot of Eros",
+    "domain": "space",
+    "description": (
+        "One of the seven classical Hermetic (Panaretos) Lots, built "
+        "from Venus and the Lot of Spirit — desire, attraction, and "
+        "what draws the soul toward union."
+    ),
+    "synonyms": ["lot of eros", "part of eros"],
+    "related": ["part_of_fortune", "part_of_spirit"]
+},
+"part_of_necessity": {
+    "label": "Lot of Necessity",
+    "domain": "space",
+    "description": (
+        "One of the seven classical Hermetic (Panaretos) Lots, built "
+        "from Mercury and the Lot of Fortune — obligation, "
+        "constraint, and where fate imposes its demands."
+    ),
+    "synonyms": ["lot of necessity", "part of necessity"],
+    "related": ["part_of_fortune"]
+},
+"part_of_courage": {
+    "label": "Lot of Courage",
+    "domain": "space",
+    "description": (
+        "One of the seven classical Hermetic (Panaretos) Lots, built "
+        "from Mars and the Lot of Fortune — boldness, physical "
+        "energy, and assertive action."
+    ),
+    "synonyms": ["lot of courage", "part of courage"],
+    "related": ["part_of_fortune"]
+},
+"part_of_victory": {
+    "label": "Lot of Victory",
+    "domain": "space",
+    "description": (
+        "One of the seven classical Hermetic (Panaretos) Lots, built "
+        "from Jupiter and the Lot of Spirit — success, achievement, "
+        "and the expansion of influence through effort."
+    ),
+    "synonyms": ["lot of victory", "part of victory"],
+    "related": ["part_of_spirit"]
+},
+"part_of_nemesis": {
+    "label": "Lot of Nemesis",
+    "domain": "space",
+    "description": (
+        "One of the seven classical Hermetic (Panaretos) Lots, built "
+        "from Saturn and the Lot of Fortune — fate, karmic debts, "
+        "and the weight of limitation and consequence."
+    ),
+    "synonyms": ["lot of nemesis", "part of nemesis"],
+    "related": ["part_of_fortune"]
 },
 "current_transits": {
     "label": "Current transits",

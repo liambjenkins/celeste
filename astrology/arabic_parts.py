@@ -42,30 +42,61 @@ def _point(longitude: float, cusps: dict) -> dict:
     }
 
 
+def _sect_lot(day_chart: bool, ascendant: float, term_a: float, term_b: float) -> float:
+    """
+    Generic sect-aware Hermetic Lot formula: by day, Asc + term_a -
+    term_b; by night, the terms swap. Fortune/Spirit are the term_a=0
+    case (Moon/Sun and Sun/Moon respectively); the five additional
+    Panaretos lots below reuse the same mechanism with their own term
+    pairs.
+    """
+
+    if day_chart:
+        return (ascendant + term_a - term_b) % 360.0
+
+    return (ascendant + term_b - term_a) % 360.0
+
+
 def build_arabic_parts(tropical_chart: dict) -> dict:
     """
-    Derive Part of Fortune and Part of Spirit from an already-computed
-    tropical chart (astrology.chart.build_chart's output).
+    Derive the seven classical Hermetic/Panaretos Lots — Fortune,
+    Spirit, Eros, Necessity, Courage, Victory, Nemesis — from an
+    already-computed tropical chart (astrology.chart.build_chart's
+    output).
+
+    Formulas verified via search during curation (Hermetic/Panaretos
+    tradition, cross-checked across independent sources): Eros and
+    Victory are built from the Lot of Spirit; Necessity, Courage, and
+    Nemesis are built from the Lot of Fortune — the classical
+    "lots of the lots" second-order construction.
     """
 
     ascendant = tropical_chart["houses"]["angles"]["ascendant"]
-    sun = tropical_chart["bodies"]["sun"]
-    moon = tropical_chart["bodies"]["moon"]
+    bodies = tropical_chart["bodies"]
+    sun = bodies["sun"]
+    moon = bodies["moon"]
     cusps = tropical_chart["houses"]["cusps"]
 
     day_chart = is_day_chart(sun["house"])
 
-    if day_chart:
-        fortune_longitude = (ascendant + moon["longitude"] - sun["longitude"]) % 360.0
-        spirit_longitude = (ascendant + sun["longitude"] - moon["longitude"]) % 360.0
-    else:
-        fortune_longitude = (ascendant + sun["longitude"] - moon["longitude"]) % 360.0
-        spirit_longitude = (ascendant + moon["longitude"] - sun["longitude"]) % 360.0
+    fortune_longitude = _sect_lot(day_chart, ascendant, moon["longitude"], sun["longitude"])
+    spirit_longitude = _sect_lot(day_chart, ascendant, sun["longitude"], moon["longitude"])
+
+    eros_longitude = _sect_lot(day_chart, ascendant, bodies["venus"]["longitude"], spirit_longitude)
+    necessity_longitude = _sect_lot(day_chart, ascendant, fortune_longitude, bodies["mercury"]["longitude"])
+    courage_longitude = _sect_lot(day_chart, ascendant, fortune_longitude, bodies["mars"]["longitude"])
+    victory_longitude = _sect_lot(day_chart, ascendant, bodies["jupiter"]["longitude"], spirit_longitude)
+    nemesis_longitude = _sect_lot(day_chart, ascendant, fortune_longitude, bodies["saturn"]["longitude"])
 
     return {
         "day_chart": day_chart,
         "fortune": _point(fortune_longitude, cusps),
         "spirit": _point(spirit_longitude, cusps),
+        "eros": _point(eros_longitude, cusps),
+        "necessity": _point(necessity_longitude, cusps),
+        "courage": _point(courage_longitude, cusps),
+        "victory": _point(victory_longitude, cusps),
+        "nemesis": _point(nemesis_longitude, cusps),
     }
 
 
@@ -83,6 +114,6 @@ if __name__ == "__main__":
     parts = build_arabic_parts(tropical)
 
     print(f"Day chart: {parts['day_chart']}")
-    for name in ("fortune", "spirit"):
+    for name in ("fortune", "spirit", "eros", "necessity", "courage", "victory", "nemesis"):
         p = parts[name]
         print(f"{name.capitalize():8s} {p['sign']} {p['degree']}°{p['minute']}' | house {p['house']}")

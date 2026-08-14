@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_pattern_mystic_rectangle",
+  "lens_id": "astrology",
+  "statement": "A Mystic Rectangle: two oppositions linked by trines and sextiles into a closed rectangle — tension held in a stable, workable frame, combining the Grand Cross's structural tension with the Grand Trine's ease.",
+  "passage_ids": [],
+  "concept_ids": [
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "aspect_pattern:mystic_rectangle"
+  ],
+  "source_ids": [
+    "aspect_patterns_modern_convention"
+  ],
+  "theme_tags": [
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

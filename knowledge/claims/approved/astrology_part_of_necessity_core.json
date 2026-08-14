@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_necessity_core",
+  "lens_id": "astrology",
+  "statement": "The Lot of Necessity (built from Mercury and the Lot of Fortune) marks obligation and constraint — the areas of life where circumstance imposes its demands and adaptability is required.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_necessity"
+  ],
+  "feature_ids": [
+    "sign:necessity:Aries",
+    "sign:necessity:Taurus",
+    "sign:necessity:Gemini",
+    "sign:necessity:Cancer",
+    "sign:necessity:Leo",
+    "sign:necessity:Virgo",
+    "sign:necessity:Libra",
+    "sign:necessity:Scorpio",
+    "sign:necessity:Sagittarius",
+    "sign:necessity:Capricorn",
+    "sign:necessity:Aquarius",
+    "sign:necessity:Pisces"
+  ],
+  "source_ids": [
+    "hermetic_panaretos_lots"
+  ],
+  "theme_tags": [
+    "hermetic_lot"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "",
+  "status": "approved"
+}

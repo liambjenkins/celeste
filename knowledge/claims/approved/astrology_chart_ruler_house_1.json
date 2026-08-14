@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_ruler_house_1",
+  "lens_id": "astrology",
+  "statement": "With the chart ruler in the 1th house, the outward persona moves through the world by way of the self directly — an unusually strong, self-directed expression of persona.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "chart_ruler_house:1"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

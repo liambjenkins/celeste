@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_pattern_kite",
+  "lens_id": "astrology",
+  "statement": "A Kite: a Grand Trine with a fourth placement opposing one corner and sextile the other two — the opposing placement gives the trine's easy flow a specific outlet and direction, turning talent into achievement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "aspect_pattern:kite"
+  ],
+  "source_ids": [
+    "aspect_patterns_modern_convention"
+  ],
+  "theme_tags": [
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

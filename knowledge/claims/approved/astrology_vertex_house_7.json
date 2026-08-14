@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_vertex_house_7",
+  "lens_id": "astrology",
+  "statement": "With the Vertex in the 7th house, fated encounters most often arrive through partnership and one-to-one relationship.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vertex"
+  ],
+  "feature_ids": [
+    "vertex_house:7"
+  ],
+  "source_ids": [
+    "fenton_budkowski_vertex_2006"
+  ],
+  "theme_tags": [
+    "fated_encounter"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "The Vertex most commonly falls in the 5th-8th houses for most latitudes; houses outside this range are real but rarer and not separately claimed here.",
+  "status": "approved"
+}

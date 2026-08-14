@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_ruler_house_12",
+  "lens_id": "astrology",
+  "statement": "With the chart ruler in the 12th house, the outward persona moves through the world by way of solitude and the unconscious.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "chart_ruler_house:12"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

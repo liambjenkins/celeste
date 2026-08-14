@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_shape_bowl",
+  "lens_id": "astrology",
+  "statement": "A Bowl-shaped chart tends toward all placements within one half of the chart, a self-contained life oriented toward a defined project or purpose, spilling out from a sealed boundary.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chart_shape"
+  ],
+  "feature_ids": [
+    "chart_shape:bowl"
+  ],
+  "source_ids": [
+    "jones_chart_shapes_modern_convention"
+  ],
+  "theme_tags": [
+    "chart_shape"
+  ],
+  "life_domain": null,
+  "editorial_note": "Marc Edmund Jones' original chart-shape classification; this implementation's boundary rule is a documented computational approximation (see astrology/aspect_patterns.py), not an exact reproduction of Jones' method — a genuinely fuzzy judgment-call area even among professional astrologers.",
+  "status": "approved"
+}

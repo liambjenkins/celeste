@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_minor_aspect_sesquiquadrate",
+  "lens_id": "astrology",
+  "statement": "A Sesquiquadrate: a sesquiquadrate (135°) carries a nervous, irritable tension between the two placements involved, more prone to surface unpredictably than the steadier friction of a square.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "minor_aspect:sesquiquadrate"
+  ],
+  "source_ids": [
+    "minor_aspects_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "minor_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

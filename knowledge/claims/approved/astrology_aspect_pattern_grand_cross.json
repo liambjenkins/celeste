@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_pattern_grand_cross",
+  "lens_id": "astrology",
+  "statement": "A Grand Cross: two oppositions mutually squared into a closed four-point configuration — sustained, structural tension pulling in four directions at once, demanding ongoing balance rather than a single resolution.",
+  "passage_ids": [],
+  "concept_ids": [
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "aspect_pattern:grand_cross"
+  ],
+  "source_ids": [
+    "aspect_patterns_modern_convention"
+  ],
+  "theme_tags": [
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

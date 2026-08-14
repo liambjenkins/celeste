@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_ruler_house_7",
+  "lens_id": "astrology",
+  "statement": "With the chart ruler in the 7th house, the outward persona moves through the world by way of partnership and open relationship.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "chart_ruler_house:7"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

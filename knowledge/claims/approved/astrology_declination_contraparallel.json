@@ -1,0 +1,22 @@
+{
+  "claim_id": "astrology_declination_contraparallel",
+  "lens_id": "astrology",
+  "statement": "A contraparallel (two bodies sharing the same declination but in opposite hemispheres) is traditionally read like a weaker opposition — a subtler tension on the declination axis rather than the zodiac.",
+  "passage_ids": [],
+  "concept_ids": [
+    "declination_aspects"
+  ],
+  "feature_ids": [
+    "declination_aspect:contraparallel"
+  ],
+  "source_ids": [
+    "declinations_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "declination_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

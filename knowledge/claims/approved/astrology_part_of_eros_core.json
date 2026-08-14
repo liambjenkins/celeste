@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_eros_core",
+  "lens_id": "astrology",
+  "statement": "The Lot of Eros (built from Venus and the Lot of Spirit) marks desire, attraction, and what draws the soul toward union — friendship and love in their most personally compelling form.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_eros"
+  ],
+  "feature_ids": [
+    "sign:eros:Aries",
+    "sign:eros:Taurus",
+    "sign:eros:Gemini",
+    "sign:eros:Cancer",
+    "sign:eros:Leo",
+    "sign:eros:Virgo",
+    "sign:eros:Libra",
+    "sign:eros:Scorpio",
+    "sign:eros:Sagittarius",
+    "sign:eros:Capricorn",
+    "sign:eros:Aquarius",
+    "sign:eros:Pisces"
+  ],
+  "source_ids": [
+    "hermetic_panaretos_lots"
+  ],
+  "theme_tags": [
+    "hermetic_lot"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "",
+  "status": "approved"
+}

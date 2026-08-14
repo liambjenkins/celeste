@@ -156,12 +156,94 @@ def _astrology(concepts, features: FeatureBundle):
 
         macro.append(DUALITY)
 
+    if features.aspect_patterns_present:
+        for pattern in sorted(features.aspect_patterns_present):
+            themes.append(f"aspect_pattern:{pattern}")
+        notes.append(
+            "Aspect pattern(s) present: "
+            + ", ".join(sorted(features.aspect_patterns_present))
+            + " — a specific geometric configuration, read as more "
+            "than the sum of its individual aspects."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chart_shape:
+        themes.append(f"chart_shape:{features.chart_shape}")
+        notes.append(
+            f"The chart's overall shape is {features.chart_shape} "
+            "(Marc Edmund Jones' classification, based on how the "
+            "bodies are distributed around the wheel)."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chart_ruler:
+        themes.append(f"chart_ruler:{features.chart_ruler}")
+        notes.append(
+            f"The chart ruler (traditional ruler of the Ascendant) "
+            f"is {features.chart_ruler}, in house "
+            f"{features.chart_ruler_house} — a personal significator "
+            "describing how the outward persona actually moves "
+            "through the world."
+        )
+        macro.append(ARCHETYPE)
+
+        if features.final_dispositor:
+            notes.append(
+                f"{features.final_dispositor} is this chart's final "
+                "dispositor — every planet's rulership chain "
+                "eventually leads back to it, a real organizing "
+                "anchor most charts don't have."
+            )
+
+    if features.antiscion_sun_sign:
+        themes.append(f"antiscion:sun:{features.antiscion_sun_sign}")
+        notes.append(
+            f"The Sun's antiscion (its solstice-axis mirror point) "
+            f"falls in {features.antiscion_sun_sign} — a 'hidden "
+            "axis' point some traditions read as a quiet, secondary "
+            "expression of the Sun's themes."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.declination_aspects_present:
+        for decl in sorted(features.declination_aspects_present):
+            themes.append(f"declination_aspect:{decl}")
+        notes.append(
+            "Declination aspects present: "
+            + ", ".join(sorted(features.declination_aspects_present))
+            + " — a different coordinate axis (distance from the "
+            "celestial equator) from the longitude-based aspects "
+            "above, traditionally read as an additional, often "
+            "reinforcing layer."
+        )
+        macro.append(DUALITY)
+
+    if features.minor_aspects_present:
+        for minor in sorted(features.minor_aspects_present):
+            themes.append(f"minor_aspect:{minor}")
+        notes.append(
+            "Minor aspects present in this chart: "
+            + ", ".join(sorted(features.minor_aspects_present))
+            + " — subtler harmonics, read as texture alongside (not "
+            "instead of) the major aspects above."
+        )
+        macro.append(DUALITY)
+
     if features.ascendant_sign:
         themes.append(f"ascendant:{features.ascendant_sign}")
         notes.append(
             f"The Ascendant (rising sign) is {features.ascendant_sign}, "
             "traditionally read as the chart's outward persona and "
             "the lens through which the moment first meets the world."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.vertex_sign:
+        themes.append(f"vertex:{features.vertex_sign}")
+        notes.append(
+            f"The Vertex is in {features.vertex_sign} — a calculated "
+            "point traditionally read as an 'auxiliary Descendant' "
+            "marking fated or karmic encounters."
         )
         macro.append(ARCHETYPE)
 

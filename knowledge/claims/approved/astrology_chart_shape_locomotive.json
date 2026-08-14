@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_shape_locomotive",
+  "lens_id": "astrology",
+  "statement": "A Locomotive-shaped chart tends toward placements spanning about two-thirds of the wheel with one wide empty gap, suggesting a strong, self-driven sense of purpose and direction.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chart_shape"
+  ],
+  "feature_ids": [
+    "chart_shape:locomotive"
+  ],
+  "source_ids": [
+    "jones_chart_shapes_modern_convention"
+  ],
+  "theme_tags": [
+    "chart_shape"
+  ],
+  "life_domain": null,
+  "editorial_note": "Marc Edmund Jones' original chart-shape classification; this implementation's boundary rule is a documented computational approximation (see astrology/aspect_patterns.py), not an exact reproduction of Jones' method — a genuinely fuzzy judgment-call area even among professional astrologers.",
+  "status": "approved"
+}

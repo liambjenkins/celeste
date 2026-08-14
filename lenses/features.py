@@ -49,6 +49,23 @@ class FeatureBundle:
     ascendant_longitude: Optional[float] = None
     ascendant_sign: Optional[str] = None
 
+    vertex_sign: Optional[str] = None
+    vertex_house: Optional[int] = None
+
+    minor_aspects_present: set = field(default_factory=set)
+
+    declination_aspects_present: set = field(default_factory=set)
+
+    antiscion_sun_sign: Optional[str] = None
+    antiscion_moon_sign: Optional[str] = None
+
+    chart_ruler: Optional[str] = None
+    chart_ruler_house: Optional[int] = None
+    final_dispositor: Optional[str] = None
+
+    aspect_patterns_present: set = field(default_factory=set)
+    chart_shape: Optional[str] = None
+
     day_chart: Optional[bool] = None
     fortune_sign: Optional[str] = None
     fortune_house: Optional[int] = None
@@ -423,12 +440,156 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         if aspect:
             tags.append(f"aspect:{aspect}")
 
+    # Minor aspects (semisquare/sesquiquadrate/septile/novile) — only
+    # present when the chart was built with include_minor_aspects=True
+    # (astrology.chart.build_chart); tagged generically (presence
+    # anywhere in the chart) rather than per Sun-Moon only, since
+    # minor aspects are read across any body pair, not just the
+    # luminaries.
+    minor_aspects_present = set()
+
+    all_aspects_list = _single_value(concepts.get("astrological_aspects"))
+
+    if isinstance(all_aspects_list, list):
+        minor_names = {"semisquare", "sesquiquadrate", "septile", "novile"}
+
+        for item in all_aspects_list:
+            aspect_name = item.get("aspect")
+
+            if aspect_name in minor_names:
+                minor_aspects_present.add(aspect_name)
+                tags.append(f"minor_aspect:{aspect_name}")
+                tags.append(
+                    f"minor_aspect_pair:{item.get('body_a')}:"
+                    f"{aspect_name}:{item.get('body_b')}"
+                )
+
+    # Declination aspects (parallel/contraparallel) — only present
+    # when the chart was built with include_declinations=True.
+    declination_aspects_present = set()
+
+    declination_aspects_value = _single_value(concepts.get("declination_aspects"))
+
+    if isinstance(declination_aspects_value, list):
+        for item in declination_aspects_value:
+            aspect_name = item.get("aspect")
+
+            if not aspect_name:
+                continue
+
+            declination_aspects_present.add(aspect_name)
+            tags.append(f"declination_aspect:{aspect_name}")
+            tags.append(
+                f"declination_aspect_pair:{item.get('body_a')}:"
+                f"{aspect_name}:{item.get('body_b')}"
+            )
+
+    # Antiscia / contra-antiscia (Sun, Moon) — only present when the
+    # chart was built with include_antiscia=True.
+    antiscion_sun_sign = None
+    antiscion_moon_sign = None
+
+    antiscia_value = _single_value(concepts.get("antiscia"))
+
+    if isinstance(antiscia_value, dict):
+        for body_name, points in antiscia_value.items():
+            if not isinstance(points, dict):
+                continue
+
+            antiscion = points.get("antiscion")
+            contra = points.get("contra_antiscion")
+
+            if isinstance(antiscion, dict) and antiscion.get("sign"):
+                tags.append(f"antiscion:{body_name}:{antiscion['sign']}")
+
+                if body_name == "sun":
+                    antiscion_sun_sign = antiscion["sign"]
+                elif body_name == "moon":
+                    antiscion_moon_sign = antiscion["sign"]
+
+            if isinstance(contra, dict) and contra.get("sign"):
+                tags.append(f"contra_antiscion:{body_name}:{contra['sign']}")
+
+    # Aspect patterns + chart shape
+    aspect_patterns_present = set()
+    chart_shape = None
+
+    chart_shape_value = _single_value(concepts.get("chart_shape"))
+
+    if isinstance(chart_shape_value, dict) and chart_shape_value.get("shape"):
+        chart_shape = chart_shape_value["shape"]
+        tags.append(f"chart_shape:{chart_shape}")
+
+    aspect_patterns_value = _single_value(concepts.get("aspect_patterns"))
+
+    if isinstance(aspect_patterns_value, dict):
+        _pattern_list_keys = {
+            "grand_trines": "grand_trine",
+            "t_squares": "t_square",
+            "grand_crosses": "grand_cross",
+            "yods": "yod",
+            "kites": "kite",
+            "mystic_rectangles": "mystic_rectangle",
+            "stelliums": "stellium",
+        }
+
+        for list_key, pattern_name in _pattern_list_keys.items():
+            entries = aspect_patterns_value.get(list_key)
+
+            if not entries:
+                continue
+
+            aspect_patterns_present.add(pattern_name)
+            tags.append(f"aspect_pattern:{pattern_name}")
+
+            if pattern_name == "stellium":
+                for entry in entries:
+                    if entry.get("sign"):
+                        tags.append(f"stellium_sign:{entry['sign']}")
+
+    # Chart ruler + dispositor chains
+    chart_ruler = None
+    chart_ruler_house = None
+    final_dispositor = None
+
+    rulership_value = _single_value(concepts.get("rulership"))
+
+    if isinstance(rulership_value, dict) and rulership_value.get("chart_ruler"):
+        chart_ruler = rulership_value["chart_ruler"]
+        chart_ruler_house = rulership_value.get("chart_ruler_house")
+        final_dispositor = rulership_value.get("final_dispositor")
+
+        tags.append(f"chart_ruler:{chart_ruler}")
+
+        if chart_ruler_house is not None:
+            tags.append(f"chart_ruler_house:{chart_ruler_house}")
+
+        if final_dispositor:
+            tags.append(f"final_dispositor:{final_dispositor}")
+        else:
+            tags.append("final_dispositor:none")
+
     ascendant_longitude = _single_value(concepts.get("ascendant"))
     ascendant_sign = None
 
     if isinstance(ascendant_longitude, (int, float)):
         ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
         tags.append(f"ascendant:{ascendant_sign}")
+
+    # Vertex — a calculated point (ecliptic x prime vertical), not a
+    # body; astrology/chart.py already resolves sign/house for it.
+    vertex_sign = None
+    vertex_house = None
+
+    vertex_value = _single_value(concepts.get("vertex"))
+
+    if isinstance(vertex_value, dict) and vertex_value.get("sign"):
+        vertex_sign = vertex_value["sign"]
+        vertex_house = vertex_value.get("house")
+        tags.append(f"vertex:{vertex_sign}")
+
+        if vertex_house is not None:
+            tags.append(f"vertex_house:{vertex_house}")
 
     # Arabic Parts (Part of Fortune / Part of Spirit) — sect-aware
     # points, not new ephemeris bodies; see astrology/arabic_parts.py.
@@ -463,6 +624,19 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
         if spirit_house is not None:
             tags.append(f"house:spirit:{spirit_house}")
+
+    # The five additional Hermetic (Panaretos) Lots — Eros, Necessity,
+    # Courage, Victory, Nemesis. Sign/house tagged generically like
+    # Fortune/Spirit; no dedicated FeatureBundle fields since these
+    # are read individually via tags rather than combined narrative.
+    for _lot_key in ("eros", "necessity", "courage", "victory", "nemesis"):
+        _lot_value = _single_value(concepts.get(f"part_of_{_lot_key}"))
+
+        if isinstance(_lot_value, dict) and _lot_value.get("sign"):
+            tags.append(f"sign:{_lot_key}:{_lot_value['sign']}")
+
+            if _lot_value.get("house") is not None:
+                tags.append(f"house:{_lot_key}:{_lot_value['house']}")
 
     # Vedic (sidereal) placements — same sign:/house: tag shapes as
     # tropical, prefixed vedic_sign:/vedic_house:, plus nakshatra
@@ -808,6 +982,17 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         sun_moon_aspect_strength=aspect_strength,
         ascendant_longitude=ascendant_longitude,
         ascendant_sign=ascendant_sign,
+        vertex_sign=vertex_sign,
+        vertex_house=vertex_house,
+        minor_aspects_present=minor_aspects_present,
+        declination_aspects_present=declination_aspects_present,
+        antiscion_sun_sign=antiscion_sun_sign,
+        antiscion_moon_sign=antiscion_moon_sign,
+        chart_ruler=chart_ruler,
+        chart_ruler_house=chart_ruler_house,
+        final_dispositor=final_dispositor,
+        aspect_patterns_present=aspect_patterns_present,
+        chart_shape=chart_shape,
         day_chart=day_chart,
         fortune_sign=fortune_sign,
         fortune_house=fortune_house,

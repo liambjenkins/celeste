@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_pattern_yod",
+  "lens_id": "astrology",
+  "statement": "A Yod: two placements in sextile, both in quincunx to a third 'apex' placement — sometimes called the 'Finger of Fate', pointing toward a specialized, adjustment-demanding purpose focused through the apex.",
+  "passage_ids": [],
+  "concept_ids": [
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "aspect_pattern:yod"
+  ],
+  "source_ids": [
+    "aspect_patterns_modern_convention"
+  ],
+  "theme_tags": [
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}
