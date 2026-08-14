@@ -172,104 +172,123 @@ def _life_domain_index(points: list) -> dict:
     return index
 
 
-def build_cross_system_convergence(interpretations: dict) -> CrossSystemResult:
+def build_cross_system_convergence(
+    interpretations: dict, enable_clustering: bool = False
+) -> CrossSystemResult:
+    """
+    enable_clustering defaults to False: the keyword-cluster
+    mechanism (lenses/narrative.py's fixed 6-bucket vocabulary --
+    warmth/assertive/reserved/freedom/structure/expressive) was
+    designed for a small claim pool and has saturated now that
+    Phase F pushed pooled claims per chart into the hundreds -- on a
+    real chart, all 6 buckets tied for maximum cross-tradition
+    corroboration, collapsing "clear through-line" into "everything
+    is a through-line." The MAX_TOP_CLUSTERS cap (below) is a partial
+    mitigation, not a fix -- the vocabulary itself needs redesigning
+    before this is trustworthy again, so it's switched off by default
+    until that happens. Life-domain convergence (using each claim's
+    real life_domain field, not keyword matching) is unaffected and
+    stays on -- it was never part of what broke.
+    """
+
     points = gather_claim_points(interpretations)
 
     if not points:
         return CrossSystemResult(points=[], narrative="")
 
-    index = _cluster_index(points)
-
-    # Rank clusters by how many INDEPENDENT lenses corroborate them
-    # first (not raw hit count, which would over-weight whichever
-    # lens has more granular claims for this chart), then by total
-    # hit count as an honest tiebreaker.
-    ranked = sorted(
-        index.items(),
-        key=lambda kv: (len({p.lens_id for p in kv[1]}), len(kv[1])),
-        reverse=True,
-    )
-
-    cross_tensions = _cross_tensions(index)
-    internal_tensions = _internal_tensions(points)
-
     paragraphs = []
 
-    top = ranked[:MAX_TOP_CLUSTERS]
-    top_clusters = {cluster for cluster, _ in top}
+    if enable_clustering:
+        index = _cluster_index(points)
 
-    for cluster, cluster_points in top:
-        traditions = sorted({p.tradition for p in cluster_points})
-        timing_share = sum(1 for p in cluster_points if p.is_timing)
-
-        paragraphs.append(
-            f"A clear through-line in this chart is {cluster}: it shows up "
-            f"independently in {', '.join(traditions)} astrology — "
-            f"{_describe_points(cluster_points)}. When {len(traditions)} "
-            f"systems built on entirely different calendars and reference "
-            f"frames land on the same quality without being asked to "
-            f"agree, that's the strongest kind of signal this reading can "
-            f"offer."
+        # Rank clusters by how many INDEPENDENT lenses corroborate them
+        # first (not raw hit count, which would over-weight whichever
+        # lens has more granular claims for this chart), then by total
+        # hit count as an honest tiebreaker.
+        ranked = sorted(
+            index.items(),
+            key=lambda kv: (len({p.lens_id for p in kv[1]}), len(kv[1])),
+            reverse=True,
         )
 
-        if timing_share >= 2:
-            timing_traditions = sorted({p.tradition for p in cluster_points if p.is_timing})
+        cross_tensions = _cross_tensions(index)
+        internal_tensions = _internal_tensions(points)
+
+        top = ranked[:MAX_TOP_CLUSTERS]
+        top_clusters = {cluster for cluster, _ in top}
+
+        for cluster, cluster_points in top:
+            traditions = sorted({p.tradition for p in cluster_points})
+            timing_share = sum(1 for p in cluster_points if p.is_timing)
+
             paragraphs.append(
-                f"Notably, part of that {cluster} through-line is TIMING "
-                f"synchrony, not just fixed placement: "
-                f"{', '.join(timing_traditions)} independently place their "
-                f"currently active period (Dasha, transit/progression, or "
-                f"Da Yun/Liu Nian) on this same theme right now — the "
-                "systems agree not just on the quality, but on it being "
-                "active in this particular window of time."
+                f"A clear through-line in this chart is {cluster}: it shows up "
+                f"independently in {', '.join(traditions)} astrology — "
+                f"{_describe_points(cluster_points)}. When {len(traditions)} "
+                f"systems built on entirely different calendars and reference "
+                f"frames land on the same quality without being asked to "
+                f"agree, that's the strongest kind of signal this reading can "
+                f"offer."
             )
 
-    explained_pairs = set()
-    explained_clusters = set()
-    tensions_by_point = defaultdict(list)
+            if timing_share >= 2:
+                timing_traditions = sorted({p.tradition for p in cluster_points if p.is_timing})
+                paragraphs.append(
+                    f"Notably, part of that {cluster} through-line is TIMING "
+                    f"synchrony, not just fixed placement: "
+                    f"{', '.join(timing_traditions)} independently place their "
+                    f"currently active period (Dasha, transit/progression, or "
+                    f"Da Yun/Liu Nian) on this same theme right now — the "
+                    "systems agree not just on the quality, but on it being "
+                    "active in this particular window of time."
+                )
 
-    for point, cluster_a, cluster_b in internal_tensions:
-        explained_pairs.add(frozenset({cluster_a, cluster_b}))
-        explained_clusters.update({cluster_a, cluster_b})
-        tensions_by_point[point].append((cluster_a, cluster_b))
+        explained_pairs = set()
+        explained_clusters = set()
+        tensions_by_point = defaultdict(list)
 
-    for point, pairs in tensions_by_point.items():
-        pair_text = " and ".join(f"{a}/{b}" for a, b in pairs)
-        paragraphs.append(
-            f"{point.tradition}'s claim {point.claim_id} carries real "
-            f"internal tension ({pair_text} coexisting in one statement, "
-            f"not two different people): \"{point.statement}\""
-        )
+        for point, cluster_a, cluster_b in internal_tensions:
+            explained_pairs.add(frozenset({cluster_a, cluster_b}))
+            explained_clusters.update({cluster_a, cluster_b})
+            tensions_by_point[point].append((cluster_a, cluster_b))
 
-    for cluster_a, cluster_b, points_a, points_b in cross_tensions:
-        if frozenset({cluster_a, cluster_b}) in explained_pairs:
-            continue  # already covered above with more specificity
-        paragraphs.append(
-            f"There's a real tension between {cluster_a} and {cluster_b}: "
-            f"{_describe_points(points_a)} point one way, while "
-            f"{_describe_points(points_b)} point the other. Worth sitting "
-            f"with rather than resolving away — these systems don't fully "
-            f"agree here, and that disagreement is itself information."
-        )
+        for point, pairs in tensions_by_point.items():
+            pair_text = " and ".join(f"{a}/{b}" for a, b in pairs)
+            paragraphs.append(
+                f"{point.tradition}'s claim {point.claim_id} carries real "
+                f"internal tension ({pair_text} coexisting in one statement, "
+                f"not two different people): \"{point.statement}\""
+            )
 
-    unique = [
-        (cluster, pts[0])
-        for cluster, pts in index.items()
-        if len(pts) == 1
-        and cluster not in top_clusters
-        and cluster not in explained_clusters
-    ]
-    if unique:
-        facet_text = "; ".join(
-            f"{cluster} ({point.tradition} {point.claim_id})"
-            for cluster, point in unique
-        )
-        paragraphs.append(
-            f"A few qualities show up only once, uncorroborated by the "
-            f"other systems — not contradicted, just not cross-validated "
-            f"either: {facet_text}. These read as real texture rather "
-            f"than defining threads."
-        )
+        for cluster_a, cluster_b, points_a, points_b in cross_tensions:
+            if frozenset({cluster_a, cluster_b}) in explained_pairs:
+                continue  # already covered above with more specificity
+            paragraphs.append(
+                f"There's a real tension between {cluster_a} and {cluster_b}: "
+                f"{_describe_points(points_a)} point one way, while "
+                f"{_describe_points(points_b)} point the other. Worth sitting "
+                f"with rather than resolving away — these systems don't fully "
+                f"agree here, and that disagreement is itself information."
+            )
+
+        unique = [
+            (cluster, pts[0])
+            for cluster, pts in index.items()
+            if len(pts) == 1
+            and cluster not in top_clusters
+            and cluster not in explained_clusters
+        ]
+        if unique:
+            facet_text = "; ".join(
+                f"{cluster} ({point.tradition} {point.claim_id})"
+                for cluster, point in unique
+            )
+            paragraphs.append(
+                f"A few qualities show up only once, uncorroborated by the "
+                f"other systems — not contradicted, just not cross-validated "
+                f"either: {facet_text}. These read as real texture rather "
+                f"than defining threads."
+            )
 
     # Life-domain convergence: a second, complementary view alongside
     # the keyword-cluster one above, grouping by the life_domain
