@@ -49,6 +49,12 @@ class FeatureBundle:
     ascendant_longitude: Optional[float] = None
     ascendant_sign: Optional[str] = None
 
+    day_chart: Optional[bool] = None
+    fortune_sign: Optional[str] = None
+    fortune_house: Optional[int] = None
+    spirit_sign: Optional[str] = None
+    spirit_house: Optional[int] = None
+
     sun_sign: Optional[str] = None
     moon_sign: Optional[str] = None
     planet_signs: dict[str, str] = field(default_factory=dict)
@@ -398,6 +404,40 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
         tags.append(f"ascendant:{ascendant_sign}")
 
+    # Arabic Parts (Part of Fortune / Part of Spirit) — sect-aware
+    # points, not new ephemeris bodies; see astrology/arabic_parts.py.
+    day_chart = None
+    fortune_sign = None
+    fortune_house = None
+    spirit_sign = None
+    spirit_house = None
+
+    fortune_value = _single_value(concepts.get("part_of_fortune"))
+
+    if isinstance(fortune_value, dict) and fortune_value.get("sign"):
+        day_chart = fortune_value.get("day_chart")
+        fortune_sign = fortune_value["sign"]
+        fortune_house = fortune_value.get("house")
+        tags.append(f"sign:fortune:{fortune_sign}")
+
+        if fortune_house is not None:
+            tags.append(f"house:fortune:{fortune_house}")
+
+        tags.append(f"sect:{'day' if day_chart else 'night'}")
+
+    spirit_value = _single_value(concepts.get("part_of_spirit"))
+
+    if isinstance(spirit_value, dict) and spirit_value.get("sign"):
+        if day_chart is None:
+            day_chart = spirit_value.get("day_chart")
+
+        spirit_sign = spirit_value["sign"]
+        spirit_house = spirit_value.get("house")
+        tags.append(f"sign:spirit:{spirit_sign}")
+
+        if spirit_house is not None:
+            tags.append(f"house:spirit:{spirit_house}")
+
     # Vedic (sidereal) placements — same sign:/house: tag shapes as
     # tropical, prefixed vedic_sign:/vedic_house:, plus nakshatra
     # tags that have no tropical equivalent.
@@ -541,6 +581,11 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         sun_moon_aspect_strength=aspect_strength,
         ascendant_longitude=ascendant_longitude,
         ascendant_sign=ascendant_sign,
+        day_chart=day_chart,
+        fortune_sign=fortune_sign,
+        fortune_house=fortune_house,
+        spirit_sign=spirit_sign,
+        spirit_house=spirit_house,
         sun_sign=sun_sign,
         moon_sign=moon_sign,
         planet_signs=planet_signs,

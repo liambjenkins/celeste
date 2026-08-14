@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_part_of_fortune_house_8",
+  "lens_id": "astrology",
+  "statement": "With the Part of Fortune in the 8th house, ease and good fortune come through shared resources and emotional or material transformation with others.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_fortune"
+  ],
+  "feature_ids": [
+    "house:fortune:8"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_part_of_fortune_1978"
+  ],
+  "theme_tags": [
+    "fortune_and_circumstance"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "",
+  "status": "approved"
+}

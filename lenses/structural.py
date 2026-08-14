@@ -157,6 +157,25 @@ def _astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.fortune_sign:
+        themes.append(f"fortune:{features.fortune_sign}")
+        sect = "day" if features.day_chart else "night"
+        notes.append(
+            f"The Part of Fortune is in {features.fortune_sign} "
+            f"(a {sect} chart), the classical Hellenistic lot marking "
+            "where wellbeing and circumstance most readily align."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.spirit_sign:
+        themes.append(f"spirit:{features.spirit_sign}")
+        notes.append(
+            f"The Part of Spirit is in {features.spirit_sign}, the "
+            "counterpart lot marking where deliberate will and "
+            "purposeful action are focused."
+        )
+        macro.append(ARCHETYPE)
+
     if features.star_conjunction_star:
         themes.append(
             f"star_conjunction:{features.star_conjunction_body}:"

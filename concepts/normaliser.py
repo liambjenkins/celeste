@@ -254,6 +254,32 @@ def normalise_observations(observations):
                 "astrology.star_conjunctions"
             )
 
+        arabic_parts = astronomy.get(
+            "arabic_parts"
+        )
+
+        if isinstance(arabic_parts, dict):
+
+            if arabic_parts.get("fortune"):
+                add_concept(
+                    "part_of_fortune",
+                    {
+                        **arabic_parts["fortune"],
+                        "day_chart": arabic_parts.get("day_chart"),
+                    },
+                    "astrology.arabic_parts.fortune"
+                )
+
+            if arabic_parts.get("spirit"):
+                add_concept(
+                    "part_of_spirit",
+                    {
+                        **arabic_parts["spirit"],
+                        "day_chart": arabic_parts.get("day_chart"),
+                    },
+                    "astrology.arabic_parts.spirit"
+                )
+
     # --------------------------------------------------------
     # VEDIC ASTROLOGY (sidereal)
     # --------------------------------------------------------

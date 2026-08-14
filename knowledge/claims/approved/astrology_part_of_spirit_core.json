@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_spirit_core",
+  "lens_id": "astrology",
+  "statement": "The Part of Spirit marks where mind, will, and deliberate action are most directly focused — the counterpart to the Part of Fortune's body and circumstance, oriented instead toward conscious purpose.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_spirit"
+  ],
+  "feature_ids": [
+    "sign:spirit:Aries",
+    "sign:spirit:Taurus",
+    "sign:spirit:Gemini",
+    "sign:spirit:Cancer",
+    "sign:spirit:Leo",
+    "sign:spirit:Virgo",
+    "sign:spirit:Libra",
+    "sign:spirit:Scorpio",
+    "sign:spirit:Sagittarius",
+    "sign:spirit:Capricorn",
+    "sign:spirit:Aquarius",
+    "sign:spirit:Pisces"
+  ],
+  "source_ids": [
+    "brennan_hellenistic_astrology_2017"
+  ],
+  "theme_tags": [
+    "will_and_purpose"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Core definition consistent across the Hellenistic sources as synthesized in Brennan's modern scholarly treatment.",
+  "status": "approved"
+}

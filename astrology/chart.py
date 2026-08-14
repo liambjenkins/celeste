@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from astrology.arabic_parts import build_arabic_parts
 from astrology.houses import calculate_houses
 from astrology.aspects import calculate_aspects
 from astrology.elemental_balance import chart_elemental_balance
@@ -51,6 +52,8 @@ def build_chart(
     # positions, which is where magnitude lives.
     star_conjunctions = find_star_conjunctions(bodies, star_positions)
 
+    arabic_parts = build_arabic_parts({"houses": houses, "bodies": bodies})
+
     return {
         "utc_time": astronomy["utc_time"],
         "julian_day": astronomy["julian_day"],
@@ -65,4 +68,5 @@ def build_chart(
         "elemental_balance": elemental_balance,
         "stars": stars,
         "star_conjunctions": star_conjunctions,
+        "arabic_parts": arabic_parts,
     }

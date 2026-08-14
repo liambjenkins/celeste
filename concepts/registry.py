@@ -635,6 +635,47 @@ CONCEPTS = {
         "sexagenary pillars"
     ],
     "related": []
+},
+"part_of_fortune": {
+    "label": "Part of Fortune",
+    "domain": "space",
+    "description": (
+        "Classical Hellenistic Lot of Fortune: a sect-aware (day/"
+        "night) point derived from the Ascendant, Sun, and Moon "
+        "longitudes, placed by sign and house."
+    ),
+    "synonyms": [
+        "part of fortune",
+        "lot of fortune",
+        "pars fortunae"
+    ],
+    "related": [
+        "part_of_spirit",
+        "ascendant",
+        "sun",
+        "moon"
+    ]
+},
+"part_of_spirit": {
+    "label": "Part of Spirit",
+    "domain": "space",
+    "description": (
+        "Classical Hellenistic Lot of Spirit: a sect-aware (day/"
+        "night) point derived from the Ascendant, Sun, and Moon "
+        "longitudes — the exact reverse formula of the Part of "
+        "Fortune at the same sect — placed by sign and house."
+    ),
+    "synonyms": [
+        "part of spirit",
+        "lot of spirit",
+        "pars spiritus"
+    ],
+    "related": [
+        "part_of_fortune",
+        "ascendant",
+        "sun",
+        "moon"
+    ]
 }
 
 }
