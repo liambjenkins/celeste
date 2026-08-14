@@ -687,6 +687,30 @@ def normalise_observations(observations):
             "chinese_dayun"
         )
 
+    chinese_interactions = observations.get(
+        "chinese_interactions",
+        {}
+    )
+
+    if isinstance(chinese_interactions, dict) and chinese_interactions:
+        add_concept(
+            "chinese_interactions",
+            chinese_interactions,
+            "chinese_interactions"
+        )
+
+    chinese_elemental_balance = observations.get(
+        "chinese_elemental_balance",
+        {}
+    )
+
+    if isinstance(chinese_elemental_balance, dict) and chinese_elemental_balance:
+        add_concept(
+            "chinese_elemental_balance",
+            chinese_elemental_balance,
+            "chinese_elemental_balance"
+        )
+
     # --------------------------------------------------------
     # TRANSITS AND SECONDARY PROGRESSIONS (both optional — only
     # present when --as-of-date/--as-of-time were supplied)

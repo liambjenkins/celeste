@@ -23,6 +23,8 @@ from astrology.time import local_to_utc
 from astrology.transits import build_transits
 from astrology.yogas import find_yogas
 from chinese.dayun import build_da_yun
+from chinese.interactions import find_all_interactions
+from chinese.elemental_balance import build_elemental_balance
 from chinese.pillars import build_four_pillars
 from chinese.sexagenary import STEM_INDEX, STEMS
 from chinese.ten_gods import build_ten_gods
@@ -270,6 +272,8 @@ observations = {
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
     ),
+    "chinese_interactions": find_all_interactions(_four_pillars),
+    "chinese_elemental_balance": build_elemental_balance(_four_pillars),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),

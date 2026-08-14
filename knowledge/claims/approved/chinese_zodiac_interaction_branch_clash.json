@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_interaction_branch_clash",
+  "lens_id": "chinese_zodiac",
+  "statement": "An Earthly Branch clash (Chong) between two pillars is traditionally read as instability and forced change — an opposition that shakes loose whatever those two pillars represent, for better or worse, rather than letting it sit still.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_interaction:branch_clashes"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "interaction",
+    "instability"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

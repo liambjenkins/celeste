@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_interaction_branch_combination",
+  "lens_id": "chinese_zodiac",
+  "statement": "An Earthly Branch combination (He) between two pillars is traditionally read as bonding and closeness — one of the tightest classical relationships, though whether it fully transforms into its associated element depends on the rest of the chart, not the combination alone.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_interaction:branch_combinations"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "interaction",
+    "harmony"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

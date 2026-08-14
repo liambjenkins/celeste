@@ -1,0 +1,26 @@
+{
+  "claim_id": "chinese_zodiac_elemental_balance_dominant",
+  "lens_id": "chinese_zodiac",
+  "statement": "An element with the highest count across a chart's 8 stem positions is traditionally read as the chart's most naturally abundant resource — its themes come easily and persistently, sometimes to the point of excess needing balance from elsewhere in the chart.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_elemental_balance"
+  ],
+  "feature_ids": [
+    "chinese_element_dominant:Wood",
+    "chinese_element_dominant:Fire",
+    "chinese_element_dominant:Earth",
+    "chinese_element_dominant:Metal",
+    "chinese_element_dominant:Water"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "elemental_balance",
+    "abundance"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

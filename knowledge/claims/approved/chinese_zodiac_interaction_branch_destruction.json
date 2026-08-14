@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_interaction_branch_destruction",
+  "lens_id": "chinese_zodiac",
+  "statement": "An Earthly Branch destruction (Po) between two pillars is traditionally read as a breaking-down or wearing-away of whatever those two pillars represent — damage that accumulates gradually rather than striking all at once, the way a clash does.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_interaction:branch_destructions"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "interaction",
+    "erosion"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

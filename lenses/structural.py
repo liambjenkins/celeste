@@ -1030,6 +1030,39 @@ def _chinese_zodiac(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.chinese_interactions_present:
+        for interaction in features.chinese_interactions_present:
+            themes.append(f"chinese_interaction:{interaction}")
+        notes.append(
+            "Stem/branch interaction(s) present between pillars: "
+            + ", ".join(sorted(features.chinese_interactions_present))
+            + " — structural relationships between two or more "
+            "pillars, distinct from any single pillar's own meaning."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_missing_elements or features.chinese_dominant_elements:
+        if features.chinese_dominant_elements:
+            themes.append(
+                "chinese_element_dominant:" + "_".join(sorted(features.chinese_dominant_elements))
+            )
+        if features.chinese_missing_elements:
+            themes.append(
+                "chinese_element_missing:" + "_".join(sorted(features.chinese_missing_elements))
+            )
+
+        parts = []
+        if features.chinese_dominant_elements:
+            parts.append(f"dominant: {', '.join(sorted(features.chinese_dominant_elements))}")
+        if features.chinese_missing_elements:
+            parts.append(f"missing: {', '.join(sorted(features.chinese_missing_elements))}")
+
+        notes.append(
+            "Elemental balance across all 8 stem positions (visible "
+            "+ hidden) — " + "; ".join(parts) + "."
+        )
+        macro.append(ELEMENTAL)
+
     return _result(themes, macro, [], notes)
 
 

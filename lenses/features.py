@@ -140,6 +140,9 @@ class FeatureBundle:
     chinese_pillar_names: dict[str, str] = field(default_factory=dict)
 
     chinese_ten_gods: list[str] = field(default_factory=list)
+    chinese_interactions_present: list[str] = field(default_factory=list)
+    chinese_missing_elements: list[str] = field(default_factory=list)
+    chinese_dominant_elements: list[str] = field(default_factory=list)
 
     has_dayun: bool = False
     dayun_current_pillar: Optional[str] = None
@@ -1120,6 +1123,51 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         tags.append(f"chinese_dayun_branch:{current.get('branch')}")
         tags.append(f"dayun_direction:{dayun_value.get('direction')}")
 
+    # Chinese stem/branch interactions (chinese.interactions' output)
+    # — presence tags per interaction category, generic across which
+    # specific pair/pillars are involved (the specific stems/branches
+    # are already covered by the chinese_stem:/chinese_branch: tags
+    # above).
+    chinese_interactions_present = []
+
+    interactions_value = _single_value(concepts.get("chinese_interactions"))
+
+    if isinstance(interactions_value, dict):
+        for category, items in interactions_value.items():
+            if not items:
+                continue
+
+            if category == "punishments":
+                for item in items:
+                    punishment_id = item.get("id")
+                    if punishment_id:
+                        chinese_interactions_present.append(punishment_id)
+                        tags.append(f"chinese_punishment:{punishment_id}")
+                continue
+
+            chinese_interactions_present.append(category)
+            tags.append(f"chinese_interaction:{category}")
+
+    # Chinese elemental balance (chinese.elemental_balance's output)
+    # — missing/dominant/weakest-present elements, chart-relative.
+    chinese_missing_elements = []
+    chinese_dominant_elements = []
+
+    elemental_balance_value = _single_value(concepts.get("chinese_elemental_balance"))
+
+    if isinstance(elemental_balance_value, dict):
+        chinese_missing_elements = list(elemental_balance_value.get("missing_elements", []))
+        chinese_dominant_elements = list(elemental_balance_value.get("dominant_elements", []))
+
+        for element in chinese_missing_elements:
+            tags.append(f"chinese_element_missing:{element}")
+
+        for element in chinese_dominant_elements:
+            tags.append(f"chinese_element_dominant:{element}")
+
+        for element in elemental_balance_value.get("weakest_present_elements", []):
+            tags.append(f"chinese_element_weakest:{element}")
+
     # Transits and secondary progressions — both optional, only
     # present when the CLI was given --as-of-date/--as-of-time.
     has_transits = False
@@ -1341,6 +1389,9 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         chinese_year_animal=chinese_year_animal,
         chinese_pillar_names=chinese_pillar_names,
         chinese_ten_gods=chinese_ten_gods,
+        chinese_interactions_present=chinese_interactions_present,
+        chinese_missing_elements=chinese_missing_elements,
+        chinese_dominant_elements=chinese_dominant_elements,
         has_dayun=has_dayun,
         dayun_current_pillar=dayun_current_pillar,
         has_transits=has_transits,

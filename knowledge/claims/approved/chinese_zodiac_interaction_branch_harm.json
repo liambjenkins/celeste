@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_interaction_branch_harm",
+  "lens_id": "chinese_zodiac",
+  "statement": "An Earthly Branch harm (Hai) between two pillars is traditionally read as a subtler, less obvious friction than a clash — undermining or complicating support between whatever those two pillars represent, often in ways that surface only gradually.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_interaction:branch_harms"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "interaction",
+    "friction"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

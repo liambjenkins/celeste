@@ -284,6 +284,177 @@ _add(
 )
 
 
+# ------------------------------------------------------------
+# Stem/branch interactions (He, Chong, Hai, Po, Xing) — matched via
+# chinese_interaction:{category} / chinese_punishment:{id} tags,
+# generic across which specific pair/pillars are involved.
+# Source: standard classical BaZi convention, verified via web search
+# during curation, cross-referenced across independent technical
+# sources during curation.
+# ------------------------------------------------------------
+
+_add(
+    "interaction_stem_combination",
+    "A Heavenly Stem combination (He) between two pillars' stems is "
+    "traditionally read as harmony and bonding — a pull toward "
+    "cooperation between whatever those two pillars represent, and, "
+    "under the right supporting conditions, a transformation of "
+    "their energy into a new element entirely.",
+    concept_ids=["chinese_interactions"],
+    feature_ids=["chinese_interaction:stem_combinations"],
+    theme_tags=["interaction", "harmony"],
+    life_domain="relationships",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "interaction_branch_clash",
+    "An Earthly Branch clash (Chong) between two pillars is "
+    "traditionally read as instability and forced change — an "
+    "opposition that shakes loose whatever those two pillars "
+    "represent, for better or worse, rather than letting it sit "
+    "still.",
+    concept_ids=["chinese_interactions"],
+    feature_ids=["chinese_interaction:branch_clashes"],
+    theme_tags=["interaction", "instability"],
+    life_domain="transformation",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "interaction_branch_combination",
+    "An Earthly Branch combination (He) between two pillars is "
+    "traditionally read as bonding and closeness — one of the "
+    "tightest classical relationships, though whether it fully "
+    "transforms into its associated element depends on the rest of "
+    "the chart, not the combination alone.",
+    concept_ids=["chinese_interactions"],
+    feature_ids=["chinese_interaction:branch_combinations"],
+    theme_tags=["interaction", "harmony"],
+    life_domain="relationships",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "interaction_branch_harm",
+    "An Earthly Branch harm (Hai) between two pillars is "
+    "traditionally read as a subtler, less obvious friction than a "
+    "clash — undermining or complicating support between whatever "
+    "those two pillars represent, often in ways that surface only "
+    "gradually.",
+    concept_ids=["chinese_interactions"],
+    feature_ids=["chinese_interaction:branch_harms"],
+    theme_tags=["interaction", "friction"],
+    life_domain="relationships",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "interaction_branch_destruction",
+    "An Earthly Branch destruction (Po) between two pillars is "
+    "traditionally read as a breaking-down or wearing-away of "
+    "whatever those two pillars represent — damage that accumulates "
+    "gradually rather than striking all at once, the way a clash "
+    "does.",
+    concept_ids=["chinese_interactions"],
+    feature_ids=["chinese_interaction:branch_destructions"],
+    theme_tags=["interaction", "erosion"],
+    life_domain="transformation",
+    source_id="augier_bazi_2010",
+)
+
+_PUNISHMENTS = {
+    "ungrateful_punishment": (
+        "The Yin-Si-Shen punishment ('ungrateful punishment') is "
+        "traditionally read as conflict arising from those who "
+        "should support each other instead undermining one another "
+        "— effort given without the expected return.",
+        ["punishment", "conflict"],
+    ),
+    "power_punishment": (
+        "The Chou-Xu-Wei punishment ('punishment of power') is "
+        "traditionally read as struggles over authority, control, "
+        "or recognition among parties who are nominally aligned.",
+        ["punishment", "power"],
+    ),
+    "no_courtesy_punishment": (
+        "The Zi-Mao punishment ('punishment without courtesy') is "
+        "traditionally read as a breakdown of proper conduct or "
+        "respect between the two positions involved.",
+        ["punishment", "conflict"],
+    ),
+    "self_punishment": (
+        "A self-punishing branch (Chen, Wu, You, or Hai) appearing "
+        "more than once in the chart is traditionally read as "
+        "self-created difficulty — friction that originates from "
+        "within rather than from external circumstance.",
+        ["punishment", "self_created_difficulty"],
+    ),
+}
+
+for _punishment_id, (_meaning, _themes) in _PUNISHMENTS.items():
+    _add(
+        f"punishment_{_punishment_id}",
+        _meaning,
+        concept_ids=["chinese_interactions"],
+        feature_ids=[f"chinese_punishment:{_punishment_id}"],
+        theme_tags=_themes,
+        life_domain="discipline",
+        source_id="augier_bazi_2010",
+    )
+
+
+# ------------------------------------------------------------
+# Elemental balance — matched via chinese_element_missing:/
+# chinese_element_dominant:/chinese_element_weakest: tags for any of
+# the 5 elements, body-agnostic (the meaning of having a missing or
+# dominant element doesn't depend on which specific element it is).
+# ------------------------------------------------------------
+
+_ELEMENTS_5 = ("Wood", "Fire", "Earth", "Metal", "Water")
+
+_add(
+    "elemental_balance_missing",
+    "An element entirely absent across a chart's 8 stem positions "
+    "(visible and hidden) is traditionally read as a real gap — "
+    "that element's themes are least naturally available to the "
+    "person, and may need to be actively sought or supplemented "
+    "rather than assumed present.",
+    concept_ids=["chinese_elemental_balance"],
+    feature_ids=[f"chinese_element_missing:{_element}" for _element in _ELEMENTS_5],
+    theme_tags=["elemental_balance", "gap"],
+    life_domain="foundation_and_security",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "elemental_balance_dominant",
+    "An element with the highest count across a chart's 8 stem "
+    "positions is traditionally read as the chart's most naturally "
+    "abundant resource — its themes come easily and persistently, "
+    "sometimes to the point of excess needing balance from "
+    "elsewhere in the chart.",
+    concept_ids=["chinese_elemental_balance"],
+    feature_ids=[f"chinese_element_dominant:{_element}" for _element in _ELEMENTS_5],
+    theme_tags=["elemental_balance", "abundance"],
+    life_domain="foundation_and_security",
+    source_id="augier_bazi_2010",
+)
+
+_add(
+    "elemental_balance_weakest_present",
+    "An element present but at the lowest count across a chart's 8 "
+    "stem positions is traditionally read as a fragile resource — "
+    "available, but thin enough that it can be easily overwhelmed "
+    "or depleted without support from elsewhere in the chart.",
+    concept_ids=["chinese_elemental_balance"],
+    feature_ids=[f"chinese_element_weakest:{_element}" for _element in _ELEMENTS_5],
+    theme_tags=["elemental_balance", "fragility"],
+    life_domain="foundation_and_security",
+    source_id="augier_bazi_2010",
+)
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

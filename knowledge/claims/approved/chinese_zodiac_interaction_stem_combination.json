@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_interaction_stem_combination",
+  "lens_id": "chinese_zodiac",
+  "statement": "A Heavenly Stem combination (He) between two pillars' stems is traditionally read as harmony and bonding — a pull toward cooperation between whatever those two pillars represent, and, under the right supporting conditions, a transformation of their energy into a new element entirely.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_interaction:stem_combinations"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "interaction",
+    "harmony"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

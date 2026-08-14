@@ -1114,6 +1114,40 @@ CONCEPTS = {
     "synonyms": ["shadbala", "planetary strength", "sthana bala", "dig bala"],
     "related": ["vedic_dignity", "vedic_positions"]
 },
+"chinese_interactions": {
+    "label": "Chinese stem/branch interactions",
+    "domain": "space",
+    "description": (
+        "Classical BaZi interactions among the Four Pillars' stems "
+        "and branches: He (stem combinations), Chong (branch "
+        "clashes), He (branch combinations), Hai (branch harms), Po "
+        "(branch destructions), and Xing (branch punishments) — "
+        "structural relationships between pillars, distinct from any "
+        "single pillar's own meaning."
+    ),
+    "synonyms": [
+        "chong", "he", "xing", "po", "hai", "clash", "combination",
+        "punishment", "harm", "destruction"
+    ],
+    "related": ["chinese_pillars"]
+},
+"chinese_elemental_balance": {
+    "label": "Chinese elemental balance",
+    "domain": "space",
+    "description": (
+        "A count of the 5 Chinese elements (Wood, Fire, Earth, "
+        "Metal, Water) across all 8 stem positions a Four Pillars "
+        "chart carries — the 4 visible pillar stems plus every "
+        "hidden stem within the 4 pillar branches — reported "
+        "chart-relatively as missing, dominant, and weakest-present "
+        "elements."
+    ),
+    "synonyms": [
+        "five elements", "wu xing", "elemental balance",
+        "over-represented element", "missing element"
+    ],
+    "related": ["chinese_pillars"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",
