@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_jie_sha",
+  "lens_id": "chinese_zodiac",
+  "statement": "Jie Sha (Robbery Star) is traditionally read as sudden loss — theft, betrayal, or impulsive financial or relational setback, needing mitigation from noble stars elsewhere in the chart.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:jie_sha"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

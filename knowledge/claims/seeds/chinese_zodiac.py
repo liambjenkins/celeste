@@ -508,6 +508,190 @@ _add(
 )
 
 
+# ------------------------------------------------------------
+# Shen Sha (symbolic stars) — 18-star curated set, matched via
+# shen_sha:{id} tags.
+# Source: standard classical BaZi convention (San Ming Tong Hui and
+# Yuan Hai Zi Ping-derived mnemonic tables), verified via web search
+# during curation, cross-referenced across independent technical
+# sources for every lookup table.
+# ------------------------------------------------------------
+
+_SHEN_SHA = {
+    "tian_yi_gui_ren": (
+        "Tian Yi Gui Ren (Heavenly Nobleman) — the most esteemed of "
+        "the classical noble stars",
+        "unexpected help, mentors, and rescue from danger at "
+        "critical moments, softening the effect of difficult "
+        "placements elsewhere in the chart.",
+        "relationships",
+    ),
+    "wen_chang_gui_ren": (
+        "Wen Chang Gui Ren (Literary Star)",
+        "intelligence and learning aptitude — a clear indicator of "
+        "exam success, writing, and scholarly talent.",
+        "expansion_and_meaning",
+    ),
+    "jin_yu": (
+        "Jin Yu (Golden Carriage)",
+        "prosperity and comfort that arrive with ease and status "
+        "rather than struggle, often linked to good spousal support.",
+        "values_and_desire",
+    ),
+    "yang_ren": (
+        "Yang Ren (Yang Blade)",
+        "assertive, competitive, blade-like energy — strong "
+        "willpower and drive, prone to conflict or rash decisions "
+        "without a tempering influence.",
+        "drive_and_ambition",
+    ),
+    "tao_hua": (
+        "Tao Hua (Peach Blossom)",
+        "charisma and romantic or social magnetism — attraction-"
+        "driven complications are also traditionally associated with "
+        "a strong placement of this star.",
+        "relationships",
+    ),
+    "yi_ma": (
+        "Yi Ma (Travel Horse)",
+        "movement, relocation, and restlessness — a 'run' energy "
+        "favoring travel and geographic or career change.",
+        "cyclicality",
+    ),
+    "hua_gai": (
+        "Hua Gai (Canopy)",
+        "spirituality, solitude, and unconventional intellectual or "
+        "artistic pursuit — often read as a 'loner genius' quality.",
+        "expansion_and_meaning",
+    ),
+    "jiang_xing": (
+        "Jiang Xing (General Star)",
+        "leadership, command presence, and organizational talent.",
+        "drive_and_ambition",
+    ),
+    "jie_sha": (
+        "Jie Sha (Robbery Star)",
+        "sudden loss — theft, betrayal, or impulsive financial or "
+        "relational setback, needing mitigation from noble stars "
+        "elsewhere in the chart.",
+        "discipline",
+    ),
+    "zai_sha": (
+        "Zai Sha (Disaster Star)",
+        "external calamity — illness, accident, or legal trouble "
+        "arising from outside forces rather than human betrayal.",
+        "discipline",
+    ),
+    "wang_shen": (
+        "Wang Shen (Lost-Spirit Star)",
+        "loss of direction, anxiety, and impulsiveness, associated "
+        "with unpredictability and hidden difficulty.",
+        "discipline",
+    ),
+    "gu_chen": (
+        "Gu Chen (Lonely Star)",
+        "emotional isolation and difficulty maintaining close "
+        "relationships, traditionally read most strongly for men's "
+        "charts.",
+        "relationships",
+    ),
+    "gua_su": (
+        "Gua Su (Widow Star)",
+        "the same solitude and relational distance as Gu Chen, "
+        "traditionally read most strongly for women's charts — both "
+        "are increasingly read gender-neutrally in modern practice.",
+        "relationships",
+    ),
+    "tian_de_gui_ren": (
+        "Tian De Gui Ren (Heavenly Virtue)",
+        "protection and moral steadiness — an ability to turn danger "
+        "into safety, reducing the impact of difficult stars "
+        "elsewhere in the chart.",
+        "foundation_and_security",
+    ),
+    "yue_de_gui_ren": (
+        "Yue De Gui Ren (Monthly Virtue)",
+        "a gentler, secondary form of Tian De's protection — "
+        "kindness, generosity, and resilience against calamity.",
+        "foundation_and_security",
+    ),
+    "kong_wang": (
+        "Kong Wang (Void)",
+        "a 'hollowing out' of whichever pillar's themes it falls on "
+        "— reduced substance or follow-through there, though "
+        "classical texts stress this is neutral rather than purely "
+        "negative, since voiding an unfavorable influence can help.",
+        "transformation",
+    ),
+    "sui_po": (
+        "Sui Po (Year Breaker)",
+        "direct opposition to the year pillar's ruling energy — "
+        "instability or disruption tied to that pillar's own themes.",
+        "transformation",
+    ),
+    "yuan_chen": (
+        "Yuan Chen ('Original Resentment' Star)",
+        "instability, scattered energy, and minor recurring "
+        "troubles, traditionally said to ease once the affected "
+        "branch is resolved by a combination elsewhere in the chart.",
+        "discipline",
+    ),
+}
+
+for _star_id, (_name, _meaning, _domain) in _SHEN_SHA.items():
+    _add(
+        f"shen_sha_{_star_id}",
+        f"{_name} is traditionally read as {_meaning}",
+        concept_ids=["chinese_shen_sha"],
+        feature_ids=[f"shen_sha:{_star_id}"],
+        theme_tags=["shen_sha"],
+        life_domain=_domain,
+        source_id="san_ming_tong_hui",
+    )
+
+
+# ------------------------------------------------------------
+# Na Yin (60-Jiazi elemental-sound table) — element meaning matched
+# via na_yin_day_element:{element} tags. Source: classical Na Yin
+# tradition (San Ming Tong Hui), verified via web search during
+# curation.
+# ------------------------------------------------------------
+
+_add(
+    "na_yin_core",
+    "Na Yin ('received sound') assigns each Stem-Branch pillar one "
+    "of 30 classical elemental-phase names — an older, sound-derived "
+    "elemental reading distinct from the pillar stem's own element, "
+    "traditionally read as a subtler undertone to the chart's more "
+    "direct Five-Element analysis.",
+    concept_ids=["chinese_na_yin"],
+    theme_tags=["na_yin"],
+    life_domain="foundation_and_security",
+    source_id="san_ming_tong_hui",
+)
+
+_NA_YIN_ELEMENTS = {
+    "Wood": "growth, flexibility, and expansive vitality",
+    "Fire": "warmth, visibility, and transformative energy",
+    "Earth": "stability, nourishment, and a grounding, gathering quality",
+    "Metal": "structure, precision, and the capacity to refine or cut away",
+    "Water": "adaptability, depth, and a quiet, persistent flow",
+}
+
+for _element, _meaning in _NA_YIN_ELEMENTS.items():
+    _add(
+        f"na_yin_day_element_{_element.lower()}",
+        f"A Day Pillar Na Yin element of {_element} colors the core "
+        f"self with {_meaning}, read alongside (not instead of) the "
+        "Day Master stem's own element.",
+        concept_ids=["chinese_na_yin"],
+        feature_ids=[f"na_yin_element:day:{_element}"],
+        theme_tags=["na_yin"],
+        life_domain="identity",
+        source_id="san_ming_tong_hui",
+    )
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

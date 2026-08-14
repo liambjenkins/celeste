@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_gu_chen",
+  "lens_id": "chinese_zodiac",
+  "statement": "Gu Chen (Lonely Star) is traditionally read as emotional isolation and difficulty maintaining close relationships, traditionally read most strongly for men's charts.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:gu_chen"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

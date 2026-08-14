@@ -1161,6 +1161,36 @@ CONCEPTS = {
     "synonyms": ["liu nian", "flowing year", "annual pillar"],
     "related": ["chinese_pillars", "chinese_dayun"]
 },
+"chinese_shen_sha": {
+    "label": "Chinese Shen Sha (symbolic stars)",
+    "domain": "space",
+    "description": (
+        "A curated set of 18 classical BaZi lookup-table stars — "
+        "Tian Yi Gui Ren, Wen Chang Gui Ren, Jin Yu, Yang Ren, Tao "
+        "Hua, Yi Ma, Hua Gai, Jiang Xing, Jie Sha, Zai Sha, Wang "
+        "Shen, Gu Chen, Gua Su, Tian De Gui Ren, Yue De Gui Ren, "
+        "Kong Wang, Sui Po, and Yuan Chen — each a specific "
+        "stem/branch pattern across the Four Pillars, distinct from "
+        "the Ten Gods classification."
+    ),
+    "synonyms": [
+        "shen sha", "symbolic stars", "noble star", "nobleman",
+        "peach blossom", "tao hua", "travel horse", "void", "kong wang"
+    ],
+    "related": ["chinese_pillars", "chinese_interactions"]
+},
+"chinese_na_yin": {
+    "label": "Chinese Na Yin",
+    "domain": "space",
+    "description": (
+        "The classical 60-Jiazi elemental-phase table — each pillar's "
+        "Stem-Branch pair maps to one of 30 fixed Na Yin names and "
+        "an associated element, distinct from (and older than) the "
+        "stem's own element."
+    ),
+    "synonyms": ["na yin", "納音", "elemental sound", "sixty jiazi"],
+    "related": ["chinese_pillars"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",

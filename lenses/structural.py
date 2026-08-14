@@ -1040,6 +1040,27 @@ def _chinese_zodiac(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.chinese_shen_sha_present:
+        for star_id in features.chinese_shen_sha_present:
+            themes.append(f"shen_sha:{star_id}")
+        notes.append(
+            f"{len(features.chinese_shen_sha_present)} Shen Sha "
+            "(symbolic star) placement(s) from the curated set are "
+            "present — specific classical stem/branch patterns, "
+            "distinct from the Ten Gods classification."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_na_yin_day_element:
+        themes.append(f"na_yin_day_element:{features.chinese_na_yin_day_element}")
+        notes.append(
+            f"The Day Pillar's Na Yin element is "
+            f"{features.chinese_na_yin_day_element} — an older, "
+            "sound-derived elemental reading of the core self, "
+            "distinct from the Day Master stem's own element."
+        )
+        macro.append(ELEMENTAL)
+
     if features.chinese_interactions_present:
         for interaction in features.chinese_interactions_present:
             themes.append(f"chinese_interaction:{interaction}")

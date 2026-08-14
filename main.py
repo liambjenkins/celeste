@@ -26,6 +26,8 @@ from chinese.dayun import build_da_yun
 from chinese.liu_nian import build_liu_nian
 from chinese.interactions import find_all_interactions
 from chinese.elemental_balance import build_elemental_balance
+from chinese.shen_sha import find_shen_sha
+from chinese.na_yin import build_na_yin
 from chinese.pillars import build_four_pillars
 from chinese.sexagenary import STEM_INDEX, STEMS
 from chinese.ten_gods import build_ten_gods
@@ -275,6 +277,8 @@ observations = {
     ),
     "chinese_interactions": find_all_interactions(_four_pillars),
     "chinese_elemental_balance": build_elemental_balance(_four_pillars),
+    "chinese_shen_sha": find_shen_sha(_four_pillars, gender=args.gender),
+    "chinese_na_yin": build_na_yin(_four_pillars),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),

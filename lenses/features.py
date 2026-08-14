@@ -142,6 +142,8 @@ class FeatureBundle:
     chinese_ten_gods: list[str] = field(default_factory=list)
     has_liu_nian: bool = False
     liu_nian_pillar_name: Optional[str] = None
+    chinese_shen_sha_present: list[str] = field(default_factory=list)
+    chinese_na_yin_day_element: Optional[str] = None
     chinese_interactions_present: list[str] = field(default_factory=list)
     chinese_missing_elements: list[str] = field(default_factory=list)
     chinese_dominant_elements: list[str] = field(default_factory=list)
@@ -1140,6 +1142,39 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         tags.append(f"chinese_liu_nian_stem:{pillar.get('stem')}")
         tags.append(f"chinese_liu_nian_branch:{pillar.get('branch')}")
 
+    # Shen Sha (symbolic stars) — chinese.shen_sha's output: a flat
+    # list of star dicts, can be empty.
+    chinese_shen_sha_present = []
+
+    shen_sha_value = _single_value(concepts.get("chinese_shen_sha"))
+
+    if isinstance(shen_sha_value, list):
+        for star in shen_sha_value:
+            if not isinstance(star, dict) or not star.get("id"):
+                continue
+
+            chinese_shen_sha_present.append(star["id"])
+            tags.append(f"shen_sha:{star['id']}")
+
+    # Na Yin — chinese.na_yin's output: {pillar_role: {name, gloss,
+    # element}}. Day Pillar's Na Yin element is tracked separately as
+    # the most commonly consulted single value (the Day Master's own
+    # Na Yin, describing the person's core element through this
+    # older, sound-derived lens rather than the stem's own element).
+    chinese_na_yin_day_element = None
+
+    na_yin_value = _single_value(concepts.get("chinese_na_yin"))
+
+    if isinstance(na_yin_value, dict):
+        for role, entry in na_yin_value.items():
+            if not isinstance(entry, dict) or not entry.get("element"):
+                continue
+
+            tags.append(f"na_yin_element:{role}:{entry['element']}")
+
+            if role == "day":
+                chinese_na_yin_day_element = entry["element"]
+
     # Chinese stem/branch interactions (chinese.interactions' output)
     # — presence tags per interaction category, generic across which
     # specific pair/pillars are involved (the specific stems/branches
@@ -1408,6 +1443,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         chinese_ten_gods=chinese_ten_gods,
         has_liu_nian=has_liu_nian,
         liu_nian_pillar_name=liu_nian_pillar_name,
+        chinese_shen_sha_present=chinese_shen_sha_present,
+        chinese_na_yin_day_element=chinese_na_yin_day_element,
         chinese_interactions_present=chinese_interactions_present,
         chinese_missing_elements=chinese_missing_elements,
         chinese_dominant_elements=chinese_dominant_elements,

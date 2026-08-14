@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_wen_chang_gui_ren",
+  "lens_id": "chinese_zodiac",
+  "statement": "Wen Chang Gui Ren (Literary Star) is traditionally read as intelligence and learning aptitude — a clear indicator of exam success, writing, and scholarly talent.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:wen_chang_gui_ren"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

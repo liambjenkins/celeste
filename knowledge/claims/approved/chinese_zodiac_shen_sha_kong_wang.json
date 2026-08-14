@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_kong_wang",
+  "lens_id": "chinese_zodiac",
+  "statement": "Kong Wang (Void) is traditionally read as a 'hollowing out' of whichever pillar's themes it falls on — reduced substance or follow-through there, though classical texts stress this is neutral rather than purely negative, since voiding an unfavorable influence can help.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:kong_wang"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

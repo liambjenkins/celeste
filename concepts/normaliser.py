@@ -687,6 +687,30 @@ def normalise_observations(observations):
             "chinese_dayun"
         )
 
+    shen_sha = observations.get(
+        "chinese_shen_sha",
+        []
+    )
+
+    if isinstance(shen_sha, list) and shen_sha:
+        add_concept(
+            "chinese_shen_sha",
+            shen_sha,
+            "chinese_shen_sha"
+        )
+
+    na_yin = observations.get(
+        "chinese_na_yin",
+        {}
+    )
+
+    if isinstance(na_yin, dict) and na_yin:
+        add_concept(
+            "chinese_na_yin",
+            na_yin,
+            "chinese_na_yin"
+        )
+
     liu_nian = observations.get(
         "chinese_liu_nian",
         {}
