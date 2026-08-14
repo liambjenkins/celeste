@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_ashtakavarga_own_sign_weak",
+  "lens_id": "vedic_astrology",
+  "statement": "A planet with 0-3 Bindus in the sign it occupies is considered weak by Ashtakavarga's own-sign measure — its results in this chart tend to need more effort to realize, regardless of its dignity by sign lordship alone.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [
+    "ashtakavarga_own_sign:sun:weak",
+    "ashtakavarga_own_sign:moon:weak",
+    "ashtakavarga_own_sign:mars:weak",
+    "ashtakavarga_own_sign:mercury:weak",
+    "ashtakavarga_own_sign:jupiter:weak",
+    "ashtakavarga_own_sign:venus:weak",
+    "ashtakavarga_own_sign:saturn:weak"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

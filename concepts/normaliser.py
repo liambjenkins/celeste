@@ -617,6 +617,18 @@ def normalise_observations(observations):
             "vedic_marak"
         )
 
+    vedic_ashtakavarga = observations.get(
+        "vedic_ashtakavarga",
+        {}
+    )
+
+    if isinstance(vedic_ashtakavarga, dict) and vedic_ashtakavarga:
+        add_concept(
+            "vedic_ashtakavarga",
+            vedic_ashtakavarga,
+            "vedic_ashtakavarga"
+        )
+
     # --------------------------------------------------------
     # CHINESE ASTROLOGY (BaZi Four Pillars)
     # --------------------------------------------------------

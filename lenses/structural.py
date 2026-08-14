@@ -887,6 +887,29 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
+    if features.ashtakavarga_own_sign_strength:
+        for planet, strength in sorted(features.ashtakavarga_own_sign_strength.items()):
+            themes.append(f"ashtakavarga_own_sign:{planet}:{strength}")
+        notable = {
+            planet: strength
+            for planet, strength in features.ashtakavarga_own_sign_strength.items()
+            if strength != "medium"
+        }
+        if notable:
+            notes.append(
+                "Ashtakavarga own-sign Bindu strength — "
+                + ", ".join(
+                    f"{planet} {strength}" for planet, strength in sorted(notable.items())
+                )
+                + " — how much classical point-support each planet "
+                "has in the sign it currently occupies."
+            )
+            macro.append(ARCHETYPE)
+
+    if features.sarvashtakavarga_strength:
+        for point, strength in sorted(features.sarvashtakavarga_strength.items()):
+            themes.append(f"sarvashtakavarga:{point}:{strength}")
+
     if features.vedic_yogas:
         for yoga_id in features.vedic_yogas:
             themes.append(f"yoga:{yoga_id}")

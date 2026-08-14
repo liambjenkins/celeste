@@ -1078,6 +1078,23 @@ CONCEPTS = {
     "synonyms": ["chara dasha", "char dasha", "jaimini dasha", "rashi dasha"],
     "related": ["vedic_dasha", "vedic_karakas"]
 },
+"vedic_ashtakavarga": {
+    "label": "Ashtakavarga",
+    "domain": "space",
+    "description": (
+        "The classical Vedic point-scoring system mapping relative "
+        "strength across all 12 signs — each of 8 reference points "
+        "(the 7 classical planets plus the Ascendant) contributes a "
+        "tabulated set of Bindus (points) toward each planet's "
+        "individual Bhinnashtakavarga scorecard, and summing all 7 "
+        "gives the combined Sarvashtakavarga (337 points total)."
+    ),
+    "synonyms": [
+        "ashtakavarga", "bindu", "bhinnashtakavarga", "sarvashtakavarga",
+        "eight-fold strength"
+    ],
+    "related": ["vedic_dignity", "vedic_positions"]
+},
 "part_of_eros": {
     "label": "Lot of Eros",
     "domain": "space",

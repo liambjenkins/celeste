@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_sarvashtakavarga_strong",
+  "lens_id": "vedic_astrology",
+  "statement": "A sign with more than 28 Sarvashtakavarga Bindus is considered a generally favorable, well-supported area of the chart — matters tied to that sign tend to move with comparative ease.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [
+    "sarvashtakavarga:sun:strong",
+    "sarvashtakavarga:moon:strong",
+    "sarvashtakavarga:ascendant:strong"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

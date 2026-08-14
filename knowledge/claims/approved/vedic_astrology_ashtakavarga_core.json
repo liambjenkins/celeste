@@ -1,0 +1,19 @@
+{
+  "claim_id": "vedic_astrology_ashtakavarga_core",
+  "lens_id": "vedic_astrology",
+  "statement": "Ashtakavarga is a classical point-scoring system mapping relative strength across all 12 signs: eight reference points (the seven classical planets plus the Ascendant) each contribute a fixed set of favorable house positions toward every planet's Bindu (point) total in each sign — a cross-check on strength distinct from sign dignity or house placement alone.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

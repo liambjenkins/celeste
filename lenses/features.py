@@ -117,6 +117,9 @@ class FeatureBundle:
     atmakaraka_planet: Optional[str] = None
     marak_planets: list[str] = field(default_factory=list)
 
+    ashtakavarga_own_sign_strength: dict[str, str] = field(default_factory=dict)
+    sarvashtakavarga_strength: dict[str, str] = field(default_factory=dict)
+
     vedic_yogas: list[str] = field(default_factory=list)
 
     has_dasha: bool = False
@@ -887,6 +890,63 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             marak_planets.append(planet_name)
             tags.append(f"marak:{planet_name}")
 
+    # Ashtakavarga (astrology.ashtakavarga's output). Own-sign Bindu
+    # strength (a planet's Bhinnashtakavarga score in the sign it
+    # currently occupies) uses the standard classical threshold: 0-3
+    # weak, 4 medium, 5-8 strong. Sarvashtakavarga strength (a sign's
+    # combined score) uses the standard threshold: <25 weak, 25-28
+    # medium, >28 strong. Scoped to Sun/Moon/Ascendant for
+    # Sarvashtakavarga, same convention as harmonics/vargas above.
+    ashtakavarga_own_sign_strength = {}
+    sarvashtakavarga_strength = {}
+
+    ashtakavarga_value = _single_value(concepts.get("vedic_ashtakavarga"))
+
+    if isinstance(ashtakavarga_value, dict):
+        bhinnashtakavarga = ashtakavarga_value.get("bhinnashtakavarga", {})
+        sarvashtakavarga = ashtakavarga_value.get("sarvashtakavarga", {})
+
+        _all_vedic_planet_signs = dict(vedic_planet_signs)
+        if vedic_sun_sign:
+            _all_vedic_planet_signs["sun"] = vedic_sun_sign
+        if vedic_moon_sign:
+            _all_vedic_planet_signs["moon"] = vedic_moon_sign
+
+        for planet_name, own_sign in _all_vedic_planet_signs.items():
+            scores = bhinnashtakavarga.get(planet_name)
+            if not isinstance(scores, dict) or own_sign not in scores:
+                continue
+
+            bindus = scores[own_sign]
+            if bindus <= 3:
+                strength = "weak"
+            elif bindus == 4:
+                strength = "medium"
+            else:
+                strength = "strong"
+
+            ashtakavarga_own_sign_strength[planet_name] = strength
+            tags.append(f"ashtakavarga_own_sign:{planet_name}:{strength}")
+
+        for point_name, sign in (
+            ("sun", vedic_sun_sign),
+            ("moon", vedic_moon_sign),
+            ("ascendant", vedic_ascendant_sign),
+        ):
+            if not sign or sign not in sarvashtakavarga:
+                continue
+
+            bindus = sarvashtakavarga[sign]
+            if bindus < 25:
+                strength = "weak"
+            elif bindus <= 28:
+                strength = "medium"
+            else:
+                strength = "strong"
+
+            sarvashtakavarga_strength[point_name] = strength
+            tags.append(f"sarvashtakavarga:{point_name}:{strength}")
+
     # Vedic yogas (classical planetary combinations) — a flat list of
     # whichever yogas from the curated set (astrology/yogas.py) are
     # present in this chart; can be empty.
@@ -1236,6 +1296,8 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         debilitated_planets=debilitated_planets,
         atmakaraka_planet=atmakaraka_planet,
         marak_planets=marak_planets,
+        ashtakavarga_own_sign_strength=ashtakavarga_own_sign_strength,
+        sarvashtakavarga_strength=sarvashtakavarga_strength,
         vedic_yogas=vedic_yogas,
         has_dasha=has_dasha,
         dasha_mahadasha_lord=dasha_mahadasha_lord,

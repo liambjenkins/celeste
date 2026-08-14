@@ -824,6 +824,102 @@ _add(
 )
 
 
+# ------------------------------------------------------------
+# Ashtakavarga — body-agnostic, matched via ashtakavarga_own_sign:
+# and sarvashtakavarga: tags for any of the 7 classical planets /
+# Sun/Moon/Ascendant respectively.
+# Source: Brihat Parashara Hora Shastra ch. 66-72, cross-referenced
+# via search during curation for the standard strength thresholds
+# (own-sign Bindu: 0-3 weak, 4 medium, 5-8 strong; Sarvashtakavarga:
+# <25 weak, 25-28 medium, >28 strong).
+# ------------------------------------------------------------
+
+_add(
+    "ashtakavarga_core",
+    "Ashtakavarga is a classical point-scoring system mapping "
+    "relative strength across all 12 signs: eight reference points "
+    "(the seven classical planets plus the Ascendant) each "
+    "contribute a fixed set of favorable house positions toward "
+    "every planet's Bindu (point) total in each sign — a "
+    "cross-check on strength distinct from sign dignity or house "
+    "placement alone.",
+    concept_ids=["vedic_ashtakavarga"],
+    theme_tags=["ashtakavarga"],
+    life_domain="underlying_strength",
+    source_id="parashara_bphs_1984",
+)
+
+_OWN_SIGN_BINDU_STRENGTH = {
+    "weak": (
+        "A planet with 0-3 Bindus in the sign it occupies is "
+        "considered weak by Ashtakavarga's own-sign measure — its "
+        "results in this chart tend to need more effort to realize, "
+        "regardless of its dignity by sign lordship alone."
+    ),
+    "medium": (
+        "A planet with exactly 4 Bindus in the sign it occupies "
+        "sits at Ashtakavarga's critical threshold — a turning "
+        "point where its results begin to activate reliably."
+    ),
+    "strong": (
+        "A planet with 5 or more Bindus in the sign it occupies is "
+        "considered strong by Ashtakavarga's own-sign measure — "
+        "well-supported results, reinforcing (or, if its sign "
+        "dignity is weak, partially offsetting) its placement by "
+        "sign lordship alone."
+    ),
+}
+
+for _strength, _meaning in _OWN_SIGN_BINDU_STRENGTH.items():
+    _add(
+        f"ashtakavarga_own_sign_{_strength}",
+        _meaning,
+        concept_ids=["vedic_ashtakavarga"],
+        feature_ids=[
+            f"ashtakavarga_own_sign:{_planet}:{_strength}"
+            for _planet in ("sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn")
+        ],
+        theme_tags=["ashtakavarga"],
+        life_domain="underlying_strength",
+        source_id="parashara_bphs_1984",
+    )
+
+_SARVASHTAKAVARGA_STRENGTH = {
+    "weak": (
+        "A sign with fewer than 25 Sarvashtakavarga Bindus (the "
+        "combined score across all seven planets) is considered a "
+        "generally weaker area of the chart — matters tied to that "
+        "sign tend to move with more friction and require more "
+        "sustained effort."
+    ),
+    "medium": (
+        "A sign with 25-28 Sarvashtakavarga Bindus sits at moderate, "
+        "workable strength — neither a notably easy nor notably "
+        "difficult area of the chart."
+    ),
+    "strong": (
+        "A sign with more than 28 Sarvashtakavarga Bindus is "
+        "considered a generally favorable, well-supported area of "
+        "the chart — matters tied to that sign tend to move with "
+        "comparative ease."
+    ),
+}
+
+for _strength, _meaning in _SARVASHTAKAVARGA_STRENGTH.items():
+    _add(
+        f"sarvashtakavarga_{_strength}",
+        _meaning,
+        concept_ids=["vedic_ashtakavarga"],
+        feature_ids=[
+            f"sarvashtakavarga:{_point}:{_strength}"
+            for _point in ("sun", "moon", "ascendant")
+        ],
+        theme_tags=["ashtakavarga"],
+        life_domain="underlying_strength",
+        source_id="parashara_bphs_1984",
+    )
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 
