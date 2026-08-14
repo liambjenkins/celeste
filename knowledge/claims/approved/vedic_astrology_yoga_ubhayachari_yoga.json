@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_ubhayachari_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Ubhayachari Yoga (planets flanking the Sun on both the 2nd and 12th houses) is traditionally read as carrying good name, fame, and elevated social standing — the combined, strongest form of the Sun's flanking yogas.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:ubhayachari_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "reputation"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

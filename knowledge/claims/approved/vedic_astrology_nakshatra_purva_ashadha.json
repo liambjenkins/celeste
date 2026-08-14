@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_purva_ashadha",
+  "lens_id": "vedic_astrology",
+  "statement": "Purva Ashadha's ruling planet (Vimshottari dasha lord) is Venus; its presiding deity is Apas (the water deities), symbolized by a winnowing basket or elephant tusk. It is traditionally associated with early-stage invigoration and the confidence to declare victory before it's fully secured.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Purva Ashadha",
+    "nakshatra:moon:Purva Ashadha",
+    "nakshatra:ascendant:Purva Ashadha",
+    "nakshatra:mercury:Purva Ashadha",
+    "nakshatra:venus:Purva Ashadha",
+    "nakshatra:mars:Purva Ashadha",
+    "nakshatra:jupiter:Purva Ashadha",
+    "nakshatra:saturn:Purva Ashadha",
+    "nakshatra:uranus:Purva Ashadha",
+    "nakshatra:neptune:Purva Ashadha",
+    "nakshatra:pluto:Purva Ashadha",
+    "nakshatra:lilith_mean:Purva Ashadha",
+    "nakshatra:lilith_true:Purva Ashadha",
+    "nakshatra:chiron:Purva Ashadha",
+    "nakshatra:ceres:Purva Ashadha",
+    "nakshatra:pallas:Purva Ashadha",
+    "nakshatra:juno:Purva Ashadha",
+    "nakshatra:vesta:Purva Ashadha",
+    "nakshatra:north_node_true:Purva Ashadha",
+    "nakshatra:north_node_mean:Purva Ashadha",
+    "nakshatra:south_node_true:Purva Ashadha",
+    "nakshatra:south_node_mean:Purva Ashadha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

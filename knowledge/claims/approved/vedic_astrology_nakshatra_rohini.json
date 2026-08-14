@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_rohini",
+  "lens_id": "vedic_astrology",
+  "statement": "Rohini's ruling planet (Vimshottari dasha lord) is Moon; its presiding deity is Brahma (the creator), symbolized by an ox-cart. It is traditionally associated with growth, beauty, and fertility, favoring what is nurtured and made to flourish.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Rohini",
+    "nakshatra:moon:Rohini",
+    "nakshatra:ascendant:Rohini",
+    "nakshatra:mercury:Rohini",
+    "nakshatra:venus:Rohini",
+    "nakshatra:mars:Rohini",
+    "nakshatra:jupiter:Rohini",
+    "nakshatra:saturn:Rohini",
+    "nakshatra:uranus:Rohini",
+    "nakshatra:neptune:Rohini",
+    "nakshatra:pluto:Rohini",
+    "nakshatra:lilith_mean:Rohini",
+    "nakshatra:lilith_true:Rohini",
+    "nakshatra:chiron:Rohini",
+    "nakshatra:ceres:Rohini",
+    "nakshatra:pallas:Rohini",
+    "nakshatra:juno:Rohini",
+    "nakshatra:vesta:Rohini",
+    "nakshatra:north_node_true:Rohini",
+    "nakshatra:north_node_mean:Rohini",
+    "nakshatra:south_node_true:Rohini",
+    "nakshatra:south_node_mean:Rohini"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_fortune_core",
+  "lens_id": "astrology",
+  "statement": "The Part of Fortune marks where the body, circumstance, and outward luck are most readily felt — the place the Sun, Moon, and Ascendant come together in easiest harmonic relationship.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_fortune"
+  ],
+  "feature_ids": [
+    "sign:fortune:Aries",
+    "sign:fortune:Taurus",
+    "sign:fortune:Gemini",
+    "sign:fortune:Cancer",
+    "sign:fortune:Leo",
+    "sign:fortune:Virgo",
+    "sign:fortune:Libra",
+    "sign:fortune:Scorpio",
+    "sign:fortune:Sagittarius",
+    "sign:fortune:Capricorn",
+    "sign:fortune:Aquarius",
+    "sign:fortune:Pisces"
+  ],
+  "source_ids": [
+    "brennan_hellenistic_astrology_2017"
+  ],
+  "theme_tags": [
+    "fortune_and_circumstance"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Core definition consistent across the Hellenistic sources (Valens, Paulus Alexandrinus) as synthesized in Brennan's modern scholarly treatment.",
+  "status": "approved"
+}

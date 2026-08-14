@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_anuradha",
+  "lens_id": "vedic_astrology",
+  "statement": "Anuradha's ruling planet (Vimshottari dasha lord) is Saturn; its presiding deity is Mitra (god of friendship and alliance), symbolized by a lotus. It is traditionally associated with devotion and friendship, success built through cooperation and loyal alliance.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Anuradha",
+    "nakshatra:moon:Anuradha",
+    "nakshatra:ascendant:Anuradha",
+    "nakshatra:mercury:Anuradha",
+    "nakshatra:venus:Anuradha",
+    "nakshatra:mars:Anuradha",
+    "nakshatra:jupiter:Anuradha",
+    "nakshatra:saturn:Anuradha",
+    "nakshatra:uranus:Anuradha",
+    "nakshatra:neptune:Anuradha",
+    "nakshatra:pluto:Anuradha",
+    "nakshatra:lilith_mean:Anuradha",
+    "nakshatra:lilith_true:Anuradha",
+    "nakshatra:chiron:Anuradha",
+    "nakshatra:ceres:Anuradha",
+    "nakshatra:pallas:Anuradha",
+    "nakshatra:juno:Anuradha",
+    "nakshatra:vesta:Anuradha",
+    "nakshatra:north_node_true:Anuradha",
+    "nakshatra:north_node_mean:Anuradha",
+    "nakshatra:south_node_true:Anuradha",
+    "nakshatra:south_node_mean:Anuradha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

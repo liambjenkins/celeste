@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_40_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Khavedamsa (D40) is read for auspicious and inauspicious effects inherited through the maternal line — general life conditions handed down independent of one's own effort.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:40"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

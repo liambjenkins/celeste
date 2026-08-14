@@ -1,0 +1,30 @@
+{
+  "claim_id": "astrology_outer_planet_generational_neptune",
+  "lens_id": "astrology",
+  "statement": "Neptune moves through one sign for roughly 14 years, so its sign reflects a generational context rather than individual character — its house placement and any aspects it makes to personal planets are what carry individual significance.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:neptune:Aries",
+    "sign:neptune:Taurus",
+    "sign:neptune:Gemini",
+    "sign:neptune:Cancer",
+    "sign:neptune:Leo",
+    "sign:neptune:Virgo",
+    "sign:neptune:Libra",
+    "sign:neptune:Scorpio",
+    "sign:neptune:Sagittarius",
+    "sign:neptune:Capricorn",
+    "sign:neptune:Aquarius",
+    "sign:neptune:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "generational_context"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Standard astrological convention distinguishing generational (outer) from personal planets — not a cut corner, a documented interpretive distinction.",
+  "status": "approved"
+}

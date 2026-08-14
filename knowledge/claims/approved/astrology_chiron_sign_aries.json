@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_aries",
+  "lens_id": "astrology",
+  "statement": "Chiron in Aries often carries a wound around self-assertion or identity, healed by learning courage is not the absence of doubt.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Aries"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

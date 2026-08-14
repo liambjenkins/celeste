@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_zai_sha",
+  "lens_id": "chinese_zodiac",
+  "statement": "Zai Sha (Disaster Star) is traditionally read as external calamity — illness, accident, or legal trouble arising from outside forces rather than human betrayal.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:zai_sha"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

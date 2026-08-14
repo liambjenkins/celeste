@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_harmonic_9_core",
+  "lens_id": "astrology",
+  "statement": "The 9th harmonic chart (H9) highlights completion and new beginning — initiations undertaken in this lifetime, corresponding to the novile aspect family.",
+  "passage_ids": [],
+  "concept_ids": [
+    "harmonic_charts"
+  ],
+  "feature_ids": [
+    "harmonic_present:9"
+  ],
+  "source_ids": [
+    "addey_harmonics_in_astrology_1976"
+  ],
+  "theme_tags": [
+    "harmonic_chart"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_aries",
+  "lens_id": "astrology",
+  "statement": "South Node in Aries reflects an inborn comfort with independence and impulsive action, which can tip into self-centeredness if relied on instead of stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Aries",
+    "sign:south_node_mean:Aries"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

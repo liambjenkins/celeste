@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_minor_aspect_septile",
+  "lens_id": "astrology",
+  "statement": "A Septile: a septile (~51.43°) carries a subtle, somewhat mystical link between the two placements involved, often associated with an intuitive or spiritual sensitivity that resists direct explanation.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "minor_aspect:septile"
+  ],
+  "source_ids": [
+    "minor_aspects_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "minor_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

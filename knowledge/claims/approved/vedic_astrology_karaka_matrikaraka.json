@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_karaka_matrikaraka",
+  "lens_id": "vedic_astrology",
+  "statement": "Matrikaraka (\"mother significator\") — indicates the mother and nurturing, emotionally foundational influences.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_karakas"
+  ],
+  "feature_ids": [
+    "karaka:Matrikaraka:sun",
+    "karaka:Matrikaraka:moon",
+    "karaka:Matrikaraka:mars",
+    "karaka:Matrikaraka:mercury",
+    "karaka:Matrikaraka:jupiter",
+    "karaka:Matrikaraka:venus",
+    "karaka:Matrikaraka:saturn"
+  ],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "chara_karaka"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

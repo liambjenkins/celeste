@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_tao_hua",
+  "lens_id": "chinese_zodiac",
+  "statement": "Tao Hua (Peach Blossom) is traditionally read as charisma and romantic or social magnetism — attraction-driven complications are also traditionally associated with a strong placement of this star.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:tao_hua"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

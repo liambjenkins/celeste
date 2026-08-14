@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_bhava_11",
+  "lens_id": "vedic_astrology",
+  "statement": "The 11th house (Labha Bhava) governs gains, income, friendships, and the fulfillment of aspirations.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:sun:11",
+    "vedic_house:moon:11",
+    "vedic_house:ascendant:11",
+    "vedic_house:mercury:11",
+    "vedic_house:venus:11",
+    "vedic_house:mars:11",
+    "vedic_house:jupiter:11",
+    "vedic_house:saturn:11",
+    "vedic_house:uranus:11",
+    "vedic_house:neptune:11",
+    "vedic_house:pluto:11",
+    "vedic_house:lilith_mean:11",
+    "vedic_house:lilith_true:11",
+    "vedic_house:chiron:11",
+    "vedic_house:ceres:11",
+    "vedic_house:pallas:11",
+    "vedic_house:juno:11",
+    "vedic_house:vesta:11",
+    "vedic_house:north_node_true:11",
+    "vedic_house:north_node_mean:11",
+    "vedic_house:south_node_true:11",
+    "vedic_house:south_node_mean:11"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_final_dispositor_core",
+  "lens_id": "astrology",
+  "statement": "A final dispositor — a single planet, in its own sign, that every other planet's rulership chain eventually leads back to — acts as a real organizing anchor for the whole chart. Most charts don't have one; when present, it's a significant structural finding, not just another placement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "final_dispositor:sun",
+    "final_dispositor:moon",
+    "final_dispositor:mercury",
+    "final_dispositor:venus",
+    "final_dispositor:mars",
+    "final_dispositor:jupiter",
+    "final_dispositor:saturn"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler",
+    "final_dispositor"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

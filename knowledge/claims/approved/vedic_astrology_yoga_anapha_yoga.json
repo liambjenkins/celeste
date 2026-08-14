@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_anapha_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Anapha Yoga (a planet other than the Sun in the 12th house from the Moon) is traditionally read as carrying good physical health, personal comfort, and an appealing, dignified presence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:anapha_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "wellbeing"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_harsha",
+  "lens_id": "vedic_astrology",
+  "statement": "Harsha Yoga (the 6th house's lord confined to the 6th, 8th, or 12th house) is traditionally read as carrying victory over rivals and adversity contained rather than spreading — a 'bad house' lord kept to bad houses, read as resilience and the capacity to overcome opposition.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:harsha"
+  ],
+  "source_ids": [
+    "mantreswara_phaladeepika"
+  ],
+  "theme_tags": [
+    "yoga",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

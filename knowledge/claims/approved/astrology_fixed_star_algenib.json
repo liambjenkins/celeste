@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_algenib",
+  "lens_id": "astrology",
+  "statement": "Algenib is of the nature of Mars and Mercury, traditionally associated with a penetrating mind, strong will, and determination.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:algenib",
+    "star_conjunction:moon:algenib",
+    "star_conjunction:mercury:algenib",
+    "star_conjunction:venus:algenib",
+    "star_conjunction:mars:algenib",
+    "star_conjunction:jupiter:algenib",
+    "star_conjunction:saturn:algenib",
+    "star_conjunction:uranus:algenib",
+    "star_conjunction:neptune:algenib",
+    "star_conjunction:pluto:algenib",
+    "star_conjunction:lilith_mean:algenib",
+    "star_conjunction:lilith_true:algenib",
+    "star_conjunction:chiron:algenib",
+    "star_conjunction:ceres:algenib",
+    "star_conjunction:pallas:algenib",
+    "star_conjunction:juno:algenib",
+    "star_conjunction:vesta:algenib",
+    "star_conjunction:north_node_true:algenib",
+    "star_conjunction:north_node_mean:algenib",
+    "star_conjunction:south_node_true:algenib",
+    "star_conjunction:south_node_mean:algenib"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_uttara_bhadrapada",
+  "lens_id": "vedic_astrology",
+  "statement": "Uttara Bhadrapada's ruling planet (Vimshottari dasha lord) is Saturn; its presiding deity is Ahir Budhnya (serpent of the deep), symbolized by the back legs of a funeral cot. It is traditionally associated with depth and quiet wisdom, a still, grounded capacity to hold difficult truths.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Uttara Bhadrapada",
+    "nakshatra:moon:Uttara Bhadrapada",
+    "nakshatra:ascendant:Uttara Bhadrapada",
+    "nakshatra:mercury:Uttara Bhadrapada",
+    "nakshatra:venus:Uttara Bhadrapada",
+    "nakshatra:mars:Uttara Bhadrapada",
+    "nakshatra:jupiter:Uttara Bhadrapada",
+    "nakshatra:saturn:Uttara Bhadrapada",
+    "nakshatra:uranus:Uttara Bhadrapada",
+    "nakshatra:neptune:Uttara Bhadrapada",
+    "nakshatra:pluto:Uttara Bhadrapada",
+    "nakshatra:lilith_mean:Uttara Bhadrapada",
+    "nakshatra:lilith_true:Uttara Bhadrapada",
+    "nakshatra:chiron:Uttara Bhadrapada",
+    "nakshatra:ceres:Uttara Bhadrapada",
+    "nakshatra:pallas:Uttara Bhadrapada",
+    "nakshatra:juno:Uttara Bhadrapada",
+    "nakshatra:vesta:Uttara Bhadrapada",
+    "nakshatra:north_node_true:Uttara Bhadrapada",
+    "nakshatra:north_node_mean:Uttara Bhadrapada",
+    "nakshatra:south_node_true:Uttara Bhadrapada",
+    "nakshatra:south_node_mean:Uttara Bhadrapada"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

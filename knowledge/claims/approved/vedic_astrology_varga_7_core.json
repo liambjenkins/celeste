@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_7_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Saptamsa (D7) is read for children and creative legacy — what a person brings into being and passes forward, whether offspring or lasting creative work.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:7"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

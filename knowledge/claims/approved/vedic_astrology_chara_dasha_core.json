@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_chara_dasha_core",
+  "lens_id": "vedic_astrology",
+  "statement": "Chara Dasha is the Jaimini school's sign-based (not planet-based) timing technique — each of the 12 signs rules a period of 1 to 12 years, its length set by counting from the sign to wherever its own ruling planet currently sits. Read alongside Vimshottari Dasha for a second, structurally different timing perspective, since it tracks houses/life-areas through the sign period rather than planetary periods directly.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_chara_dasha"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "dasha",
+    "timing_and_technique",
+    "jaimini"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

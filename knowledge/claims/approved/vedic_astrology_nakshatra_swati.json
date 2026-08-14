@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_swati",
+  "lens_id": "vedic_astrology",
+  "statement": "Swati's ruling planet (Vimshottari dasha lord) is Rahu; its presiding deity is Vayu (the wind god), symbolized by a shoot of new growth blown by the wind. It is traditionally associated with independence and self-directed movement, adapting quickly rather than holding a fixed course.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Swati",
+    "nakshatra:moon:Swati",
+    "nakshatra:ascendant:Swati",
+    "nakshatra:mercury:Swati",
+    "nakshatra:venus:Swati",
+    "nakshatra:mars:Swati",
+    "nakshatra:jupiter:Swati",
+    "nakshatra:saturn:Swati",
+    "nakshatra:uranus:Swati",
+    "nakshatra:neptune:Swati",
+    "nakshatra:pluto:Swati",
+    "nakshatra:lilith_mean:Swati",
+    "nakshatra:lilith_true:Swati",
+    "nakshatra:chiron:Swati",
+    "nakshatra:ceres:Swati",
+    "nakshatra:pallas:Swati",
+    "nakshatra:juno:Swati",
+    "nakshatra:vesta:Swati",
+    "nakshatra:north_node_true:Swati",
+    "nakshatra:north_node_mean:Swati",
+    "nakshatra:south_node_true:Swati",
+    "nakshatra:south_node_mean:Swati"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

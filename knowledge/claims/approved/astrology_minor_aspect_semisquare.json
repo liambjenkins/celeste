@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_minor_aspect_semisquare",
+  "lens_id": "astrology",
+  "statement": "A Semisquare: a semisquare (45°) carries a challenging, stimulating friction between the two placements involved — like a square but more internal and less immediately obvious.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "minor_aspect:semisquare"
+  ],
+  "source_ids": [
+    "minor_aspects_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "minor_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

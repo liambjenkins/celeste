@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_bhava_5",
+  "lens_id": "vedic_astrology",
+  "statement": "The 5th house (Putra Bhava) governs children, intelligence, creativity, and merit carried in from past effort.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:sun:5",
+    "vedic_house:moon:5",
+    "vedic_house:ascendant:5",
+    "vedic_house:mercury:5",
+    "vedic_house:venus:5",
+    "vedic_house:mars:5",
+    "vedic_house:jupiter:5",
+    "vedic_house:saturn:5",
+    "vedic_house:uranus:5",
+    "vedic_house:neptune:5",
+    "vedic_house:pluto:5",
+    "vedic_house:lilith_mean:5",
+    "vedic_house:lilith_true:5",
+    "vedic_house:chiron:5",
+    "vedic_house:ceres:5",
+    "vedic_house:pallas:5",
+    "vedic_house:juno:5",
+    "vedic_house:vesta:5",
+    "vedic_house:north_node_true:5",
+    "vedic_house:north_node_mean:5",
+    "vedic_house:south_node_true:5",
+    "vedic_house:south_node_mean:5"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

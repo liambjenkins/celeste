@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_ceres_sign_leo",
+  "lens_id": "astrology",
+  "statement": "Ceres in Leo nurtures through warmth and encouragement, needing recognition for the care given.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ceres:Leo"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "nurturing",
+    "loss"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

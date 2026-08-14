@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_saturn_sign_scorpio",
+  "lens_id": "astrology",
+  "statement": "Saturn in Scorpio learns discipline through controlled transformation rather than avoidance.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:saturn:Scorpio"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_avastha_kumara",
+  "lens_id": "vedic_astrology",
+  "statement": "Kumara (youth) — growing strength; results connected to this planet are emerging but not yet at full capacity.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "avastha:sun:Kumara",
+    "avastha:moon:Kumara",
+    "avastha:mars:Kumara",
+    "avastha:mercury:Kumara",
+    "avastha:jupiter:Kumara",
+    "avastha:venus:Kumara",
+    "avastha:saturn:Kumara"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "baladi_avastha"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_menkar",
+  "lens_id": "astrology",
+  "statement": "Menkar is traditionally associated with turbulence and insight — the capacity to understand collective needs, which can also bring disturbance and isolation if not well handled.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:menkar",
+    "star_conjunction:moon:menkar",
+    "star_conjunction:mercury:menkar",
+    "star_conjunction:venus:menkar",
+    "star_conjunction:mars:menkar",
+    "star_conjunction:jupiter:menkar",
+    "star_conjunction:saturn:menkar",
+    "star_conjunction:uranus:menkar",
+    "star_conjunction:neptune:menkar",
+    "star_conjunction:pluto:menkar",
+    "star_conjunction:lilith_mean:menkar",
+    "star_conjunction:lilith_true:menkar",
+    "star_conjunction:chiron:menkar",
+    "star_conjunction:ceres:menkar",
+    "star_conjunction:pallas:menkar",
+    "star_conjunction:juno:menkar",
+    "star_conjunction:vesta:menkar",
+    "star_conjunction:north_node_true:menkar",
+    "star_conjunction:north_node_mean:menkar",
+    "star_conjunction:south_node_true:menkar",
+    "star_conjunction:south_node_mean:menkar"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

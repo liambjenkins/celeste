@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_juno_core",
+  "lens_id": "astrology",
+  "statement": "Juno represents the capacity for committed partnership — what is sought and what is negotiated for equality, loyalty, and recognition within a significant relationship.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:juno:Aries",
+    "sign:juno:Taurus",
+    "sign:juno:Gemini",
+    "sign:juno:Cancer",
+    "sign:juno:Leo",
+    "sign:juno:Virgo",
+    "sign:juno:Libra",
+    "sign:juno:Scorpio",
+    "sign:juno:Sagittarius",
+    "sign:juno:Capricorn",
+    "sign:juno:Aquarius",
+    "sign:juno:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "partnership",
+    "commitment"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

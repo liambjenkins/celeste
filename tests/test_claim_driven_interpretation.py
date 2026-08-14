@@ -79,7 +79,7 @@ for item in result.relevant_claims:
     )
 
 assert (
-    "astrology_aspect_test_001"
+    "astrology_aspect_square"
     in [
         item.claim.claim_id
         for item in result.relevant_claims
@@ -87,7 +87,7 @@ assert (
 )
 
 assert (
-    "Within the astrological tradition"
+    "source-backed traditional claims"
     in result.interpretation
 )
 

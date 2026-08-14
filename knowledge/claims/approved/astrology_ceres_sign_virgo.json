@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_ceres_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "Ceres in Virgo nurtures through practical acts of service, needing to learn that care doesn't require fixing everything.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ceres:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "nurturing",
+    "loss"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

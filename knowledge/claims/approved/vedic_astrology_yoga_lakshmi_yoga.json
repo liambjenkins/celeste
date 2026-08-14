@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_lakshmi_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Lakshmi Yoga (a strong, angularly or trinally placed 9th lord, alongside a well-placed Ascendant lord) is traditionally read as carrying prosperity, good fortune, and an ethical, generous character — one of the more prestigious named wealth combinations.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:lakshmi_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "wealth",
+    "fortune"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

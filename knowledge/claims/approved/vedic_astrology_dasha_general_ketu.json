@@ -1,0 +1,26 @@
+{
+  "claim_id": "vedic_astrology_dasha_general_ketu",
+  "lens_id": "vedic_astrology",
+  "statement": "A Ketu Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of detachment and introspection — often marked by loss of what no longer serves alongside genuine spiritual insight, a period more inward and reflective than outwardly acquisitive.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dasha"
+  ],
+  "feature_ids": [
+    "dasha_mahadasha:ketu",
+    "dasha_antardasha:ketu",
+    "dasha_pratyantardasha:ketu",
+    "dasha_sookshma:ketu"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "spirituality",
+    "introspection"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "BPHS distinguishes general effects (a planet's natural characteristics) from distinctive effects (its specific dignity/placement in a given chart) — only the general tier is claimed here; this pass's Dasha computation doesn't evaluate planetary dignity or strength.",
+  "status": "approved"
+}

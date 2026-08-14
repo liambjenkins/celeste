@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_wei",
+  "lens_id": "chinese_zodiac",
+  "statement": "Wei (Goat) is gentle and artistic, calm on the surface with quiet resilience underneath.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Wei",
+    "chinese_branch:month:Wei",
+    "chinese_branch:day:Wei",
+    "chinese_branch:hour:Wei",
+    "chinese_year_animal:Goat",
+    "chinese_dayun_branch:Wei",
+    "chinese_liu_nian_branch:Wei"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

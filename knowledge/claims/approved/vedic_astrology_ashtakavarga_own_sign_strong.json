@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_ashtakavarga_own_sign_strong",
+  "lens_id": "vedic_astrology",
+  "statement": "A planet with 5 or more Bindus in the sign it occupies is considered strong by Ashtakavarga's own-sign measure — well-supported results, reinforcing (or, if its sign dignity is weak, partially offsetting) its placement by sign lordship alone.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [
+    "ashtakavarga_own_sign:sun:strong",
+    "ashtakavarga_own_sign:moon:strong",
+    "ashtakavarga_own_sign:mars:strong",
+    "ashtakavarga_own_sign:mercury:strong",
+    "ashtakavarga_own_sign:jupiter:strong",
+    "ashtakavarga_own_sign:venus:strong",
+    "ashtakavarga_own_sign:saturn:strong"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

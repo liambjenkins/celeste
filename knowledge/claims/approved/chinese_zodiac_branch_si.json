@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_si",
+  "lens_id": "chinese_zodiac",
+  "statement": "Si (Snake) is perceptive and strategic, working quietly beneath the surface.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Si",
+    "chinese_branch:month:Si",
+    "chinese_branch:day:Si",
+    "chinese_branch:hour:Si",
+    "chinese_year_animal:Snake",
+    "chinese_dayun_branch:Si",
+    "chinese_liu_nian_branch:Si"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

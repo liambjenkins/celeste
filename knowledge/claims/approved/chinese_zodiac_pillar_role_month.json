@@ -1,0 +1,19 @@
+{
+  "claim_id": "chinese_zodiac_pillar_role_month",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Month Pillar governs the environment one grows up and works within, and relationship to parents — often considered, alongside the Day, the most influential pillar.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "chinese_pillar_position:month"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "pillar_role"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

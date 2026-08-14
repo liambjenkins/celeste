@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_bhava_12",
+  "lens_id": "vedic_astrology",
+  "statement": "The 12th house (Vyaya Bhava) governs loss, expenditure, foreign lands, isolation, and spiritual liberation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:sun:12",
+    "vedic_house:moon:12",
+    "vedic_house:ascendant:12",
+    "vedic_house:mercury:12",
+    "vedic_house:venus:12",
+    "vedic_house:mars:12",
+    "vedic_house:jupiter:12",
+    "vedic_house:saturn:12",
+    "vedic_house:uranus:12",
+    "vedic_house:neptune:12",
+    "vedic_house:pluto:12",
+    "vedic_house:lilith_mean:12",
+    "vedic_house:lilith_true:12",
+    "vedic_house:chiron:12",
+    "vedic_house:ceres:12",
+    "vedic_house:pallas:12",
+    "vedic_house:juno:12",
+    "vedic_house:vesta:12",
+    "vedic_house:north_node_true:12",
+    "vedic_house:north_node_mean:12",
+    "vedic_house:south_node_true:12",
+    "vedic_house:south_node_mean:12"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

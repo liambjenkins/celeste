@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_vertex_core",
+  "lens_id": "astrology",
+  "statement": "The Vertex is a mathematically calculated point (where the ecliptic crosses the prime vertical), traditionally read as an 'auxiliary Descendant' marking fated or karmic encounters — significant people or events that feel drawn into a life rather than chosen.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vertex"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "fenton_budkowski_vertex_2006"
+  ],
+  "theme_tags": [
+    "fated_encounter"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "",
+  "status": "approved"
+}

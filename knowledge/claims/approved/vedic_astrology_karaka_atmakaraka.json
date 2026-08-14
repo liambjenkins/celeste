@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_karaka_atmakaraka",
+  "lens_id": "vedic_astrology",
+  "statement": "Atmakaraka (\"soul significator\") — the planet at the highest degree within its sign, traditionally read as the single most important indicator of the soul's own agenda and deepest motivation in this lifetime.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_karakas"
+  ],
+  "feature_ids": [
+    "karaka:Atmakaraka:sun",
+    "karaka:Atmakaraka:moon",
+    "karaka:Atmakaraka:mars",
+    "karaka:Atmakaraka:mercury",
+    "karaka:Atmakaraka:jupiter",
+    "karaka:Atmakaraka:venus",
+    "karaka:Atmakaraka:saturn"
+  ],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "chara_karaka"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

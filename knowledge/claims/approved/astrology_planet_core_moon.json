@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_moon",
+  "lens_id": "astrology",
+  "statement": "The Moon represents emotional nature, instinctive reaction, and inner needs.",
+  "passage_ids": [],
+  "concept_ids": [
+    "moon"
+  ],
+  "feature_ids": [
+    "sign:moon:Aries",
+    "sign:moon:Taurus",
+    "sign:moon:Gemini",
+    "sign:moon:Cancer",
+    "sign:moon:Leo",
+    "sign:moon:Virgo",
+    "sign:moon:Libra",
+    "sign:moon:Scorpio",
+    "sign:moon:Sagittarius",
+    "sign:moon:Capricorn",
+    "sign:moon:Aquarius",
+    "sign:moon:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "emotional_depth",
+    "instinct"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

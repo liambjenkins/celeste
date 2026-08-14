@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "South Node in Virgo reflects an inborn comfort with usefulness and analysis, which can tip into over-criticism or anxious perfectionism if not stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Virgo",
+    "sign:south_node_mean:Virgo"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

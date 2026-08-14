@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_jiang_xing",
+  "lens_id": "chinese_zodiac",
+  "statement": "Jiang Xing (General Star) is traditionally read as leadership, command presence, and organizational talent.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:jiang_xing"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

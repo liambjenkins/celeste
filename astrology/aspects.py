@@ -18,6 +18,26 @@ DEFAULT_ORBS = {
 }
 
 
+# Minor aspects — opt-in (see calculate_aspects's include_minor param),
+# not part of the default core reading. Angles and orbs verified via
+# search during curation against standard modern astrological
+# convention (most astrologers cap minor-aspect orbs at 2-3 degrees,
+# tighter than major aspects, since these are subtler harmonics).
+MINOR_ASPECTS = {
+    "semisquare": 45.0,
+    "sesquiquadrate": 135.0,
+    "septile": 360.0 / 7.0,
+    "novile": 40.0,
+}
+
+MINOR_ORBS = {
+    "semisquare": 2.0,
+    "sesquiquadrate": 2.0,
+    "septile": 1.0,
+    "novile": 1.0,
+}
+
+
 OBJECT_GROUPS = {
     "luminary": {
         "sun",
@@ -144,11 +164,15 @@ def find_aspect(
     longitude_a,
     longitude_b,
     orbs=None,
+    angles=None,
 ):
     """Determine the closest configured aspect."""
 
     if orbs is None:
         orbs = DEFAULT_ORBS
+
+    if angles is None:
+        angles = ASPECTS
 
     distance = angular_distance(
         longitude_a,
@@ -157,7 +181,7 @@ def find_aspect(
 
     matches = []
 
-    for name, exact_angle in ASPECTS.items():
+    for name, exact_angle in angles.items():
 
         orb = abs(
             distance - exact_angle
@@ -205,6 +229,7 @@ def calculate_aspects(
     bodies,
     orbs=None,
     profile="core",
+    include_minor=False,
 ):
     """
     Calculate pairwise aspects between chart objects.
@@ -212,7 +237,10 @@ def calculate_aspects(
     Each pair is evaluated only once.
 
     The profile controls which conceptual categories
-    are allowed to form relationships.
+    are allowed to form relationships. include_minor additionally
+    checks the minor aspects (semisquare, sesquiquadrate, septile,
+    novile) — off by default, since these are a subtler, opt-in
+    layer, not part of the core reading.
     """
 
     if profile not in ASPECT_PROFILES:
@@ -222,6 +250,13 @@ def calculate_aspects(
 
     if orbs is None:
         orbs = DEFAULT_ORBS
+
+    angles = ASPECTS
+    active_orbs = orbs
+
+    if include_minor:
+        angles = {**ASPECTS, **MINOR_ASPECTS}
+        active_orbs = {**orbs, **MINOR_ORBS}
 
     names = list(bodies.keys())
     aspects = []
@@ -243,7 +278,8 @@ def calculate_aspects(
             result = find_aspect(
                 body_a["longitude"],
                 body_b["longitude"],
-                orbs,
+                active_orbs,
+                angles,
             )
 
             if result is None:
@@ -258,7 +294,7 @@ def calculate_aspects(
                     "orb": result["orb"],
                     "orb_strength": aspect_strength(
                         result["orb"],
-                        orbs[result["aspect"]],
+                        active_orbs[result["aspect"]],
                     ),
                     "profile": profile,
                 }

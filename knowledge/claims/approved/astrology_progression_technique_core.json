@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_progression_technique_core",
+  "lens_id": "astrology",
+  "statement": "A secondary progression symbolically advances the birth chart by one day for each year of life, on the principle that the planetary motion of the days just after birth encodes the unfolding of the life that follows. It reads as a slow internal development, distinct from a transit's external, present-tense trigger.",
+  "passage_ids": [],
+  "concept_ids": [
+    "secondary_progressions"
+  ],
+  "feature_ids": [
+    "timing:secondary_progressions"
+  ],
+  "source_ids": [
+    "brady_predictive_astrology_1992"
+  ],
+  "theme_tags": [
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

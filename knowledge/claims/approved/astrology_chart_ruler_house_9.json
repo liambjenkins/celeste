@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_ruler_house_9",
+  "lens_id": "astrology",
+  "statement": "With the chart ruler in the 9th house, the outward persona moves through the world by way of belief, higher learning, and travel.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "chart_ruler_house:9"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_shen",
+  "lens_id": "chinese_zodiac",
+  "statement": "Shen (Monkey) is clever and versatile, quick to find an unconventional solution.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Shen",
+    "chinese_branch:month:Shen",
+    "chinese_branch:day:Shen",
+    "chinese_branch:hour:Shen",
+    "chinese_year_animal:Monkey",
+    "chinese_dayun_branch:Shen",
+    "chinese_liu_nian_branch:Shen"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

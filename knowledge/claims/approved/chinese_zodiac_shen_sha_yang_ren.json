@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_yang_ren",
+  "lens_id": "chinese_zodiac",
+  "statement": "Yang Ren (Yang Blade) is traditionally read as assertive, competitive, blade-like energy — strong willpower and drive, prone to conflict or rash decisions without a tempering influence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:yang_ren"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

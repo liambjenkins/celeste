@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_house_2",
+  "lens_id": "astrology",
+  "statement": "The 2nd house governs personal resources, money, values, and self-worth.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:2",
+    "house:moon:2",
+    "house:mercury:2",
+    "house:venus:2",
+    "house:mars:2",
+    "house:jupiter:2",
+    "house:saturn:2",
+    "house:uranus:2",
+    "house:neptune:2",
+    "house:pluto:2"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

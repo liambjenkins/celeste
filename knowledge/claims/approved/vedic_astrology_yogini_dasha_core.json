@@ -1,0 +1,20 @@
+{
+  "claim_id": "vedic_astrology_yogini_dasha_core",
+  "lens_id": "vedic_astrology",
+  "statement": "Yogini Dasha is a distinct, faster 36-year Vedic timing cycle, entered via the Moon's birth nakshatra — read alongside Vimshottari Dasha for a second, independent timing perspective, prized for its comparative simplicity and quick applicability.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogini_dasha"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

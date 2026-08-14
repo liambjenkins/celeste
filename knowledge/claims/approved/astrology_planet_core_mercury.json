@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_mercury",
+  "lens_id": "astrology",
+  "statement": "Mercury represents communication style, thought process, and how information is gathered and exchanged.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:mercury:Aries",
+    "sign:mercury:Taurus",
+    "sign:mercury:Gemini",
+    "sign:mercury:Cancer",
+    "sign:mercury:Leo",
+    "sign:mercury:Virgo",
+    "sign:mercury:Libra",
+    "sign:mercury:Scorpio",
+    "sign:mercury:Sagittarius",
+    "sign:mercury:Capricorn",
+    "sign:mercury:Aquarius",
+    "sign:mercury:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "communication",
+    "intellect"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

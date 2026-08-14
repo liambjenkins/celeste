@@ -59,6 +59,14 @@ VITALITY = "vitality_and_transformation"
 TIMEKEEPING = "sacred_timekeeping"
 
 
+def _ordinal(number):
+    if 10 <= number % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
+    return f"{number}{suffix}"
+
+
 def _result(themes=None, macro_themes=None, elemental_focus=None, notes=None):
     return {
         "themes": themes or [],
@@ -148,6 +156,93 @@ def _astrology(concepts, features: FeatureBundle):
 
         macro.append(DUALITY)
 
+    if features.harmonic_sun_signs:
+        for harmonic_n, sign in sorted(features.harmonic_sun_signs.items()):
+            themes.append(f"harmonic_sun:{harmonic_n}:{sign}")
+        notes.append(
+            "Harmonic Sun position(s): "
+            + ", ".join(
+                f"H{n} Sun in {sign}"
+                for n, sign in sorted(features.harmonic_sun_signs.items())
+            )
+            + " — the same birth moment viewed through the "
+            "quintile/septile/novile harmonic lenses."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.aspect_patterns_present:
+        for pattern in sorted(features.aspect_patterns_present):
+            themes.append(f"aspect_pattern:{pattern}")
+        notes.append(
+            "Aspect pattern(s) present: "
+            + ", ".join(sorted(features.aspect_patterns_present))
+            + " — a specific geometric configuration, read as more "
+            "than the sum of its individual aspects."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chart_shape:
+        themes.append(f"chart_shape:{features.chart_shape}")
+        notes.append(
+            f"The chart's overall shape is {features.chart_shape} "
+            "(Marc Edmund Jones' classification, based on how the "
+            "bodies are distributed around the wheel)."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chart_ruler:
+        themes.append(f"chart_ruler:{features.chart_ruler}")
+        notes.append(
+            f"The chart ruler (traditional ruler of the Ascendant) "
+            f"is {features.chart_ruler}, in house "
+            f"{features.chart_ruler_house} — a personal significator "
+            "describing how the outward persona actually moves "
+            "through the world."
+        )
+        macro.append(ARCHETYPE)
+
+        if features.final_dispositor:
+            notes.append(
+                f"{features.final_dispositor} is this chart's final "
+                "dispositor — every planet's rulership chain "
+                "eventually leads back to it, a real organizing "
+                "anchor most charts don't have."
+            )
+
+    if features.antiscion_sun_sign:
+        themes.append(f"antiscion:sun:{features.antiscion_sun_sign}")
+        notes.append(
+            f"The Sun's antiscion (its solstice-axis mirror point) "
+            f"falls in {features.antiscion_sun_sign} — a 'hidden "
+            "axis' point some traditions read as a quiet, secondary "
+            "expression of the Sun's themes."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.declination_aspects_present:
+        for decl in sorted(features.declination_aspects_present):
+            themes.append(f"declination_aspect:{decl}")
+        notes.append(
+            "Declination aspects present: "
+            + ", ".join(sorted(features.declination_aspects_present))
+            + " — a different coordinate axis (distance from the "
+            "celestial equator) from the longitude-based aspects "
+            "above, traditionally read as an additional, often "
+            "reinforcing layer."
+        )
+        macro.append(DUALITY)
+
+    if features.minor_aspects_present:
+        for minor in sorted(features.minor_aspects_present):
+            themes.append(f"minor_aspect:{minor}")
+        notes.append(
+            "Minor aspects present in this chart: "
+            + ", ".join(sorted(features.minor_aspects_present))
+            + " — subtler harmonics, read as texture alongside (not "
+            "instead of) the major aspects above."
+        )
+        macro.append(DUALITY)
+
     if features.ascendant_sign:
         themes.append(f"ascendant:{features.ascendant_sign}")
         notes.append(
@@ -156,6 +251,93 @@ def _astrology(concepts, features: FeatureBundle):
             "the lens through which the moment first meets the world."
         )
         macro.append(ARCHETYPE)
+
+    if features.vertex_sign:
+        themes.append(f"vertex:{features.vertex_sign}")
+        notes.append(
+            f"The Vertex is in {features.vertex_sign} — a calculated "
+            "point traditionally read as an 'auxiliary Descendant' "
+            "marking fated or karmic encounters."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.fortune_sign:
+        themes.append(f"fortune:{features.fortune_sign}")
+        sect = "day" if features.day_chart else "night"
+        notes.append(
+            f"The Part of Fortune is in {features.fortune_sign} "
+            f"(a {sect} chart), the classical Hellenistic lot marking "
+            "where wellbeing and circumstance most readily align."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.spirit_sign:
+        themes.append(f"spirit:{features.spirit_sign}")
+        notes.append(
+            f"The Part of Spirit is in {features.spirit_sign}, the "
+            "counterpart lot marking where deliberate will and "
+            "purposeful action are focused."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.star_conjunction_star:
+        themes.append(
+            f"star_conjunction:{features.star_conjunction_body}:"
+            f"{features.star_conjunction_star}"
+        )
+        magnitude_note = (
+            f", magnitude {features.star_conjunction_magnitude:.2f}"
+            if features.star_conjunction_magnitude is not None
+            else ""
+        )
+        notes.append(
+            f"{features.star_conjunction_body} forms a tight "
+            f"conjunction (orb {features.star_conjunction_orb:.2f}°) "
+            f"with the fixed star {features.star_conjunction_star}"
+            f"{magnitude_note} — fixed stars are traditionally only "
+            "read as significant this close."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.has_transits:
+        themes.append("timing:transits")
+        outer_transits = [
+            f"{body} in your {_ordinal(house)} house"
+            for body, house in features.transit_houses.items()
+            if body in ("jupiter", "saturn", "uranus", "neptune", "pluto")
+        ]
+        if outer_transits:
+            notes.append(
+                "Currently transiting: " + ", ".join(sorted(outer_transits))
+                + " — the slower-moving planets whose house transit "
+                "marks the broadest current period, in traditional "
+                "predictive technique."
+            )
+        macro.append(CYCLICALITY)
+
+    if features.has_progressions:
+        themes.append("timing:secondary_progressions")
+        if features.progressed_moon_sign:
+            notes.append(
+                f"The progressed Moon is currently in "
+                f"{features.progressed_moon_sign} — the 'day for a "
+                "year' technique's classical focus, changing sign "
+                "roughly every two and a half years to mark the "
+                "current emotional chapter."
+            )
+        macro.append(CYCLICALITY)
+
+    if features.has_tertiary:
+        themes.append("timing:tertiary_progressions")
+        if features.tertiary_moon_sign:
+            notes.append(
+                f"The tertiary-progressed Moon is currently in "
+                f"{features.tertiary_moon_sign} — the faster, "
+                "month-by-month resolution tertiary progressions "
+                "add alongside secondary progressions' year-by-year "
+                "view."
+            )
+        macro.append(CYCLICALITY)
 
     if features.season:
         themes.append(f"season:{features.season}")
@@ -436,7 +618,25 @@ def _pagan_wiccan(concepts, features: FeatureBundle):
         )
         macro.append(CYCLICALITY)
 
-    if features.season:
+    if features.sabbat:
+        themes.append(f"sabbat:{features.sabbat}")
+        macro.append(CYCLICALITY)
+
+        if features.sabbat_days_away == 0:
+            notes.append(
+                f"The moment falls exactly on {features.sabbat}, one "
+                "of the eight sabbats on the Wheel of the Year."
+            )
+        else:
+            notes.append(
+                f"The moment falls nearest {features.sabbat} "
+                f"({features.sabbat_days_away} day"
+                f"{'s' if features.sabbat_days_away != 1 else ''} away) "
+                "on the Wheel of the Year, adjusted for hemisphere so "
+                "the sabbat's seasonal meaning matches the season "
+                "actually occurring at this latitude."
+            )
+    elif features.season:
         themes.append(f"season:{features.season}")
         macro.append(CYCLICALITY)
         notes.append("The season marks a point on the Wheel of the Year.")
@@ -548,6 +748,387 @@ def _depth_psychology(concepts, features: FeatureBundle):
     return _result(themes, macro, list(features.dominant_domains), notes)
 
 
+# ------------------------------------------------------------
+# Philosophy (Stoic / Aristotelian)
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# Vedic astrology (Jyotish)
+# ------------------------------------------------------------
+
+def _vedic_astrology(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.vedic_ascendant_sign:
+        themes.append(f"lagna:{features.vedic_ascendant_sign}")
+        notes.append(
+            f"The Lagna (rising sign) is sidereal "
+            f"{features.vedic_ascendant_sign}, the reference point "
+            "Vedic whole-sign houses are counted from."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.vedic_sun_nakshatra:
+        themes.append(f"nakshatra:sun:{features.vedic_sun_nakshatra}")
+        notes.append(
+            f"The Sun falls in {features.vedic_sun_nakshatra} "
+            "nakshatra, the lunar-mansion subdivision unique to "
+            "Jyotish."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.vedic_moon_nakshatra:
+        themes.append(f"nakshatra:moon:{features.vedic_moon_nakshatra}")
+        notes.append(
+            f"The Moon falls in {features.vedic_moon_nakshatra} "
+            "nakshatra — in Jyotish the Moon's nakshatra is "
+            "traditionally considered the single most important "
+            "placement in the chart."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.navamsa_ascendant_sign:
+        themes.append(f"navamsa_ascendant:{features.navamsa_ascendant_sign}")
+        notes.append(
+            f"The D9 (Navamsa) Ascendant is {features.navamsa_ascendant_sign} "
+            "— the reference point the Navamsa's own whole-sign "
+            "houses are counted from, distinct from the D1 chart's "
+            "Ascendant above."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.navamsa_sun_sign:
+        agree = features.navamsa_sun_sign == features.vedic_sun_sign
+        themes.append(f"navamsa_sign:sun:{features.navamsa_sun_sign}")
+        notes.append(
+            f"The Sun's Navamsa sign is {features.navamsa_sun_sign}"
+            + (
+                ", the same sign as its D1 placement — traditionally "
+                "read as a placement whose strength is confirmed "
+                "rather than complicated by this deeper subdivision."
+                if agree
+                else f" (its D1 sign is {features.vedic_sun_sign}) — "
+                "traditionally read alongside the D1 sign rather "
+                "than in place of it, for a subtler picture of the "
+                "placement's underlying strength."
+            )
+        )
+        macro.append(ARCHETYPE)
+
+    if features.navamsa_moon_sign:
+        agree = features.navamsa_moon_sign == features.vedic_moon_sign
+        themes.append(f"navamsa_sign:moon:{features.navamsa_moon_sign}")
+        notes.append(
+            f"The Moon's Navamsa sign is {features.navamsa_moon_sign}"
+            + (
+                ", the same sign as its D1 placement."
+                if agree
+                else f" (its D1 sign is {features.vedic_moon_sign})."
+            )
+        )
+        macro.append(ARCHETYPE)
+
+    if features.varga_ascendant_signs:
+        for varga_n, sign in sorted(features.varga_ascendant_signs.items()):
+            themes.append(f"varga_ascendant:{varga_n}:{sign}")
+        notes.append(
+            "Divisional chart (varga) Ascendant(s): "
+            + ", ".join(
+                f"D{n} in {sign}"
+                for n, sign in sorted(features.varga_ascendant_signs.items())
+            )
+            + " — each divisional chart's own Ascendant, the reference "
+            "point its own domain-specific reading (D10 career, D12 "
+            "parents, D7 children, and so on) is built from."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.exalted_planets or features.debilitated_planets:
+        for planet in features.exalted_planets:
+            themes.append(f"dignity_exalted:{planet}")
+        for planet in features.debilitated_planets:
+            themes.append(f"dignity_debilitated:{planet}")
+
+        parts = []
+        if features.exalted_planets:
+            parts.append(f"exalted: {', '.join(sorted(features.exalted_planets))}")
+        if features.debilitated_planets:
+            parts.append(f"debilitated: {', '.join(sorted(features.debilitated_planets))}")
+
+        notes.append(
+            "Planetary dignity extremes present — "
+            + "; ".join(parts)
+            + " — a placement's strength (exalted) or difficulty "
+            "(debilitated) by classical sign lordship, the strongest "
+            "and weakest of the six dignity levels."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.atmakaraka_planet:
+        themes.append(f"atmakaraka:{features.atmakaraka_planet}")
+        notes.append(
+            f"The Atmakaraka (soul significator, Jaimini technique) is "
+            f"{features.atmakaraka_planet} — the planet at the highest "
+            "degree within its sign, traditionally read as the chart's "
+            "single most emphasized indicator of the soul's own agenda."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.marak_planets:
+        for planet in features.marak_planets:
+            themes.append(f"marak:{planet}")
+        notes.append(
+            "Marak (2nd/7th house lord) planet(s): "
+            + ", ".join(sorted(features.marak_planets))
+            + " — traditional timing significators for periods of "
+            "vulnerability via Dasha, not literal predictions."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.ashtakavarga_own_sign_strength:
+        for planet, strength in sorted(features.ashtakavarga_own_sign_strength.items()):
+            themes.append(f"ashtakavarga_own_sign:{planet}:{strength}")
+        notable = {
+            planet: strength
+            for planet, strength in features.ashtakavarga_own_sign_strength.items()
+            if strength != "medium"
+        }
+        if notable:
+            notes.append(
+                "Ashtakavarga own-sign Bindu strength — "
+                + ", ".join(
+                    f"{planet} {strength}" for planet, strength in sorted(notable.items())
+                )
+                + " — how much classical point-support each planet "
+                "has in the sign it currently occupies."
+            )
+            macro.append(ARCHETYPE)
+
+    if features.sarvashtakavarga_strength:
+        for point, strength in sorted(features.sarvashtakavarga_strength.items()):
+            themes.append(f"sarvashtakavarga:{point}:{strength}")
+
+    if features.shadbala_strongest_planet and features.shadbala_weakest_planet:
+        themes.append(f"shadbala_strongest:{features.shadbala_strongest_planet}")
+        themes.append(f"shadbala_weakest:{features.shadbala_weakest_planet}")
+        notes.append(
+            f"By Shadbala's well-verified positional/directional/"
+            f"natural-strength factors (a deliberately partial "
+            f"reading, not the full six-fold classical total), "
+            f"{features.shadbala_strongest_planet} is comparatively "
+            f"the strongest placement in this chart and "
+            f"{features.shadbala_weakest_planet} the comparatively "
+            "weakest."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.vedic_yogas:
+        for yoga_id in features.vedic_yogas:
+            themes.append(f"yoga:{yoga_id}")
+        notes.append(
+            f"{len(features.vedic_yogas)} classical yoga(s) "
+            "(planetary combination) from the curated set are "
+            "present in this chart — specific configurations, not "
+            "just individual sign or house placements."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.has_dasha:
+        themes.append(f"dasha_mahadasha:{features.dasha_mahadasha_lord}")
+        themes.append(f"dasha_antardasha:{features.dasha_antardasha_lord}")
+        notes.append(
+            f"Currently running: {features.dasha_mahadasha_lord} "
+            f"Mahadasha, {features.dasha_antardasha_lord} Antardasha "
+            "— the Vimshottari Dasha's major period and its "
+            "sub-period, the classical Jyotish timing technique for "
+            "which planet's themes are most active right now."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.has_yogini_dasha:
+        themes.append(f"yogini_dasha:{features.yogini_dasha_current}")
+        notes.append(
+            f"The current Yogini Dasha period is {features.yogini_dasha_current} "
+            "— a distinct, faster 36-year Vedic timing cycle read "
+            "alongside (not instead of) Vimshottari Dasha."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.has_chara_dasha:
+        themes.append(f"chara_dasha_sign:{features.chara_dasha_current_sign}")
+        notes.append(
+            f"The current Chara Dasha sign period is "
+            f"{features.chara_dasha_current_sign} — the Jaimini "
+            "school's sign-based (not planet-based) timing technique, "
+            "read alongside Vimshottari Dasha for a second, "
+            "independent timing perspective."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.dominant_domains:
+        themes.append(
+            "elemental_emphasis:" + "_".join(features.dominant_domains)
+        )
+        macro.append(ELEMENTAL)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
+# ------------------------------------------------------------
+# Chinese astrology (BaZi)
+# ------------------------------------------------------------
+
+def _chinese_zodiac(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.chinese_day_master:
+        themes.append(f"day_master:{features.chinese_day_master}")
+        notes.append(
+            f"The Day Master is {features.chinese_day_master} "
+            f"({features.chinese_day_master_element}) — the reading's "
+            "central reference point; everything else in a BaZi "
+            "chart is ultimately read in relation to it."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_year_animal:
+        themes.append(f"year_animal:{features.chinese_year_animal}")
+        notes.append(
+            f"The Year Pillar's branch animal is "
+            f"{features.chinese_year_animal}, governing ancestry, "
+            "early life, and public/social face."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.chinese_pillar_names:
+        themes.append(
+            "four_pillars:"
+            + "_".join(features.chinese_pillar_names.get(p, "?") for p in ("year", "month", "day", "hour"))
+        )
+        macro.append(TIMEKEEPING)
+
+    if features.chinese_ten_gods:
+        themes.append("ten_gods_present:" + "_".join(sorted(set(features.chinese_ten_gods))))
+        notes.append(
+            f"{len(set(features.chinese_ten_gods))} distinct Ten God "
+            "role(s) appear across the chart's visible and hidden "
+            "stems — the BaZi-native classification of each stem's "
+            "elemental relationship to the Day Master."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.has_dayun:
+        themes.append(f"dayun_current:{features.dayun_current_pillar}")
+        notes.append(
+            f"The current Da Yun (Luck Pillar) is "
+            f"{features.dayun_current_pillar} — the 10-year period "
+            "presently overlaid on the Four Pillars."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.has_liu_nian:
+        themes.append(f"liu_nian_current:{features.liu_nian_pillar_name}")
+        notes.append(
+            f"The current Liu Nian (Flowing Year) pillar is "
+            f"{features.liu_nian_pillar_name} — the finer, "
+            "year-by-year layer of BaZi timing, read alongside the "
+            "current Da Yun."
+        )
+        macro.append(CYCLICALITY)
+
+    if features.chinese_shen_sha_present:
+        for star_id in features.chinese_shen_sha_present:
+            themes.append(f"shen_sha:{star_id}")
+        notes.append(
+            f"{len(features.chinese_shen_sha_present)} Shen Sha "
+            "(symbolic star) placement(s) from the curated set are "
+            "present — specific classical stem/branch patterns, "
+            "distinct from the Ten Gods classification."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_na_yin_day_element:
+        themes.append(f"na_yin_day_element:{features.chinese_na_yin_day_element}")
+        notes.append(
+            f"The Day Pillar's Na Yin element is "
+            f"{features.chinese_na_yin_day_element} — an older, "
+            "sound-derived elemental reading of the core self, "
+            "distinct from the Day Master stem's own element."
+        )
+        macro.append(ELEMENTAL)
+
+    if features.chinese_interactions_present:
+        for interaction in features.chinese_interactions_present:
+            themes.append(f"chinese_interaction:{interaction}")
+        notes.append(
+            "Stem/branch interaction(s) present between pillars: "
+            + ", ".join(sorted(features.chinese_interactions_present))
+            + " — structural relationships between two or more "
+            "pillars, distinct from any single pillar's own meaning."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.chinese_missing_elements or features.chinese_dominant_elements:
+        if features.chinese_dominant_elements:
+            themes.append(
+                "chinese_element_dominant:" + "_".join(sorted(features.chinese_dominant_elements))
+            )
+        if features.chinese_missing_elements:
+            themes.append(
+                "chinese_element_missing:" + "_".join(sorted(features.chinese_missing_elements))
+            )
+
+        parts = []
+        if features.chinese_dominant_elements:
+            parts.append(f"dominant: {', '.join(sorted(features.chinese_dominant_elements))}")
+        if features.chinese_missing_elements:
+            parts.append(f"missing: {', '.join(sorted(features.chinese_missing_elements))}")
+
+        notes.append(
+            "Elemental balance across all 8 stem positions (visible "
+            "+ hidden) — " + "; ".join(parts) + "."
+        )
+        macro.append(ELEMENTAL)
+
+    return _result(themes, macro, [], notes)
+
+
+def _philosophy(concepts, features: FeatureBundle):
+    themes = []
+    notes = []
+    macro = []
+
+    if features.dominant_domains:
+        themes.append(
+            "material_element_emphasis:" + "_".join(features.dominant_domains)
+        )
+        notes.append(
+            "The chart's dominant element(s) "
+            f"({', '.join(features.dominant_domains)}) correspond to "
+            "Aristotle's own material elements (earth, water, air, "
+            "fire), which his physics used as the substrate of the "
+            "natural world."
+        )
+        macro.append(ELEMENTAL)
+
+    if features.season:
+        themes.append(f"season:{features.season}")
+        notes.append(
+            f"The moment falls in {features.season} — in Stoic terms "
+            "an example of what Epictetus's Enchiridion calls a "
+            "thing 'not up to us': the turning of the seasons "
+            "proceeds regardless of preference, the classic Stoic "
+            "illustration of the dichotomy of control."
+        )
+        macro.append(IMPERMANENCE)
+
+    return _result(themes, macro, list(features.dominant_domains), notes)
+
+
 STRUCTURAL_INTERPRETERS = {
     "astrology": _astrology,
     "islamic_cosmology": _islamic_cosmology,
@@ -561,6 +1142,9 @@ STRUCTURAL_INTERPRETERS = {
     "greco_roman": _greco_roman,
     "egyptian_cosmology": _egyptian_cosmology,
     "depth_psychology": _depth_psychology,
+    "philosophy": _philosophy,
+    "vedic_astrology": _vedic_astrology,
+    "chinese_zodiac": _chinese_zodiac,
 }
 
 

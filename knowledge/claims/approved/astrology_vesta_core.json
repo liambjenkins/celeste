@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_vesta_core",
+  "lens_id": "astrology",
+  "statement": "Vesta represents focus, dedication, and the capacity for single-minded devotion to a calling, principle, or inner flame that must be tended rather than shared.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:vesta:Aries",
+    "sign:vesta:Taurus",
+    "sign:vesta:Gemini",
+    "sign:vesta:Cancer",
+    "sign:vesta:Leo",
+    "sign:vesta:Virgo",
+    "sign:vesta:Libra",
+    "sign:vesta:Scorpio",
+    "sign:vesta:Sagittarius",
+    "sign:vesta:Capricorn",
+    "sign:vesta:Aquarius",
+    "sign:vesta:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "devotion",
+    "focus"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

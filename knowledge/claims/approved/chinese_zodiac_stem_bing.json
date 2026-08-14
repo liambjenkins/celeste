@@ -1,0 +1,31 @@
+{
+  "claim_id": "chinese_zodiac_stem_bing",
+  "lens_id": "chinese_zodiac",
+  "statement": "Bing is the sun's fire — radiant, warm, and visible: generous and expressive, drawn to being seen.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Bing",
+    "chinese_stem:month:Bing",
+    "chinese_stem:day:Bing",
+    "chinese_stem:hour:Bing",
+    "chinese_day_master:Bing",
+    "chinese_hidden_stem:year:Bing",
+    "chinese_hidden_stem:month:Bing",
+    "chinese_hidden_stem:day:Bing",
+    "chinese_hidden_stem:hour:Bing",
+    "chinese_dayun_stem:Bing",
+    "chinese_liu_nian_stem:Bing"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

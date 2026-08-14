@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_antiscion_core",
+  "lens_id": "astrology",
+  "statement": "The antiscion is a 'hidden axis' mirror point across the solstice line (0 Cancer/0 Capricorn) — traditionally read as a quiet, blended echo of the mirrored body's themes, expressed less directly and less consciously than the body's own placement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "antiscia"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "firmicus_maternus_matheseos_c4th"
+  ],
+  "theme_tags": [
+    "hidden_axis"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

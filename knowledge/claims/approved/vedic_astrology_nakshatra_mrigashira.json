@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_mrigashira",
+  "lens_id": "vedic_astrology",
+  "statement": "Mrigashira's ruling planet (Vimshottari dasha lord) is Mars; its presiding deity is Soma (the moon deity), symbolized by a deer's head. It is traditionally associated with gentle searching — a restless, curious quest for something just out of reach.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Mrigashira",
+    "nakshatra:moon:Mrigashira",
+    "nakshatra:ascendant:Mrigashira",
+    "nakshatra:mercury:Mrigashira",
+    "nakshatra:venus:Mrigashira",
+    "nakshatra:mars:Mrigashira",
+    "nakshatra:jupiter:Mrigashira",
+    "nakshatra:saturn:Mrigashira",
+    "nakshatra:uranus:Mrigashira",
+    "nakshatra:neptune:Mrigashira",
+    "nakshatra:pluto:Mrigashira",
+    "nakshatra:lilith_mean:Mrigashira",
+    "nakshatra:lilith_true:Mrigashira",
+    "nakshatra:chiron:Mrigashira",
+    "nakshatra:ceres:Mrigashira",
+    "nakshatra:pallas:Mrigashira",
+    "nakshatra:juno:Mrigashira",
+    "nakshatra:vesta:Mrigashira",
+    "nakshatra:north_node_true:Mrigashira",
+    "nakshatra:north_node_mean:Mrigashira",
+    "nakshatra:south_node_true:Mrigashira",
+    "nakshatra:south_node_mean:Mrigashira"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

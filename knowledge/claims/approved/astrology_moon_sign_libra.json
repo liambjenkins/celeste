@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_sign_libra",
+  "lens_id": "astrology",
+  "statement": "A Libra Moon tends to be emotionally attuned to others; needs harmony and partnership, dislikes conflict.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:moon:Libra"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

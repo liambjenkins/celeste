@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_lilith_mean_core",
+  "lens_id": "astrology",
+  "statement": "Black Moon Lilith represents the instinctual, untamed part of the psyche — what has been repressed, shamed, or exiled, and the raw power reclaimed in owning it.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:lilith_mean:Aries",
+    "sign:lilith_mean:Taurus",
+    "sign:lilith_mean:Gemini",
+    "sign:lilith_mean:Cancer",
+    "sign:lilith_mean:Leo",
+    "sign:lilith_mean:Virgo",
+    "sign:lilith_mean:Libra",
+    "sign:lilith_mean:Scorpio",
+    "sign:lilith_mean:Sagittarius",
+    "sign:lilith_mean:Capricorn",
+    "sign:lilith_mean:Aquarius",
+    "sign:lilith_mean:Pisces"
+  ],
+  "source_ids": [
+    "hunter_black_moon_lilith_2010"
+  ],
+  "theme_tags": [
+    "shadow",
+    "instinct"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

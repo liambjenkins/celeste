@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "North Node in Cancer points toward growth through emotional vulnerability, home, and allowing oneself to be cared for.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Cancer",
+    "sign:north_node_mean:Cancer"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

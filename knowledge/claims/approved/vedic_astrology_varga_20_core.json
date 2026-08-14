@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_20_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Vimshamsa (D20) is read for spiritual practice and religious inclination — a person's capacity for devotion and inner discipline distinct from outward achievement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:20"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

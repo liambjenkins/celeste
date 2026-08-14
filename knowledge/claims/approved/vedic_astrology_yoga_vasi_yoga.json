@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_vasi_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Vasi Yoga (a planet other than the Moon in the 12th house from the Sun) is traditionally read as carrying skillfulness, charitable inclination, learning, and a strong reputation, per Brihat Parashara Hora Shastra.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:vasi_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "temperament"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

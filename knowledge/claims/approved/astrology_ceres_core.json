@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_ceres_core",
+  "lens_id": "astrology",
+  "statement": "Ceres represents the instinct to nurture and be nurtured, the mother-child bond, and how a person moves through loss and the cycles of growth, death, and renewal.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:ceres:Aries",
+    "sign:ceres:Taurus",
+    "sign:ceres:Gemini",
+    "sign:ceres:Cancer",
+    "sign:ceres:Leo",
+    "sign:ceres:Virgo",
+    "sign:ceres:Libra",
+    "sign:ceres:Scorpio",
+    "sign:ceres:Sagittarius",
+    "sign:ceres:Capricorn",
+    "sign:ceres:Aquarius",
+    "sign:ceres:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "nurturing",
+    "loss"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

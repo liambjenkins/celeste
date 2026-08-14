@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_ardra",
+  "lens_id": "vedic_astrology",
+  "statement": "Ardra's ruling planet (Vimshottari dasha lord) is Rahu; its presiding deity is Rudra (the storm god), symbolized by a teardrop. It is traditionally associated with upheaval that clears the way for renewal, intensity that isn't comfortable but is transformative.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Ardra",
+    "nakshatra:moon:Ardra",
+    "nakshatra:ascendant:Ardra",
+    "nakshatra:mercury:Ardra",
+    "nakshatra:venus:Ardra",
+    "nakshatra:mars:Ardra",
+    "nakshatra:jupiter:Ardra",
+    "nakshatra:saturn:Ardra",
+    "nakshatra:uranus:Ardra",
+    "nakshatra:neptune:Ardra",
+    "nakshatra:pluto:Ardra",
+    "nakshatra:lilith_mean:Ardra",
+    "nakshatra:lilith_true:Ardra",
+    "nakshatra:chiron:Ardra",
+    "nakshatra:ceres:Ardra",
+    "nakshatra:pallas:Ardra",
+    "nakshatra:juno:Ardra",
+    "nakshatra:vesta:Ardra",
+    "nakshatra:north_node_true:Ardra",
+    "nakshatra:north_node_mean:Ardra",
+    "nakshatra:south_node_true:Ardra",
+    "nakshatra:south_node_mean:Ardra"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

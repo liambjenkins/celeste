@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_na_yin_day_element_fire",
+  "lens_id": "chinese_zodiac",
+  "statement": "A Day Pillar Na Yin element of Fire colors the core self with warmth, visibility, and transformative energy, read alongside (not instead of) the Day Master stem's own element.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_na_yin"
+  ],
+  "feature_ids": [
+    "na_yin_element:day:Fire"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "na_yin"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

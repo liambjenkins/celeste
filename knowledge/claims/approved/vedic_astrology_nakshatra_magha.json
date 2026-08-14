@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_magha",
+  "lens_id": "vedic_astrology",
+  "statement": "Magha's ruling planet (Vimshottari dasha lord) is Ketu; its presiding deity is the Pitris (ancestral spirits), symbolized by a throne. It is traditionally associated with ancestry and authority — power inherited or earned through lineage and legacy.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Magha",
+    "nakshatra:moon:Magha",
+    "nakshatra:ascendant:Magha",
+    "nakshatra:mercury:Magha",
+    "nakshatra:venus:Magha",
+    "nakshatra:mars:Magha",
+    "nakshatra:jupiter:Magha",
+    "nakshatra:saturn:Magha",
+    "nakshatra:uranus:Magha",
+    "nakshatra:neptune:Magha",
+    "nakshatra:pluto:Magha",
+    "nakshatra:lilith_mean:Magha",
+    "nakshatra:lilith_true:Magha",
+    "nakshatra:chiron:Magha",
+    "nakshatra:ceres:Magha",
+    "nakshatra:pallas:Magha",
+    "nakshatra:juno:Magha",
+    "nakshatra:vesta:Magha",
+    "nakshatra:north_node_true:Magha",
+    "nakshatra:north_node_mean:Magha",
+    "nakshatra:south_node_true:Magha",
+    "nakshatra:south_node_mean:Magha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,31 @@
+{
+  "claim_id": "chinese_zodiac_stem_gui",
+  "lens_id": "chinese_zodiac",
+  "statement": "Gui is rain or mist — subtle and pervasive: intuitive and adaptive, quiet but far-reaching influence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Gui",
+    "chinese_stem:month:Gui",
+    "chinese_stem:day:Gui",
+    "chinese_stem:hour:Gui",
+    "chinese_day_master:Gui",
+    "chinese_hidden_stem:year:Gui",
+    "chinese_hidden_stem:month:Gui",
+    "chinese_hidden_stem:day:Gui",
+    "chinese_hidden_stem:hour:Gui",
+    "chinese_dayun_stem:Gui",
+    "chinese_liu_nian_stem:Gui"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

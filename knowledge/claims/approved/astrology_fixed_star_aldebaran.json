@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_aldebaran",
+  "lens_id": "astrology",
+  "statement": "Aldebaran is one of the four Persian Royal Stars ('Watcher of the East'), traditionally associated with honor and integrity, with a traditional warning against misusing power once gained.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:aldebaran",
+    "star_conjunction:moon:aldebaran",
+    "star_conjunction:mercury:aldebaran",
+    "star_conjunction:venus:aldebaran",
+    "star_conjunction:mars:aldebaran",
+    "star_conjunction:jupiter:aldebaran",
+    "star_conjunction:saturn:aldebaran",
+    "star_conjunction:uranus:aldebaran",
+    "star_conjunction:neptune:aldebaran",
+    "star_conjunction:pluto:aldebaran",
+    "star_conjunction:lilith_mean:aldebaran",
+    "star_conjunction:lilith_true:aldebaran",
+    "star_conjunction:chiron:aldebaran",
+    "star_conjunction:ceres:aldebaran",
+    "star_conjunction:pallas:aldebaran",
+    "star_conjunction:juno:aldebaran",
+    "star_conjunction:vesta:aldebaran",
+    "star_conjunction:north_node_true:aldebaran",
+    "star_conjunction:north_node_mean:aldebaran",
+    "star_conjunction:south_node_true:aldebaran",
+    "star_conjunction:south_node_mean:aldebaran"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

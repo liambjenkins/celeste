@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_sign_taurus",
+  "lens_id": "astrology",
+  "statement": "A Taurus Sun tends to be steady and patient, valuing security, comfort, and sensory experience.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:sun:Taurus"
+  ],
+  "source_ids": [
+    "goodman_sun_signs_1968"
+  ],
+  "theme_tags": [
+    "identity"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

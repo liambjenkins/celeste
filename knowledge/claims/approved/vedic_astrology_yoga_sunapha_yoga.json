@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_sunapha_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Sunapha Yoga (a planet other than the Sun in the 2nd house from the Moon) is traditionally read as carrying self-made wealth and intelligence — a reputation built through one's own effort rather than inherited fortune.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:sunapha_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "self_reliance"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

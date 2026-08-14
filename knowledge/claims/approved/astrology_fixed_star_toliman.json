@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_toliman",
+  "lens_id": "astrology",
+  "statement": "Toliman is traditionally associated with occult and philosophical learning, self-analysis, and honors, alongside a tendency toward stubbornness.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:toliman",
+    "star_conjunction:moon:toliman",
+    "star_conjunction:mercury:toliman",
+    "star_conjunction:venus:toliman",
+    "star_conjunction:mars:toliman",
+    "star_conjunction:jupiter:toliman",
+    "star_conjunction:saturn:toliman",
+    "star_conjunction:uranus:toliman",
+    "star_conjunction:neptune:toliman",
+    "star_conjunction:pluto:toliman",
+    "star_conjunction:lilith_mean:toliman",
+    "star_conjunction:lilith_true:toliman",
+    "star_conjunction:chiron:toliman",
+    "star_conjunction:ceres:toliman",
+    "star_conjunction:pallas:toliman",
+    "star_conjunction:juno:toliman",
+    "star_conjunction:vesta:toliman",
+    "star_conjunction:north_node_true:toliman",
+    "star_conjunction:north_node_mean:toliman",
+    "star_conjunction:south_node_true:toliman",
+    "star_conjunction:south_node_mean:toliman"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

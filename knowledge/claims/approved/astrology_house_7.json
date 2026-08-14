@@ -1,0 +1,28 @@
+{
+  "claim_id": "astrology_house_7",
+  "lens_id": "astrology",
+  "statement": "The 7th house governs partnership, marriage, and open relationships.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:7",
+    "house:moon:7",
+    "house:mercury:7",
+    "house:venus:7",
+    "house:mars:7",
+    "house:jupiter:7",
+    "house:saturn:7",
+    "house:uranus:7",
+    "house:neptune:7",
+    "house:pluto:7"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "life_area"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

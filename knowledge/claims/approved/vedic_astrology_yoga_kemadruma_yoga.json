@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_kemadruma_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Kemadruma Yoga (no planet occupying either the 2nd or 12th house from the Moon) is traditionally read as carrying emotional isolation and difficulty gaining sustained support from others — one of the most heavily 'cancellable' yogas in the whole system, so its presence alone is rarely decisive.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:kemadruma_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "isolation"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

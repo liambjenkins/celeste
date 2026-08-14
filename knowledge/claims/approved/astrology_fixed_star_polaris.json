@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_polaris",
+  "lens_id": "astrology",
+  "statement": "Polaris is traditionally associated with sickness, trouble, and affliction, but also with spiritual orientation and a fixed sense of direction.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:polaris",
+    "star_conjunction:moon:polaris",
+    "star_conjunction:mercury:polaris",
+    "star_conjunction:venus:polaris",
+    "star_conjunction:mars:polaris",
+    "star_conjunction:jupiter:polaris",
+    "star_conjunction:saturn:polaris",
+    "star_conjunction:uranus:polaris",
+    "star_conjunction:neptune:polaris",
+    "star_conjunction:pluto:polaris",
+    "star_conjunction:lilith_mean:polaris",
+    "star_conjunction:lilith_true:polaris",
+    "star_conjunction:chiron:polaris",
+    "star_conjunction:ceres:polaris",
+    "star_conjunction:pallas:polaris",
+    "star_conjunction:juno:polaris",
+    "star_conjunction:vesta:polaris",
+    "star_conjunction:north_node_true:polaris",
+    "star_conjunction:north_node_mean:polaris",
+    "star_conjunction:south_node_true:polaris",
+    "star_conjunction:south_node_mean:polaris"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_chitra",
+  "lens_id": "vedic_astrology",
+  "statement": "Chitra's ruling planet (Vimshottari dasha lord) is Mars; its presiding deity is Vishwakarma (the divine architect), symbolized by a bright jewel. It is traditionally associated with creativity and design, a gift for shaping something visually striking out of raw material.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Chitra",
+    "nakshatra:moon:Chitra",
+    "nakshatra:ascendant:Chitra",
+    "nakshatra:mercury:Chitra",
+    "nakshatra:venus:Chitra",
+    "nakshatra:mars:Chitra",
+    "nakshatra:jupiter:Chitra",
+    "nakshatra:saturn:Chitra",
+    "nakshatra:uranus:Chitra",
+    "nakshatra:neptune:Chitra",
+    "nakshatra:pluto:Chitra",
+    "nakshatra:lilith_mean:Chitra",
+    "nakshatra:lilith_true:Chitra",
+    "nakshatra:chiron:Chitra",
+    "nakshatra:ceres:Chitra",
+    "nakshatra:pallas:Chitra",
+    "nakshatra:juno:Chitra",
+    "nakshatra:vesta:Chitra",
+    "nakshatra:north_node_true:Chitra",
+    "nakshatra:north_node_mean:Chitra",
+    "nakshatra:south_node_true:Chitra",
+    "nakshatra:south_node_mean:Chitra"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

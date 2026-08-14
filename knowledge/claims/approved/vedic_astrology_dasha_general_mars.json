@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dasha_general_mars",
+  "lens_id": "vedic_astrology",
+  "statement": "A Mars Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of heightened energy, courage, and drive — favorable for decisive action and matters of property or siblings, with a real risk of conflict or injury if that energy isn't channeled constructively.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dasha"
+  ],
+  "feature_ids": [
+    "dasha_mahadasha:mars",
+    "dasha_antardasha:mars",
+    "dasha_pratyantardasha:mars",
+    "dasha_sookshma:mars",
+    "yogini_dasha:Bhramari"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "drive",
+    "assertiveness"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "BPHS distinguishes general effects (a planet's natural characteristics) from distinctive effects (its specific dignity/placement in a given chart) — only the general tier is claimed here; this pass's Dasha computation doesn't evaluate planetary dignity or strength.",
+  "status": "approved"
+}

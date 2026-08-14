@@ -1,0 +1,20 @@
+{
+  "claim_id": "chinese_zodiac_dayun_core",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Da Yun (Luck Pillars) are the 10-year periods overlaid on the Four Pillars, each carrying its own Stem-Branch pair — the dynamic, unfolding dimension of a BaZi reading, layered on top of the fixed birth chart to show which themes are most active during a given decade of life.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_dayun"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "yap_destiny_code_2005"
+  ],
+  "theme_tags": [
+    "dayun",
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

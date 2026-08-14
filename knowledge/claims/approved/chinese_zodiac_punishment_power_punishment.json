@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_punishment_power_punishment",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Chou-Xu-Wei punishment ('punishment of power') is traditionally read as struggles over authority, control, or recognition among parties who are nominally aligned.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_punishment:power_punishment"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "punishment",
+    "power"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

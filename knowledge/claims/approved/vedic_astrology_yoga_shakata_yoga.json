@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_shakata_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Shakata Yoga (the Moon in the 6th, 8th, or 12th house from Jupiter, and not itself angular from the Ascendant) is traditionally read as carrying alternating fortune — cycles of gain and loss rather than steady stability, though reliably cancelled by an angular Moon.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:shakata_yoga"
+  ],
+  "source_ids": [
+    "mantreswara_phaladeepika"
+  ],
+  "theme_tags": [
+    "yoga",
+    "instability"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

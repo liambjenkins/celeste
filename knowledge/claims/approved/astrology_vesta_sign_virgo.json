@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_vesta_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "Vesta in Virgo devotes energy through service and refinement of craft, most focused when the work meets a high standard.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:vesta:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "devotion",
+    "focus"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

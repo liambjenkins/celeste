@@ -71,6 +71,12 @@ class CandidateClaim:
         default_factory=list
     )
 
+    theme_tags: list[str] = field(
+        default_factory=list
+    )
+
+    life_domain: Optional[str] = None
+
     status: str = "candidate"
 
     notes: str = ""
@@ -95,5 +101,9 @@ class ApprovedClaim:
     feature_ids: tuple[str, ...] = ()
 
     source_ids: tuple[str, ...] = ()
+
+    theme_tags: tuple[str, ...] = ()
+
+    life_domain: Optional[str] = None
 
     editorial_note: str = ""

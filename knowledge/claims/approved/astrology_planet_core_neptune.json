@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_planet_core_neptune",
+  "lens_id": "astrology",
+  "statement": "Neptune represents imagination, idealism, and the dissolving of boundaries.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:neptune:Aries",
+    "sign:neptune:Taurus",
+    "sign:neptune:Gemini",
+    "sign:neptune:Cancer",
+    "sign:neptune:Leo",
+    "sign:neptune:Virgo",
+    "sign:neptune:Libra",
+    "sign:neptune:Scorpio",
+    "sign:neptune:Sagittarius",
+    "sign:neptune:Capricorn",
+    "sign:neptune:Aquarius",
+    "sign:neptune:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "intuition",
+    "spirituality"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

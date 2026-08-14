@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_ruler_house_5",
+  "lens_id": "astrology",
+  "statement": "With the chart ruler in the 5th house, the outward persona moves through the world by way of creative self-expression and pleasure.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [
+    "chart_ruler_house:5"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

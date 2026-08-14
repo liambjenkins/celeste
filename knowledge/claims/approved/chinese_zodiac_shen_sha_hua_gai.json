@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_hua_gai",
+  "lens_id": "chinese_zodiac",
+  "statement": "Hua Gai (Canopy) is traditionally read as spirituality, solitude, and unconventional intellectual or artistic pursuit — often read as a 'loner genius' quality.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:hua_gai"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

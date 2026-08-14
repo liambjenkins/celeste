@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_saturn_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "Saturn in Pisces learns discipline through giving compassion form and boundary.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:saturn:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

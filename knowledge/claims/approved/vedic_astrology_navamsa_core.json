@@ -1,0 +1,20 @@
+{
+  "claim_id": "vedic_astrology_navamsa_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Navamsa (D9) is traditionally read as the 'soul' of the birth chart — a subtler confirmation of what the D1 (Rasi) chart promises, consulted above all for marriage and dharma (one's deeper life direction), and for whether a placement's apparent strength in the D1 chart actually holds up under this finer subdivision.",
+  "passage_ids": [],
+  "concept_ids": [
+    "navamsa_ascendant"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "marriage_and_dharma",
+    "underlying_strength"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

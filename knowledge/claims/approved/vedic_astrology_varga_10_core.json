@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_10_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Dasamsa (D10) is read for career, public status, and professional achievement — the second most consulted divisional chart after Navamsa, and the primary one for questions of vocation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:10"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

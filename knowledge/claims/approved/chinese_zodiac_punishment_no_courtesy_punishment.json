@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_punishment_no_courtesy_punishment",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Zi-Mao punishment ('punishment without courtesy') is traditionally read as a breakdown of proper conduct or respect between the two positions involved.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_punishment:no_courtesy_punishment"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "punishment",
+    "conflict"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

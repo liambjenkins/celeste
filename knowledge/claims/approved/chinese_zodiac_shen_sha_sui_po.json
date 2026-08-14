@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_sui_po",
+  "lens_id": "chinese_zodiac",
+  "statement": "Sui Po (Year Breaker) is traditionally read as direct opposition to the year pillar's ruling energy — instability or disruption tied to that pillar's own themes.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:sui_po"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

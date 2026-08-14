@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_punarvasu",
+  "lens_id": "vedic_astrology",
+  "statement": "Punarvasu's ruling planet (Vimshottari dasha lord) is Jupiter; its presiding deity is Aditi (mother of the gods), symbolized by a quiver of arrows. It is traditionally associated with return and restoration — resourcefulness after loss, renewal of what was scattered.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Punarvasu",
+    "nakshatra:moon:Punarvasu",
+    "nakshatra:ascendant:Punarvasu",
+    "nakshatra:mercury:Punarvasu",
+    "nakshatra:venus:Punarvasu",
+    "nakshatra:mars:Punarvasu",
+    "nakshatra:jupiter:Punarvasu",
+    "nakshatra:saturn:Punarvasu",
+    "nakshatra:uranus:Punarvasu",
+    "nakshatra:neptune:Punarvasu",
+    "nakshatra:pluto:Punarvasu",
+    "nakshatra:lilith_mean:Punarvasu",
+    "nakshatra:lilith_true:Punarvasu",
+    "nakshatra:chiron:Punarvasu",
+    "nakshatra:ceres:Punarvasu",
+    "nakshatra:pallas:Punarvasu",
+    "nakshatra:juno:Punarvasu",
+    "nakshatra:vesta:Punarvasu",
+    "nakshatra:north_node_true:Punarvasu",
+    "nakshatra:north_node_mean:Punarvasu",
+    "nakshatra:south_node_true:Punarvasu",
+    "nakshatra:south_node_mean:Punarvasu"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

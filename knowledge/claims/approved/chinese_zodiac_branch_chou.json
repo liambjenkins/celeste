@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_chou",
+  "lens_id": "chinese_zodiac",
+  "statement": "Chou (Ox) is patient, methodical, and enduring, building slowly toward long-term goals.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Chou",
+    "chinese_branch:month:Chou",
+    "chinese_branch:day:Chou",
+    "chinese_branch:hour:Chou",
+    "chinese_year_animal:Ox",
+    "chinese_dayun_branch:Chou",
+    "chinese_liu_nian_branch:Chou"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

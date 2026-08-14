@@ -1,0 +1,31 @@
+{
+  "claim_id": "chinese_zodiac_stem_ren",
+  "lens_id": "chinese_zodiac",
+  "statement": "Ren is the ocean — vast, powerful, and moving: adventurous and broad-minded, hard to contain.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_stem:year:Ren",
+    "chinese_stem:month:Ren",
+    "chinese_stem:day:Ren",
+    "chinese_stem:hour:Ren",
+    "chinese_day_master:Ren",
+    "chinese_hidden_stem:year:Ren",
+    "chinese_hidden_stem:month:Ren",
+    "chinese_hidden_stem:day:Ren",
+    "chinese_hidden_stem:hour:Ren",
+    "chinese_dayun_stem:Ren",
+    "chinese_liu_nian_stem:Ren"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "stem_element"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_arcturus",
+  "lens_id": "astrology",
+  "statement": "Arcturus is traditionally associated with pathfinding and prosperity gained through pioneering new ways.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:arcturus",
+    "star_conjunction:moon:arcturus",
+    "star_conjunction:mercury:arcturus",
+    "star_conjunction:venus:arcturus",
+    "star_conjunction:mars:arcturus",
+    "star_conjunction:jupiter:arcturus",
+    "star_conjunction:saturn:arcturus",
+    "star_conjunction:uranus:arcturus",
+    "star_conjunction:neptune:arcturus",
+    "star_conjunction:pluto:arcturus",
+    "star_conjunction:lilith_mean:arcturus",
+    "star_conjunction:lilith_true:arcturus",
+    "star_conjunction:chiron:arcturus",
+    "star_conjunction:ceres:arcturus",
+    "star_conjunction:pallas:arcturus",
+    "star_conjunction:juno:arcturus",
+    "star_conjunction:vesta:arcturus",
+    "star_conjunction:north_node_true:arcturus",
+    "star_conjunction:north_node_mean:arcturus",
+    "star_conjunction:south_node_true:arcturus",
+    "star_conjunction:south_node_mean:arcturus"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

@@ -1,0 +1,23 @@
+{
+  "claim_id": "astrology_arabic_parts_sect_night",
+  "lens_id": "astrology",
+  "statement": "In a night chart (Sun below the horizon), the Part of Fortune is measured from the Ascendant by the Sun's distance from the Moon, and the Part of Spirit by the reverse — the exact mirror of the day-chart formulas.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_fortune",
+    "part_of_spirit"
+  ],
+  "feature_ids": [
+    "sect:night"
+  ],
+  "source_ids": [
+    "brennan_hellenistic_astrology_2017"
+  ],
+  "theme_tags": [
+    "fortune_and_circumstance",
+    "will_and_purpose"
+  ],
+  "life_domain": null,
+  "editorial_note": "Sect-aware (day/night) computation is the classical convention documented in the Hellenistic sources, distinct from the simplified always-day formula common in modern popular astrology.",
+  "status": "approved"
+}

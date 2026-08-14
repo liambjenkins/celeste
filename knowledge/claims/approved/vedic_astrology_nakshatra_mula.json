@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_mula",
+  "lens_id": "vedic_astrology",
+  "statement": "Mula's ruling planet (Vimshottari dasha lord) is Ketu; its presiding deity is Nirriti (goddess of destruction), symbolized by a bundle of tied roots. It is traditionally associated with getting to the root of things, even destructively — investigation and transformation that starts by tearing down.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Mula",
+    "nakshatra:moon:Mula",
+    "nakshatra:ascendant:Mula",
+    "nakshatra:mercury:Mula",
+    "nakshatra:venus:Mula",
+    "nakshatra:mars:Mula",
+    "nakshatra:jupiter:Mula",
+    "nakshatra:saturn:Mula",
+    "nakshatra:uranus:Mula",
+    "nakshatra:neptune:Mula",
+    "nakshatra:pluto:Mula",
+    "nakshatra:lilith_mean:Mula",
+    "nakshatra:lilith_true:Mula",
+    "nakshatra:chiron:Mula",
+    "nakshatra:ceres:Mula",
+    "nakshatra:pallas:Mula",
+    "nakshatra:juno:Mula",
+    "nakshatra:vesta:Mula",
+    "nakshatra:north_node_true:Mula",
+    "nakshatra:north_node_mean:Mula",
+    "nakshatra:south_node_true:Mula",
+    "nakshatra:south_node_mean:Mula"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

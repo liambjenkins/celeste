@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_victory_core",
+  "lens_id": "astrology",
+  "statement": "The Lot of Victory (built from Jupiter and the Lot of Spirit) marks success and achievement — where recognition and the expansion of influence are most readily won.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_victory"
+  ],
+  "feature_ids": [
+    "sign:victory:Aries",
+    "sign:victory:Taurus",
+    "sign:victory:Gemini",
+    "sign:victory:Cancer",
+    "sign:victory:Leo",
+    "sign:victory:Virgo",
+    "sign:victory:Libra",
+    "sign:victory:Scorpio",
+    "sign:victory:Sagittarius",
+    "sign:victory:Capricorn",
+    "sign:victory:Aquarius",
+    "sign:victory:Pisces"
+  ],
+  "source_ids": [
+    "hermetic_panaretos_lots"
+  ],
+  "theme_tags": [
+    "hermetic_lot"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "",
+  "status": "approved"
+}

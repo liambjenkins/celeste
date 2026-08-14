@@ -1,0 +1,20 @@
+{
+  "claim_id": "chinese_zodiac_liu_nian_core",
+  "lens_id": "chinese_zodiac",
+  "statement": "Liu Nian (Flowing Year) is the annual pillar overlaid on the Four Pillars — the same sexagenary construction as the natal Year Pillar, applied to the current year, read alongside Da Yun as the finer, year-by-year layer of BaZi timing technique.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_liu_nian"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "yap_destiny_code_2005"
+  ],
+  "theme_tags": [
+    "liu_nian",
+    "timing_and_technique"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

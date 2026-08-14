@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_alkaid",
+  "lens_id": "astrology",
+  "statement": "Alkaid is traditionally associated with creativity, high preferment in business or government, a fondness for power, and victory over rivals.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:alkaid",
+    "star_conjunction:moon:alkaid",
+    "star_conjunction:mercury:alkaid",
+    "star_conjunction:venus:alkaid",
+    "star_conjunction:mars:alkaid",
+    "star_conjunction:jupiter:alkaid",
+    "star_conjunction:saturn:alkaid",
+    "star_conjunction:uranus:alkaid",
+    "star_conjunction:neptune:alkaid",
+    "star_conjunction:pluto:alkaid",
+    "star_conjunction:lilith_mean:alkaid",
+    "star_conjunction:lilith_true:alkaid",
+    "star_conjunction:chiron:alkaid",
+    "star_conjunction:ceres:alkaid",
+    "star_conjunction:pallas:alkaid",
+    "star_conjunction:juno:alkaid",
+    "star_conjunction:vesta:alkaid",
+    "star_conjunction:north_node_true:alkaid",
+    "star_conjunction:north_node_mean:alkaid",
+    "star_conjunction:south_node_true:alkaid",
+    "star_conjunction:south_node_mean:alkaid"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

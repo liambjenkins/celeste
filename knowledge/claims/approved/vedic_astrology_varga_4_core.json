@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_4_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Chaturthamsa (D4) is read for property, fixed assets, home, and general fortune — what one comes to own and settle into over a lifetime.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:4"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

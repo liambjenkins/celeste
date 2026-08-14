@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_chandra_mangala_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Chandra-Mangala Yoga (Moon and Mars sharing a sign) is traditionally read as carrying entrepreneurial energy and business acumen — financial gain through one's own initiative, though classically noted to run 'hot' (impulsive, argumentative) without a tempering influence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:chandra_mangala_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "ambition"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

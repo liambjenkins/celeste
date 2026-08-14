@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_sarvashtakavarga_medium",
+  "lens_id": "vedic_astrology",
+  "statement": "A sign with 25-28 Sarvashtakavarga Bindus sits at moderate, workable strength — neither a notably easy nor notably difficult area of the chart.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [
+    "sarvashtakavarga:sun:medium",
+    "sarvashtakavarga:moon:medium",
+    "sarvashtakavarga:ascendant:medium"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_indirect_resource",
+  "lens_id": "chinese_zodiac",
+  "statement": "Indirect Resource represents the element that generates the Day Master, matching its polarity — unconventional learning, instinct, and lateral thinking, drawing support from unofficial or unusual sources.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:indirect_resource",
+    "ten_god:month:indirect_resource",
+    "ten_god:hour:indirect_resource",
+    "ten_god_hidden:year:indirect_resource",
+    "ten_god_hidden:month:indirect_resource",
+    "ten_god_hidden:day:indirect_resource",
+    "ten_god_hidden:hour:indirect_resource"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "intuition",
+    "unconventional_learning"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

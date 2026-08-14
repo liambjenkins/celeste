@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_moolatrikona",
+  "lens_id": "vedic_astrology",
+  "statement": "Moolatrikona (\"root triangle\") — a specific degree range, almost as strong as exaltation, where a planet is particularly comfortable and effective, distinct from its plain own sign.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:moolatrikona",
+    "dignity:moon:moolatrikona",
+    "dignity:mars:moolatrikona",
+    "dignity:mercury:moolatrikona",
+    "dignity:jupiter:moolatrikona",
+    "dignity:venus:moolatrikona",
+    "dignity:saturn:moolatrikona"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_zi",
+  "lens_id": "chinese_zodiac",
+  "statement": "Zi (Rat) is quick-witted, resourceful, and adaptable, thriving by seizing opportunity.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:Zi",
+    "chinese_branch:month:Zi",
+    "chinese_branch:day:Zi",
+    "chinese_branch:hour:Zi",
+    "chinese_year_animal:Rat",
+    "chinese_dayun_branch:Zi",
+    "chinese_liu_nian_branch:Zi"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

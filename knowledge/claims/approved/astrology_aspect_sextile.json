@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_sextile",
+  "lens_id": "astrology",
+  "statement": "A sextile lets the two placements involved cooperate with relative ease.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "aspect:sextile",
+    "transit_aspect:sextile",
+    "progression_aspect:sextile"
+  ],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "relationship_between_placements"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

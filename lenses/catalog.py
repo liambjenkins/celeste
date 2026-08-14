@@ -121,6 +121,41 @@ LENS_CATALOG = [
             "patterns, inner states, and meaning-making."
         ),
     },
+    {
+        "lens_id": "vedic_astrology",
+        "name": "Vedic Astrology",
+        "tradition": "Jyotish (Vedic astrological traditions)",
+        "description": (
+            "Technical, predictive astrology using the sidereal "
+            "zodiac (Lahiri ayanamsa) and nakshatras — distinct from "
+            "the Hindu Cosmology lens, which covers cosmological and "
+            "philosophical perspectives rather than chart technique."
+        ),
+    },
+    {
+        "lens_id": "chinese_zodiac",
+        "name": "Chinese Astrology (BaZi)",
+        "tradition": "Chinese Four Pillars of Destiny traditions",
+        "description": (
+            "Technical astrology built from the lunisolar sexagenary "
+            "calendar — Year, Month, Day, and Hour pillars, and the "
+            "Day Master as the reading's central reference point. "
+            "Has no native Sun/Moon/Ascendant or Western/Vedic-style "
+            "house system — read on its own terms, not forced into "
+            "an equivalence this tradition doesn't make."
+        ),
+    },
+    {
+        "lens_id": "philosophy",
+        "name": "Philosophy",
+        "tradition": "Classical Western philosophical traditions",
+        "description": (
+            "Ethical and metaphysical perspectives grounded in classical "
+            "philosophy — virtue, character, reason, fate, impermanence, "
+            "and how to live well — drawn from Stoic and Aristotelian "
+            "thought in particular."
+        ),
+    },
 ]
 
 

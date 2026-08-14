@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_south_node_sign_taurus",
+  "lens_id": "astrology",
+  "statement": "South Node in Taurus reflects an inborn comfort with stability and material security, which can tip into stubbornness or complacency if not stretched beyond.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:south_node_true:Taurus",
+    "sign:south_node_mean:Taurus"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "comfort_zone",
+    "past_patterns"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

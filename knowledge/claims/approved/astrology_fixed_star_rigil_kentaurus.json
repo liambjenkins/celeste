@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_rigil_kentaurus",
+  "lens_id": "astrology",
+  "statement": "Rigil Kentaurus is of the nature of Venus and Jupiter, traditionally a beneficial star associated with benevolence, friendship, refinement, and an honorable position.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:rigil_kentaurus",
+    "star_conjunction:moon:rigil_kentaurus",
+    "star_conjunction:mercury:rigil_kentaurus",
+    "star_conjunction:venus:rigil_kentaurus",
+    "star_conjunction:mars:rigil_kentaurus",
+    "star_conjunction:jupiter:rigil_kentaurus",
+    "star_conjunction:saturn:rigil_kentaurus",
+    "star_conjunction:uranus:rigil_kentaurus",
+    "star_conjunction:neptune:rigil_kentaurus",
+    "star_conjunction:pluto:rigil_kentaurus",
+    "star_conjunction:lilith_mean:rigil_kentaurus",
+    "star_conjunction:lilith_true:rigil_kentaurus",
+    "star_conjunction:chiron:rigil_kentaurus",
+    "star_conjunction:ceres:rigil_kentaurus",
+    "star_conjunction:pallas:rigil_kentaurus",
+    "star_conjunction:juno:rigil_kentaurus",
+    "star_conjunction:vesta:rigil_kentaurus",
+    "star_conjunction:north_node_true:rigil_kentaurus",
+    "star_conjunction:north_node_mean:rigil_kentaurus",
+    "star_conjunction:south_node_true:rigil_kentaurus",
+    "star_conjunction:south_node_mean:rigil_kentaurus"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

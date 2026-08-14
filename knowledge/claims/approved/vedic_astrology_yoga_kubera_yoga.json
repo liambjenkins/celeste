@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_kubera_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Kubera Yoga (a direct sign exchange specifically between the 2nd and 11th lords, both in good dignity) is traditionally read as carrying durable, compounding wealth built through disciplined accumulation rather than sudden windfall.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:kubera_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "wealth"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

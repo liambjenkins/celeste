@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_shape_splash",
+  "lens_id": "astrology",
+  "statement": "A Splash-shaped chart tends toward placements distributed fairly evenly around the whole wheel, suggesting a multifaceted personality with wide-ranging interests rather than one central focus.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chart_shape"
+  ],
+  "feature_ids": [
+    "chart_shape:splash"
+  ],
+  "source_ids": [
+    "jones_chart_shapes_modern_convention"
+  ],
+  "theme_tags": [
+    "chart_shape"
+  ],
+  "life_domain": null,
+  "editorial_note": "Marc Edmund Jones' original chart-shape classification; this implementation's boundary rule is a documented computational approximation (see astrology/aspect_patterns.py), not an exact reproduction of Jones' method — a genuinely fuzzy judgment-call area even among professional astrologers.",
+  "status": "approved"
+}

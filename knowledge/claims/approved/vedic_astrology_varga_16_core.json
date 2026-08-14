@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_16_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Shodasamsa (D16) is read for vehicles, comforts, and material happiness — the ease and pleasure available in day-to-day material life.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:16"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

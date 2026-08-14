@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_karaka_bhratrikaraka",
+  "lens_id": "vedic_astrology",
+  "statement": "Bhratrikaraka (\"sibling significator\") — indicates siblings and courage, the capacity to act alongside or in support of others.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_karakas"
+  ],
+  "feature_ids": [
+    "karaka:Bhratrikaraka:sun",
+    "karaka:Bhratrikaraka:moon",
+    "karaka:Bhratrikaraka:mars",
+    "karaka:Bhratrikaraka:mercury",
+    "karaka:Bhratrikaraka:jupiter",
+    "karaka:Bhratrikaraka:venus",
+    "karaka:Bhratrikaraka:saturn"
+  ],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "chara_karaka"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

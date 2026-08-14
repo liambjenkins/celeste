@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_capricorn",
+  "lens_id": "astrology",
+  "statement": "Chiron in Capricorn often carries a wound around authority or achievement, healed by redefining success on one's own terms.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Capricorn"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

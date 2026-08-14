@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dasha_general_sun",
+  "lens_id": "vedic_astrology",
+  "statement": "A Sun Dasha (at any timescale — Mahadasha, Antardasha, or finer) generally brings a period of increased authority, status, and vitality — favorable for recognition from those in positions of power, though it can also bring friction with authority figures.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dasha"
+  ],
+  "feature_ids": [
+    "dasha_mahadasha:sun",
+    "dasha_antardasha:sun",
+    "dasha_pratyantardasha:sun",
+    "dasha_sookshma:sun",
+    "yogini_dasha:Pingala"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "identity",
+    "drive"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "BPHS distinguishes general effects (a planet's natural characteristics) from distinctive effects (its specific dignity/placement in a given chart) — only the general tier is claimed here; this pass's Dasha computation doesn't evaluate planetary dignity or strength.",
+  "status": "approved"
+}

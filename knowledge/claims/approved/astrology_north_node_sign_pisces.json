@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "North Node in Pisces points toward growth through surrender, compassion, and trusting what can't be fully controlled or explained.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Pisces",
+    "sign:north_node_mean:Pisces"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

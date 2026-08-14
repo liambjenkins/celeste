@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_punishment_ungrateful_punishment",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Yin-Si-Shen punishment ('ungrateful punishment') is traditionally read as conflict arising from those who should support each other instead undermining one another — effort given without the expected return.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_punishment:ungrateful_punishment"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "punishment",
+    "conflict"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

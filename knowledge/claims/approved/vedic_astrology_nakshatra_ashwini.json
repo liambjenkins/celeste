@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_ashwini",
+  "lens_id": "vedic_astrology",
+  "statement": "Ashwini's ruling planet (Vimshottari dasha lord) is Ketu; its presiding deity is the Ashwini Kumaras (divine physicians), symbolized by a horse's head. It is traditionally associated with swiftness, healing, and being first to act.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Ashwini",
+    "nakshatra:moon:Ashwini",
+    "nakshatra:ascendant:Ashwini",
+    "nakshatra:mercury:Ashwini",
+    "nakshatra:venus:Ashwini",
+    "nakshatra:mars:Ashwini",
+    "nakshatra:jupiter:Ashwini",
+    "nakshatra:saturn:Ashwini",
+    "nakshatra:uranus:Ashwini",
+    "nakshatra:neptune:Ashwini",
+    "nakshatra:pluto:Ashwini",
+    "nakshatra:lilith_mean:Ashwini",
+    "nakshatra:lilith_true:Ashwini",
+    "nakshatra:chiron:Ashwini",
+    "nakshatra:ceres:Ashwini",
+    "nakshatra:pallas:Ashwini",
+    "nakshatra:juno:Ashwini",
+    "nakshatra:vesta:Ashwini",
+    "nakshatra:north_node_true:Ashwini",
+    "nakshatra:north_node_mean:Ashwini",
+    "nakshatra:south_node_true:Ashwini",
+    "nakshatra:south_node_mean:Ashwini"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

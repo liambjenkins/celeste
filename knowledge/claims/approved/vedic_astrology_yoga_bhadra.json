@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_bhadra",
+  "lens_id": "vedic_astrology",
+  "statement": "Bhadra Yoga (Mercury in its own or exaltation sign, in a kendra from the Ascendant) carries eloquence, sharp intellect, and commercial or diplomatic skill — traditionally read as favoring communication, writing, or business.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:bhadra"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "communication",
+    "intellect"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

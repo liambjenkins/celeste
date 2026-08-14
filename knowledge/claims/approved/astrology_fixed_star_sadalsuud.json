@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_sadalsuud",
+  "lens_id": "astrology",
+  "statement": "Sadalsuud is traditionally considered one of the most fortunate fixed stars, associated with great fortune, astrology, the occult, and visionary or psychic ability.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:sadalsuud",
+    "star_conjunction:moon:sadalsuud",
+    "star_conjunction:mercury:sadalsuud",
+    "star_conjunction:venus:sadalsuud",
+    "star_conjunction:mars:sadalsuud",
+    "star_conjunction:jupiter:sadalsuud",
+    "star_conjunction:saturn:sadalsuud",
+    "star_conjunction:uranus:sadalsuud",
+    "star_conjunction:neptune:sadalsuud",
+    "star_conjunction:pluto:sadalsuud",
+    "star_conjunction:lilith_mean:sadalsuud",
+    "star_conjunction:lilith_true:sadalsuud",
+    "star_conjunction:chiron:sadalsuud",
+    "star_conjunction:ceres:sadalsuud",
+    "star_conjunction:pallas:sadalsuud",
+    "star_conjunction:juno:sadalsuud",
+    "star_conjunction:vesta:sadalsuud",
+    "star_conjunction:north_node_true:sadalsuud",
+    "star_conjunction:north_node_mean:sadalsuud",
+    "star_conjunction:south_node_true:sadalsuud",
+    "star_conjunction:south_node_mean:sadalsuud"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

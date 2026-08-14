@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_friendly_sign",
+  "lens_id": "vedic_astrology",
+  "statement": "Friendly sign — a planet placed in a sign ruled by a natural friend, lending it a supportive, cooperative quality even though the terrain isn't fully its own.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:friendly_sign",
+    "dignity:moon:friendly_sign",
+    "dignity:mars:friendly_sign",
+    "dignity:mercury:friendly_sign",
+    "dignity:jupiter:friendly_sign",
+    "dignity:venus:friendly_sign",
+    "dignity:saturn:friendly_sign"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

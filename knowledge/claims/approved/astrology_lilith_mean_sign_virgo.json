@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_mean_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "Lilith in Virgo expresses through rejecting the pressure to be endlessly useful or self-improving — reclaiming imperfection and rest.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:lilith_mean:Virgo"
+  ],
+  "source_ids": [
+    "hunter_black_moon_lilith_2010"
+  ],
+  "theme_tags": [
+    "shadow",
+    "instinct"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

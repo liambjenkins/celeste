@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_sign_sagittarius",
+  "lens_id": "astrology",
+  "statement": "A Sagittarius Moon tends to be emotionally optimistic; needs freedom and space, restless with routine.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:moon:Sagittarius"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

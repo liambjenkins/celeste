@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "Mercury in Cancer is intuitive and memory-driven, communicating through feeling.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mercury:Cancer"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "communication"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

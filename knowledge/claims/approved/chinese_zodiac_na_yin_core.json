@@ -1,0 +1,19 @@
+{
+  "claim_id": "chinese_zodiac_na_yin_core",
+  "lens_id": "chinese_zodiac",
+  "statement": "Na Yin ('received sound') assigns each Stem-Branch pillar one of 30 classical elemental-phase names — an older, sound-derived elemental reading distinct from the pillar stem's own element, traditionally read as a subtler undertone to the chart's more direct Five-Element analysis.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_na_yin"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "na_yin"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

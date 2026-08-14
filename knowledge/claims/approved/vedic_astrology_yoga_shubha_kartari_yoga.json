@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_yoga_shubha_kartari_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Shubha Kartari Yoga (the Ascendant 'hemmed' on both sides -- 2nd and 12th houses -- exclusively by natural benefics) is traditionally read as carrying ease, support, and a generally smooth, well-resourced life, protectively enclosed by favorable influence on either side of the self.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:shubha_kartari_yoga"
+  ],
+  "source_ids": [
+    "modern_jyotish_technical_convention"
+  ],
+  "theme_tags": [
+    "yoga",
+    "support"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

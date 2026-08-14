@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "A Virgo Moon tends to be emotionally reserved; needs order and usefulness, processes feelings through analysis.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:moon:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "emotional_depth"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

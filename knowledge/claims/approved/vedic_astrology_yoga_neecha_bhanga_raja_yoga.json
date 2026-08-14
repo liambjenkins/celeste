@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_neecha_bhanga_raja_yoga",
+  "lens_id": "vedic_astrology",
+  "statement": "Neecha Bhanga Raja Yoga (a debilitated planet whose debility is cancelled by a well-placed dispositor, and which itself rules a kendra or trikona house) is traditionally read as carrying a rise from adversity or compromised beginnings into genuine strength and status — a planet's apparent weakness converting into one of its most powerful placements once the chart's structural support is accounted for.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:neecha_bhanga_raja_yoga"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "resilience",
+    "transformation"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

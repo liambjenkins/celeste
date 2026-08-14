@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_taurus",
+  "lens_id": "astrology",
+  "statement": "Chiron in Taurus often carries a wound around self-worth, security, or the body, healed by learning worth isn't earned through possession or productivity.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Taurus"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

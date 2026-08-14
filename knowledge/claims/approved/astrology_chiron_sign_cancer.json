@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_chiron_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "Chiron in Cancer often carries a wound around home, belonging, or being adequately nurtured, healed by learning to nurture the self as once needed.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:chiron:Cancer"
+  ],
+  "source_ids": [
+    "reinhart_chiron_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "healing",
+    "wound"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

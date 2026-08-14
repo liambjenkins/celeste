@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_childrens_palace",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Hour Pillar is traditionally called the 'Children's Palace' — San Ming Tong Hui describes the hour as 'the place of rest and return, and also the palace of children,' read for children and for the shape of one's later years.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_pillar_position:hour"
+  ],
+  "source_ids": [
+    "xu_ziping_san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "pillar_role",
+    "children"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

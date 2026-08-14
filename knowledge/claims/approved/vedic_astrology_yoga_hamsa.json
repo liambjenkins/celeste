@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_hamsa",
+  "lens_id": "vedic_astrology",
+  "statement": "Hamsa Yoga (Jupiter in its own or exaltation sign, in a kendra from the Ascendant) carries spiritual wisdom, benevolence, and a dignified, respected bearing — traditionally read as favoring teaching or guidance roles.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:hamsa"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "spirituality",
+    "growth"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

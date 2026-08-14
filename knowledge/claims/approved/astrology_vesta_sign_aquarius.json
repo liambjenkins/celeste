@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_vesta_sign_aquarius",
+  "lens_id": "astrology",
+  "statement": "Vesta in Aquarius devotes energy to causes and community, most focused when the work serves a collective or unconventional ideal.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:vesta:Aquarius"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "devotion",
+    "focus"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

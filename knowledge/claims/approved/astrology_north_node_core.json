@@ -1,0 +1,45 @@
+{
+  "claim_id": "astrology_north_node_core",
+  "lens_id": "astrology",
+  "statement": "The North Node marks unfamiliar territory a person is here to grow into — qualities that feel effortful, even awkward, at first, and become a source of real growth through practice.",
+  "passage_ids": [],
+  "concept_ids": [
+    "planetary_positions"
+  ],
+  "feature_ids": [
+    "sign:north_node_true:Aries",
+    "sign:north_node_true:Taurus",
+    "sign:north_node_true:Gemini",
+    "sign:north_node_true:Cancer",
+    "sign:north_node_true:Leo",
+    "sign:north_node_true:Virgo",
+    "sign:north_node_true:Libra",
+    "sign:north_node_true:Scorpio",
+    "sign:north_node_true:Sagittarius",
+    "sign:north_node_true:Capricorn",
+    "sign:north_node_true:Aquarius",
+    "sign:north_node_true:Pisces",
+    "sign:north_node_mean:Aries",
+    "sign:north_node_mean:Taurus",
+    "sign:north_node_mean:Gemini",
+    "sign:north_node_mean:Cancer",
+    "sign:north_node_mean:Leo",
+    "sign:north_node_mean:Virgo",
+    "sign:north_node_mean:Libra",
+    "sign:north_node_mean:Scorpio",
+    "sign:north_node_mean:Sagittarius",
+    "sign:north_node_mean:Capricorn",
+    "sign:north_node_mean:Aquarius",
+    "sign:north_node_mean:Pisces"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

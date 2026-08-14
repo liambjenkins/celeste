@@ -1,0 +1,23 @@
+{
+  "claim_id": "vedic_astrology_yoga_ruchaka",
+  "lens_id": "vedic_astrology",
+  "statement": "Ruchaka Yoga (Mars in its own or exaltation sign, in a kendra from the Ascendant) carries physical courage, leadership, and a pioneering, action-oriented drive — traditionally read as favoring fields that call for strength or decisive action.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_yogas"
+  ],
+  "feature_ids": [
+    "yoga:ruchaka"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "yoga",
+    "drive",
+    "assertiveness"
+  ],
+  "life_domain": "drive",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

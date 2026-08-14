@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_3_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Drekkana (D3) is read for siblings, courage, and self-initiated effort — the capacity to act on one's own resources rather than through others.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:3"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_punishment_self_punishment",
+  "lens_id": "chinese_zodiac",
+  "statement": "A self-punishing branch (Chen, Wu, You, or Hai) appearing more than once in the chart is traditionally read as self-created difficulty — friction that originates from within rather than from external circumstance.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_interactions"
+  ],
+  "feature_ids": [
+    "chinese_punishment:self_punishment"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "punishment",
+    "self_created_difficulty"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

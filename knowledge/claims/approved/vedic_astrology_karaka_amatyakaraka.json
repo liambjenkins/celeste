@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_karaka_amatyakaraka",
+  "lens_id": "vedic_astrology",
+  "statement": "Amatyakaraka (\"minister significator\") — indicates career, counsel, and the guiding influences a person turns to for direction.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_karakas"
+  ],
+  "feature_ids": [
+    "karaka:Amatyakaraka:sun",
+    "karaka:Amatyakaraka:moon",
+    "karaka:Amatyakaraka:mars",
+    "karaka:Amatyakaraka:mercury",
+    "karaka:Amatyakaraka:jupiter",
+    "karaka:Amatyakaraka:venus",
+    "karaka:Amatyakaraka:saturn"
+  ],
+  "source_ids": [
+    "jaimini_sutras"
+  ],
+  "theme_tags": [
+    "chara_karaka"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,42 @@
+{
+  "claim_id": "vedic_astrology_nakshatra_shatabhisha",
+  "lens_id": "vedic_astrology",
+  "statement": "Shatabhisha's ruling planet (Vimshottari dasha lord) is Rahu; its presiding deity is Varuna (god of cosmic law and the ocean), symbolized by an empty circle. It is traditionally associated with healing and seclusion — a solitary, often unconventional capacity to repair what's broken.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "nakshatra:sun:Shatabhisha",
+    "nakshatra:moon:Shatabhisha",
+    "nakshatra:ascendant:Shatabhisha",
+    "nakshatra:mercury:Shatabhisha",
+    "nakshatra:venus:Shatabhisha",
+    "nakshatra:mars:Shatabhisha",
+    "nakshatra:jupiter:Shatabhisha",
+    "nakshatra:saturn:Shatabhisha",
+    "nakshatra:uranus:Shatabhisha",
+    "nakshatra:neptune:Shatabhisha",
+    "nakshatra:pluto:Shatabhisha",
+    "nakshatra:lilith_mean:Shatabhisha",
+    "nakshatra:lilith_true:Shatabhisha",
+    "nakshatra:chiron:Shatabhisha",
+    "nakshatra:ceres:Shatabhisha",
+    "nakshatra:pallas:Shatabhisha",
+    "nakshatra:juno:Shatabhisha",
+    "nakshatra:vesta:Shatabhisha",
+    "nakshatra:north_node_true:Shatabhisha",
+    "nakshatra:north_node_mean:Shatabhisha",
+    "nakshatra:south_node_true:Shatabhisha",
+    "nakshatra:south_node_mean:Shatabhisha"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "nakshatra"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

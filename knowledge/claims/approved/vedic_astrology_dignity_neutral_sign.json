@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_neutral_sign",
+  "lens_id": "vedic_astrology",
+  "statement": "Neutral sign — a planet placed in a sign ruled by neither friend nor enemy, expressing its significations in a fairly even, unmodified way.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:neutral_sign",
+    "dignity:moon:neutral_sign",
+    "dignity:mars:neutral_sign",
+    "dignity:mercury:neutral_sign",
+    "dignity:jupiter:neutral_sign",
+    "dignity:venus:neutral_sign",
+    "dignity:saturn:neutral_sign"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

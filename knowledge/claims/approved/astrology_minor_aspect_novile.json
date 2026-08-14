@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_minor_aspect_novile",
+  "lens_id": "astrology",
+  "statement": "A Novile: a novile (40°) carries a quiet sense of initiation between the two placements involved — a new, unfolding relationship to that combination of energies, rather than a fully resolved one.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "minor_aspect:novile"
+  ],
+  "source_ids": [
+    "minor_aspects_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "minor_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

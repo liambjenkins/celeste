@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_pallas_sign_scorpio",
+  "lens_id": "astrology",
+  "statement": "Pallas in Scorpio applies intelligence penetratingly, drawn to uncovering what's hidden or strategically withheld.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:pallas:Scorpio"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "wisdom",
+    "strategy"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

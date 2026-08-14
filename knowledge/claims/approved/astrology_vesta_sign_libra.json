@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_vesta_sign_libra",
+  "lens_id": "astrology",
+  "statement": "Vesta in Libra devotes energy to relationship and fairness, most focused when working toward balance or resolving conflict.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:vesta:Libra"
+  ],
+  "source_ids": [
+    "george_bloch_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "devotion",
+    "focus"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

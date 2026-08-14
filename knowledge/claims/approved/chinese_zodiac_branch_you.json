@@ -1,0 +1,27 @@
+{
+  "claim_id": "chinese_zodiac_branch_you",
+  "lens_id": "chinese_zodiac",
+  "statement": "You (Rooster) is precise, observant, and outspoken, holding high standards.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_branch:year:You",
+    "chinese_branch:month:You",
+    "chinese_branch:day:You",
+    "chinese_branch:hour:You",
+    "chinese_year_animal:Rooster",
+    "chinese_dayun_branch:You",
+    "chinese_liu_nian_branch:You"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "branch_animal"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

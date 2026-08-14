@@ -1,0 +1,32 @@
+{
+  "claim_id": "astrology_part_of_nemesis_core",
+  "lens_id": "astrology",
+  "statement": "The Lot of Nemesis (built from Saturn and the Lot of Fortune) marks fate and consequence — where limitation, responsibility, and the weight of time shape experience most heavily.",
+  "passage_ids": [],
+  "concept_ids": [
+    "part_of_nemesis"
+  ],
+  "feature_ids": [
+    "sign:nemesis:Aries",
+    "sign:nemesis:Taurus",
+    "sign:nemesis:Gemini",
+    "sign:nemesis:Cancer",
+    "sign:nemesis:Leo",
+    "sign:nemesis:Virgo",
+    "sign:nemesis:Libra",
+    "sign:nemesis:Scorpio",
+    "sign:nemesis:Sagittarius",
+    "sign:nemesis:Capricorn",
+    "sign:nemesis:Aquarius",
+    "sign:nemesis:Pisces"
+  ],
+  "source_ids": [
+    "hermetic_panaretos_lots"
+  ],
+  "theme_tags": [
+    "hermetic_lot"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_chart_ruler_core",
+  "lens_id": "astrology",
+  "statement": "The chart ruler — the traditional ruler of the Ascendant sign — is a personal significator whose own sign, house, and condition describe how a person actually moves through the world, distinct from the Ascendant's outward first impression.",
+  "passage_ids": [],
+  "concept_ids": [
+    "rulership"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "lilly_christian_astrology_1647"
+  ],
+  "theme_tags": [
+    "chart_ruler"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

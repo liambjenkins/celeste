@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_antares",
+  "lens_id": "astrology",
+  "statement": "Antares is one of the four Persian Royal Stars ('Watcher of the West'), traditionally associated with intensity and courage carrying a self-destructive edge.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:antares",
+    "star_conjunction:moon:antares",
+    "star_conjunction:mercury:antares",
+    "star_conjunction:venus:antares",
+    "star_conjunction:mars:antares",
+    "star_conjunction:jupiter:antares",
+    "star_conjunction:saturn:antares",
+    "star_conjunction:uranus:antares",
+    "star_conjunction:neptune:antares",
+    "star_conjunction:pluto:antares",
+    "star_conjunction:lilith_mean:antares",
+    "star_conjunction:lilith_true:antares",
+    "star_conjunction:chiron:antares",
+    "star_conjunction:ceres:antares",
+    "star_conjunction:pallas:antares",
+    "star_conjunction:juno:antares",
+    "star_conjunction:vesta:antares",
+    "star_conjunction:north_node_true:antares",
+    "star_conjunction:north_node_mean:antares",
+    "star_conjunction:south_node_true:antares",
+    "star_conjunction:south_node_mean:antares"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

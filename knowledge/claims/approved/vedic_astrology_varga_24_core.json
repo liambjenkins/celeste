@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_varga_24_core",
+  "lens_id": "vedic_astrology",
+  "statement": "The Chaturvimshamsa (D24, also called Siddhamsa) is read for learning, education, and accumulated knowledge — formal study as well as the deeper wisdom gained through it.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_vargas"
+  ],
+  "feature_ids": [
+    "varga_present:24"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "divisional_chart"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

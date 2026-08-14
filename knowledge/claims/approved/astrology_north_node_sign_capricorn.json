@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_north_node_sign_capricorn",
+  "lens_id": "astrology",
+  "statement": "North Node in Capricorn points toward growth through discipline, responsibility, and building toward long-term achievement.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:north_node_true:Capricorn",
+    "sign:north_node_mean:Capricorn"
+  ],
+  "source_ids": [
+    "forrest_yesterdays_sky_2010"
+  ],
+  "theme_tags": [
+    "growth",
+    "destiny"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

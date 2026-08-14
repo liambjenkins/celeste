@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_hurting_officer",
+  "lens_id": "chinese_zodiac",
+  "statement": "Hurting Officer represents the element the Day Master generates, opposite its polarity — quick-witted, expressive output with a sharper, more rebellious edge than Eating God, inclined to challenge convention and authority.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:hurting_officer",
+    "ten_god:month:hurting_officer",
+    "ten_god:hour:hurting_officer",
+    "ten_god_hidden:year:hurting_officer",
+    "ten_god_hidden:month:hurting_officer",
+    "ten_god_hidden:day:hurting_officer",
+    "ten_god_hidden:hour:hurting_officer"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "rebellion",
+    "expression"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

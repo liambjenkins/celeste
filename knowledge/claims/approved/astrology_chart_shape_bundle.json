@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_chart_shape_bundle",
+  "lens_id": "astrology",
+  "statement": "A Bundle-shaped chart tends toward energy concentrated tightly (within about a third of the wheel), a focused, specialized life with a narrow but deep range of concern.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chart_shape"
+  ],
+  "feature_ids": [
+    "chart_shape:bundle"
+  ],
+  "source_ids": [
+    "jones_chart_shapes_modern_convention"
+  ],
+  "theme_tags": [
+    "chart_shape"
+  ],
+  "life_domain": null,
+  "editorial_note": "Marc Edmund Jones' original chart-shape classification; this implementation's boundary rule is a documented computational approximation (see astrology/aspect_patterns.py), not an exact reproduction of Jones' method — a genuinely fuzzy judgment-call area even among professional astrologers.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_spouse_palace",
+  "lens_id": "chinese_zodiac",
+  "statement": "The Day Branch is traditionally called the 'Spouse Palace' — distinct from the Day Stem's role as the Day Master, it is read specifically for marriage and the closest long-term relationship: its own qualities and its interactions with the chart's other branches describe the environment and dynamics of that partnership.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_pillars"
+  ],
+  "feature_ids": [
+    "chinese_pillar_position:day"
+  ],
+  "source_ids": [
+    "augier_bazi_2010"
+  ],
+  "theme_tags": [
+    "pillar_role",
+    "marriage"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

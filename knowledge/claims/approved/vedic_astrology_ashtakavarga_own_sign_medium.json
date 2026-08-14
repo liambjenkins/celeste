@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_ashtakavarga_own_sign_medium",
+  "lens_id": "vedic_astrology",
+  "statement": "A planet with exactly 4 Bindus in the sign it occupies sits at Ashtakavarga's critical threshold — a turning point where its results begin to activate reliably.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_ashtakavarga"
+  ],
+  "feature_ids": [
+    "ashtakavarga_own_sign:sun:medium",
+    "ashtakavarga_own_sign:moon:medium",
+    "ashtakavarga_own_sign:mars:medium",
+    "ashtakavarga_own_sign:mercury:medium",
+    "ashtakavarga_own_sign:jupiter:medium",
+    "ashtakavarga_own_sign:venus:medium",
+    "ashtakavarga_own_sign:saturn:medium"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "ashtakavarga"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

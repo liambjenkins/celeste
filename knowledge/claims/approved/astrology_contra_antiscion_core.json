@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_contra_antiscion_core",
+  "lens_id": "astrology",
+  "statement": "The contra-antiscion — the antiscion's exact opposite point, mirrored across the equinox axis (0 Aries/0 Libra) — is traditionally read as a hidden tension needing integration, rather than the antiscion's hidden harmony.",
+  "passage_ids": [],
+  "concept_ids": [
+    "antiscia"
+  ],
+  "feature_ids": [],
+  "source_ids": [
+    "firmicus_maternus_matheseos_c4th"
+  ],
+  "theme_tags": [
+    "hidden_axis"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

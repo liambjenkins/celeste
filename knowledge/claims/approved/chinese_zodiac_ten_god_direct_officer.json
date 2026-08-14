@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_direct_officer",
+  "lens_id": "chinese_zodiac",
+  "statement": "Direct Officer represents the element that controls the Day Master, opposite its polarity — legitimate authority, order, and responsibility, held through recognized status and consistent systems rather than contested through force.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:direct_officer",
+    "ten_god:month:direct_officer",
+    "ten_god:hour:direct_officer",
+    "ten_god_hidden:year:direct_officer",
+    "ten_god_hidden:month:direct_officer",
+    "ten_god_hidden:day:direct_officer",
+    "ten_god_hidden:hour:direct_officer"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "responsibility",
+    "order"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

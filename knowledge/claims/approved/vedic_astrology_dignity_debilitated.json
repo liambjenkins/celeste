@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_debilitated",
+  "lens_id": "vedic_astrology",
+  "statement": "Debilitated — the weakest classical dignity, directly opposite the planet's exaltation. Its significations are hardest to access here, though classical technique also allows for Neecha Bhanga (debilitation-cancellation) under specific chart conditions not evaluated by this dignity computation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:debilitated",
+    "dignity:moon:debilitated",
+    "dignity:mars:debilitated",
+    "dignity:mercury:debilitated",
+    "dignity:jupiter:debilitated",
+    "dignity:venus:debilitated",
+    "dignity:saturn:debilitated"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

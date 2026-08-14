@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_aspect_pattern_t_square",
+  "lens_id": "astrology",
+  "statement": "A T Square: an opposition with a third placement squaring both ends, creating a dynamic, action-forcing tension — the apex placement is where the pressure of the whole configuration tends to focus and demand resolution.",
+  "passage_ids": [],
+  "concept_ids": [
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "aspect_pattern:t_square"
+  ],
+  "source_ids": [
+    "aspect_patterns_modern_convention"
+  ],
+  "theme_tags": [
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

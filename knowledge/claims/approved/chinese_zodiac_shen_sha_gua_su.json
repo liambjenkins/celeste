@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_shen_sha_gua_su",
+  "lens_id": "chinese_zodiac",
+  "statement": "Gua Su (Widow Star) is traditionally read as the same solitude and relational distance as Gu Chen, traditionally read most strongly for women's charts — both are increasingly read gender-neutrally in modern practice.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_shen_sha"
+  ],
+  "feature_ids": [
+    "shen_sha:gua_su"
+  ],
+  "source_ids": [
+    "san_ming_tong_hui"
+  ],
+  "theme_tags": [
+    "shen_sha"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

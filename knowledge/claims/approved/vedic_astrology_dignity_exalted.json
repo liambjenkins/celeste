@@ -1,0 +1,27 @@
+{
+  "claim_id": "vedic_astrology_dignity_exalted",
+  "lens_id": "vedic_astrology",
+  "statement": "Exalted — the strongest classical dignity. A planet here expresses its natural significations at their fullest and most confident, largely free of the difficulty a weaker placement would carry.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dignity"
+  ],
+  "feature_ids": [
+    "dignity:sun:exalted",
+    "dignity:moon:exalted",
+    "dignity:mars:exalted",
+    "dignity:mercury:exalted",
+    "dignity:jupiter:exalted",
+    "dignity:venus:exalted",
+    "dignity:saturn:exalted"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "planetary_dignity"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
