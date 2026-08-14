@@ -16,7 +16,18 @@
     "star_conjunction:saturn:vega",
     "star_conjunction:uranus:vega",
     "star_conjunction:neptune:vega",
-    "star_conjunction:pluto:vega"
+    "star_conjunction:pluto:vega",
+    "star_conjunction:lilith_mean:vega",
+    "star_conjunction:lilith_true:vega",
+    "star_conjunction:chiron:vega",
+    "star_conjunction:ceres:vega",
+    "star_conjunction:pallas:vega",
+    "star_conjunction:juno:vega",
+    "star_conjunction:vesta:vega",
+    "star_conjunction:north_node_true:vega",
+    "star_conjunction:north_node_mean:vega",
+    "star_conjunction:south_node_true:vega",
+    "star_conjunction:south_node_mean:vega"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

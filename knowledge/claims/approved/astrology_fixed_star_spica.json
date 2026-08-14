@@ -16,7 +16,18 @@
     "star_conjunction:saturn:spica",
     "star_conjunction:uranus:spica",
     "star_conjunction:neptune:spica",
-    "star_conjunction:pluto:spica"
+    "star_conjunction:pluto:spica",
+    "star_conjunction:lilith_mean:spica",
+    "star_conjunction:lilith_true:spica",
+    "star_conjunction:chiron:spica",
+    "star_conjunction:ceres:spica",
+    "star_conjunction:pallas:spica",
+    "star_conjunction:juno:spica",
+    "star_conjunction:vesta:spica",
+    "star_conjunction:north_node_true:spica",
+    "star_conjunction:north_node_mean:spica",
+    "star_conjunction:south_node_true:spica",
+    "star_conjunction:south_node_mean:spica"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

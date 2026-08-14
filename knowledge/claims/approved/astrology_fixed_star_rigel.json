@@ -16,7 +16,18 @@
     "star_conjunction:saturn:rigel",
     "star_conjunction:uranus:rigel",
     "star_conjunction:neptune:rigel",
-    "star_conjunction:pluto:rigel"
+    "star_conjunction:pluto:rigel",
+    "star_conjunction:lilith_mean:rigel",
+    "star_conjunction:lilith_true:rigel",
+    "star_conjunction:chiron:rigel",
+    "star_conjunction:ceres:rigel",
+    "star_conjunction:pallas:rigel",
+    "star_conjunction:juno:rigel",
+    "star_conjunction:vesta:rigel",
+    "star_conjunction:north_node_true:rigel",
+    "star_conjunction:north_node_mean:rigel",
+    "star_conjunction:south_node_true:rigel",
+    "star_conjunction:south_node_mean:rigel"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

@@ -16,7 +16,18 @@
     "star_conjunction:saturn:betelgeuse",
     "star_conjunction:uranus:betelgeuse",
     "star_conjunction:neptune:betelgeuse",
-    "star_conjunction:pluto:betelgeuse"
+    "star_conjunction:pluto:betelgeuse",
+    "star_conjunction:lilith_mean:betelgeuse",
+    "star_conjunction:lilith_true:betelgeuse",
+    "star_conjunction:chiron:betelgeuse",
+    "star_conjunction:ceres:betelgeuse",
+    "star_conjunction:pallas:betelgeuse",
+    "star_conjunction:juno:betelgeuse",
+    "star_conjunction:vesta:betelgeuse",
+    "star_conjunction:north_node_true:betelgeuse",
+    "star_conjunction:north_node_mean:betelgeuse",
+    "star_conjunction:south_node_true:betelgeuse",
+    "star_conjunction:south_node_mean:betelgeuse"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

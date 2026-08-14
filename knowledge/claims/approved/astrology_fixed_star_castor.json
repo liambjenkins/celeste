@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_castor",
+  "lens_id": "astrology",
+  "statement": "Castor is traditionally associated with mental brilliance and sharp wit, alongside a traditional caution about sudden prominence followed by reversal.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:castor",
+    "star_conjunction:moon:castor",
+    "star_conjunction:mercury:castor",
+    "star_conjunction:venus:castor",
+    "star_conjunction:mars:castor",
+    "star_conjunction:jupiter:castor",
+    "star_conjunction:saturn:castor",
+    "star_conjunction:uranus:castor",
+    "star_conjunction:neptune:castor",
+    "star_conjunction:pluto:castor",
+    "star_conjunction:lilith_mean:castor",
+    "star_conjunction:lilith_true:castor",
+    "star_conjunction:chiron:castor",
+    "star_conjunction:ceres:castor",
+    "star_conjunction:pallas:castor",
+    "star_conjunction:juno:castor",
+    "star_conjunction:vesta:castor",
+    "star_conjunction:north_node_true:castor",
+    "star_conjunction:north_node_mean:castor",
+    "star_conjunction:south_node_true:castor",
+    "star_conjunction:south_node_mean:castor"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

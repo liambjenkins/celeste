@@ -16,7 +16,18 @@
     "star_conjunction:saturn:capella",
     "star_conjunction:uranus:capella",
     "star_conjunction:neptune:capella",
-    "star_conjunction:pluto:capella"
+    "star_conjunction:pluto:capella",
+    "star_conjunction:lilith_mean:capella",
+    "star_conjunction:lilith_true:capella",
+    "star_conjunction:chiron:capella",
+    "star_conjunction:ceres:capella",
+    "star_conjunction:pallas:capella",
+    "star_conjunction:juno:capella",
+    "star_conjunction:vesta:capella",
+    "star_conjunction:north_node_true:capella",
+    "star_conjunction:north_node_mean:capella",
+    "star_conjunction:south_node_true:capella",
+    "star_conjunction:south_node_mean:capella"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

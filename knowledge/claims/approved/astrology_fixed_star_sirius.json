@@ -16,7 +16,18 @@
     "star_conjunction:saturn:sirius",
     "star_conjunction:uranus:sirius",
     "star_conjunction:neptune:sirius",
-    "star_conjunction:pluto:sirius"
+    "star_conjunction:pluto:sirius",
+    "star_conjunction:lilith_mean:sirius",
+    "star_conjunction:lilith_true:sirius",
+    "star_conjunction:chiron:sirius",
+    "star_conjunction:ceres:sirius",
+    "star_conjunction:pallas:sirius",
+    "star_conjunction:juno:sirius",
+    "star_conjunction:vesta:sirius",
+    "star_conjunction:north_node_true:sirius",
+    "star_conjunction:north_node_mean:sirius",
+    "star_conjunction:south_node_true:sirius",
+    "star_conjunction:south_node_mean:sirius"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"

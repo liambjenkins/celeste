@@ -1,0 +1,41 @@
+{
+  "claim_id": "astrology_fixed_star_altair",
+  "lens_id": "astrology",
+  "statement": "Altair is traditionally associated with boldness, ambition, and sudden but changeable fortune.",
+  "passage_ids": [],
+  "concept_ids": [
+    "fixed_star_conjunctions"
+  ],
+  "feature_ids": [
+    "star_conjunction:sun:altair",
+    "star_conjunction:moon:altair",
+    "star_conjunction:mercury:altair",
+    "star_conjunction:venus:altair",
+    "star_conjunction:mars:altair",
+    "star_conjunction:jupiter:altair",
+    "star_conjunction:saturn:altair",
+    "star_conjunction:uranus:altair",
+    "star_conjunction:neptune:altair",
+    "star_conjunction:pluto:altair",
+    "star_conjunction:lilith_mean:altair",
+    "star_conjunction:lilith_true:altair",
+    "star_conjunction:chiron:altair",
+    "star_conjunction:ceres:altair",
+    "star_conjunction:pallas:altair",
+    "star_conjunction:juno:altair",
+    "star_conjunction:vesta:altair",
+    "star_conjunction:north_node_true:altair",
+    "star_conjunction:north_node_mean:altair",
+    "star_conjunction:south_node_true:altair",
+    "star_conjunction:south_node_mean:altair"
+  ],
+  "source_ids": [
+    "robson_fixed_stars_1923"
+  ],
+  "theme_tags": [
+    "fixed_star"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source. Only traditionally well-documented stars are included — most of the full catalog has no real astrological tradition behind it.",
+  "status": "approved"
+}

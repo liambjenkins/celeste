@@ -16,7 +16,18 @@
     "star_conjunction:saturn:regulus",
     "star_conjunction:uranus:regulus",
     "star_conjunction:neptune:regulus",
-    "star_conjunction:pluto:regulus"
+    "star_conjunction:pluto:regulus",
+    "star_conjunction:lilith_mean:regulus",
+    "star_conjunction:lilith_true:regulus",
+    "star_conjunction:chiron:regulus",
+    "star_conjunction:ceres:regulus",
+    "star_conjunction:pallas:regulus",
+    "star_conjunction:juno:regulus",
+    "star_conjunction:vesta:regulus",
+    "star_conjunction:north_node_true:regulus",
+    "star_conjunction:north_node_mean:regulus",
+    "star_conjunction:south_node_true:regulus",
+    "star_conjunction:south_node_mean:regulus"
   ],
   "source_ids": [
     "robson_fixed_stars_1923"
