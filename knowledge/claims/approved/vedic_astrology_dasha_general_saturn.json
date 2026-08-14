@@ -1,0 +1,24 @@
+{
+  "claim_id": "vedic_astrology_dasha_general_saturn",
+  "lens_id": "vedic_astrology",
+  "statement": "A Saturn Dasha (Mahadasha or Antardasha) generally brings a period of discipline, delay, and hard-won achievement — favors are earned slowly through sustained effort rather than given easily, a genuine test of endurance rather than a purely difficult period.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dasha"
+  ],
+  "feature_ids": [
+    "dasha_mahadasha:saturn",
+    "dasha_antardasha:saturn"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "BPHS distinguishes general effects (a planet's natural characteristics) from distinctive effects (its specific dignity/placement in a given chart) — only the general tier is claimed here; this pass's Dasha computation doesn't evaluate planetary dignity or strength.",
+  "status": "approved"
+}

@@ -361,6 +361,28 @@ def normalise_observations(observations):
         )
 
     # --------------------------------------------------------
+    # VIMSHOTTARI DASHA (optional — only present when
+    # --as-of-date/--as-of-time were supplied)
+    # --------------------------------------------------------
+    #
+    # "vedic_dasha" is the output of
+    # astrology.dasha.build_vimshottari_dasha(): the Mahadasha/
+    # Antardasha active as of a specified moment, plus the full
+    # birth-to-120-year Mahadasha sequence.
+    #
+    dasha = observations.get(
+        "vedic_dasha",
+        {}
+    )
+
+    if isinstance(dasha, dict) and dasha:
+        add_concept(
+            "vedic_dasha",
+            dasha,
+            "vedic_dasha"
+        )
+
+    # --------------------------------------------------------
     # NAVAMSA (D9 divisional chart)
     # --------------------------------------------------------
     #

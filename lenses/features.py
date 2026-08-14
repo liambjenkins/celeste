@@ -93,6 +93,10 @@ class FeatureBundle:
 
     vedic_yogas: list[str] = field(default_factory=list)
 
+    has_dasha: bool = False
+    dasha_mahadasha_lord: Optional[str] = None
+    dasha_antardasha_lord: Optional[str] = None
+
     chinese_day_master: Optional[str] = None
     chinese_day_master_element: Optional[str] = None
     chinese_year_animal: Optional[str] = None
@@ -576,6 +580,24 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             vedic_yogas.append(yoga["id"])
             tags.append(f"yoga:{yoga['id']}")
 
+    # Vimshottari Dasha — optional, only present when the CLI was
+    # given --as-of-date/--as-of-time.
+    has_dasha = False
+    dasha_mahadasha_lord = None
+    dasha_antardasha_lord = None
+
+    dasha_value = _single_value(concepts.get("vedic_dasha"))
+
+    if isinstance(dasha_value, dict) and dasha_value.get("current_mahadasha"):
+        has_dasha = True
+        dasha_mahadasha_lord = dasha_value["current_mahadasha"].get("lord")
+        tags.append(f"dasha_mahadasha:{dasha_mahadasha_lord}")
+
+        current_antardasha = dasha_value.get("current_antardasha")
+        if isinstance(current_antardasha, dict):
+            dasha_antardasha_lord = current_antardasha.get("lord")
+            tags.append(f"dasha_antardasha:{dasha_antardasha_lord}")
+
     # Chinese (BaZi) Four Pillars. No sign/house tags — BaZi has
     # neither; see chinese/pillars.py's module docstring.
     chinese_day_master = None
@@ -768,6 +790,9 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         navamsa_ascendant_sign=navamsa_ascendant_sign,
         navamsa_planet_signs=navamsa_planet_signs,
         vedic_yogas=vedic_yogas,
+        has_dasha=has_dasha,
+        dasha_mahadasha_lord=dasha_mahadasha_lord,
+        dasha_antardasha_lord=dasha_antardasha_lord,
         chinese_day_master=chinese_day_master,
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,

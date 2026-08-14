@@ -677,6 +677,28 @@ CONCEPTS = {
         "moon"
     ]
 },
+"vedic_dasha": {
+    "label": "Vimshottari Dasha",
+    "domain": "space",
+    "description": (
+        "The classical Vedic planetary-period timing system: which "
+        "Mahadasha (major period) and Antardasha (sub-period) lord "
+        "is active as of a specified 'as of' date, plus the full "
+        "birth-to-120-year Mahadasha sequence."
+    ),
+    "synonyms": [
+        "dasha",
+        "vimshottari dasha",
+        "mahadasha",
+        "antardasha",
+        "planetary period"
+    ],
+    "related": [
+        "vedic_moon",
+        "current_transits",
+        "secondary_progressions"
+    ]
+},
 "vedic_yogas": {
     "label": "Vedic yogas",
     "domain": "space",

@@ -339,6 +339,111 @@ for _yoga_id, (_definition, _trait, _domain, _themes) in _MAHAPURUSHA_MEANINGS.i
     )
 
 
+# ------------------------------------------------------------
+# Vimshottari Dasha — general (non-dignity-conditional) effects per
+# planet's Mahadasha/Antardasha. BPHS distinguishes "general" effects
+# (from a planet's natural characteristics) from "distinctive"
+# effects (from its specific dignity/placement in this chart) — only
+# the general tier is claimed here, honestly scoped short of the
+# dignity-conditional layer, which this pass's Dasha computation
+# doesn't evaluate.
+# Source: Brihat Parashara Hora Shastra (verified via search).
+# ------------------------------------------------------------
+
+_DASHA_GENERAL_EFFECTS = {
+    "sun": (
+        "brings a period of increased authority, status, and vitality "
+        "— favorable for recognition from those in positions of power, "
+        "though it can also bring friction with authority figures.",
+        "identity",
+        ["identity", "drive"],
+    ),
+    "moon": (
+        "brings a period centered on emotional life, home, and the "
+        "mind — attentive to domestic matters and inner state, with "
+        "the Moon's own changeable nature making this a more "
+        "fluctuating period than most.",
+        "emotion",
+        ["emotional_depth"],
+    ),
+    "mars": (
+        "brings a period of heightened energy, courage, and drive — "
+        "favorable for decisive action and matters of property or "
+        "siblings, with a real risk of conflict or injury if that "
+        "energy isn't channeled constructively.",
+        "drive_and_ambition",
+        ["drive", "assertiveness"],
+    ),
+    "rahu": (
+        "brings a period of intensified worldly ambition and "
+        "unconventional opportunity — often bringing sudden, "
+        "significant change and material gain, alongside a "
+        "restlessness that isn't easily satisfied.",
+        "drive_and_ambition",
+        ["ambition", "transformation"],
+    ),
+    "jupiter": (
+        "brings a period of growth, wisdom, and expansion — "
+        "favorable for prosperity, higher learning, teachers or "
+        "mentors, and matters concerning children.",
+        "expansion_and_meaning",
+        ["growth", "optimism"],
+    ),
+    "saturn": (
+        "brings a period of discipline, delay, and hard-won "
+        "achievement — favors are earned slowly through sustained "
+        "effort rather than given easily, a genuine test of "
+        "endurance rather than a purely difficult period.",
+        "discipline",
+        ["discipline", "resilience"],
+    ),
+    "mercury": (
+        "brings a period of sharpened intellect and communication — "
+        "favorable for education, business, and adaptability, with "
+        "an emphasis on how information and ideas are exchanged.",
+        "communication",
+        ["communication", "intellect"],
+    ),
+    "ketu": (
+        "brings a period of detachment and introspection — often "
+        "marked by loss of what no longer serves alongside genuine "
+        "spiritual insight, a period more inward and reflective than "
+        "outwardly acquisitive.",
+        "transformation",
+        ["spirituality", "introspection"],
+    ),
+    "venus": (
+        "brings a period centered on relationships, comfort, and "
+        "the arts — favorable for marriage, pleasure, and material "
+        "enjoyment.",
+        "values_and_desire",
+        ["relationships", "aesthetics"],
+    ),
+}
+
+for _lord, (_effect, _domain, _themes) in _DASHA_GENERAL_EFFECTS.items():
+    _add(
+        f"dasha_general_{_lord}",
+        f"A {_lord.capitalize()} Dasha (Mahadasha or Antardasha) generally "
+        f"{_effect}",
+        concept_ids=["vedic_dasha"],
+        # Same planetary theme applies at both timescales — a
+        # Mahadasha and its Antardasha of the same lord aren't
+        # different qualities, just different durations.
+        feature_ids=[f"dasha_mahadasha:{_lord}", f"dasha_antardasha:{_lord}"],
+        theme_tags=["dasha"] + _themes,
+        life_domain=_domain,
+        source_id="parashara_bphs_1984",
+        notes=(
+            "BPHS distinguishes general effects (a planet's natural "
+            "characteristics) from distinctive effects (its specific "
+            "dignity/placement in a given chart) — only the general "
+            "tier is claimed here; this pass's Dasha computation "
+            "doesn't evaluate planetary dignity or strength."
+        ),
+    )
+
+
 def write_claims():
     APPROVED_DIR.mkdir(parents=True, exist_ok=True)
 

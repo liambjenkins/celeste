@@ -1,0 +1,24 @@
+{
+  "claim_id": "vedic_astrology_dasha_general_venus",
+  "lens_id": "vedic_astrology",
+  "statement": "A Venus Dasha (Mahadasha or Antardasha) generally brings a period centered on relationships, comfort, and the arts — favorable for marriage, pleasure, and material enjoyment.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_dasha"
+  ],
+  "feature_ids": [
+    "dasha_mahadasha:venus",
+    "dasha_antardasha:venus"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "dasha",
+    "relationships",
+    "aesthetics"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "BPHS distinguishes general effects (a planet's natural characteristics) from distinctive effects (its specific dignity/placement in a given chart) — only the general tier is claimed here; this pass's Dasha computation doesn't evaluate planetary dignity or strength.",
+  "status": "approved"
+}

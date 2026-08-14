@@ -733,6 +733,18 @@ def _vedic_astrology(concepts, features: FeatureBundle):
         )
         macro.append(ARCHETYPE)
 
+    if features.has_dasha:
+        themes.append(f"dasha_mahadasha:{features.dasha_mahadasha_lord}")
+        themes.append(f"dasha_antardasha:{features.dasha_antardasha_lord}")
+        notes.append(
+            f"Currently running: {features.dasha_mahadasha_lord} "
+            f"Mahadasha, {features.dasha_antardasha_lord} Antardasha "
+            "— the Vimshottari Dasha's major period and its "
+            "sub-period, the classical Jyotish timing technique for "
+            "which planet's themes are most active right now."
+        )
+        macro.append(CYCLICALITY)
+
     if features.dominant_domains:
         themes.append(
             "elemental_emphasis:" + "_".join(features.dominant_domains)

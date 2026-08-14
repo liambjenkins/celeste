@@ -6,6 +6,7 @@ import json
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 from astrology.chart import build_chart
+from astrology.dasha import build_vimshottari_dasha
 from astrology.houses import HOUSE_SYSTEMS
 from astrology.navamsa import build_navamsa_chart
 from astrology.progressions import build_secondary_progressions
@@ -275,6 +276,9 @@ if args.as_of_time_utc is not None:
     )
     observations["secondary_progressions"] = build_secondary_progressions(
         _tropical_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
+    )
+    observations["vedic_dasha"] = build_vimshottari_dasha(
+        _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
 # ------------------------------------------------------------
 # PROCESS
