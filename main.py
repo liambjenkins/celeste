@@ -53,6 +53,37 @@ from lenses.synthesis import build_synthesis
 # CELESTE — Environmental Reconstruction
 # ------------------------------------------------------------
 
+# Optional-depth feature flags (Phase F10). Every Phase F1-F9 addition
+# that isn't already gated by --as-of/--gender (the Phase D convention,
+# left untouched) sits behind one of these names, controllable via
+# --include/--exclude. DEFAULT_ON_FEATURES preserves exactly the
+# behavior each earlier sub-phase shipped and verified (F2-F9's
+# additions were built always-on; F1's four were built opt-in-by-
+# default-False) — omitting --include/--exclude entirely reproduces
+# that already-verified default, nothing silently changes underneath
+# existing callers.
+DEFAULT_OFF_FEATURES = ("minor-aspects", "declinations", "antiscia", "harmonics")
+DEFAULT_ON_FEATURES = (
+    "vedic-vargas", "vedic-dignity", "vedic-karakas", "marak",
+    "ashtakavarga", "shadbala",
+    "chinese-interactions", "chinese-elemental-balance",
+    "chinese-shen-sha", "chinese-na-yin", "chinese-liu-nian",
+)
+ALL_FEATURES = DEFAULT_OFF_FEATURES + DEFAULT_ON_FEATURES
+
+
+def _resolve_features(include_tokens, exclude_tokens):
+    resolved = set(DEFAULT_ON_FEATURES)
+
+    if "all" in include_tokens:
+        resolved = set(ALL_FEATURES)
+    else:
+        resolved |= set(include_tokens)
+
+    resolved -= set(exclude_tokens)
+
+    return resolved
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -163,7 +194,58 @@ def parse_args():
         ),
     )
 
+    parser.add_argument(
+        "--include",
+        action="append",
+        default=[],
+        help=(
+            "Opt-in optional-depth feature(s), comma-separated or "
+            "repeatable (e.g. --include minor-aspects,harmonics). "
+            "Pass 'all' to enable every optional feature. Features: "
+            f"{', '.join(ALL_FEATURES)}. Features not listed here "
+            f"({', '.join(DEFAULT_ON_FEATURES)}) are already on by "
+            "default; this flag is for the opt-in ones "
+            f"({', '.join(DEFAULT_OFF_FEATURES)}) or for re-including "
+            "something an --exclude elsewhere removed."
+        ),
+    )
+
+    parser.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        help=(
+            "Opt-out of an optional-depth feature that's on by "
+            "default, comma-separated or repeatable (e.g. --exclude "
+            f"marak,shadbala). Default-on features: "
+            f"{', '.join(DEFAULT_ON_FEATURES)}."
+        ),
+    )
+
     args = parser.parse_args()
+
+    include_tokens = [
+        token.strip() for value in args.include for token in value.split(",") if token.strip()
+    ]
+    exclude_tokens = [
+        token.strip() for value in args.exclude for token in value.split(",") if token.strip()
+    ]
+
+    for token in include_tokens:
+        if token != "all" and token not in ALL_FEATURES:
+            parser.error(
+                f"--include {token!r} is not a known feature. "
+                f"Choices: all, {', '.join(ALL_FEATURES)}."
+            )
+
+    for token in exclude_tokens:
+        if token not in ALL_FEATURES:
+            parser.error(
+                f"--exclude {token!r} is not a known feature. "
+                f"Choices: {', '.join(ALL_FEATURES)}."
+            )
+
+    args.resolved_features = _resolve_features(include_tokens, exclude_tokens)
 
     if not (-90 <= args.lat <= 90):
         parser.error("--lat must be between -90 and 90.")
@@ -251,35 +333,37 @@ REQUESTED_TIME_AWARE = REQUESTED_TIME.replace(tzinfo=timezone.utc)
 # ------------------------------------------------------------
 # COLLECT
 # ------------------------------------------------------------
+_features_enabled = args.resolved_features
+
 _tropical_chart = build_chart(
     REQUESTED_TIME_AWARE,
     LATITUDE,
     LONGITUDE,
     house_system=args.house_system,
+    include_minor_aspects="minor-aspects" in _features_enabled,
+    include_declinations="declinations" in _features_enabled,
+    include_antiscia="antiscia" in _features_enabled,
+    include_harmonics="harmonics" in _features_enabled,
 )
 
 _sidereal_chart = build_sidereal_chart(_tropical_chart)
 _four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
+
+# Computed unconditionally (cheap, and needed by elemental_alignment
+# below regardless of whether --exclude chinese-elemental-balance
+# hid it from claim-matching) — only ITS PRESENCE IN `observations`
+# below is gated by the feature flag.
+_chinese_elemental_balance = build_elemental_balance(_four_pillars)
 
 observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": _sidereal_chart,
     "vedic_yogas": find_yogas(_sidereal_chart),
     "navamsa": build_navamsa_chart(_sidereal_chart),
-    "vedic_vargas": build_all_vargas(_sidereal_chart),
-    "vedic_dignity": build_dignity(_sidereal_chart),
-    "vedic_karakas": build_chara_karakas(_sidereal_chart),
-    "vedic_marak": build_marak_planets(_sidereal_chart),
-    "vedic_ashtakavarga": build_ashtakavarga(_sidereal_chart),
-    "vedic_shadbala": build_shadbala_partial(_sidereal_chart),
     "chinese_pillars": _four_pillars.to_dict(),
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
     ),
-    "chinese_interactions": find_all_interactions(_four_pillars),
-    "chinese_elemental_balance": build_elemental_balance(_four_pillars),
-    "chinese_shen_sha": find_shen_sha(_four_pillars, gender=args.gender),
-    "chinese_na_yin": build_na_yin(_four_pillars),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),
@@ -314,6 +398,36 @@ observations = {
     "_latitude": LATITUDE,
 }
 
+if "vedic-vargas" in _features_enabled:
+    observations["vedic_vargas"] = build_all_vargas(_sidereal_chart)
+
+if "vedic-dignity" in _features_enabled:
+    observations["vedic_dignity"] = build_dignity(_sidereal_chart)
+
+if "vedic-karakas" in _features_enabled:
+    observations["vedic_karakas"] = build_chara_karakas(_sidereal_chart)
+
+if "marak" in _features_enabled:
+    observations["vedic_marak"] = build_marak_planets(_sidereal_chart)
+
+if "ashtakavarga" in _features_enabled:
+    observations["vedic_ashtakavarga"] = build_ashtakavarga(_sidereal_chart)
+
+if "shadbala" in _features_enabled:
+    observations["vedic_shadbala"] = build_shadbala_partial(_sidereal_chart)
+
+if "chinese-interactions" in _features_enabled:
+    observations["chinese_interactions"] = find_all_interactions(_four_pillars)
+
+if "chinese-elemental-balance" in _features_enabled:
+    observations["chinese_elemental_balance"] = _chinese_elemental_balance
+
+if "chinese-shen-sha" in _features_enabled:
+    observations["chinese_shen_sha"] = find_shen_sha(_four_pillars, gender=args.gender)
+
+if "chinese-na-yin" in _features_enabled:
+    observations["chinese_na_yin"] = build_na_yin(_four_pillars)
+
 if args.as_of_time_utc is not None:
     AS_OF_TIME_AWARE = args.as_of_time_utc.replace(tzinfo=timezone.utc)
     observations["transits"] = build_transits(
@@ -334,7 +448,8 @@ if args.as_of_time_utc is not None:
     observations["vedic_chara_dasha"] = build_chara_dasha(
         _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
-    observations["chinese_liu_nian"] = build_liu_nian(AS_OF_TIME_AWARE)
+    if "chinese-liu-nian" in _features_enabled:
+        observations["chinese_liu_nian"] = build_liu_nian(AS_OF_TIME_AWARE)
 
     if args.gender is not None:
         year_stem_polarity = STEMS[STEM_INDEX[_four_pillars.year.stem]][2]
@@ -364,7 +479,7 @@ lenses_output = {
 synthesis = build_synthesis(interpretations)
 cross_system = build_cross_system_convergence(interpretations)
 elemental_alignment = build_elemental_alignment(
-    _tropical_chart, _sidereal_chart, observations["chinese_elemental_balance"]
+    _tropical_chart, _sidereal_chart, _chinese_elemental_balance
 )
 # ------------------------------------------------------------
 # OUTPUT
@@ -376,6 +491,7 @@ result = {
         "longitude": LONGITUDE,
         "label": args.location,
     },
+    "optional_features_enabled": sorted(_features_enabled),
     "summary": summary,
     "elements": elements,
     "features": {
