@@ -30,7 +30,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from itertools import combinations
 
-from lenses.narrative import _CLUSTERS, _clusters_in, _has_tension, _OPPOSING_PAIRS
+from lenses.narrative import CLUSTERS, clusters_in, has_tension, OPPOSING_PAIRS
 
 from v0.western.calculate import calculate as calculate_western
 from v0.western.interpret import interpret as interpret_western
@@ -60,7 +60,7 @@ def _point(tradition, label, statement) -> DataPoint:
         tradition=tradition,
         label=label,
         statement=statement,
-        clusters=frozenset(_clusters_in(statement)),
+        clusters=frozenset(clusters_in(statement)),
     )
 
 
@@ -140,7 +140,7 @@ def _internal_tensions(points: list[DataPoint]) -> list[tuple[DataPoint, str, st
 
     found = []
     for point in points:
-        for cluster_a, cluster_b in _OPPOSING_PAIRS:
+        for cluster_a, cluster_b in OPPOSING_PAIRS:
             if cluster_a in point.clusters and cluster_b in point.clusters:
                 found.append((point, cluster_a, cluster_b))
     return found
@@ -150,7 +150,7 @@ def _cross_tensions(index: dict) -> list[tuple[str, str, list[DataPoint], list[D
     """Opposing cluster pairs where both sides have at least one hit."""
 
     found = []
-    for cluster_a, cluster_b in _OPPOSING_PAIRS:
+    for cluster_a, cluster_b in OPPOSING_PAIRS:
         points_a = index.get(cluster_a, [])
         points_b = index.get(cluster_b, [])
         if points_a and points_b:

@@ -32,7 +32,7 @@ from lenses.model import RelevantClaim
 # a cluster is left uncombined rather than guessed at.
 # ------------------------------------------------------------
 
-_CLUSTERS = {
+CLUSTERS = {
     "warmth": (
         "nurtur", "warm", "protective", "harmony", "gentle",
         "compassion", "generous", "empathetic", "affection",
@@ -59,26 +59,26 @@ _CLUSTERS = {
     ),
 }
 
-_OPPOSING_PAIRS = {
+OPPOSING_PAIRS = {
     frozenset({"assertive", "reserved"}),
     frozenset({"freedom", "structure"}),
     frozenset({"warmth", "assertive"}),
 }
 
 
-def _clusters_in(text):
+def clusters_in(text):
     text_lower = text.lower()
     hits = set()
 
-    for cluster, keywords in _CLUSTERS.items():
+    for cluster, keywords in CLUSTERS.items():
         if any(keyword in text_lower for keyword in keywords):
             hits.add(cluster)
 
     return hits
 
 
-def _has_tension(clusters_a, clusters_b):
-    for pair in _OPPOSING_PAIRS:
+def has_tension(clusters_a, clusters_b):
+    for pair in OPPOSING_PAIRS:
         cluster_x, cluster_y = tuple(pair)
 
         if (cluster_x in clusters_a and cluster_y in clusters_b) or (
@@ -101,7 +101,7 @@ def _overall_relationship(all_clusters_list):
 
     for i in range(len(all_clusters_list)):
         for j in range(i + 1, len(all_clusters_list)):
-            if _has_tension(all_clusters_list[i], all_clusters_list[j]):
+            if has_tension(all_clusters_list[i], all_clusters_list[j]):
                 return "tension"
 
     return "reinforcement"
@@ -158,7 +158,7 @@ def build_big_three_narrative(
         return None
 
     statements = [item.claim.statement for item in present]
-    clusters = [_clusters_in(statement) for statement in statements]
+    clusters = [clusters_in(statement) for statement in statements]
 
     relationship = _overall_relationship(clusters)
 

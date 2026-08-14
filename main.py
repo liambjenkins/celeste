@@ -23,6 +23,7 @@ from providers.solar import get_solar
 from concepts.normaliser import normalise_observations
 from concepts.summary import build_summary
 from elements import classify_observations
+from lenses.cross_system import build_cross_system_convergence
 from lenses.editor import build_editorial_payload
 from lenses.pipeline import run_lenses
 from lenses.synthesis import build_synthesis
@@ -220,6 +221,7 @@ lenses_output = {
 }
 
 synthesis = build_synthesis(interpretations)
+cross_system = build_cross_system_convergence(interpretations)
 # ------------------------------------------------------------
 # OUTPUT
 # ------------------------------------------------------------
@@ -241,6 +243,10 @@ result = {
     },
     "lenses": lenses_output,
     "synthesis": synthesis,
+    "cross_system_convergence": {
+        "claims_pooled": len(cross_system.points),
+        "narrative": cross_system.narrative,
+    },
 }
 print("✨ Celeste")
 print("Environmental Reconstruction")
