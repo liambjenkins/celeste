@@ -677,6 +677,53 @@ CONCEPTS = {
         "moon"
     ]
 },
+"chinese_ten_gods": {
+    "label": "Chinese Ten Gods",
+    "domain": "space",
+    "description": (
+        "Classification of the Year/Month/Hour visible stems and "
+        "every hidden stem within all four branches, relative to the "
+        "Day Master, by the Five Element generating/controlling "
+        "cycle and stem polarity — a BaZi-native structural role "
+        "(Wealth, Officer, Resource, Output, Companion) each stem "
+        "plays relative to the person's own core element."
+    ),
+    "synonyms": [
+        "ten gods",
+        "shi shen",
+        "wealth star",
+        "officer star",
+        "resource star",
+        "output star",
+        "companion star"
+    ],
+    "related": [
+        "chinese_pillars"
+    ]
+},
+"chinese_dayun": {
+    "label": "Chinese Da Yun (Luck Pillars)",
+    "domain": "space",
+    "description": (
+        "The 10-year Luck Pillar sequence overlaid on the Four "
+        "Pillars, continuing the sexagenary cycle from the Month "
+        "Pillar in a direction determined by Year Stem polarity and "
+        "gender — which pillar is active as of a specified 'as of' "
+        "date."
+    ),
+    "synonyms": [
+        "da yun",
+        "luck pillars",
+        "great luck",
+        "10-year cycle"
+    ],
+    "related": [
+        "chinese_pillars",
+        "current_transits",
+        "secondary_progressions",
+        "vedic_dasha"
+    ]
+},
 "vedic_dasha": {
     "label": "Vimshottari Dasha",
     "domain": "space",

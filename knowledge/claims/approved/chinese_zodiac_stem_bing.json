@@ -11,7 +11,12 @@
     "chinese_stem:month:Bing",
     "chinese_stem:day:Bing",
     "chinese_stem:hour:Bing",
-    "chinese_day_master:Bing"
+    "chinese_day_master:Bing",
+    "chinese_hidden_stem:year:Bing",
+    "chinese_hidden_stem:month:Bing",
+    "chinese_hidden_stem:day:Bing",
+    "chinese_hidden_stem:hour:Bing",
+    "chinese_dayun_stem:Bing"
   ],
   "source_ids": [
     "augier_bazi_2010"

@@ -11,7 +11,8 @@
     "chinese_branch:month:Wei",
     "chinese_branch:day:Wei",
     "chinese_branch:hour:Wei",
-    "chinese_year_animal:Goat"
+    "chinese_year_animal:Goat",
+    "chinese_dayun_branch:Wei"
   ],
   "source_ids": [
     "augier_bazi_2010"

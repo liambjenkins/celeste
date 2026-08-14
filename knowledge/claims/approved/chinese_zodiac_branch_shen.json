@@ -11,7 +11,8 @@
     "chinese_branch:month:Shen",
     "chinese_branch:day:Shen",
     "chinese_branch:hour:Shen",
-    "chinese_year_animal:Monkey"
+    "chinese_year_animal:Monkey",
+    "chinese_dayun_branch:Shen"
   ],
   "source_ids": [
     "augier_bazi_2010"

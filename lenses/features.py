@@ -102,6 +102,11 @@ class FeatureBundle:
     chinese_year_animal: Optional[str] = None
     chinese_pillar_names: dict[str, str] = field(default_factory=dict)
 
+    chinese_ten_gods: list[str] = field(default_factory=list)
+
+    has_dayun: bool = False
+    dayun_current_pillar: Optional[str] = None
+
     has_transits: bool = False
     transit_signs: dict[str, str] = field(default_factory=dict)
     transit_houses: dict[str, int] = field(default_factory=dict)
@@ -631,6 +636,53 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                 chinese_year_animal = pillar.get("branch_animal")
                 tags.append(f"chinese_year_animal:{chinese_year_animal}")
 
+    # Chinese Ten Gods (Shi Shen) — classification of every visible
+    # (non-Day) and hidden stem relative to the Day Master.
+    chinese_ten_gods = []
+
+    def _slug(name):
+        return name.lower().replace(" ", "_")
+
+    ten_gods_value = _single_value(concepts.get("chinese_ten_gods"))
+
+    if isinstance(ten_gods_value, dict):
+        for position, info in ten_gods_value.get("stems", {}).items():
+            ten_god = info.get("ten_god")
+
+            if not ten_god:
+                continue
+
+            chinese_ten_gods.append(ten_god)
+            tags.append(f"ten_god:{position}:{_slug(ten_god)}")
+
+        for position, entries in ten_gods_value.get("hidden_stems", {}).items():
+            for entry in entries:
+                stem = entry.get("stem")
+                ten_god = entry.get("ten_god")
+
+                if stem:
+                    tags.append(f"chinese_hidden_stem:{position}:{stem}")
+
+                if ten_god:
+                    chinese_ten_gods.append(ten_god)
+                    tags.append(f"ten_god_hidden:{position}:{_slug(ten_god)}")
+
+    # Da Yun (Luck Pillars) — optional, only present when the CLI was
+    # given --as-of-date/--as-of-time AND --gender.
+    has_dayun = False
+    dayun_current_pillar = None
+
+    dayun_value = _single_value(concepts.get("chinese_dayun"))
+
+    if isinstance(dayun_value, dict) and dayun_value.get("current_pillar"):
+        has_dayun = True
+        current = dayun_value["current_pillar"]["pillar"]
+        dayun_current_pillar = current.get("name")
+
+        tags.append(f"chinese_dayun_stem:{current.get('stem')}")
+        tags.append(f"chinese_dayun_branch:{current.get('branch')}")
+        tags.append(f"dayun_direction:{dayun_value.get('direction')}")
+
     # Transits and secondary progressions — both optional, only
     # present when the CLI was given --as-of-date/--as-of-time.
     has_transits = False
@@ -797,6 +849,9 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         chinese_day_master_element=chinese_day_master_element,
         chinese_year_animal=chinese_year_animal,
         chinese_pillar_names=chinese_pillar_names,
+        chinese_ten_gods=chinese_ten_gods,
+        has_dayun=has_dayun,
+        dayun_current_pillar=dayun_current_pillar,
         has_transits=has_transits,
         transit_signs=transit_signs,
         transit_houses=transit_houses,

@@ -11,7 +11,8 @@
     "chinese_branch:month:Si",
     "chinese_branch:day:Si",
     "chinese_branch:hour:Si",
-    "chinese_year_animal:Snake"
+    "chinese_year_animal:Snake",
+    "chinese_dayun_branch:Si"
   ],
   "source_ids": [
     "augier_bazi_2010"

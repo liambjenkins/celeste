@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_indirect_wealth",
+  "lens_id": "chinese_zodiac",
+  "statement": "Indirect Wealth represents the element the Day Master controls, matching its polarity — wealth that arrives through windfall, investment, and opportunistic connection rather than steady, expected income.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:indirect_wealth",
+    "ten_god:month:indirect_wealth",
+    "ten_god:hour:indirect_wealth",
+    "ten_god_hidden:year:indirect_wealth",
+    "ten_god_hidden:month:indirect_wealth",
+    "ten_god_hidden:day:indirect_wealth",
+    "ten_god_hidden:hour:indirect_wealth"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "opportunity",
+    "resourcefulness"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

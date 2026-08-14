@@ -11,7 +11,12 @@
     "chinese_stem:month:Geng",
     "chinese_stem:day:Geng",
     "chinese_stem:hour:Geng",
-    "chinese_day_master:Geng"
+    "chinese_day_master:Geng",
+    "chinese_hidden_stem:year:Geng",
+    "chinese_hidden_stem:month:Geng",
+    "chinese_hidden_stem:day:Geng",
+    "chinese_hidden_stem:hour:Geng",
+    "chinese_dayun_stem:Geng"
   ],
   "source_ids": [
     "augier_bazi_2010"

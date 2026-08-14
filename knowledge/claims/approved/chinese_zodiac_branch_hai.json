@@ -11,7 +11,8 @@
     "chinese_branch:month:Hai",
     "chinese_branch:day:Hai",
     "chinese_branch:hour:Hai",
-    "chinese_year_animal:Pig"
+    "chinese_year_animal:Pig",
+    "chinese_dayun_branch:Hai"
   ],
   "source_ids": [
     "augier_bazi_2010"

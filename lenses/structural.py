@@ -789,6 +789,25 @@ def _chinese_zodiac(concepts, features: FeatureBundle):
         )
         macro.append(TIMEKEEPING)
 
+    if features.chinese_ten_gods:
+        themes.append("ten_gods_present:" + "_".join(sorted(set(features.chinese_ten_gods))))
+        notes.append(
+            f"{len(set(features.chinese_ten_gods))} distinct Ten God "
+            "role(s) appear across the chart's visible and hidden "
+            "stems — the BaZi-native classification of each stem's "
+            "elemental relationship to the Day Master."
+        )
+        macro.append(ARCHETYPE)
+
+    if features.has_dayun:
+        themes.append(f"dayun_current:{features.dayun_current_pillar}")
+        notes.append(
+            f"The current Da Yun (Luck Pillar) is "
+            f"{features.dayun_current_pillar} — the 10-year period "
+            "presently overlaid on the Four Pillars."
+        )
+        macro.append(CYCLICALITY)
+
     return _result(themes, macro, [], notes)
 
 

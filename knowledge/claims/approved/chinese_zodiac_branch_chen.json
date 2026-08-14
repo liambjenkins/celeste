@@ -11,7 +11,8 @@
     "chinese_branch:month:Chen",
     "chinese_branch:day:Chen",
     "chinese_branch:hour:Chen",
-    "chinese_year_animal:Dragon"
+    "chinese_year_animal:Dragon",
+    "chinese_dayun_branch:Chen"
   ],
   "source_ids": [
     "augier_bazi_2010"

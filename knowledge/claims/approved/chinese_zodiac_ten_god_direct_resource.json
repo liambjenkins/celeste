@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_direct_resource",
+  "lens_id": "chinese_zodiac",
+  "statement": "Direct Resource represents the element that generates the Day Master, opposite its polarity — formal knowledge, nurturing support, and stable, long-term development, drawing support from recognized, legitimate sources.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:direct_resource",
+    "ten_god:month:direct_resource",
+    "ten_god:hour:direct_resource",
+    "ten_god_hidden:year:direct_resource",
+    "ten_god_hidden:month:direct_resource",
+    "ten_god_hidden:day:direct_resource",
+    "ten_god_hidden:hour:direct_resource"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "learning",
+    "nurturing_support"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

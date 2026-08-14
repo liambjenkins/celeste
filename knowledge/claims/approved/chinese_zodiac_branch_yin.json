@@ -11,7 +11,8 @@
     "chinese_branch:month:Yin",
     "chinese_branch:day:Yin",
     "chinese_branch:hour:Yin",
-    "chinese_year_animal:Tiger"
+    "chinese_year_animal:Tiger",
+    "chinese_dayun_branch:Yin"
   ],
   "source_ids": [
     "augier_bazi_2010"

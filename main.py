@@ -14,7 +14,10 @@ from astrology.sidereal import build_sidereal_chart
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
 from astrology.yogas import find_yogas
+from chinese.dayun import build_da_yun
 from chinese.pillars import build_four_pillars
+from chinese.sexagenary import STEM_INDEX, STEMS
+from chinese.ten_gods import build_ten_gods
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
 from providers.earthquakes import get_earthquakes
@@ -113,11 +116,12 @@ def parse_args():
         "--as-of-date",
         default=None,
         help=(
-            "Optional date (YYYY-MM-DD) to evaluate transits and "
-            "secondary progressions against the birth chart. Must be "
-            "given together with --as-of-time. Interpreted in the "
-            "same --timezone/--utc-offset as --date/--time. Omit to "
-            "skip transits and progressions entirely."
+            "Optional date (YYYY-MM-DD) to evaluate transits, "
+            "secondary progressions, Vimshottari Dasha, and Da Yun "
+            "against the birth chart. Must be given together with "
+            "--as-of-time. Interpreted in the same "
+            "--timezone/--utc-offset as --date/--time. Omit to skip "
+            "all of these timing techniques entirely."
         ),
     )
 
@@ -127,6 +131,21 @@ def parse_args():
         help=(
             "Optional time (HH:MM or HH:MM:SS) paired with "
             "--as-of-date."
+        ),
+    )
+
+    parser.add_argument(
+        "--gender",
+        default=None,
+        choices=("male", "female"),
+        help=(
+            "Required alongside --as-of-date/--as-of-time to compute "
+            "Da Yun (Chinese Luck Pillars) — its direction through "
+            "the sexagenary cycle depends on gender and there is no "
+            "astronomical way to derive it. Da Yun is skipped "
+            "(without error) if --gender is omitted even when "
+            "--as-of is given; other --as-of-dependent techniques "
+            "are unaffected."
         ),
     )
 
@@ -226,15 +245,17 @@ _tropical_chart = build_chart(
 )
 
 _sidereal_chart = build_sidereal_chart(_tropical_chart)
+_four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
 
 observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": _sidereal_chart,
     "vedic_yogas": find_yogas(_sidereal_chart),
     "navamsa": build_navamsa_chart(_sidereal_chart),
-    "chinese_pillars": build_four_pillars(
-        _tropical_chart, args.requested_time_local
-    ).to_dict(),
+    "chinese_pillars": _four_pillars.to_dict(),
+    "chinese_ten_gods": build_ten_gods(
+        _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
+    ),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),
@@ -280,6 +301,18 @@ if args.as_of_time_utc is not None:
     observations["vedic_dasha"] = build_vimshottari_dasha(
         _sidereal_chart, REQUESTED_TIME_AWARE, AS_OF_TIME_AWARE
     )
+
+    if args.gender is not None:
+        year_stem_polarity = STEMS[STEM_INDEX[_four_pillars.year.stem]][2]
+        observations["chinese_dayun"] = build_da_yun(
+            _tropical_chart,
+            year_stem_polarity,
+            _four_pillars.month.stem,
+            _four_pillars.month.branch,
+            args.gender,
+            REQUESTED_TIME_AWARE,
+            AS_OF_TIME_AWARE,
+        )
 # ------------------------------------------------------------
 # PROCESS
 # ------------------------------------------------------------

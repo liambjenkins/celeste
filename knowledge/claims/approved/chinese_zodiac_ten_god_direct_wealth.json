@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_direct_wealth",
+  "lens_id": "chinese_zodiac",
+  "statement": "Direct Wealth represents the element the Day Master controls, opposite its polarity — stable, legitimately earned income and steady material security, built through consistent effort rather than speculation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:direct_wealth",
+    "ten_god:month:direct_wealth",
+    "ten_god:hour:direct_wealth",
+    "ten_god_hidden:year:direct_wealth",
+    "ten_god_hidden:month:direct_wealth",
+    "ten_god_hidden:day:direct_wealth",
+    "ten_god_hidden:hour:direct_wealth"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "stability",
+    "earned_security"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

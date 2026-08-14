@@ -11,7 +11,12 @@
     "chinese_stem:month:Yi",
     "chinese_stem:day:Yi",
     "chinese_stem:hour:Yi",
-    "chinese_day_master:Yi"
+    "chinese_day_master:Yi",
+    "chinese_hidden_stem:year:Yi",
+    "chinese_hidden_stem:month:Yi",
+    "chinese_hidden_stem:day:Yi",
+    "chinese_hidden_stem:hour:Yi",
+    "chinese_dayun_stem:Yi"
   ],
   "source_ids": [
     "augier_bazi_2010"

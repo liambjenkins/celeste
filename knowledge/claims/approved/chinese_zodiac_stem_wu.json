@@ -11,7 +11,12 @@
     "chinese_stem:month:Wu",
     "chinese_stem:day:Wu",
     "chinese_stem:hour:Wu",
-    "chinese_day_master:Wu"
+    "chinese_day_master:Wu",
+    "chinese_hidden_stem:year:Wu",
+    "chinese_hidden_stem:month:Wu",
+    "chinese_hidden_stem:day:Wu",
+    "chinese_hidden_stem:hour:Wu",
+    "chinese_dayun_stem:Wu"
   ],
   "source_ids": [
     "augier_bazi_2010"

@@ -461,6 +461,30 @@ def normalise_observations(observations):
             "chinese_pillars"
         )
 
+    ten_gods = observations.get(
+        "chinese_ten_gods",
+        {}
+    )
+
+    if isinstance(ten_gods, dict) and ten_gods:
+        add_concept(
+            "chinese_ten_gods",
+            ten_gods,
+            "chinese_ten_gods"
+        )
+
+    dayun = observations.get(
+        "chinese_dayun",
+        {}
+    )
+
+    if isinstance(dayun, dict) and dayun:
+        add_concept(
+            "chinese_dayun",
+            dayun,
+            "chinese_dayun"
+        )
+
     # --------------------------------------------------------
     # TRANSITS AND SECONDARY PROGRESSIONS (both optional — only
     # present when --as-of-date/--as-of-time were supplied)

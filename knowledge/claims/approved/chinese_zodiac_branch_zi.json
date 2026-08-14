@@ -11,7 +11,8 @@
     "chinese_branch:month:Zi",
     "chinese_branch:day:Zi",
     "chinese_branch:hour:Zi",
-    "chinese_year_animal:Rat"
+    "chinese_year_animal:Rat",
+    "chinese_dayun_branch:Zi"
   ],
   "source_ids": [
     "augier_bazi_2010"

@@ -88,9 +88,16 @@ for _stem, _meaning in _STEMS.items():
         f"stem_{_stem.lower()}",
         f"{_stem} is {_meaning}.",
         concept_ids=["chinese_pillars"],
+        # A stem's nature doesn't change whether it's one of the four
+        # visible pillar stems, a hidden stem within a branch, or the
+        # stem occupying the current Da Yun (Luck Pillar) — same
+        # claim, matched against all three tag families rather than
+        # duplicated.
         feature_ids=(
             [f"chinese_stem:{pos}:{_stem}" for pos in _POSITIONS]
             + [f"chinese_day_master:{_stem}"]
+            + [f"chinese_hidden_stem:{pos}:{_stem}" for pos in _POSITIONS]
+            + [f"chinese_dayun_stem:{_stem}"]
         ),
         theme_tags=["stem_element"],
         life_domain="identity",
@@ -125,6 +132,7 @@ for _branch, (_animal, _meaning) in _BRANCHES.items():
         feature_ids=(
             [f"chinese_branch:{pos}:{_branch}" for pos in _POSITIONS]
             + [f"chinese_year_animal:{_animal}"]
+            + [f"chinese_dayun_branch:{_branch}"]
         ),
         theme_tags=["branch_animal"],
     )
@@ -150,6 +158,130 @@ for _position, (_meaning, _domain) in _PILLAR_ROLES.items():
         theme_tags=["pillar_role"],
         life_domain=_domain,
     )
+
+
+# ------------------------------------------------------------
+# Ten Gods (十神, Shi Shen) — matched against both visible-stem
+# (ten_god:) and hidden-stem (ten_god_hidden:) tags for every
+# position, since the same Ten God carries the same meaning
+# regardless of which stem in the chart expresses it.
+# Source: Joey Yap, The Ten Gods (2011) — a dedicated reference on
+# this exact technique (verified via search during curation, not
+# recalled from training alone).
+# ------------------------------------------------------------
+
+_TEN_GODS = {
+    "Friend": (
+        "the element that matches the Day Master exactly in both "
+        "element and polarity — companionship, peer support, and "
+        "self-reliance, standing alongside the Day Master rather "
+        "than competing with or serving it",
+        "identity",
+        ["companionship", "self_reliance"],
+    ),
+    "Rob Wealth": (
+        "the same element as the Day Master but opposite polarity — "
+        "a more competitive, rivalrous companionship than Friend, "
+        "prone to contesting resources rather than simply sharing them",
+        "identity",
+        ["competition", "rivalry"],
+    ),
+    "Eating God": (
+        "the element the Day Master generates, matching its polarity "
+        "— artistic talent, enjoyment, and a relaxed, generative "
+        "creativity expressed without needing to provoke or disrupt",
+        "values_and_desire",
+        ["creativity", "enjoyment"],
+    ),
+    "Hurting Officer": (
+        "the element the Day Master generates, opposite its polarity "
+        "— quick-witted, expressive output with a sharper, more "
+        "rebellious edge than Eating God, inclined to challenge "
+        "convention and authority",
+        "expansion_and_meaning",
+        ["rebellion", "expression"],
+    ),
+    "Indirect Wealth": (
+        "the element the Day Master controls, matching its polarity "
+        "— wealth that arrives through windfall, investment, and "
+        "opportunistic connection rather than steady, expected income",
+        "values_and_desire",
+        ["opportunity", "resourcefulness"],
+    ),
+    "Direct Wealth": (
+        "the element the Day Master controls, opposite its polarity "
+        "— stable, legitimately earned income and steady material "
+        "security, built through consistent effort rather than "
+        "speculation",
+        "foundation_and_security",
+        ["stability", "earned_security"],
+    ),
+    "Seven Killings": (
+        "the element that controls the Day Master, matching its "
+        "polarity — pressure, competition, and decisive, "
+        "calculated-risk action; authority that must be actively "
+        "asserted and defended rather than simply held",
+        "drive_and_ambition",
+        ["competition", "assertiveness"],
+    ),
+    "Direct Officer": (
+        "the element that controls the Day Master, opposite its "
+        "polarity — legitimate authority, order, and responsibility, "
+        "held through recognized status and consistent systems rather "
+        "than contested through force",
+        "discipline",
+        ["responsibility", "order"],
+    ),
+    "Indirect Resource": (
+        "the element that generates the Day Master, matching its "
+        "polarity — unconventional learning, instinct, and lateral "
+        "thinking, drawing support from unofficial or unusual sources",
+        "expansion_and_meaning",
+        ["intuition", "unconventional_learning"],
+    ),
+    "Direct Resource": (
+        "the element that generates the Day Master, opposite its "
+        "polarity — formal knowledge, nurturing support, and stable, "
+        "long-term development, drawing support from recognized, "
+        "legitimate sources",
+        "foundation_and_security",
+        ["learning", "nurturing_support"],
+    ),
+}
+
+for _ten_god, (_meaning, _domain, _themes) in _TEN_GODS.items():
+    _slug = _ten_god.lower().replace(" ", "_")
+    _add(
+        f"ten_god_{_slug}",
+        f"{_ten_god} represents {_meaning}.",
+        concept_ids=["chinese_ten_gods"],
+        feature_ids=(
+            [f"ten_god:{pos}:{_slug}" for pos in ("year", "month", "hour")]
+            + [f"ten_god_hidden:{pos}:{_slug}" for pos in _POSITIONS]
+        ),
+        theme_tags=["ten_god"] + _themes,
+        life_domain=_domain,
+        source_id="yap_ten_gods_2011",
+    )
+
+
+# ------------------------------------------------------------
+# Da Yun (Luck Pillars) core meaning
+# Source: Joey Yap, BaZi - The Destiny Code (2005)
+# ------------------------------------------------------------
+
+_add(
+    "dayun_core",
+    "The Da Yun (Luck Pillars) are the 10-year periods overlaid on "
+    "the Four Pillars, each carrying its own Stem-Branch pair — the "
+    "dynamic, unfolding dimension of a BaZi reading, layered on top "
+    "of the fixed birth chart to show which themes are most active "
+    "during a given decade of life.",
+    concept_ids=["chinese_dayun"],
+    theme_tags=["dayun", "timing_and_technique"],
+    life_domain="cyclicality",
+    source_id="yap_destiny_code_2005",
+)
 
 
 def write_claims():

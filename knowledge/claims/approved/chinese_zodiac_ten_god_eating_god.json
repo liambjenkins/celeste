@@ -1,0 +1,29 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_eating_god",
+  "lens_id": "chinese_zodiac",
+  "statement": "Eating God represents the element the Day Master generates, matching its polarity — artistic talent, enjoyment, and a relaxed, generative creativity expressed without needing to provoke or disrupt.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god:year:eating_god",
+    "ten_god:month:eating_god",
+    "ten_god:hour:eating_god",
+    "ten_god_hidden:year:eating_god",
+    "ten_god_hidden:month:eating_god",
+    "ten_god_hidden:day:eating_god",
+    "ten_god_hidden:hour:eating_god"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god",
+    "creativity",
+    "enjoyment"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
