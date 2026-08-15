@@ -565,6 +565,30 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # VEDIC STRUCTURAL FINDINGS
+    # --------------------------------------------------------
+    #
+    # "vedic_structural_findings" is the output of
+    # astrology.vedic_structural_findings.find_vedic_structural_findings():
+    # bhava concentrations and Vargottama (same D1/D9 sign) — the
+    # sidereal counterpart to the Western structural_findings concept.
+    #
+    vedic_structural_findings = observations.get(
+        "vedic_structural_findings",
+        {}
+    )
+
+    if isinstance(vedic_structural_findings, dict) and any(
+        vedic_structural_findings.get(key)
+        for key in ("bhava_concentrations", "vargottama")
+    ):
+        add_concept(
+            "vedic_structural_findings",
+            vedic_structural_findings,
+            "astrology.vedic_structural_findings"
+        )
+
+    # --------------------------------------------------------
     # VEDIC DIVISIONAL CHARTS (Shodasavarga, beyond D1/D9)
     # --------------------------------------------------------
     #

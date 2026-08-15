@@ -19,6 +19,7 @@ from astrology.progressions import build_secondary_progressions
 from astrology.tertiary_progressions import build_tertiary_progressions
 from astrology.varga import build_all_vargas
 from astrology.sidereal import build_sidereal_chart
+from astrology.vedic_structural_findings import find_vedic_structural_findings
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
 from astrology.yogas import find_yogas
@@ -347,6 +348,7 @@ _tropical_chart = build_chart(
 )
 
 _sidereal_chart = build_sidereal_chart(_tropical_chart)
+_navamsa_chart = build_navamsa_chart(_sidereal_chart)
 _four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
 
 # Computed unconditionally (cheap, and needed by elemental_alignment
@@ -359,7 +361,8 @@ observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": _sidereal_chart,
     "vedic_yogas": find_yogas(_sidereal_chart),
-    "navamsa": build_navamsa_chart(_sidereal_chart),
+    "navamsa": _navamsa_chart,
+    "vedic_structural_findings": find_vedic_structural_findings(_sidereal_chart, _navamsa_chart),
     "chinese_pillars": _four_pillars.to_dict(),
     "chinese_ten_gods": build_ten_gods(
         _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity

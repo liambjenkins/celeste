@@ -1036,6 +1036,25 @@ CONCEPTS = {
     ],
     "related": ["navamsa_ascendant", "vedic_positions"]
 },
+"vedic_structural_findings": {
+    "label": "Vedic structural findings",
+    "domain": "space",
+    "description": (
+        "Chart-wide observations in the sidereal chart that describe "
+        "how several independently-computed placements relate as a "
+        "system: bhava (house) concentrations — 3+ significant points "
+        "sharing one bhava — and Vargottama, a planet occupying the "
+        "same sign in both the D1 (Rasi) and D9 (Navamsa) charts, "
+        "classically read as a significant strength-and-stability "
+        "booster except when the shared D1 house is a Dusthana "
+        "(6th/8th/12th), where it's read as unfavorable instead."
+    ),
+    "synonyms": [
+        "bhava concentration", "Vargottama", "house stellium",
+        "Dusthana"
+    ],
+    "related": ["astrological_houses", "vedic_positions", "navamsa_ascendant"]
+},
 "vedic_dignity": {
     "label": "Vedic planetary dignity",
     "domain": "space",

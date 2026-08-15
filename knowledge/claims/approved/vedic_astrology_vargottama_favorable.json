@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_vargottama_favorable",
+  "lens_id": "vedic_astrology",
+  "statement": "Vargottama — a planet occupying the same sign in both the D1 (Rasi) birth chart and the D9 (Navamsa) chart — is 'best among the divisions': the planet's outer expression (D1) and inner, soul-level nature (D9) are aligned, giving it unusual stability and doubled strength. Results connected to this planet tend to be consistent and reliable rather than fluctuating, including during its own Dasha periods.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_structural_findings"
+  ],
+  "feature_ids": [
+    "vargottama:favorable"
+  ],
+  "source_ids": [
+    "vargottama_classical_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "vargottama"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "",
+  "status": "approved"
+}

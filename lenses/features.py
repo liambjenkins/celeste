@@ -866,6 +866,24 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
 
             tags.append(f"varga_present:{varga_n}")
 
+    # Vedic structural findings — bhava concentrations and Vargottama
+    # (astrology.vedic_structural_findings' output), the sidereal
+    # counterpart to the Western structural-findings tags above.
+    vedic_structural_findings_value = _single_value(concepts.get("vedic_structural_findings"))
+
+    if isinstance(vedic_structural_findings_value, dict):
+        for finding in vedic_structural_findings_value.get("bhava_concentrations", []):
+            house = finding.get("house")
+
+            if house is not None:
+                tags.append(f"bhava_concentration:{house}")
+
+        for finding in vedic_structural_findings_value.get("vargottama", []):
+            if finding.get("is_dusthana"):
+                tags.append("vargottama:dusthana")
+            else:
+                tags.append("vargottama:favorable")
+
     # Vedic planetary dignity + Baladi Avastha (astrology.dignity's
     # output: {planet: {"dignity": ..., "avastha": ...}}). Body-
     # agnostic tags, matched the same way sign/nakshatra/bhava claims
