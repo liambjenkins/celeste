@@ -312,6 +312,21 @@ def normalise_observations(observations):
                 "astrology.declination_aspects"
             )
 
+        structural_findings_value = astronomy.get("structural_findings")
+
+        if isinstance(structural_findings_value, dict) and any(
+            structural_findings_value.get(key)
+            for key in (
+                "house_concentrations", "pattern_empty_leg_matches",
+                "declination_relationships",
+            )
+        ):
+            add_concept(
+                "structural_findings",
+                structural_findings_value,
+                "astrology.structural_findings"
+            )
+
         vertex_point = astronomy.get("vertex")
 
         if isinstance(vertex_point, dict) and vertex_point.get("sign"):

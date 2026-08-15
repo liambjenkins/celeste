@@ -7,6 +7,7 @@ from astrology.declination import find_declination_aspects, get_declinations
 from astrology.harmonics import build_harmonic_charts
 from astrology.houses import calculate_houses
 from astrology.rulership import build_rulership
+from astrology.structural_findings import find_structural_findings
 from astrology.aspects import calculate_aspects
 from astrology.elemental_balance import chart_elemental_balance
 from astrology.normaliser import normalise_body
@@ -89,6 +90,14 @@ def build_chart(
     if include_harmonics:
         harmonic_charts = build_harmonic_charts({"houses": houses, "bodies": bodies})
 
+    structural_findings = find_structural_findings({
+        "bodies": bodies,
+        "arabic_parts": arabic_parts,
+        "aspect_patterns": aspect_patterns,
+        "declination_aspects": declination_aspects,
+        "aspects": aspects,
+    })
+
     return {
         "utc_time": astronomy["utc_time"],
         "julian_day": astronomy["julian_day"],
@@ -111,4 +120,5 @@ def build_chart(
         "rulership": rulership,
         "aspect_patterns": aspect_patterns,
         "harmonic_charts": harmonic_charts,
+        "structural_findings": structural_findings,
     }

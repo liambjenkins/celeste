@@ -1,0 +1,23 @@
+{
+  "claim_id": "astrology_pattern_empty_leg_core",
+  "lens_id": "astrology",
+  "statement": "A T-Square's 'empty leg' — the point directly opposite the apex, which the pattern's built-in tension doesn't automatically develop — happens to share a sign with another placement elsewhere in the chart. That's not automatic (most T-squares have no such match): when it happens, the deliberate integration work the T-square calls for is pointed at a specific, otherwise-unrelated part of the chart, rather than staying an abstract missing quality with nowhere concrete to land.",
+  "passage_ids": [],
+  "concept_ids": [
+    "structural_findings",
+    "aspect_patterns"
+  ],
+  "feature_ids": [
+    "pattern_empty_leg_match:t_square"
+  ],
+  "source_ids": [
+    "structural_findings_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "aspect_pattern"
+  ],
+  "life_domain": null,
+  "editorial_note": "Same-SIGN coincidence, not a tight-orb conjunction at the exact empty-leg degree — a body sitting exactly at that degree would already register as a Grand Cross via the existing aspect-pattern detection, which this is deliberately distinct from and complementary to.",
+  "status": "approved"
+}

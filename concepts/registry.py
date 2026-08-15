@@ -759,6 +759,32 @@ CONCEPTS = {
         "astrological_aspects"
     ]
 },
+"structural_findings": {
+    "label": "Structural findings",
+    "domain": "space",
+    "description": (
+        "Chart-wide observations that describe how several "
+        "independently-computed placements relate as a system rather "
+        "than attaching to one body or aspect: multiple significant "
+        "points clustering in one house, an aspect pattern's "
+        "structurally 'empty' point coinciding with an unrelated "
+        "placement, or a declination contact that carries no matching "
+        "longitude aspect at all (genuinely new information rather "
+        "than a second, reinforcing measurement of an aspect already "
+        "visible)."
+    ),
+    "synonyms": [
+        "house concentration",
+        "empty leg",
+        "declination relationship",
+        "structural finding"
+    ],
+    "related": [
+        "astrological_houses",
+        "aspect_patterns",
+        "declination_aspects"
+    ]
+},
 "vertex": {
     "label": "Vertex",
     "domain": "space",

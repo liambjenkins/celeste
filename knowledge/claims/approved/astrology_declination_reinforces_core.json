@@ -1,0 +1,23 @@
+{
+  "claim_id": "astrology_declination_reinforces_core",
+  "lens_id": "astrology",
+  "statement": "A parallel or contraparallel independently confirms an aspect already visible by zodiacal longitude between the same two placements — two different measurements, ecliptic longitude and declination, agreeing. That agreement is worth noting on its own: it makes the underlying aspect's theme more structurally reliable, not just a single coincidental alignment.",
+  "passage_ids": [],
+  "concept_ids": [
+    "structural_findings",
+    "declination_aspects"
+  ],
+  "feature_ids": [
+    "declination_relationship:reinforces"
+  ],
+  "source_ids": [
+    "structural_findings_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "declination_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

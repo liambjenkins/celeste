@@ -630,6 +630,33 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         else:
             tags.append("final_dispositor:none")
 
+    # Structural findings — house concentrations, aspect-pattern
+    # empty-leg matches, and declination relationships (reinforces
+    # vs. genuinely new information relative to the longitude
+    # aspects already tagged above).
+    structural_findings_value = _single_value(concepts.get("structural_findings"))
+
+    if isinstance(structural_findings_value, dict):
+        for finding in structural_findings_value.get("house_concentrations", []):
+            house = finding.get("house")
+
+            if house is not None:
+                tags.append(f"house_concentration:{house}")
+
+        for finding in structural_findings_value.get("pattern_empty_leg_matches", []):
+            pattern = finding.get("pattern")
+
+            if pattern:
+                tags.append(f"pattern_empty_leg_match:{pattern}")
+
+        for finding in structural_findings_value.get("declination_relationships", []):
+            relationship = finding.get("relationship")
+
+            if relationship == "new_information":
+                tags.append("declination_relationship:new_information")
+            elif relationship == "reinforces":
+                tags.append("declination_relationship:reinforces")
+
     ascendant_longitude = _single_value(concepts.get("ascendant"))
     ascendant_sign = None
 

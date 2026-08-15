@@ -1,0 +1,23 @@
+{
+  "claim_id": "astrology_declination_new_information_core",
+  "lens_id": "astrology",
+  "statement": "A parallel or contraparallel — declination-based aspects, a second axis of measurement entirely independent from zodiacal longitude — links two placements with no matching longitude aspect between them at all. That makes it genuinely new information rather than a second confirmation of something already visible: a real, close relationship between these two placements that an aspect grid alone would miss completely.",
+  "passage_ids": [],
+  "concept_ids": [
+    "structural_findings",
+    "declination_aspects"
+  ],
+  "feature_ids": [
+    "declination_relationship:new_information"
+  ],
+  "source_ids": [
+    "structural_findings_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "declination_aspect"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}
