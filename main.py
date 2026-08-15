@@ -31,6 +31,7 @@ from chinese.shen_sha import find_shen_sha
 from chinese.na_yin import build_na_yin
 from chinese.pillars import build_four_pillars
 from chinese.sexagenary import STEM_INDEX, STEMS
+from chinese.structural_findings import find_chinese_structural_findings
 from chinese.ten_gods import build_ten_gods
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
@@ -356,6 +357,9 @@ _four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
 # hid it from claim-matching) — only ITS PRESENCE IN `observations`
 # below is gated by the feature flag.
 _chinese_elemental_balance = build_elemental_balance(_four_pillars)
+_chinese_ten_gods = build_ten_gods(
+    _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
+)
 
 observations = {
     "astrology": _tropical_chart,
@@ -364,9 +368,8 @@ observations = {
     "navamsa": _navamsa_chart,
     "vedic_structural_findings": find_vedic_structural_findings(_sidereal_chart, _navamsa_chart),
     "chinese_pillars": _four_pillars.to_dict(),
-    "chinese_ten_gods": build_ten_gods(
-        _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
-    ),
+    "chinese_ten_gods": _chinese_ten_gods,
+    "chinese_structural_findings": find_chinese_structural_findings(_chinese_ten_gods),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),

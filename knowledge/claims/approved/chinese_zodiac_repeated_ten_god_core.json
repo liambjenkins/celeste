@@ -1,0 +1,31 @@
+{
+  "claim_id": "chinese_zodiac_repeated_ten_god_core",
+  "lens_id": "chinese_zodiac",
+  "statement": "The same Ten God classification repeats across two or more of this chart's stems — visible or hidden. Repetition creates real emphasis: that Ten God's theme (wealth, authority, output, resource, or companionship, depending on which one) isn't a passing note but a recurring pressure or resource this chart returns to more than once. How that emphasis actually plays out still depends on the chart's overall balance and exactly which pillars carry it, not on the repetition alone.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_structural_findings"
+  ],
+  "feature_ids": [
+    "repeated_ten_god:friend",
+    "repeated_ten_god:rob_wealth",
+    "repeated_ten_god:eating_god",
+    "repeated_ten_god:hurting_officer",
+    "repeated_ten_god:indirect_wealth",
+    "repeated_ten_god:direct_wealth",
+    "repeated_ten_god:seven_killings",
+    "repeated_ten_god:direct_officer",
+    "repeated_ten_god:indirect_resource",
+    "repeated_ten_god:direct_resource"
+  ],
+  "source_ids": [
+    "bazi_ten_gods_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "ten_god"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}

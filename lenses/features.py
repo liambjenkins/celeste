@@ -1156,6 +1156,20 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                     chinese_ten_gods.append(ten_god)
                     tags.append(f"ten_god_hidden:{position}:{_slug(ten_god)}")
 
+    # Chinese structural findings — repeated Ten Gods and Guan Sha
+    # Hun Za (chinese.structural_findings' output).
+    chinese_structural_findings_value = _single_value(concepts.get("chinese_structural_findings"))
+
+    if isinstance(chinese_structural_findings_value, dict):
+        for finding in chinese_structural_findings_value.get("repeated_ten_gods", []):
+            ten_god = finding.get("ten_god")
+
+            if ten_god:
+                tags.append(f"repeated_ten_god:{_slug(ten_god)}")
+
+        if chinese_structural_findings_value.get("guan_sha_hun_za"):
+            tags.append("guan_sha_hun_za:present")
+
     # Da Yun (Luck Pillars) — optional, only present when the CLI was
     # given --as-of-date/--as-of-time AND --gender.
     has_dayun = False

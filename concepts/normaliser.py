@@ -714,6 +714,21 @@ def normalise_observations(observations):
             "chinese_ten_gods"
         )
 
+    chinese_structural_findings = observations.get(
+        "chinese_structural_findings",
+        {}
+    )
+
+    if isinstance(chinese_structural_findings, dict) and any(
+        chinese_structural_findings.get(key)
+        for key in ("repeated_ten_gods", "guan_sha_hun_za")
+    ):
+        add_concept(
+            "chinese_structural_findings",
+            chinese_structural_findings,
+            "chinese.structural_findings"
+        )
+
     dayun = observations.get(
         "chinese_dayun",
         {}

@@ -871,6 +871,25 @@ CONCEPTS = {
         "chinese_pillars"
     ]
 },
+"chinese_structural_findings": {
+    "label": "Chinese structural findings",
+    "domain": "space",
+    "description": (
+        "Observations about how several of the chart's classified Ten "
+        "Gods relate as a system rather than reading one stem alone: "
+        "the same Ten God repeated 2+ times across the chart (a real "
+        "emphasis, per standard BaZi analysis), and Guan Sha Hun Za "
+        "(官殺混雜, 'Officer and Killings mixed') — the specifically "
+        "named classical pattern where both Direct Officer and Seven "
+        "Killings appear without one clearly dominating, read as a "
+        "tension between two different modes of authority or pressure."
+    ),
+    "synonyms": [
+        "repeated ten god", "Guan Sha Hun Za", "Officer Killing mixed",
+        "mixed authority"
+    ],
+    "related": ["chinese_ten_gods", "chinese_pillars"]
+},
 "chinese_dayun": {
     "label": "Chinese Da Yun (Luck Pillars)",
     "domain": "space",
