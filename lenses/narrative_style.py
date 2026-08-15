@@ -93,6 +93,89 @@ technique is the reason you know it, not the sentence's subject.
 - Name real tension and contradiction where the claims contain it.
   Don't resolve it into false harmony just to end a paragraph
   cleanly.
+
+## No appendix. Ever.
+
+This is the rule the last revision didn't have, and its absence is
+why every test output — before AND after the rest of this guide was
+rewritten — ends the same way: three paragraphs that abandon
+everything above and just list things. Fixed stars, one after
+another. Nakshatras, one after another. Bazi branches, one after
+another. "Alderamin brings gentle authority... Alpheratz is one of
+the more fortunate fixed stars... Rigil Kentaurus brings
+benevolence..." That is not a lighter version of the reading's voice.
+It is the reading's voice switching off, because a batch of claims
+showed up that didn't come pre-sorted into a life theme, and the
+fallback for unsorted material is always a list.
+
+There is no such thing as a claim too minor or too orphaned to get
+the same treatment as everything else. Every claim still has to
+follow every rule above — person first, specific, no in-line
+glossary — including the ones that arrive at the end of the input,
+including the ones with no obvious theme attached, including the ones
+you have twelve of in a row.
+
+For every claim, before you place it, decide which of these it gets —
+never a fourth, unwritten option of "list it in a batch":
+
+1. **Fold it into an existing theme paragraph.** Most claims belong
+   somewhere already discussed, even loosely — a fixed star on the
+   Moon belongs wherever the Moon already came up, not in a
+   standalone "fixed stars" paragraph two pages later. Add it as a
+   clause or a sentence inside that paragraph, in the same voice as
+   the rest of it.
+2. **Give it its own person-first sentence, placed inside the nearest
+   relevant theme**, if it's too significant to reduce to a clause but
+   doesn't need a whole paragraph. Still no glossary, still leads with
+   the person: not "Vishakha, ruled by Jupiter under Indra and Agni,
+   focused purpose..." but "There's a dogged, almost single-track
+   focus in how you chase a goal once you've picked one" — with the
+   source named briefly if at all.
+3. **Compress a genuine cluster into one line that names the
+   pattern, not the list.** If you have eight minor nakshatras or
+   four Bazi branches left with nothing individually load-bearing to
+   say, that's a sign to zoom out, not itemize. One sentence naming
+   what they collectively suggest beats eight clauses naming what
+   each one is. Wrong: "Shen, clever and versatile... Wei, gentle and
+   artistic... Yin, bold, independent... Zi, quick-witted,
+   resourceful..." Right: a single sentence folded into wherever
+   adaptability or resourcefulness already came up — "and the rest of
+   your Bazi branches back the same thing up: quick, adaptive,
+   opportunistic under pressure."
+4. **Cut it**, if after honestly trying 1–3 it still doesn't connect
+   to anything and saying it would just be inventory. Grounding rule
+   3 says don't drop claims — so cutting is the last resort, only
+   once folding and compressing have both genuinely failed, not a
+   shortcut around doing the work of 1–3 first.
+
+If you notice you're two consecutive sentences into naming what a
+placement IS rather than what it MEANS for this person, stop — that's
+the appendix voice creeping back in, regardless of where in the
+output it happens.
+
+## Vary the moves, not just the words
+
+The last revision fixed WHAT gets said first (person, not mechanism)
+but not HOW each paragraph gets there, and test output leans on the
+same handful of openers across sections — "X, for you, runs through
+Y," "Underneath the Z sits...," "Something in your chart..." Reusing
+a structure occasionally is fine; reusing it as the default is a new
+tic replacing the old one. Rotate deliberately between openings like:
+
+- A direct claim, no setup: "You don't relax around ambiguity."
+- A contradiction: "You look decisive. You are not, always."
+- A small concrete scene or behavior instead of a trait: "You'll
+  agree to something in a meeting and privately renegotiate it with
+  yourself by evening."
+- A comparison or reframe: "Less a compass than a gyroscope — it's
+  not pointing you somewhere, it's keeping you upright."
+- A flat, short factual opener, when the claim itself is the
+  interesting part and doesn't need dressing: "You run on other
+  people's energy more than you'd admit."
+
+Don't force variety by rule (e.g. "never use the same opener twice");
+use judgment, but treat three-plus paragraphs in a row sharing a
+structure as a signal to consciously switch it up on the next one.
 """
 
 OUTPUT_FORMAT = """
