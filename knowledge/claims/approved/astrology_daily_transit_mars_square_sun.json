@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_mars_square_sun",
+  "lens_id": "astrology",
+  "statement": "Just being yourself takes more defending than usual today. Something's pushing on you, and staying steady about who you are takes real effort.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:mars:square:sun"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1074,6 +1074,57 @@ CONCEPTS = {
     ],
     "related": ["astrological_houses", "vedic_positions", "navamsa_ascendant"]
 },
+"daily_moon_phase": {
+    "label": "Daily moon phase",
+    "domain": "space",
+    "description": (
+        "Today's real Sun-Moon angular separation, mapped to the same "
+        "8-phase convention (new, waxing crescent, first quarter, "
+        "waxing gibbous, full, waning gibbous, last quarter, waning "
+        "crescent) already used for the natal Sun-Moon lunation-cycle "
+        "feature — evaluated live, at the current moment, not at "
+        "birth."
+    ),
+    "synonyms": [
+        "moon phase", "lunar phase", "new moon", "full moon"
+    ],
+    "related": ["astrological_aspects"]
+},
+"daily_transit_aspects": {
+    "label": "Daily transit aspects to key points",
+    "domain": "space",
+    "description": (
+        "Today's transiting Sun, Mercury, Venus, Mars, and Moon "
+        "evaluated for real aspects (conjunction, sextile, square, "
+        "trine, opposition, quincunx) against four natal target "
+        "roles: the natal Sun, natal Moon, natal Ascendant, and the "
+        "chart ruler (whichever body that resolves to for this "
+        "chart) — a scoped-down version of the full natal-transits "
+        "grid, built for daily-mode's fast-moving personal-planet "
+        "focus."
+    ),
+    "synonyms": [
+        "transit", "transiting planet", "transit aspect"
+    ],
+    "related": ["astrological_aspects", "astrological_houses"]
+},
+"daily_day_pillar_relationship": {
+    "label": "Daily day pillar relationship",
+    "domain": "space",
+    "description": (
+        "Today's Chinese day pillar (stem + branch) compared against "
+        "the natal day pillar using the same classical stem-"
+        "combination, branch-clash, branch-combination, and branch-"
+        "harm lookup tables already used for natal pillar-to-pillar "
+        "comparisons, applied here to a today-vs-birth-day pairing "
+        "rather than two pillars within one natal chart."
+    ),
+    "synonyms": [
+        "day pillar", "Chong", "He", "Hai", "branch clash",
+        "branch combination", "branch harm"
+    ],
+    "related": ["chinese_pillars", "chinese_interactions"]
+},
 "vedic_dignity": {
     "label": "Vedic planetary dignity",
     "domain": "space",

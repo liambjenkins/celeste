@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_venus_trine_sun",
+  "lens_id": "astrology",
+  "statement": "Today, being liked doesn't take effort. Whatever you already are lands well, without you having to dress it up.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:venus:trine:sun"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

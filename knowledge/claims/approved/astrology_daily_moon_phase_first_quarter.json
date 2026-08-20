@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_moon_phase_first_quarter",
+  "lens_id": "astrology",
+  "statement": "Something's asking for an actual decision today, not more thinking about it. This phase doesn't reward hesitation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_moon_phase"
+  ],
+  "feature_ids": [
+    "daily_moon_phase:first_quarter"
+  ],
+  "source_ids": [
+    "moon_phases_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

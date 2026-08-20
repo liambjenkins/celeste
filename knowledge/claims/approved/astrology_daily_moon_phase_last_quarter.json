@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_moon_phase_last_quarter",
+  "lens_id": "astrology",
+  "statement": "Something's overdue to be let go of, and today makes that harder to keep avoiding. Holding on costs more than releasing does right now.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_moon_phase"
+  ],
+  "feature_ids": [
+    "daily_moon_phase:last_quarter"
+  ],
+  "source_ids": [
+    "moon_phases_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

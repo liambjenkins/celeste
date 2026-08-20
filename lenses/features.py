@@ -657,6 +657,53 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
             elif relationship == "reinforces":
                 tags.append("declination_relationship:reinforces")
 
+    # Daily mode — today's moon phase, transit-to-key-point aspects,
+    # and day-pillar relationship (astrology.daily's three functions,
+    # explicitly opt-in via a daily-mode caller, not part of the
+    # always-on natal computation).
+    daily_moon_phase_value = _single_value(concepts.get("daily_moon_phase"))
+
+    if isinstance(daily_moon_phase_value, dict):
+        phase_name = daily_moon_phase_value.get("phase_name")
+
+        if phase_name:
+            tags.append(f"daily_moon_phase:{phase_name}")
+
+    daily_transit_aspects_value = _single_value(concepts.get("daily_transit_aspects"))
+
+    if isinstance(daily_transit_aspects_value, list):
+        for item in daily_transit_aspects_value:
+            transiting_body = item.get("transiting_body")
+            target_role = item.get("target_role")
+            aspect = item.get("aspect")
+
+            if transiting_body and target_role and aspect:
+                tags.append(
+                    f"daily_transit_aspect:{transiting_body}:{aspect}:{target_role}"
+                )
+                # Also push the generic transit_aspect:<type> tag so
+                # an already-approved generic aspect-type claim (e.g.
+                # astrology_aspect_trine.json) still gives baseline
+                # coverage for any specific body/target combo that
+                # doesn't yet have its own daily-mode fragment,
+                # rather than firing nothing at all.
+                tags.append(f"transit_aspect:{aspect}")
+
+    daily_day_pillar_value = _single_value(concepts.get("daily_day_pillar_relationship"))
+
+    if isinstance(daily_day_pillar_value, dict):
+        if daily_day_pillar_value.get("stem_combination"):
+            tags.append("daily_day_pillar:stem_combination")
+
+        if daily_day_pillar_value.get("branch_clash"):
+            tags.append("daily_day_pillar:branch_clash")
+
+        if daily_day_pillar_value.get("branch_combination"):
+            tags.append("daily_day_pillar:branch_combination")
+
+        if daily_day_pillar_value.get("branch_harm"):
+            tags.append("daily_day_pillar:branch_harm")
+
     ascendant_longitude = _single_value(concepts.get("ascendant"))
     ascendant_sign = None
 

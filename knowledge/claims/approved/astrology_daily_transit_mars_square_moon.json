@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_mars_square_moon",
+  "lens_id": "astrology",
+  "statement": "Today, what you need to do and what you need to feel are pulling in different directions. Expect some real friction if you try to ignore either one.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:mars:square:moon"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "Spot-verified via web search during curation across 9 independent sources (Medium/Hermes Astrology, AstroLibrary, Astrology.com, AstroMatrix, Astro-Seek, Astrolis, MyAstro, Astrology King, Hiroki Niizato Astrology), all converging on the same core mechanism: Mars' urgency/action colliding with the Moon's need for emotional safety and rest.",
+  "status": "approved"
+}

@@ -1191,4 +1191,53 @@ def normalise_observations(observations):
                 ],
                 "solar_activity.observations.solar_activity.sunspot_number"
             )
+
+    # --------------------------------------------------------
+    # DAILY MODE: moon phase, transit-to-key-point aspects,
+    # day-pillar relationship
+    # --------------------------------------------------------
+    #
+    # These are the output of astrology.daily's three functions,
+    # computed explicitly by a daily-mode caller (not part of
+    # build_chart()'s always-on natal computation, since they're
+    # evaluated at "now"/"today," not at birth). Distinct from the
+    # natal Sun-Moon lunation-cycle feature already emitted by
+    # lenses/features.py -- that one describes the birth chart's own
+    # Sun-Moon relationship; this describes today's real sky.
+    #
+    daily_moon_phase = observations.get("daily_moon_phase")
+
+    if isinstance(daily_moon_phase, dict) and daily_moon_phase.get("phase_name"):
+        add_concept(
+            "daily_moon_phase",
+            daily_moon_phase,
+            "astrology.daily.compute_current_moon_phase"
+        )
+
+    daily_transit_aspects = observations.get("daily_transit_aspects")
+
+    if isinstance(daily_transit_aspects, list) and daily_transit_aspects:
+        add_concept(
+            "daily_transit_aspects",
+            daily_transit_aspects,
+            "astrology.daily.compute_transit_aspects_to_key_points"
+        )
+
+    daily_day_pillar_relationship = observations.get(
+        "daily_day_pillar_relationship"
+    )
+
+    if isinstance(daily_day_pillar_relationship, dict) and any(
+        daily_day_pillar_relationship.get(key)
+        for key in (
+            "stem_combination", "branch_clash",
+            "branch_combination", "branch_harm",
+        )
+    ):
+        add_concept(
+            "daily_day_pillar_relationship",
+            daily_day_pillar_relationship,
+            "astrology.daily.compute_daily_day_pillar_relationship"
+        )
+
     return concepts

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_moon_phase_full",
+  "lens_id": "astrology",
+  "statement": "Whatever's been building finally shows itself today, one way or another. This isn't a day that stays quiet.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_moon_phase"
+  ],
+  "feature_ids": [
+    "daily_moon_phase:full_moon"
+  ],
+  "source_ids": [
+    "moon_phases_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}
