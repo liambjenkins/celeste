@@ -13,6 +13,16 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <h1>Celeste — {{ today }}</h1>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul>
+    {% for category, message in messages %}
+      <li><strong>{{ category }}:</strong> {{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <p><a href="/?force=1">Regenerate</a> (manual trigger for testing; page normally caches once per day)</p>
 <p>Generation method: {{ result.synthesis_method }}</p>
 

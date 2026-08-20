@@ -18,13 +18,16 @@ than being hardcoded here -- same principle as this project's own
 earlier "un-hardcode birth data in main.py" fix.
 """
 
+import base64
 import json
 import os
+import secrets
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+import requests
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 from astrology.chart import build_chart
 from astrology.time import local_to_utc
@@ -36,8 +39,15 @@ load_dotenv()
 DATA_DIR = Path(__file__).resolve().parent / "data"
 CACHE_PATH = DATA_DIR / "daily_cache.json"
 FEEDBACK_LOG_PATH = DATA_DIR / "feedback_log.jsonl"
+GITHUB_FEEDBACK_PATH = "data/feedback_log.jsonl"
+GITHUB_API = "https://api.github.com"
 
 app = Flask(__name__)
+# Only used for flash() messages -- this is a single-user tool with no
+# real session-security requirement, so a random per-boot key is fine.
+# A restart occasionally losing an in-flight flash message is a
+# trivial, acceptable edge case.
+app.secret_key = os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(16)
 
 
 def _birth_config() -> dict:
@@ -135,13 +145,79 @@ def index():
     return render_template("daily.html", result=result, today=date.today().isoformat())
 
 
+def _commit_feedback_entry(entry: dict) -> tuple[bool, str]:
+    """
+    Appends one JSON line to data/feedback_log.jsonl in the GitHub
+    repo via the Contents API (plain requests, matching this
+    project's existing house style for external HTTP calls --
+    providers/atmosphere.py, lenses/narrative_backend.py -- no new
+    SDK dependency). This is the durable copy: Render's free tier has
+    an ephemeral filesystem, so a purely local log would be lost on
+    every spin-down.
+
+    Returns (success, message) -- never raises, so a GitHub-side
+    failure can't take down the /edit request; the caller decides
+    what to do with the result rather than this function hiding it.
+    """
+
+    token = os.environ.get("CELESTE_GITHUB_TOKEN")
+    repo = os.environ.get("CELESTE_GITHUB_REPO")
+    branch = os.environ.get("CELESTE_GITHUB_BRANCH", "main")
+
+    if not token or not repo:
+        return False, (
+            "GitHub persistence not configured (CELESTE_GITHUB_TOKEN / "
+            "CELESTE_GITHUB_REPO unset) -- edit saved locally only."
+        )
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+    }
+    url = f"{GITHUB_API}/repos/{repo}/contents/{GITHUB_FEEDBACK_PATH}"
+
+    try:
+        get_resp = requests.get(url, headers=headers, params={"ref": branch}, timeout=15)
+
+        if get_resp.status_code == 200:
+            current = get_resp.json()
+            existing_content = base64.b64decode(current["content"]).decode("utf-8")
+            sha = current["sha"]
+        elif get_resp.status_code == 404:
+            existing_content = ""
+            sha = None
+        else:
+            return False, f"GitHub read failed ({get_resp.status_code}): {get_resp.text[:200]}"
+
+        new_content = existing_content + json.dumps(entry) + "\n"
+        payload = {
+            "message": f"Feedback edit: {entry['element_type']} ({entry['date']})",
+            "content": base64.b64encode(new_content.encode("utf-8")).decode("utf-8"),
+            "branch": branch,
+        }
+        if sha:
+            payload["sha"] = sha
+
+        put_resp = requests.put(url, headers=headers, json=payload, timeout=15)
+    except requests.RequestException as error:
+        return False, f"GitHub commit failed (network error): {error}"
+
+    if put_resp.status_code in (200, 201):
+        return True, "Edit committed to GitHub."
+
+    return False, f"GitHub commit failed ({put_resp.status_code}): {put_resp.text[:200]}"
+
+
 @app.route("/edit", methods=["POST"])
 def edit():
-    """Crude feedback-capture: appends one JSON line per edit to
-    data/feedback_log.jsonl. Append-only -- no read-modify-write of
-    the whole file, no database. Capture only; nothing here feeds
-    edits back into generation yet (explicitly out of scope for this
-    pass)."""
+    """Crude feedback-capture: every edit is committed durably to the
+    GitHub repo (_commit_feedback_entry) AND written to the local
+    data/feedback_log.jsonl as a same-container best-effort mirror --
+    never silently drop an edit, matching the "never silently
+    discard" discipline already established for e.g. fact_check()
+    findings in lenses/narrative_validation.py. Capture only; nothing
+    here feeds edits back into generation yet (explicitly out of
+    scope for this pass)."""
 
     entry = {
         "date": date.today().isoformat(),
@@ -154,6 +230,9 @@ def edit():
     DATA_DIR.mkdir(exist_ok=True)
     with open(FEEDBACK_LOG_PATH, "a") as f:
         f.write(json.dumps(entry) + "\n")
+
+    committed, message = _commit_feedback_entry(entry)
+    flash(message, "success" if committed else "warning")
 
     return redirect(url_for("index"))
 

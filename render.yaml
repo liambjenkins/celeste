@@ -1,0 +1,36 @@
+# Render Blueprint for web.py (daily-mode web scaffold).
+#
+# Connect this repo in Render's dashboard via "New > Blueprint" -- it
+# auto-detects this file, and future pushes to the configured branch
+# auto-deploy. All secrets below are marked sync: false, so Render
+# prompts for real values in its dashboard on first deploy; nothing
+# sensitive is ever committed here.
+
+services:
+  - type: web
+    name: celeste-daily
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn web:app
+    envVars:
+      - key: CELESTE_BIRTH_DATE
+        sync: false
+      - key: CELESTE_BIRTH_TIME
+        sync: false
+      - key: CELESTE_TIMEZONE
+        sync: false
+      - key: CELESTE_LATITUDE
+        sync: false
+      - key: CELESTE_LONGITUDE
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CELESTE_GITHUB_TOKEN
+        sync: false
+      - key: CELESTE_GITHUB_REPO
+        sync: false
+      - key: CELESTE_GITHUB_BRANCH
+        sync: false
+      - key: FLASK_SECRET_KEY
+        sync: false
