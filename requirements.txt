@@ -6,3 +6,4 @@ earthaccess
 xarray
 numpy
 tzdata
+flask

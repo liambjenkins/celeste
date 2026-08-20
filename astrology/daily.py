@@ -101,6 +101,25 @@ def compute_current_moon_phase(as_of_utc_time: datetime) -> dict:
     }
 
 
+def compute_current_sun_sign(as_of_utc_time: datetime) -> dict:
+    """
+    Today's real transiting Sun sign (tropical) -- a raw astronomical
+    fact independent of any natal chart, not an interpretive claim.
+    Reuses the exact same get_astronomy() + longitude_to_zodiac() pair
+    compute_current_moon_phase() already calls for the Sun.
+    """
+
+    astronomy = get_astronomy(as_of_utc_time)
+    sun_longitude = astronomy["bodies"]["sun"]["longitude"]
+    zodiac = longitude_to_zodiac(sun_longitude)
+
+    return {
+        "sign": zodiac["sign"],
+        "degree": zodiac["degree"],
+        "longitude": sun_longitude,
+    }
+
+
 def _chart_ruler_body(natal_chart: dict) -> str:
     ascendant_longitude = natal_chart["houses"]["angles"]["ascendant"]
     ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]

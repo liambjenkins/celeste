@@ -1,0 +1,99 @@
+<!--
+Celeste daily-mode web scaffold -- deliberately plain HTML, default
+browser styling only. No design decisions here; this is plumbing for
+Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Celeste — {{ today }}</title>
+</head>
+<body>
+
+<h1>Celeste — {{ today }}</h1>
+
+<p><a href="/?force=1">Regenerate</a> (manual trigger for testing; page normally caches once per day)</p>
+<p>Generation method: {{ result.synthesis_method }}</p>
+
+<hr>
+
+<h2>Reading</h2>
+<p>{{ result.reading }}</p>
+<p><small>Sources: {{ result.reading_source_claim_ids | join(', ') }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="reading">
+  <input type="hidden" name="original_text" value="{{ result.reading }}">
+  <input type="hidden" name="sources" value="{{ result.reading_source_claim_ids | join(', ') }}">
+  <textarea name="edited_text" rows="4" cols="60">{{ result.reading }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>Moon Phase</h2>
+<p>{{ result.moon_phase.label }}</p>
+<p><small>Source: {{ result.moon_phase.source_claim_id or 'none' }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="moon_phase">
+  <input type="hidden" name="original_text" value="{{ result.moon_phase.label }}">
+  <input type="hidden" name="sources" value="{{ result.moon_phase.source_claim_id or '' }}">
+  <textarea name="edited_text" rows="1" cols="60">{{ result.moon_phase.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>Sun Sign</h2>
+<p>{{ result.sun_sign.label }}</p>
+<p><small>{{ result.sun_sign.note }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="sun_sign">
+  <input type="hidden" name="original_text" value="{{ result.sun_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.sun_sign.note }}">
+  <textarea name="edited_text" rows="1" cols="60">{{ result.sun_sign.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>Chinese Day Pillar</h2>
+<p>{{ result.chinese_day_pillar.label }}</p>
+<p><small>{{ result.chinese_day_pillar.note }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="chinese_day_pillar">
+  <input type="hidden" name="original_text" value="{{ result.chinese_day_pillar.label }}">
+  <input type="hidden" name="sources" value="{{ result.chinese_day_pillar.note }}">
+  <textarea name="edited_text" rows="1" cols="60">{{ result.chinese_day_pillar.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>Action Prompt</h2>
+<p>{{ result.action_prompt }}</p>
+<p><small>Source: {{ result.action_prompt_source_claim_id or 'none' }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="action_prompt">
+  <input type="hidden" name="original_text" value="{{ result.action_prompt }}">
+  <input type="hidden" name="sources" value="{{ result.action_prompt_source_claim_id or '' }}">
+  <textarea name="edited_text" rows="2" cols="60">{{ result.action_prompt }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>All resolved claims (full attribution)</h2>
+<ul>
+{% for claim in result.claims %}
+  <li>
+    <strong>{{ claim.claim_id }}</strong> ({{ claim.life_domain }}) —
+    {{ claim.claim_text }}
+    <br><small>sources: {{ claim.source_ids | join(', ') }};
+    features: {{ claim.sources | map(attribute='value') | join(', ') }}</small>
+  </li>
+{% endfor %}
+</ul>
+
+</body>
+</html>

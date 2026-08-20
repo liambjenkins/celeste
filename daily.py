@@ -34,6 +34,7 @@ from datetime import datetime, timezone
 from astrology.chart import build_chart
 from astrology.daily import (
     compute_current_moon_phase,
+    compute_current_sun_sign,
     compute_daily_day_pillar_relationship,
     compute_transit_aspects_to_key_points,
 )
@@ -112,25 +113,35 @@ _CLAIM_PRIORITY = (
 
 
 def _pick_action_prompt(daily_claims):
+    """Returns (prompt_text, source_claim_id) -- the claim_id lets
+    callers (e.g. the web scaffold) show real attribution for the
+    action prompt instead of inferring it after the fact."""
+
     by_id = {item.claim.claim_id: item.claim for item in daily_claims}
 
     for claim_id in _CLAIM_PRIORITY:
         if claim_id in by_id:
             claim = by_id[claim_id]
-            return _ACTION_PROMPTS.get(
-                claim.life_domain,
-                "Meet today on its own terms, not yesterday's.",
+            return (
+                _ACTION_PROMPTS.get(
+                    claim.life_domain,
+                    "Meet today on its own terms, not yesterday's.",
+                ),
+                claim_id,
             )
 
     # Moon phase always resolves (it's a standalone daily fact), so
     # this is the real fallback when nothing else fired today.
     for item in daily_claims:
         if item.claim.claim_id.startswith("astrology_daily_moon_phase"):
-            return _ACTION_PROMPTS.get(
-                item.claim.life_domain, "Match today's pace instead of forcing yesterday's."
+            return (
+                _ACTION_PROMPTS.get(
+                    item.claim.life_domain, "Match today's pace instead of forcing yesterday's."
+                ),
+                item.claim.claim_id,
             )
 
-    return "Meet today on its own terms, not yesterday's."
+    return "Meet today on its own terms, not yesterday's.", None
 
 
 # Small, hand-checked pool of connective phrases (no em dash, no
@@ -365,15 +376,18 @@ def build_daily_reading(
     is present only when real synthesis ran.
     """
 
+    moon_phase_data = compute_current_moon_phase(as_of_utc_time)
+    day_pillar_relationship = compute_daily_day_pillar_relationship(
+        four_pillars.day, as_of_utc_time.date()
+    )
+
     observations = {
         "astrology": natal_chart,
-        "daily_moon_phase": compute_current_moon_phase(as_of_utc_time),
+        "daily_moon_phase": moon_phase_data,
         "daily_transit_aspects": compute_transit_aspects_to_key_points(
             natal_chart, as_of_utc_time
         ),
-        "daily_day_pillar_relationship": compute_daily_day_pillar_relationship(
-            four_pillars.day, as_of_utc_time.date()
-        ),
+        "daily_day_pillar_relationship": day_pillar_relationship,
     }
 
     concepts = normalise_observations(observations)
@@ -409,14 +423,47 @@ def build_daily_reading(
     if reading_text is None:
         reading_text = _assemble_reading_text(daily_claims)
 
-    action_prompt = _pick_action_prompt(daily_claims)
+    action_prompt, action_prompt_source_claim_id = _pick_action_prompt(daily_claims)
+
+    moon_phase_claim_id = next(
+        (
+            item.claim.claim_id
+            for item in daily_claims
+            if item.claim.claim_id.startswith("astrology_daily_moon_phase")
+        ),
+        None,
+    )
+    sun_sign_data = compute_current_sun_sign(as_of_utc_time)
+    today_pillar = day_pillar_relationship["today_pillar"]
 
     result = {
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "claims": attributed,
         "reading": reading_text,
+        "reading_source_claim_ids": [item.claim.claim_id for item in daily_claims],
         "action_prompt": action_prompt,
+        "action_prompt_source_claim_id": action_prompt_source_claim_id,
         "synthesis_method": synthesis_method,
+        "moon_phase": {
+            "label": moon_phase_data["phase_name"].replace("_", " ").title(),
+            "source_claim_id": moon_phase_claim_id,
+        },
+        "sun_sign": {
+            "label": sun_sign_data["sign"],
+            "note": (
+                "Computed from today's real Sun position (tropical), "
+                "not an interpretive claim."
+            ),
+        },
+        "chinese_day_pillar": {
+            "label": today_pillar["name"],
+            "note": (
+                "Computed calendrical pillar, not itself an interpretive "
+                "claim -- any clash/combination/harm relative to the "
+                "natal day pillar is already reflected in the reading "
+                "above when it applies."
+            ),
+        },
     }
 
     if synthesis_validation is not None:
