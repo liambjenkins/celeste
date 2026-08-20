@@ -24,6 +24,32 @@ AnthropicNarrativeBackend / MissingAPIKeyError) and
 lenses.narrative_validation (check_coverage / fact_check) unmodified
 -- both are already fully generic over claims + narrative text, no
 natal-chart-specific assumptions in either.
+
+Revised a second time after testing against genuinely novel claim
+combinations (not just the addendum's own locked example) surfaced two
+real problems the first draft didn't catch:
+
+- A claim pair with different life_domains and no real shared
+  mechanism (a moon-phase/cyclicality claim + a day-pillar/
+  relationships claim about an unrelated topic) got merged with an
+  invented causal "because" clause the source claims never supported
+  -- exactly the fabrication grounding rule 1 already banned for
+  backstory, just showing up as invented causality between two real
+  claims instead. The guide had zero worked example of the correct
+  SPLIT case to pattern-match against, only the unified-throughline
+  case, which likely explains why the model defaulted to forcing unity
+  even where the earned-complexity bar wasn't met. Fixed by adding a
+  second locked example that IS a genuine split.
+- Output consistently ran longer and more explanatory than the user's
+  own locked example, even though both were "two to three sentences."
+  Comparing sentence-by-sentence against the locked example showed the
+  gap wasn't really about sentence count -- it was two-clause sentences
+  restating the same fact twice, generic advice-tag endings ("so use
+  it"), and mild over-explanation of WHY a feeling is true rather than
+  just stating it. This is the same "AI-y," bloated register the natal
+  narrative feature (lenses.narrative_style) already diagnosed and
+  fixed once for the full-chart case -- ported the same fixes here
+  rather than re-deriving them from scratch.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -44,12 +70,25 @@ DAILY_GROUNDING_RULES = """
    orphaned to include" case here -- every claim gets folded into the
    throughline (as an implicit reason for another claim's weight) or
    given its own clause or sentence. Do not silently omit one.
-3. You may connect claims because you have identified a real shared
-   relationship between what they describe (see "Find the story"
-   below) -- never because a transition word makes unrelated facts
-   read smoothly together. If two claims genuinely don't relate,
-   present them as two separate short beats rather than force a
-   connection that isn't there.
+3. You may connect claims ONLY because you have identified a real
+   shared relationship between what they describe (see "Find the
+   story" below) -- never because a transition word makes unrelated
+   facts read smoothly together, and never by inventing a causal link
+   ("because," "so," "which means") between two claims that don't
+   actually explain each other. If two claims genuinely don't relate,
+   present them as two separate short beats -- see the second worked
+   example below for exactly what that looks like.
+
+   A real failure, caught during testing, worth checking your own
+   draft against: given a moon-phase claim about resisting the urge to
+   rush a personal project, and an unrelated day-pillar claim about
+   relational harmony, a draft wrote "That's easier than it would
+   otherwise be, because today actually cooperates with you,
+   especially in your closest relationship" -- inventing a causal link
+   (relational harmony making it easier to finish your own project)
+   that neither source claim states or implies. The two claims have
+   different life_domains and no shared mechanism; they should have
+   been two separate beats, not joined by a fabricated "because."
 4. Astrology/BaZi terminology (planet names, aspect names, pillar/
    stem/branch names, technique names) stays entirely backend. It
    never appears inside the reading itself.
@@ -133,6 +172,36 @@ cut.
   therapy-speak padding, no generic truisms a reading like this could
   say on any day regardless of its actual claims.
 
+### Say it once, then stop
+
+Tested output kept running longer and more explanatory than the
+user's own locked example even while technically staying at "two to
+three sentences" -- the actual problem was word economy within each
+sentence, not sentence count. Fix these specifically:
+
+- **Don't restate a fact twice in one sentence.** Wrong: "Whatever you
+  do about it won't stay contained to you, it's going to reach someone
+  close to you as well" -- the second clause just repeats the first in
+  different words. Right: "Whatever comes up won't just affect you."
+  If a clause doesn't add new information, cut it.
+- **No generic advice-tag endings.** "So use it," "so use that while
+  you have it," and similar tacked-on imperatives read like a fortune-
+  cookie closer, not something specific to today. If a claim is a
+  resource, state what it is; don't append a generic "use it" tag.
+- **Don't explain the psychological WHY.** "The pull between what you
+  need to do and what you need to feel is exactly what makes holding
+  off so tempting" is over-explaining a mechanism instead of just
+  stating the felt fact -- the same "mechanism before person" failure
+  this project already fixed once for the full-chart narrative
+  (lenses.narrative_style). State the feeling; don't narrate its
+  psychology.
+- **Target roughly 6-12 words per sentence**, matching the locked
+  example's own rhythm ("Today isn't the day to sit on the fence" is
+  9 words; "Whatever comes up won't just affect you" is 7). A sentence
+  pushing past 18-20 words is very likely doing two things at once --
+  split it or cut a qualifier, don't just let it run on with commas
+  and "and."
+
 ## Worked example (locked, for calibration -- not to be reused verbatim as content)
 
 Source claims for the day:
@@ -164,6 +233,40 @@ What this is doing structurally:
   been a fourth beat the reading didn't need. This is folding done
   correctly, not a dropped claim: it left a real trace (the weight of
   sentence 1), it just didn't get its own clause.
+
+## Second worked example (locked, for calibration -- the SPLIT case)
+
+This pair is the exact combination that produced the invented-
+causality failure described in grounding rule 3. It's included so
+there's a real pattern to match against for "genuinely don't relate,"
+not just for "found a real throughline."
+
+Source claims for the day:
+- daily_moon_phase:waxing_gibbous -- close to finishing something, the
+  temptation is to rush the last adjustments instead of doing them
+- daily_day_pillar:branch_combination -- today cooperates with you,
+  especially in your closest relationship; harmony there comes easier
+
+Locked reading:
+"Don't cut this short. It still needs the last real adjustments, not
+an early stop. Today's also easy on your closest relationship, more
+than usual."
+
+What this is doing structurally:
+- These two claims have different life_domains (cyclicality vs.
+  relationships) and no shared mechanism -- nothing about relational
+  ease actually explains why finishing a personal project gets easier.
+  The earned-complexity bar is met, so this is correctly two beats,
+  not one throughline.
+- Sentences 1-2 (moon phase) state the felt fact and its content in
+  two short, plain clauses -- no explanation of why rushing is
+  tempting, just the fact and the correction.
+- Sentence 3 (day pillar) is introduced with "also" -- a flat
+  additive, not a causal connector. It marks "here's a second, true,
+  unrelated thing about today," not "and that's why the first thing
+  is true." Compare the REJECTED version from grounding rule 3: "That's
+  easier than it would otherwise be, because today actually cooperates
+  with you" invents exactly the causal link "also" correctly avoids.
 """
 
 OUTPUT_FORMAT = """
