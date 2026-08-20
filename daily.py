@@ -10,11 +10,20 @@ Reuses the existing natal pipeline (astrology.chart.build_chart,
 chinese.pillars.build_four_pillars), the existing claim-matching
 architecture (concepts.normaliser, lenses.features, knowledge.claims.
 resolver -- exactly the same resolve_claims() natal claims already go
-through), and astrology.daily's three new computations. The only new
-assembly step is: resolve, then filter down to claims tagged
-"daily_mode", then weave those into one short reading plus a
-structured, attributed JSON list -- per the daily-mode brief's
-section 5 shape.
+through), and astrology.daily's three new computations to resolve
+today's claims.
+
+Reading assembly is real LLM-based synthesis (lenses.narrative_backend,
+reused unmodified from N4's natal narrative feature), per "Celeste —
+Daily Mode Synthesis Addendum": two prior deterministic attempts (flat
+concatenation, then ordering + connector phrases) were both rejected --
+connective words are not connective logic. _synthesize_reading() finds
+the day's actual throughline and folds/composes claims into 2-3
+sentences of real prose. When no ANTHROPIC_API_KEY is available (the
+synthesis backend's own MissingAPIKeyError), _assemble_reading_text()
+is a clearly-labeled deterministic fallback -- ordering claims by
+priority and joining with rotating connector phrases -- so the CLI
+still produces a reading rather than failing outright.
 """
 
 import argparse
@@ -32,7 +41,16 @@ from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 from concepts.normaliser import normalise_observations
 from knowledge.claims.resolver import resolve_claims
+from lenses.daily_narrative_style import build_daily_synthesis_prompt
 from lenses.features import build_features
+from lenses.narrative_backend import (
+    AnthropicNarrativeBackend,
+    MissingAPIKeyError,
+    NarrativeBackend,
+    NarrativeBackendError,
+)
+from lenses.narrative_input import NarrativeClaim, format_source
+from lenses.narrative_validation import check_coverage, fact_check
 
 
 def _resolve_daily_claims(concepts, features):
@@ -115,25 +133,15 @@ def _pick_action_prompt(daily_claims):
     return "Meet today on its own terms, not yesterday's."
 
 
-# How many non-moon-phase claims get woven into the flowing reading
-# text. Moon phase always anchors the reading (it's the one claim
-# guaranteed to resolve every day, and it's broad daily context rather
-# than personal-chart-specific, so it leads before narrowing to the
-# day-pillar/transit content). This cap keeps a busy day's reading
-# "sparse and meaningful, not exhaustive" per the daily-mode brief --
-# it does NOT affect the attributed `claims` JSON list, which stays
-# built from every resolved claim, uncapped, since full attribution is
-# a separate, non-negotiable requirement.
-_MAX_READING_SUPPORTING_CLAIMS = 2
-
 # Small, hand-checked pool of connective phrases (no em dash, no
 # hedging, no astrology jargon, no reference to method/confidence --
-# same bar as celeste-style-guide.md's language rules and its
-# full-narrative-assembly addendum) used to join ordered claims into
-# one flowing reading instead of bare concatenation. Rotated rather
-# than fixed so two connectors never repeat back to back within one
-# reading, per the addendum's "vary the moves" rule -- real even at
-# the 2-3-claim scale a daily reading actually reaches.
+# same bar as celeste-style-guide.md's language rules) used only by
+# the DETERMINISTIC FALLBACK path below, when the real LLM synthesis
+# backend (_synthesize_reading) is unavailable. Per "Celeste — Daily
+# Mode Synthesis Addendum," ordering + connector phrases is NOT real
+# synthesis -- connective words are not connective logic -- so this is
+# clearly a degraded-mode fallback, not the primary path. Rotated so
+# two connectors never repeat back to back within one reading.
 _CONNECTORS = (
     "Alongside that",
     "Still",
@@ -149,8 +157,10 @@ def _order_reading_claims(daily_claims):
     _CLAIM_PRIORITY (ties/unlisted claims keep their original relative
     order) with transit-aspect orb as a documented secondary key --
     tighter orb means the aspect is more exactly in effect today, a
-    real astrological quantity rather than an arbitrary tiebreaker --
-    then capped to _MAX_READING_SUPPORTING_CLAIMS.
+    real astrological quantity rather than an arbitrary tiebreaker.
+    Uncapped: every resolved claim is represented in the fallback
+    reading (see _assemble_reading_text) so `reading` and the
+    attributed `claims` list can never go out of sync.
 
     Returns (None, []) in the degenerate case where moon phase somehow
     didn't resolve (shouldn't happen -- it's a standalone daily fact --
@@ -206,18 +216,21 @@ def _order_reading_claims(daily_claims):
         enumerate(supporting),
         key=lambda pair: (_priority_rank(pair[1]), _orb(pair[1]), pair[0]),
     )
-    ordered_supporting = [item for _, item in ranked][:_MAX_READING_SUPPORTING_CLAIMS]
+    ordered_supporting = [item for _, item in ranked]
 
     return moon_phase_item, ordered_supporting
 
 
 def _assemble_reading_text(daily_claims):
     """
-    Real reading assembly: moon phase (always present) anchors the
-    reading, followed by up to _MAX_READING_SUPPORTING_CLAIMS ranked
-    supporting claims, joined with rotating connector phrases instead
-    of raw concatenation. A single resolved claim is returned as-is --
-    no connector needed or wanted for the common one-claim day.
+    DETERMINISTIC FALLBACK ONLY -- used when _synthesize_reading()
+    can't run (no ANTHROPIC_API_KEY). This is ordering + connector
+    phrases, not real synthesis; it does not find a throughline or
+    fold claims together the way the real synthesis path does. Moon
+    phase (always present) anchors the reading, followed by every
+    other resolved claim ranked by priority, joined with rotating
+    connector phrases instead of raw concatenation. A single resolved
+    claim is returned as-is -- no connector needed for a one-claim day.
     """
 
     moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims)
@@ -240,13 +253,116 @@ def _assemble_reading_text(daily_claims):
     return reading
 
 
-def build_daily_reading(natal_chart: dict, four_pillars, as_of_utc_time: datetime) -> dict:
+# daily_claims only ever comes from these two lenses (see
+# _resolve_daily_claims above) -- a small local mapping rather than
+# importing narrative_input's private, natal-scoped _LENS_LABELS.
+_DAILY_LENS_LABELS = {
+    "astrology": "Western",
+    "chinese_zodiac": "Chinese",
+}
+
+
+def _to_narrative_claims(daily_claims) -> list[NarrativeClaim]:
+    """Converts resolved daily RelevantClaims into the same
+    NarrativeClaim shape N4's natal synthesis already uses, reusing
+    format_source() rather than re-deriving citation formatting."""
+
+    narrative_claims = []
+
+    for item in daily_claims:
+        claim = item.claim
+        source = format_source(claim.source_ids[0]) if claim.source_ids else "Uncited"
+
+        narrative_claims.append(NarrativeClaim(
+            lens_id=claim.lens_id,
+            tradition=_DAILY_LENS_LABELS.get(claim.lens_id, claim.lens_id),
+            claim_id=claim.claim_id,
+            statement=claim.statement,
+            source=source,
+            life_domain=claim.life_domain,
+        ))
+
+    return narrative_claims
+
+
+def _render_daily_narrative_input(narrative_claims: list[NarrativeClaim]) -> str:
+    """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims --
+    same shape as N4's render_narrative_input(), just without the
+    tradition/life-domain grouping headers a 1-4-claim daily set
+    doesn't need."""
+
+    lines = []
+
+    for claim in narrative_claims:
+        lines.append(f"- CLAIM_ID: {claim.claim_id}")
+        lines.append(f"  TRADITION: {claim.tradition}")
+        lines.append(f"  LIFE_DOMAIN: {claim.life_domain or 'general'}")
+        lines.append(f"  STATEMENT: {claim.statement}")
+        lines.append(f"  SOURCE: {claim.source}")
+
+    return "\n".join(lines)
+
+
+def _synthesize_reading(daily_claims, backend: NarrativeBackend):
+    """
+    Real synthesis path: builds today's claims into the daily
+    synthesis prompt (lenses.daily_narrative_style) and calls the
+    backend. Returns (reading_text, validation_dict) on success, or
+    (None, None) if the backend can't run (no API key, or a backend-
+    level failure) -- the caller falls back to the deterministic path
+    in that case. validation_dict carries check_coverage() (kept
+    informational for daily mode -- a claim the model correctly folded
+    into implicit context, per the synthesis addendum, will legitimately
+    score low on keyword overlap without that being a real bug) and
+    fact_check()'s findings (a real check -- catches invented
+    specificity the source claims don't support).
+    """
+
+    narrative_claims = _to_narrative_claims(daily_claims)
+    prompt = build_daily_synthesis_prompt(_render_daily_narrative_input(narrative_claims))
+
+    try:
+        reading_text = backend.synthesize(prompt)
+    except (MissingAPIKeyError, NarrativeBackendError):
+        return None, None
+
+    coverage = check_coverage(narrative_claims, reading_text)
+    fact_check_findings = fact_check(backend, narrative_claims, reading_text)
+
+    validation = {
+        "coverage_ratio": coverage.coverage_ratio,
+        "coverage_missing_claim_ids": [c.claim_id for c in coverage.missing],
+        "coverage_note": (
+            "Informational only for daily mode: a claim folded into "
+            "implicit context (per the synthesis addendum) can score "
+            "low here without being a real omission."
+        ),
+        "fact_check_findings": fact_check_findings,
+    }
+
+    return reading_text, validation
+
+
+def build_daily_reading(
+    natal_chart: dict,
+    four_pillars,
+    as_of_utc_time: datetime,
+    use_synthesis: bool = True,
+    backend: NarrativeBackend | None = None,
+) -> dict:
     """
     The library entry point: given an already-built natal chart
     (astrology.chart.build_chart output), the natal four pillars
     (chinese.pillars.build_four_pillars output), and the moment to
     evaluate "today" at, return the attributed claim list, the
     assembled short reading, and the action prompt.
+
+    Reading assembly tries real LLM synthesis first (unless
+    use_synthesis=False, e.g. for offline/test use), falling back to
+    the deterministic ordering+connector path when the synthesis
+    backend can't run. `synthesis_method` in the result always says
+    which path actually produced the reading; `synthesis_validation`
+    is present only when real synthesis ran.
     """
 
     observations = {
@@ -279,15 +395,34 @@ def build_daily_reading(natal_chart: dict, four_pillars, as_of_utc_time: datetim
             "life_domain": claim.life_domain,
         })
 
-    reading_text = _assemble_reading_text(daily_claims)
+    reading_text = None
+    synthesis_validation = None
+    synthesis_method = "deterministic_fallback"
+
+    if use_synthesis and daily_claims:
+        reading_text, synthesis_validation = _synthesize_reading(
+            daily_claims, backend or AnthropicNarrativeBackend()
+        )
+        if reading_text is not None:
+            synthesis_method = "llm"
+
+    if reading_text is None:
+        reading_text = _assemble_reading_text(daily_claims)
+
     action_prompt = _pick_action_prompt(daily_claims)
 
-    return {
+    result = {
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "claims": attributed,
         "reading": reading_text,
         "action_prompt": action_prompt,
+        "synthesis_method": synthesis_method,
     }
+
+    if synthesis_validation is not None:
+        result["synthesis_validation"] = synthesis_validation
+
+    return result
 
 
 def _parse_args():
@@ -299,6 +434,16 @@ def _parse_args():
     parser.add_argument("--longitude", type=float, required=True)
     parser.add_argument("--as-of", default=None, help="YYYY-MM-DDTHH:MM (UTC); default now")
     parser.add_argument("--json", action="store_true", help="print full attributed JSON")
+    parser.add_argument(
+        "--no-synthesis",
+        action="store_true",
+        help=(
+            "Skip the real LLM synthesis call and use the deterministic "
+            "ordering+connector fallback directly (offline/testing use). "
+            "Synthesis also falls back to this automatically if "
+            "ANTHROPIC_API_KEY isn't set."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -325,7 +470,9 @@ def main():
     )
     four_pillars = build_four_pillars(natal_chart, local_time)
 
-    result = build_daily_reading(natal_chart, four_pillars, as_of)
+    result = build_daily_reading(
+        natal_chart, four_pillars, as_of, use_synthesis=not args.no_synthesis
+    )
 
     if args.json:
         print(json.dumps(result, indent=2))
@@ -333,6 +480,13 @@ def main():
         print(result["reading"])
         print()
         print(f"Today: {result['action_prompt']}")
+        print(f"[{result['synthesis_method']}]")
+
+        validation = result.get("synthesis_validation")
+        if validation:
+            print(f"Coverage: {validation['coverage_ratio']:.0%} ({validation['coverage_note']})")
+            print(f"Fact-check: {validation['fact_check_findings']}")
+
         print()
         print(f"({len(result['claims'])} claims, sources below)")
         for claim in result["claims"]:
