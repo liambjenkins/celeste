@@ -1223,6 +1223,15 @@ def normalise_observations(observations):
             "astrology.daily.compute_transit_aspects_to_key_points"
         )
 
+    daily_transit_houses = observations.get("daily_transit_houses")
+
+    if isinstance(daily_transit_houses, list) and daily_transit_houses:
+        add_concept(
+            "daily_transit_houses",
+            daily_transit_houses,
+            "astrology.daily.compute_transit_house_placements"
+        )
+
     daily_day_pillar_relationship = observations.get(
         "daily_day_pillar_relationship"
     )

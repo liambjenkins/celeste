@@ -204,6 +204,43 @@ def find_aspect(
         key=lambda item: item["orb"],
     )
 
+
+def evaluate_all_aspects(
+    longitude_a,
+    longitude_b,
+    orbs=None,
+    angles=None,
+):
+    """
+    Diagnostic sibling to find_aspect(): returns every configured
+    aspect angle's computed orb, not just the ones that cleared
+    threshold. find_aspect() itself is intentionally left untouched
+    (it's used throughout the codebase as "return the best match or
+    None") -- this exists purely so a verbose/debug mode can show what
+    was actually evaluated, including near-misses, rather than only
+    what resolved into a claim.
+    """
+
+    if orbs is None:
+        orbs = DEFAULT_ORBS
+
+    if angles is None:
+        angles = ASPECTS
+
+    distance = angular_distance(longitude_a, longitude_b)
+
+    return [
+        {
+            "aspect": name,
+            "angle": exact_angle,
+            "orb": abs(distance - exact_angle),
+            "max_orb": orbs.get(name, 0),
+            "cleared": abs(distance - exact_angle) <= orbs.get(name, 0),
+        }
+        for name, exact_angle in angles.items()
+    ]
+
+
 def aspect_strength(orb, max_orb):
     """
     Classify an aspect by how close it is to exact.

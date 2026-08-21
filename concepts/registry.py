@@ -1094,19 +1094,37 @@ CONCEPTS = {
     "label": "Daily transit aspects to key points",
     "domain": "space",
     "description": (
-        "Today's transiting Sun, Mercury, Venus, Mars, and Moon "
-        "evaluated for real aspects (conjunction, sextile, square, "
-        "trine, opposition, quincunx) against four natal target "
-        "roles: the natal Sun, natal Moon, natal Ascendant, and the "
-        "chart ruler (whichever body that resolves to for this "
-        "chart) — a scoped-down version of the full natal-transits "
-        "grid, built for daily-mode's fast-moving personal-planet "
-        "focus."
+        "Today's transiting bodies (Sun through Pluto) evaluated for "
+        "real aspects (conjunction, sextile, square, trine, "
+        "opposition, quincunx) against the full natal chart -- all "
+        "10 natal bodies, plus the natal Ascendant and the chart "
+        "ruler (whichever body that resolves to for this chart). "
+        "Widened per the Daily-Mode Scope Expansion brief from an "
+        "earlier 5-transiting-body/4-natal-target scope; reuses "
+        "astrology.transits.build_transits()'s own aspect grid "
+        "directly rather than a second computation of the same "
+        "arithmetic."
     ),
     "synonyms": [
         "transit", "transiting planet", "transit aspect"
     ],
     "related": ["astrological_aspects", "astrological_houses"]
+},
+"daily_transit_houses": {
+    "label": "Daily transit house placements",
+    "domain": "space",
+    "description": (
+        "Each of today's 10 transiting bodies' current placement in "
+        "the natal house wheel -- the classic 'transiting Saturn is "
+        "moving through your 10th house' reading, evaluated for "
+        "today rather than an arbitrary --as-of moment. Reuses "
+        "astrology.transits.build_transits()'s own natal_house "
+        "computation."
+    ),
+    "synonyms": [
+        "transit house", "house transit", "transiting house"
+    ],
+    "related": ["astrological_houses", "daily_transit_aspects"]
 },
 "daily_day_pillar_relationship": {
     "label": "Daily day pillar relationship",

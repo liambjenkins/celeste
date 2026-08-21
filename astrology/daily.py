@@ -3,8 +3,21 @@ Daily-mode computation: today's transiting influences evaluated
 against an already-built natal chart, plus today's Chinese day
 pillar against the natal day pillar.
 
-Three pieces, deliberately kept separate since they're three
-different mechanisms:
+Per "Celeste — Daily-Mode Scope Expansion Brief": the original daily
+sweep here was scoped to 5 fast bodies against 4 natal targets, which
+made most days thin. Widened to reuse astrology.transits.
+build_transits() directly for the core aspect grid -- ALL 10
+transiting bodies (Sun through Pluto; slow outer-planet aspects
+persisting for weeks is correct and expected, not a bug, per the
+brief) against ALL 10 natal bodies, plus each transiting body's natal
+house placement, which build_transits() already computes and this
+module simply surfaces. This is genuinely just reuse, not new
+aspect-finding logic -- avoids maintaining a second, near-duplicate
+implementation of the same arithmetic (the old TRANSIT_ORBS dict here
+was a byte-for-byte copy of astrology.transits.TRANSIT_ORBS).
+
+Five pieces, deliberately kept separate since they're different
+mechanisms:
 
 - compute_current_moon_phase(): today's real Sun-Moon phase (new,
   full, etc.) -- NOT the natal Rudhyar lunation-cycle feature already
@@ -15,14 +28,25 @@ different mechanisms:
   astronomical concept (Sun-Moon angular separation) just evaluated
   at a different moment.
 
-- compute_transit_aspects_to_key_points(): reuses astrology.transits'
-  aspect-finding machinery (same orbs, same find_aspect call), scoped
-  down to the 5 fast-moving personal bodies against 4 natal target
-  roles (Sun, Moon, Ascendant, chart ruler) rather than the full
-  10x10 grid astrology.transits.build_transits() computes for the
-  natal-chart "transits" feature. The Ascendant and chart-ruler
-  targets are NEW here -- astrology.transits.build_transits() only
-  evaluates the 10 traditional bodies as natal targets, not angles.
+- compute_transit_aspects_to_key_points(): the 10x10 planet grid from
+  build_transits(), PLUS the Ascendant and chart-ruler targets that
+  build_transits() doesn't cover (it only evaluates the 10 traditional
+  bodies as natal targets, not angles) -- kept as this module's own
+  addition, same as before the widening.
+
+- compute_transit_house_placements(): each of the 10 transiting
+  bodies' current natal-house placement -- build_transits() already
+  computes this (transiting_bodies[name]["natal_house"]) for its own
+  natal "current transits" feature; this just surfaces the same data
+  for daily mode's own claim-matching pipeline.
+
+- compute_full_transit_matrix(): debug/verbose-mode only. Every
+  transiting-body x natal-target x aspect-type combination actually
+  evaluated today, including near-misses that didn't clear orb --
+  the diagnostic that surfaced the original narrow-scope issue and
+  verifies the widened sweep is really running the full matrix, not
+  just what happened to resolve into claims. Never fed into the
+  reading/claims pipeline itself.
 
 - compute_daily_day_pillar_relationship(): reuses chinese.pillars.
   day_pillar() (already handles the calendrical math) and
@@ -34,9 +58,10 @@ different mechanisms:
 
 from datetime import date, datetime
 
-from astrology.aspects import find_aspect
+from astrology.aspects import evaluate_all_aspects, find_aspect
 from astrology.normaliser import longitude_to_zodiac
 from astrology.rulership import TRADITIONAL_RULERS
+from astrology.transits import NATAL_TARGETS, TRANSIT_BODIES, TRANSIT_ORBS, build_transits
 from chinese.interactions import (
     BRANCH_CLASHES,
     BRANCH_COMBINATIONS,
@@ -45,17 +70,6 @@ from chinese.interactions import (
 )
 from chinese.pillars import day_pillar
 from providers.astronomy import get_astronomy
-
-TRANSIT_ORBS = {
-    "conjunction": 2.0,
-    "sextile": 2.0,
-    "square": 2.0,
-    "trine": 2.0,
-    "quincunx": 1.0,
-    "opposition": 2.0,
-}
-
-DAILY_TRANSIT_BODIES = ("sun", "mercury", "venus", "mars", "moon")
 
 # Same boundary convention as lenses/features.py's natal Sun-Moon
 # lunation-cycle feature -- duplicated rather than imported since
@@ -127,45 +141,65 @@ def _chart_ruler_body(natal_chart: dict) -> str:
     return TRADITIONAL_RULERS[ascendant_sign]
 
 
+def _angle_targets(natal_chart: dict) -> list[tuple[str, float, str | None]]:
+    """The two non-planet natal targets build_transits() doesn't
+    cover (it only evaluates the 10 traditional bodies, not chart
+    angles) -- Ascendant and the chart ruler, whichever body that
+    resolves to for this natal chart."""
+
+    natal_bodies = natal_chart["bodies"]
+    ascendant_longitude = natal_chart["houses"]["angles"]["ascendant"]
+    chart_ruler = _chart_ruler_body(natal_chart)
+
+    return [
+        ("ascendant", ascendant_longitude, None),
+        ("chart_ruler", natal_bodies[chart_ruler]["longitude"], chart_ruler),
+    ]
+
+
 def compute_transit_aspects_to_key_points(
     natal_chart: dict,
     as_of_utc_time: datetime,
 ) -> list[dict]:
     """
-    Aspects from today's transiting Sun/Mercury/Venus/Mars/Moon to
-    four natal target roles: Sun, Moon, Ascendant, and the chart
-    ruler (whichever body that resolves to for this natal chart).
+    Aspects from today's transiting bodies (all 10 -- Sun through
+    Pluto, reusing astrology.transits.TRANSIT_BODIES) to the full
+    natal chart: all 10 natal bodies (reusing build_transits()'s own
+    aspect list directly, not a second computation of the same
+    arithmetic) plus the Ascendant and chart ruler (angles
+    build_transits() doesn't cover).
 
-    Each result names both the target ROLE (sun/moon/ascendant/
-    chart_ruler -- stable across charts, what a claim's feature_ids
-    should key on) and the target's actual BODY when that's not
-    already obvious (chart_ruler varies person to person; sun/moon
-    are their own answer).
+    Each result names both the target ROLE (a natal body's own name
+    for the 10x10 grid, or "ascendant"/"chart_ruler" -- stable across
+    charts, what a claim's feature_ids should key on) and the
+    target's actual BODY when that's not already obvious (chart_ruler
+    varies person to person).
     """
 
-    astronomy = get_astronomy(as_of_utc_time)
-    natal_bodies = natal_chart["bodies"]
-    ascendant_longitude = natal_chart["houses"]["angles"]["ascendant"]
-    chart_ruler = _chart_ruler_body(natal_chart)
+    transits = build_transits(natal_chart, as_of_utc_time, orbs=TRANSIT_ORBS)
 
-    targets = [
-        ("sun", natal_bodies["sun"]["longitude"], "sun"),
-        ("moon", natal_bodies["moon"]["longitude"], "moon"),
-        ("ascendant", ascendant_longitude, None),
-        ("chart_ruler", natal_bodies[chart_ruler]["longitude"], chart_ruler),
+    results = [
+        {
+            "transiting_body": item["transiting_body"],
+            "target_role": item["natal_body"],
+            "target_body": item["natal_body"],
+            "aspect": item["aspect"],
+            "orb": item["orb"],
+        }
+        for item in transits["aspects"]
     ]
 
-    results = []
+    angle_targets = _angle_targets(natal_chart)
 
-    for transiting_body in DAILY_TRANSIT_BODIES:
-        data = astronomy["bodies"].get(transiting_body)
+    for transiting_body in TRANSIT_BODIES:
+        body_data = transits["bodies"].get(transiting_body)
 
-        if data is None:
+        if body_data is None:
             continue
 
-        transiting_longitude = data["longitude"]
+        transiting_longitude = body_data["longitude"]
 
-        for target_role, target_longitude, target_body in targets:
+        for target_role, target_longitude, target_body in angle_targets:
             match = find_aspect(
                 transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
             )
@@ -182,6 +216,75 @@ def compute_transit_aspects_to_key_points(
             })
 
     return results
+
+
+def compute_transit_house_placements(
+    natal_chart: dict,
+    as_of_utc_time: datetime,
+) -> list[dict]:
+    """
+    Each of the 10 transiting bodies' current placement in the natal
+    house wheel -- build_transits() already computes this
+    (transiting_bodies[name]["natal_house"]) for its own natal
+    "current transits" feature; this surfaces the same data for daily
+    mode's claim-matching pipeline rather than recomputing it.
+    """
+
+    transits = build_transits(natal_chart, as_of_utc_time, orbs=TRANSIT_ORBS)
+
+    return [
+        {"transiting_body": name, "natal_house": data["natal_house"]}
+        for name, data in transits["bodies"].items()
+        if data.get("natal_house") is not None
+    ]
+
+
+def compute_full_transit_matrix(
+    natal_chart: dict,
+    as_of_utc_time: datetime,
+) -> list[dict]:
+    """
+    Debug/verbose-mode only: every transiting-body x natal-target x
+    aspect-type combination actually evaluated today, including
+    near-misses that never cleared orb (evaluate_all_aspects, not
+    find_aspect -- the latter only returns the best match or None).
+    Never fed into the reading/claims pipeline; purely diagnostic, so
+    it's possible to see the full sweep is really running rather than
+    just what happened to resolve into a claim.
+    """
+
+    astronomy = get_astronomy(as_of_utc_time)
+    natal_bodies = natal_chart["bodies"]
+    angle_targets = _angle_targets(natal_chart)
+
+    targets = [
+        (name, data["longitude"], name)
+        for name, data in natal_bodies.items()
+        if name in NATAL_TARGETS
+    ] + angle_targets
+
+    rows = []
+
+    for transiting_body in TRANSIT_BODIES:
+        data = astronomy["bodies"].get(transiting_body)
+
+        if data is None:
+            continue
+
+        transiting_longitude = data["longitude"]
+
+        for target_role, target_longitude, target_body in targets:
+            for candidate in evaluate_all_aspects(
+                transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
+            ):
+                rows.append({
+                    "transiting_body": transiting_body,
+                    "target_role": target_role,
+                    "target_body": target_body,
+                    **candidate,
+                })
+
+    return rows
 
 
 def compute_daily_day_pillar_relationship(

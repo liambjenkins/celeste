@@ -689,6 +689,16 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                 # rather than firing nothing at all.
                 tags.append(f"transit_aspect:{aspect}")
 
+    daily_transit_houses_value = _single_value(concepts.get("daily_transit_houses"))
+
+    if isinstance(daily_transit_houses_value, list):
+        for item in daily_transit_houses_value:
+            transiting_body = item.get("transiting_body")
+            natal_house = item.get("natal_house")
+
+            if transiting_body and natal_house:
+                tags.append(f"daily_transit_house:{transiting_body}:{natal_house}")
+
     daily_day_pillar_value = _single_value(concepts.get("daily_day_pillar_relationship"))
 
     if isinstance(daily_day_pillar_value, dict):

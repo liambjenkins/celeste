@@ -50,6 +50,22 @@ real problems the first draft didn't catch:
   narrative feature (lenses.narrative_style) already diagnosed and
   fixed once for the full-chart case -- ported the same fixes here
   rather than re-deriving them from scratch.
+
+Revised a third time after the Daily-Mode Scope Expansion brief
+widened the sweep to all 10 transiting bodies against the full natal
+chart plus houses. That widening surfaced a real gap: the generic
+aspect-type claims ("a square pulls the two placements involved...")
+and generic house claims ("the 3rd house governs...") don't name WHICH
+bodies -- that specificity only survives when a curated fragment
+exists for the exact combo (the original 8 daily_transit_* claims).
+For the many newly-resolved generic-only matches, synthesis had
+nothing but the abstract definition to work with -- genuinely nothing
+to be specific about, not a prompting problem. Fixed by passing
+today's real underlying transit data through as a reference-only
+section (daily.py's _render_daily_narrative_input), so synthesis can
+know which placement a generic claim is actually about without
+inventing anything -- the data was always computed, it just wasn't
+reaching the prompt.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -64,12 +80,21 @@ DAILY_GROUNDING_RULES = """
    something you've been meaning to say." That exact failure was
    caught and rejected during this system's own design: check every
    drafted line against its real source claim before keeping it.
-2. Every claim given below must be represented in your output. Since
-   there are only a handful of claims on any given day (unlike a full
-   natal reading's much larger pool), there is no legitimate "too
-   orphaned to include" case here -- every claim gets folded into the
-   throughline (as an implicit reason for another claim's weight) or
-   given its own clause or sentence. Do not silently omit one.
+2. Every claim given below must be genuinely accounted for -- but on a
+   busy day (the widened sweep can resolve 15+ claims, mostly generic
+   aspect-type/house claims with no specific body named), "accounted
+   for" does NOT mean every claim gets its own clause or individual
+   trace. It means: fold what you honestly can, and compress any
+   remaining cluster of same-flavor generic claims into ONE clause
+   naming the real pattern -- see "Compress, don't invent" below.
+   What it never means is inventing a fact to make a claim feel
+   represented. A real failure, caught during testing: with 17 mostly-
+   generic claims and no room to trace each one, a draft invented
+   "whatever you choose won't stay just yours to carry" and "what you
+   think and what you say will finally match" -- neither asserted by
+   any source claim. Compression was available and wasn't used;
+   fabrication filled the gap instead. Compression is always the
+   right move over invention.
 3. You may connect claims ONLY because you have identified a real
    shared relationship between what they describe (see "Find the
    story" below) -- never because a transition word makes unrelated
@@ -92,6 +117,17 @@ DAILY_GROUNDING_RULES = """
 4. Astrology/BaZi terminology (planet names, aspect names, pillar/
    stem/branch names, technique names) stays entirely backend. It
    never appears inside the reading itself.
+5. If a "Today's exact transit data" section appears after the claims,
+   it's real, already-computed astronomical fact (which body, which
+   aspect, which house) -- not itself a claim, and not license to
+   generate new interpretation from it. Use it only to know WHICH
+   placement a generic claim (one that doesn't name a specific body)
+   is actually about, so you can write toward that specific felt
+   experience instead of restating the claim's abstract definition.
+   Never treat it as a second source of claims, and never let it
+   justify a fact that isn't ALSO backed by an actual claim above --
+   it disambiguates specificity, it doesn't add new permission to
+   assert things.
 """
 
 DAILY_STYLE_GUIDE = """
@@ -129,11 +165,12 @@ splitting. This is a bar to check, not a feeling to have -- a vague
 "split when it feels like two things" instinct drifts toward splitting
 far more often than reality warrants.
 
-### For every claim, decide: fold it, or give it its own beat
+### For every claim, decide: fold it, give it its own beat, or compress it
 
-Never a third, unwritten option of stacking it on as an extra
-sentence out of sequence just because it was in the input. For each
-claim:
+Never a fourth, unwritten option of stacking it on as an extra
+sentence out of sequence just because it was in the input -- and never
+inventing a fact to make a claim feel represented when none of the
+first three options fit. For each claim:
 
 1. **Fold it in as the implicit reason another claim has weight.** If
    a claim explains WHY something else is hard, true, or available --
@@ -145,11 +182,27 @@ claim:
    throughline, if it adds real information the other claims don't
    already carry (a distinct stake, a distinct resource, a genuine
    counterpoint).
+3. **Compress a genuine cluster into one clause that names the real
+   pattern, not the list.** This is the option that matters once the
+   widened sweep resolves a busy day: several generic aspect-type or
+   house claims that share a real theme (e.g. multiple easy aspects,
+   or several houses all landing in the same life area) don't each
+   need individual airtime. Name what they collectively suggest in one
+   honest clause. Wrong (the actual failure this caused): inventing
+   "whatever you choose won't stay just yours to carry" to stand in
+   for a cluster of relationship-adjacent house claims that never
+   actually said that. Right: if several claims genuinely point the
+   same direction, say the direction plainly -- e.g. "today leans
+   easy" or "today's pull is toward other people" -- only when that's
+   what the claims actually, collectively support, not a guess at
+   what they might mean together.
 
-Whichever it gets, every claim must leave a real trace in the output
--- per grounding rule 2, there's no cutting a claim from a 1-4 claim
-daily set the way an enormous natal claim pool sometimes earns a true
-cut.
+On a small day (the original 1-4-claim case this system was first
+built for), every claim usually gets its own fold or beat -- that's
+still correct there. On a busy day, most claims will end up compressed
+via option 3, and that's correct too, not a shortfall. What's never
+acceptable, on any size day, is inventing a fact under grounding rule 1
+to avoid admitting a claim got compressed.
 
 ### Voice
 

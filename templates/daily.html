@@ -67,6 +67,32 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <hr>
 
+<h2>Moon Sign (natal)</h2>
+<p>{{ result.natal_moon_sign.label }}</p>
+<p><small>{{ result.natal_moon_sign.note }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="natal_moon_sign">
+  <input type="hidden" name="original_text" value="{{ result.natal_moon_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.natal_moon_sign.note }}">
+  <textarea name="edited_text" rows="1" cols="60">{{ result.natal_moon_sign.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
+<h2>Rising Sign</h2>
+<p>{{ result.rising_sign.label }}</p>
+<p><small>{{ result.rising_sign.note }}</small></p>
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="rising_sign">
+  <input type="hidden" name="original_text" value="{{ result.rising_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.rising_sign.note }}">
+  <textarea name="edited_text" rows="1" cols="60">{{ result.rising_sign.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
 <h2>Chinese Day Pillar</h2>
 <p>{{ result.chinese_day_pillar.label }}</p>
 <p><small>{{ result.chinese_day_pillar.note }}</small></p>

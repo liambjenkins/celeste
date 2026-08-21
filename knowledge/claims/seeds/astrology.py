@@ -416,10 +416,21 @@ for _house, (_meaning, _domain) in _HOUSES.items():
         f"house_{_house}",
         f"The {_house}{'st' if _house == 1 else 'nd' if _house == 2 else 'rd' if _house == 3 else 'th'} "
         f"house governs {_meaning}.",
-        feature_ids=[
-            f"house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS
-        ],
-        theme_tags=["life_area"],
+        # feature_ids extended per the Daily-Mode Scope Expansion
+        # brief to also match a TRANSITING planet currently placed in
+        # this natal house, not just a planet natally placed there --
+        # the house's meaning doesn't change based on natal vs.
+        # transit, only the framing. Two families: transit_house:
+        # (the natal "current transits" --as-of feature, which
+        # lenses/features.py already tags but which had zero matching
+        # claims until now -- a real pre-existing gap, not new scope)
+        # and daily_transit_house: (the daily sweep, new this brief).
+        feature_ids=(
+            [f"house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
+            + [f"transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
+            + [f"daily_transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
+        ),
+        theme_tags=["life_area", "daily_mode"],
         life_domain=_domain,
         source_id="sasportas_twelve_houses_1985",
     )
@@ -456,7 +467,16 @@ for _aspect, _meaning in _ASPECTS.items():
             f"transit_aspect:{_aspect}",
             f"progression_aspect:{_aspect}",
         ],
-        theme_tags=["relationship_between_placements"],
+        # "daily_mode" added per the Daily-Mode Scope Expansion brief:
+        # these claims already carried transit_aspect:<type> in
+        # feature_ids specifically so the daily sweep's generic
+        # fallback could reach them (per this project's own earlier
+        # documentation), but _resolve_daily_claims() in daily.py
+        # filters strictly on theme_tags containing "daily_mode" --
+        # which this list never had, so that fallback was actually
+        # unreachable in daily mode until now. Real pre-existing gap,
+        # not new scope.
+        theme_tags=["relationship_between_placements", "daily_mode"],
         source_id="lilly_christian_astrology_1647",
     )
 

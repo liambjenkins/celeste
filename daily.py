@@ -10,8 +10,14 @@ Reuses the existing natal pipeline (astrology.chart.build_chart,
 chinese.pillars.build_four_pillars), the existing claim-matching
 architecture (concepts.normaliser, lenses.features, knowledge.claims.
 resolver -- exactly the same resolve_claims() natal claims already go
-through), and astrology.daily's three new computations to resolve
-today's claims.
+through), and astrology.daily's computations to resolve today's
+claims. Per "Celeste — Daily-Mode Scope Expansion Brief": the daily
+transit sweep now covers all 10 transiting bodies against the full
+natal chart plus natal house placements (previously 5 bodies against
+4 targets, no houses), and natal Moon/Rising sign are shown as
+standing display context alongside today's Sun sign -- all reusing
+astrology.transits.build_transits()'s existing machinery rather than
+new aspect-finding logic.
 
 Reading assembly is real LLM-based synthesis (lenses.narrative_backend,
 reused unmodified from N4's natal narrative feature), per "Celeste —
@@ -36,8 +42,11 @@ from astrology.daily import (
     compute_current_moon_phase,
     compute_current_sun_sign,
     compute_daily_day_pillar_relationship,
+    compute_full_transit_matrix,
     compute_transit_aspects_to_key_points,
+    compute_transit_house_placements,
 )
+from astrology.normaliser import longitude_to_zodiac
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 from concepts.normaliser import normalise_observations
@@ -160,6 +169,10 @@ _CONNECTORS = (
     "On top of that",
 )
 
+# Fallback-only cap on supporting claims (moon phase always additional
+# to this). See _order_reading_claims for why this exists post-widening.
+_MAX_FALLBACK_SUPPORTING_CLAIMS = 3
+
 
 def _order_reading_claims(daily_claims):
     """
@@ -227,7 +240,23 @@ def _order_reading_claims(daily_claims):
         enumerate(supporting),
         key=lambda pair: (_priority_rank(pair[1]), _orb(pair[1]), pair[0]),
     )
-    ordered_supporting = [item for _, item in ranked]
+    # Capped here, not left uncapped as before the Daily-Mode Scope
+    # Expansion widening: with the sweep now covering all 10 planets
+    # against the full natal chart plus houses, a busy day can resolve
+    # 15+ claims (mostly via the generic aspect/house fallback claims,
+    # which are real but low-specificity -- "a trine lets the two
+    # placements involved flow together" x6, "the Nth house governs
+    # X" x12). Uncapped, the FALLBACK text becomes an unreadable list
+    # of jargon-heavy generic statements -- real synthesis doesn't
+    # have this problem (it folds/prioritizes via actual judgment
+    # regardless of volume), so this cap applies only to the
+    # deterministic degraded-mode path, never to what synthesis sees
+    # or to the attributed `claims`/`reading_source_claim_ids` output,
+    # which both stay fully uncapped. _CLAIM_PRIORITY-listed (curated,
+    # specific) claims already rank above unlisted (generic fallback)
+    # ones, so the cap keeps the most specific content, not just
+    # whatever resolved first.
+    ordered_supporting = [item for _, item in ranked][:_MAX_FALLBACK_SUPPORTING_CLAIMS]
 
     return moon_phase_item, ordered_supporting
 
@@ -238,10 +267,11 @@ def _assemble_reading_text(daily_claims):
     can't run (no ANTHROPIC_API_KEY). This is ordering + connector
     phrases, not real synthesis; it does not find a throughline or
     fold claims together the way the real synthesis path does. Moon
-    phase (always present) anchors the reading, followed by every
-    other resolved claim ranked by priority, joined with rotating
-    connector phrases instead of raw concatenation. A single resolved
-    claim is returned as-is -- no connector needed for a one-claim day.
+    phase (always present) anchors the reading, followed by up to
+    _MAX_FALLBACK_SUPPORTING_CLAIMS other resolved claims ranked by
+    priority, joined with rotating connector phrases instead of raw
+    concatenation. A single resolved claim is returned as-is -- no
+    connector needed for a one-claim day.
     """
 
     moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims)
@@ -296,11 +326,28 @@ def _to_narrative_claims(daily_claims) -> list[NarrativeClaim]:
     return narrative_claims
 
 
-def _render_daily_narrative_input(narrative_claims: list[NarrativeClaim]) -> str:
-    """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims --
-    same shape as N4's render_narrative_input(), just without the
-    tradition/life-domain grouping headers a 1-4-claim daily set
-    doesn't need."""
+def _render_daily_narrative_input(
+    narrative_claims: list[NarrativeClaim],
+    daily_transit_aspects: list[dict] | None = None,
+    daily_transit_houses: list[dict] | None = None,
+) -> str:
+    """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
+    same shape as N4's render_narrative_input(), plus a trailing raw-
+    data section (same precedent as N4's Cross-Tradition Synthesis /
+    Elemental Alignment sections: already-computed fact, reference
+    only, not itself a claim).
+
+    Needed post-widening: the generic aspect-type claims (e.g.
+    "a square pulls the two placements involved...") and generic
+    house claims ("the 3rd house governs...") don't name WHICH bodies
+    or WHICH transiting body -- that specificity only exists in a
+    resolved claim's matched_features when a curated fragment exists
+    for that exact combo (the 8 daily_transit_* claims). For the many
+    aspect/house instances the widened sweep resolves that DON'T have
+    a curated fragment, the only way synthesis can be specific rather
+    than vague is to see the real underlying data -- which already
+    exists (astrology.daily's own computed output), just wasn't being
+    passed through before."""
 
     lines = []
 
@@ -311,10 +358,43 @@ def _render_daily_narrative_input(narrative_claims: list[NarrativeClaim]) -> str
         lines.append(f"  STATEMENT: {claim.statement}")
         lines.append(f"  SOURCE: {claim.source}")
 
+    if daily_transit_aspects or daily_transit_houses:
+        lines.append("")
+        lines.append("# Today's exact transit data (reference only, not itself a claim)")
+        lines.append("")
+        lines.append(
+            "Use this only to know which specific placement a generic "
+            "claim above is actually about, when the claim's own "
+            "STATEMENT doesn't say (e.g. \"a square pulls the two "
+            "placements involved...\" or \"the 3rd house governs...\"). "
+            "If a claim above already names the specific pairing (like "
+            "astrology_daily_transit_mars_square_moon), you already "
+            "have what you need from the claim itself. Planet/aspect/"
+            "house names stay backend per the grounding rules either way "
+            "-- this is disambiguation for your own reasoning, not "
+            "content to quote."
+        )
+
+        for aspect in daily_transit_aspects or []:
+            lines.append(
+                f"  aspect: {aspect['transiting_body']} {aspect['aspect']} "
+                f"{aspect['target_role']} (orb {aspect['orb']:.2f}°)"
+            )
+
+        for house in daily_transit_houses or []:
+            lines.append(
+                f"  house: {house['transiting_body']} in natal house {house['natal_house']}"
+            )
+
     return "\n".join(lines)
 
 
-def _synthesize_reading(daily_claims, backend: NarrativeBackend):
+def _synthesize_reading(
+    daily_claims,
+    backend: NarrativeBackend,
+    daily_transit_aspects: list[dict] | None = None,
+    daily_transit_houses: list[dict] | None = None,
+):
     """
     Real synthesis path: builds today's claims into the daily
     synthesis prompt (lenses.daily_narrative_style) and calls the
@@ -327,10 +407,19 @@ def _synthesize_reading(daily_claims, backend: NarrativeBackend):
     score low on keyword overlap without that being a real bug) and
     fact_check()'s findings (a real check -- catches invented
     specificity the source claims don't support).
+
+    daily_transit_aspects/daily_transit_houses (the raw computed data,
+    not claims) are passed through to _render_daily_narrative_input so
+    synthesis has real grounding for the generic-only aspect/house
+    claims the widened sweep resolves -- see that function's docstring.
     """
 
     narrative_claims = _to_narrative_claims(daily_claims)
-    prompt = build_daily_synthesis_prompt(_render_daily_narrative_input(narrative_claims))
+    prompt = build_daily_synthesis_prompt(
+        _render_daily_narrative_input(
+            narrative_claims, daily_transit_aspects, daily_transit_houses
+        )
+    )
 
     try:
         reading_text = backend.synthesize(prompt)
@@ -360,6 +449,7 @@ def build_daily_reading(
     as_of_utc_time: datetime,
     use_synthesis: bool = True,
     backend: NarrativeBackend | None = None,
+    include_debug_matrix: bool = False,
 ) -> dict:
     """
     The library entry point: given an already-built natal chart
@@ -380,13 +470,14 @@ def build_daily_reading(
     day_pillar_relationship = compute_daily_day_pillar_relationship(
         four_pillars.day, as_of_utc_time.date()
     )
+    transit_aspects = compute_transit_aspects_to_key_points(natal_chart, as_of_utc_time)
+    transit_houses = compute_transit_house_placements(natal_chart, as_of_utc_time)
 
     observations = {
         "astrology": natal_chart,
         "daily_moon_phase": moon_phase_data,
-        "daily_transit_aspects": compute_transit_aspects_to_key_points(
-            natal_chart, as_of_utc_time
-        ),
+        "daily_transit_aspects": transit_aspects,
+        "daily_transit_houses": transit_houses,
         "daily_day_pillar_relationship": day_pillar_relationship,
     }
 
@@ -415,7 +506,10 @@ def build_daily_reading(
 
     if use_synthesis and daily_claims:
         reading_text, synthesis_validation = _synthesize_reading(
-            daily_claims, backend or AnthropicNarrativeBackend()
+            daily_claims,
+            backend or AnthropicNarrativeBackend(),
+            daily_transit_aspects=transit_aspects,
+            daily_transit_houses=transit_houses,
         )
         if reading_text is not None:
             synthesis_method = "llm"
@@ -435,6 +529,13 @@ def build_daily_reading(
     )
     sun_sign_data = compute_current_sun_sign(as_of_utc_time)
     today_pillar = day_pillar_relationship["today_pillar"]
+
+    # Natal identity anchors, same "raw computed fact, no interpretive
+    # claim" treatment as sun_sign above -- standing context per the
+    # Daily-Mode Scope Expansion brief, not something that changes day
+    # to day (unlike sun_sign, which is today's real transiting Sun).
+    natal_moon_sign = longitude_to_zodiac(natal_chart["bodies"]["moon"]["longitude"])["sign"]
+    rising_sign = longitude_to_zodiac(natal_chart["houses"]["angles"]["ascendant"])["sign"]
 
     result = {
         "as_of_utc_time": as_of_utc_time.isoformat(),
@@ -464,10 +565,21 @@ def build_daily_reading(
                 "above when it applies."
             ),
         },
+        "natal_moon_sign": {
+            "label": natal_moon_sign,
+            "note": "Your natal Moon sign -- standing identity context, not today's sky.",
+        },
+        "rising_sign": {
+            "label": rising_sign,
+            "note": "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
+        },
     }
 
     if synthesis_validation is not None:
         result["synthesis_validation"] = synthesis_validation
+
+    if include_debug_matrix:
+        result["debug_matrix"] = compute_full_transit_matrix(natal_chart, as_of_utc_time)
 
     return result
 
@@ -489,6 +601,17 @@ def _parse_args():
             "ordering+connector fallback directly (offline/testing use). "
             "Synthesis also falls back to this automatically if "
             "ANTHROPIC_API_KEY isn't set."
+        ),
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help=(
+            "Also compute and show the full transit matrix -- every "
+            "transiting-body x natal-target x aspect-type combination "
+            "evaluated today, including near-misses that didn't clear "
+            "orb, not just what resolved into a claim. Diagnostic only; "
+            "never feeds into the reading itself."
         ),
     )
     return parser.parse_args()
@@ -518,7 +641,11 @@ def main():
     four_pillars = build_four_pillars(natal_chart, local_time)
 
     result = build_daily_reading(
-        natal_chart, four_pillars, as_of, use_synthesis=not args.no_synthesis
+        natal_chart,
+        four_pillars,
+        as_of,
+        use_synthesis=not args.no_synthesis,
+        include_debug_matrix=args.debug,
     )
 
     if args.json:
@@ -535,11 +662,31 @@ def main():
             print(f"Fact-check: {validation['fact_check_findings']}")
 
         print()
+        print(f"Moon: {result['natal_moon_sign']['label']}  |  Rising: {result['rising_sign']['label']}  |  Sun today: {result['sun_sign']['label']}")
+
+        print()
         print(f"({len(result['claims'])} claims, sources below)")
         for claim in result["claims"]:
             sources = ", ".join(s["value"] for s in claim["sources"])
             print(f"  - {claim['claim_text']}")
             print(f"    [{sources}]")
+
+        if args.debug:
+            matrix = result["debug_matrix"]
+            cleared = [r for r in matrix if r["cleared"]]
+            print()
+            print(f"[debug] {len(matrix)} transiting-body x target x aspect-type "
+                  f"combinations evaluated today, {len(cleared)} cleared orb.")
+            near_misses = sorted(
+                (r for r in matrix if not r["cleared"]),
+                key=lambda r: r["orb"] - r["max_orb"],
+            )[:10]
+            print("[debug] closest 10 near-misses (didn't clear orb):")
+            for r in near_misses:
+                print(
+                    f"  {r['transiting_body']:10s} {r['aspect']:14s} -> "
+                    f"{r['target_role']:12s} orb={r['orb']:.2f} (max {r['max_orb']})"
+                )
 
 
 if __name__ == "__main__":
