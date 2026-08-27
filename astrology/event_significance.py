@@ -46,11 +46,16 @@ LUNATION_CONTACT_ORB = 1.0          # New/Full Moon degree to a primary natal po
 TIERS = ("standout", "background", "appendix")
 
 
-def _direct_hit_orb(role: str) -> float:
+def direct_hit_orb(role: str) -> float:
+    """The direct-hit orb boundary for a given natal role -- wider
+    for the angles (Ascendant/MC) than for planet-to-planet contacts,
+    per the locked decision this module documents above. Public: also
+    reused by astrology/event_resolution.py (K7)."""
+
     return ANGLE_DIRECT_HIT_ORB if role in ("ascendant", "mc") else DIRECT_HIT_ORB
 
 
-def _natal_targets(natal_chart: dict, roles=PRIMARY_NATAL_ROLES) -> dict:
+def natal_targets(natal_chart: dict, roles=PRIMARY_NATAL_ROLES) -> dict:
     chart_ruler = natal_chart["rulership"]["chart_ruler"]
     targets = {}
     for role in roles:
@@ -70,7 +75,7 @@ def nearest_primary_natal_point(longitude: float, natal_chart: dict) -> tuple[st
     (0-180 degrees, conjunction-style distance -- suitable for
     stations/ingresses/lunations, which aren't aspect-typed)."""
 
-    targets = _natal_targets(natal_chart)
+    targets = natal_targets(natal_chart)
     best_role, best_orb = None, 181.0
     for role, target_lon in targets.items():
         orb = abs(signed_diff(longitude, target_lon))
@@ -189,7 +194,7 @@ def assign_tier(event: dict, natal_chart: dict) -> tuple[str, list[str]]:
         return "background", reasons
 
     if kind in ("new_moon", "full_moon"):
-        targets = _natal_targets(natal_chart)
+        targets = natal_targets(natal_chart)
         moon_lon = event["moon_longitude"]
         # Full Moon: Sun is opposite the Moon; New Moon: Sun ~ Moon.
         sun_lon = (moon_lon + 180) % 360 if kind == "full_moon" else moon_lon
