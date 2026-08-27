@@ -213,7 +213,12 @@ _PATTERN_BANK = (
     (re.compile(r"\bnext\s+full\s+moon\b"), _build_next_lunation("full_moon")),
     (re.compile(r"\bnext\s+new\s+moon\b"), _build_next_lunation("new_moon")),
     (re.compile(r"\bnext\s+eclipse\b"), _build_next_eclipse),
-    (re.compile(r"\b\w+\s+return\b"), _build_next_return),
+    # Deliberately specific ("when is my X return") rather than a bare
+    # "\w+ return" match -- a loose pattern here would incorrectly
+    # swallow "how will the mercury return affect me" (clearly
+    # interpretive) before the event_impact patterns below ever get a
+    # chance to match. Found and fixed during this phase's own testing.
+    (re.compile(r"\bwhen\s+is\s+my\s+\w+\s+return\b"), _build_next_return),
     (re.compile(r"\bwhat'?s\s+happening\s+on\b"), _build_date_snapshot),
     (re.compile(r"\bwhat\s+is\s+happening\s+on\b"), _build_date_snapshot),
     (re.compile(r"\banything\s+(big|major|significant)\b"), _build_range_highlights),
