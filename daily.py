@@ -46,6 +46,7 @@ from astrology.daily import (
     compute_transit_aspects_to_key_points,
     compute_transit_house_placements,
 )
+from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
 from astrology.normaliser import longitude_to_zodiac
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
@@ -330,6 +331,7 @@ def _render_daily_narrative_input(
     narrative_claims: list[NarrativeClaim],
     daily_transit_aspects: list[dict] | None = None,
     daily_transit_houses: list[dict] | None = None,
+    eclipse_context: dict | None = None,
 ) -> str:
     """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
     same shape as N4's render_narrative_input(), plus a trailing raw-
@@ -357,6 +359,31 @@ def _render_daily_narrative_input(
         lines.append(f"  LIFE_DOMAIN: {claim.life_domain or 'general'}")
         lines.append(f"  STATEMENT: {claim.statement}")
         lines.append(f"  SOURCE: {claim.source}")
+
+    if eclipse_context is not None:
+        lines.append("")
+        lines.append("# Today's eclipse (real, notable -- actively incorporate this, don't just note it)")
+        lines.append("")
+        resolution = eclipse_context["resolution"]
+        nodal = eclipse_context["nodal"]
+        lines.append(
+            f"  A {eclipse_context['type']} {eclipse_context['kind']} eclipse at "
+            f"{eclipse_context['sign']} {eclipse_context['degree']} degrees is exact around "
+            f"{eclipse_context['utc_time']}."
+        )
+        lines.append(
+            f"  Contact with the natal chart: {resolution['contact']} "
+            f"(natal house {resolution['natal_house']}, nearest natal point "
+            f"{resolution['nearest_natal_point']}, {resolution['orb_to_nearest']:.1f} degrees away)."
+        )
+        lines.append(f"  Nodal-axis amplification: {nodal['amplification_note']}")
+        lines.append(
+            "  This is real, computed astronomical fact -- an eclipse is a genuinely significant "
+            "moment, not routine background. Weave it into the reading using the contact/"
+            "amplification facts above exactly as stated (never say 'exact' if contact is "
+            "thematically_adjacent, never say 'amplified' if amplified is false) -- but keep planet/"
+            "house/degree names backend per the grounding rules, same as everything else."
+        )
 
     if daily_transit_aspects or daily_transit_houses:
         lines.append("")
@@ -394,6 +421,7 @@ def _synthesize_reading(
     backend: NarrativeBackend,
     daily_transit_aspects: list[dict] | None = None,
     daily_transit_houses: list[dict] | None = None,
+    eclipse_context: dict | None = None,
 ):
     """
     Real synthesis path: builds today's claims into the daily
@@ -412,12 +440,17 @@ def _synthesize_reading(
     not claims) are passed through to _render_daily_narrative_input so
     synthesis has real grounding for the generic-only aspect/house
     claims the widened sweep resolves -- see that function's docstring.
+
+    eclipse_context (astrology.daily_highlights.compute_eclipse_context
+    output, None on an ordinary day) is passed through the same way so
+    synthesis can weave in a real eclipse when one is actually near --
+    Phase K's eclipse-finding was previously invisible to daily mode.
     """
 
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
         _render_daily_narrative_input(
-            narrative_claims, daily_transit_aspects, daily_transit_houses
+            narrative_claims, daily_transit_aspects, daily_transit_houses, eclipse_context
         )
     )
 
@@ -472,6 +505,8 @@ def build_daily_reading(
     )
     transit_aspects = compute_transit_aspects_to_key_points(natal_chart, as_of_utc_time)
     transit_houses = compute_transit_house_placements(natal_chart, as_of_utc_time)
+    eclipse_context = compute_eclipse_context(natal_chart, as_of_utc_time)
+    highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
 
     observations = {
         "astrology": natal_chart,
@@ -510,6 +545,7 @@ def build_daily_reading(
             backend or AnthropicNarrativeBackend(),
             daily_transit_aspects=transit_aspects,
             daily_transit_houses=transit_houses,
+            eclipse_context=eclipse_context,
         )
         if reading_text is not None:
             synthesis_method = "llm"
@@ -573,7 +609,11 @@ def build_daily_reading(
             "label": rising_sign,
             "note": "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
         },
+        "highlights": highlights,
     }
+
+    if eclipse_context is not None:
+        result["eclipse_context"] = eclipse_context
 
     if synthesis_validation is not None:
         result["synthesis_validation"] = synthesis_validation
@@ -663,6 +703,21 @@ def main():
 
         print()
         print(f"Moon: {result['natal_moon_sign']['label']}  |  Rising: {result['rising_sign']['label']}  |  Sun today: {result['sun_sign']['label']}")
+
+        eclipse_context = result.get("eclipse_context")
+        if eclipse_context:
+            resolution = eclipse_context["resolution"]
+            print()
+            print(
+                f"Eclipse: {eclipse_context['type']} {eclipse_context['kind']} in "
+                f"{eclipse_context['sign']} ({resolution['contact']}, house {resolution['natal_house']})"
+            )
+
+        highlighted_planets = result["highlights"]["highlighted_planets"]
+        standouts = [p for p in highlighted_planets if p["tier"] == "standout"]
+        if standouts:
+            print()
+            print("Standout today: " + ", ".join(p["body"] for p in standouts))
 
         print()
         print(f"({len(result['claims'])} claims, sources below)")
