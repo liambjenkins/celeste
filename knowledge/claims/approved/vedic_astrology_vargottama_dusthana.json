@@ -1,0 +1,22 @@
+{
+  "claim_id": "vedic_astrology_vargottama_dusthana",
+  "lens_id": "vedic_astrology",
+  "statement": "This chart has a Vargottama planet (same sign in D1 and D9) sitting in a Dusthana house — the 6th, 8th, or 12th. Sources are consistent that Vargottama's usual meaning inverts here: rather than added strength and stability, the same doubled consistency instead intensifies that house's characteristic difficulties (conflict, crisis, or loss respectively), making them a persistent rather than occasional theme.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_structural_findings"
+  ],
+  "feature_ids": [
+    "vargottama:dusthana"
+  ],
+  "source_ids": [
+    "vargottama_classical_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "vargottama"
+  ],
+  "life_domain": "underlying_strength",
+  "editorial_note": "The specific favorable-vs-Dusthana split was cross-checked across multiple independent modern compilations during curation, not read from a single source alone.",
+  "status": "approved"
+}

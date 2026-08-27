@@ -56,6 +56,14 @@ def datetime_to_julian_day(utc_time: datetime) -> float:
 def get_astronomy(utc_time: datetime):
     """Calculate raw astronomical positions for the chart moment."""
 
+    # Re-asserted defensively on every call, not just at import time --
+    # observed (via web.py's Flask dev server) that swisseph's
+    # ephemeris-path state set once at module import doesn't reliably
+    # persist into a WSGI request-handling context in this environment.
+    # Idempotent and cheap; makes this robust regardless of which
+    # server/threading model ends up calling it.
+    swe.set_ephe_path(str(EPHEMERIS_PATH))
+
     julian_day = datetime_to_julian_day(utc_time)
 
     observations = {}

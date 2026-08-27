@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_mars_opposition_ascendant",
+  "lens_id": "astrology",
+  "statement": "Today, other people aren't just going along with you. Whatever you're pushing for, expect some real pushback, not just quiet agreement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:mars:opposition:ascendant"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "persona",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_moon_phase_new",
+  "lens_id": "astrology",
+  "statement": "Today's the kind of blank page you don't get very often. Whatever you start now gets to be genuinely new, not a patch on something old.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_moon_phase"
+  ],
+  "feature_ids": [
+    "daily_moon_phase:new_moon"
+  ],
+  "source_ids": [
+    "moon_phases_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

@@ -759,6 +759,32 @@ CONCEPTS = {
         "astrological_aspects"
     ]
 },
+"structural_findings": {
+    "label": "Structural findings",
+    "domain": "space",
+    "description": (
+        "Chart-wide observations that describe how several "
+        "independently-computed placements relate as a system rather "
+        "than attaching to one body or aspect: multiple significant "
+        "points clustering in one house, an aspect pattern's "
+        "structurally 'empty' point coinciding with an unrelated "
+        "placement, or a declination contact that carries no matching "
+        "longitude aspect at all (genuinely new information rather "
+        "than a second, reinforcing measurement of an aspect already "
+        "visible)."
+    ),
+    "synonyms": [
+        "house concentration",
+        "empty leg",
+        "declination relationship",
+        "structural finding"
+    ],
+    "related": [
+        "astrological_houses",
+        "aspect_patterns",
+        "declination_aspects"
+    ]
+},
 "vertex": {
     "label": "Vertex",
     "domain": "space",
@@ -844,6 +870,25 @@ CONCEPTS = {
     "related": [
         "chinese_pillars"
     ]
+},
+"chinese_structural_findings": {
+    "label": "Chinese structural findings",
+    "domain": "space",
+    "description": (
+        "Observations about how several of the chart's classified Ten "
+        "Gods relate as a system rather than reading one stem alone: "
+        "the same Ten God repeated 2+ times across the chart (a real "
+        "emphasis, per standard BaZi analysis), and Guan Sha Hun Za "
+        "(官殺混雜, 'Officer and Killings mixed') — the specifically "
+        "named classical pattern where both Direct Officer and Seven "
+        "Killings appear without one clearly dominating, read as a "
+        "tension between two different modes of authority or pressure."
+    ),
+    "synonyms": [
+        "repeated ten god", "Guan Sha Hun Za", "Officer Killing mixed",
+        "mixed authority"
+    ],
+    "related": ["chinese_ten_gods", "chinese_pillars"]
 },
 "chinese_dayun": {
     "label": "Chinese Da Yun (Luck Pillars)",
@@ -1009,6 +1054,94 @@ CONCEPTS = {
         "D20", "D24", "D27", "D30", "D40", "D45", "D60"
     ],
     "related": ["navamsa_ascendant", "vedic_positions"]
+},
+"vedic_structural_findings": {
+    "label": "Vedic structural findings",
+    "domain": "space",
+    "description": (
+        "Chart-wide observations in the sidereal chart that describe "
+        "how several independently-computed placements relate as a "
+        "system: bhava (house) concentrations — 3+ significant points "
+        "sharing one bhava — and Vargottama, a planet occupying the "
+        "same sign in both the D1 (Rasi) and D9 (Navamsa) charts, "
+        "classically read as a significant strength-and-stability "
+        "booster except when the shared D1 house is a Dusthana "
+        "(6th/8th/12th), where it's read as unfavorable instead."
+    ),
+    "synonyms": [
+        "bhava concentration", "Vargottama", "house stellium",
+        "Dusthana"
+    ],
+    "related": ["astrological_houses", "vedic_positions", "navamsa_ascendant"]
+},
+"daily_moon_phase": {
+    "label": "Daily moon phase",
+    "domain": "space",
+    "description": (
+        "Today's real Sun-Moon angular separation, mapped to the same "
+        "8-phase convention (new, waxing crescent, first quarter, "
+        "waxing gibbous, full, waning gibbous, last quarter, waning "
+        "crescent) already used for the natal Sun-Moon lunation-cycle "
+        "feature — evaluated live, at the current moment, not at "
+        "birth."
+    ),
+    "synonyms": [
+        "moon phase", "lunar phase", "new moon", "full moon"
+    ],
+    "related": ["astrological_aspects"]
+},
+"daily_transit_aspects": {
+    "label": "Daily transit aspects to key points",
+    "domain": "space",
+    "description": (
+        "Today's transiting bodies (Sun through Pluto) evaluated for "
+        "real aspects (conjunction, sextile, square, trine, "
+        "opposition, quincunx) against the full natal chart -- all "
+        "10 natal bodies, plus the natal Ascendant and the chart "
+        "ruler (whichever body that resolves to for this chart). "
+        "Widened per the Daily-Mode Scope Expansion brief from an "
+        "earlier 5-transiting-body/4-natal-target scope; reuses "
+        "astrology.transits.build_transits()'s own aspect grid "
+        "directly rather than a second computation of the same "
+        "arithmetic."
+    ),
+    "synonyms": [
+        "transit", "transiting planet", "transit aspect"
+    ],
+    "related": ["astrological_aspects", "astrological_houses"]
+},
+"daily_transit_houses": {
+    "label": "Daily transit house placements",
+    "domain": "space",
+    "description": (
+        "Each of today's 10 transiting bodies' current placement in "
+        "the natal house wheel -- the classic 'transiting Saturn is "
+        "moving through your 10th house' reading, evaluated for "
+        "today rather than an arbitrary --as-of moment. Reuses "
+        "astrology.transits.build_transits()'s own natal_house "
+        "computation."
+    ),
+    "synonyms": [
+        "transit house", "house transit", "transiting house"
+    ],
+    "related": ["astrological_houses", "daily_transit_aspects"]
+},
+"daily_day_pillar_relationship": {
+    "label": "Daily day pillar relationship",
+    "domain": "space",
+    "description": (
+        "Today's Chinese day pillar (stem + branch) compared against "
+        "the natal day pillar using the same classical stem-"
+        "combination, branch-clash, branch-combination, and branch-"
+        "harm lookup tables already used for natal pillar-to-pillar "
+        "comparisons, applied here to a today-vs-birth-day pairing "
+        "rather than two pillars within one natal chart."
+    ),
+    "synonyms": [
+        "day pillar", "Chong", "He", "Hai", "branch clash",
+        "branch combination", "branch harm"
+    ],
+    "related": ["chinese_pillars", "chinese_interactions"]
 },
 "vedic_dignity": {
     "label": "Vedic planetary dignity",

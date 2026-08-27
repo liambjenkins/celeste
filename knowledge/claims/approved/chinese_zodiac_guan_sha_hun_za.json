@@ -1,0 +1,23 @@
+{
+  "claim_id": "chinese_zodiac_guan_sha_hun_za",
+  "lens_id": "chinese_zodiac",
+  "statement": "Both Direct Officer and Seven Killings appear in this chart without one clearly dominating — the classically named Guan Sha Hun Za (官殺混雜, 'Officer and Killings mixed') pattern. Direct Officer represents structured, rule-bound authority and expectation; Seven Killings represents a more relentless, unrestrained form of pressure and drive. Carrying both at once, without a clear tiebreaker elsewhere in the chart, reads as a genuine and ongoing tension between those two modes rather than a settled preference for one.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_structural_findings",
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "guan_sha_hun_za:present"
+  ],
+  "source_ids": [
+    "guan_sha_hun_za_classical_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "ten_god"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "",
+  "status": "approved"
+}

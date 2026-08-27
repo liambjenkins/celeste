@@ -630,6 +630,90 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
         else:
             tags.append("final_dispositor:none")
 
+    # Structural findings — house concentrations, aspect-pattern
+    # empty-leg matches, and declination relationships (reinforces
+    # vs. genuinely new information relative to the longitude
+    # aspects already tagged above).
+    structural_findings_value = _single_value(concepts.get("structural_findings"))
+
+    if isinstance(structural_findings_value, dict):
+        for finding in structural_findings_value.get("house_concentrations", []):
+            house = finding.get("house")
+
+            if house is not None:
+                tags.append(f"house_concentration:{house}")
+
+        for finding in structural_findings_value.get("pattern_empty_leg_matches", []):
+            pattern = finding.get("pattern")
+
+            if pattern:
+                tags.append(f"pattern_empty_leg_match:{pattern}")
+
+        for finding in structural_findings_value.get("declination_relationships", []):
+            relationship = finding.get("relationship")
+
+            if relationship == "new_information":
+                tags.append("declination_relationship:new_information")
+            elif relationship == "reinforces":
+                tags.append("declination_relationship:reinforces")
+
+    # Daily mode — today's moon phase, transit-to-key-point aspects,
+    # and day-pillar relationship (astrology.daily's three functions,
+    # explicitly opt-in via a daily-mode caller, not part of the
+    # always-on natal computation).
+    daily_moon_phase_value = _single_value(concepts.get("daily_moon_phase"))
+
+    if isinstance(daily_moon_phase_value, dict):
+        phase_name = daily_moon_phase_value.get("phase_name")
+
+        if phase_name:
+            tags.append(f"daily_moon_phase:{phase_name}")
+
+    daily_transit_aspects_value = _single_value(concepts.get("daily_transit_aspects"))
+
+    if isinstance(daily_transit_aspects_value, list):
+        for item in daily_transit_aspects_value:
+            transiting_body = item.get("transiting_body")
+            target_role = item.get("target_role")
+            aspect = item.get("aspect")
+
+            if transiting_body and target_role and aspect:
+                tags.append(
+                    f"daily_transit_aspect:{transiting_body}:{aspect}:{target_role}"
+                )
+                # Also push the generic transit_aspect:<type> tag so
+                # an already-approved generic aspect-type claim (e.g.
+                # astrology_aspect_trine.json) still gives baseline
+                # coverage for any specific body/target combo that
+                # doesn't yet have its own daily-mode fragment,
+                # rather than firing nothing at all.
+                tags.append(f"transit_aspect:{aspect}")
+
+    daily_transit_houses_value = _single_value(concepts.get("daily_transit_houses"))
+
+    if isinstance(daily_transit_houses_value, list):
+        for item in daily_transit_houses_value:
+            transiting_body = item.get("transiting_body")
+            natal_house = item.get("natal_house")
+
+            if transiting_body and natal_house:
+                tags.append(f"daily_transit_house:{transiting_body}:{natal_house}")
+
+    daily_day_pillar_value = _single_value(concepts.get("daily_day_pillar_relationship"))
+
+    if isinstance(daily_day_pillar_value, dict):
+        if daily_day_pillar_value.get("stem_combination"):
+            tags.append("daily_day_pillar:stem_combination")
+
+        if daily_day_pillar_value.get("branch_clash"):
+            tags.append("daily_day_pillar:branch_clash")
+
+        if daily_day_pillar_value.get("branch_combination"):
+            tags.append("daily_day_pillar:branch_combination")
+
+        if daily_day_pillar_value.get("branch_harm"):
+            tags.append("daily_day_pillar:branch_harm")
+
     ascendant_longitude = _single_value(concepts.get("ascendant"))
     ascendant_sign = None
 
@@ -838,6 +922,24 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                         varga_ascendant_signs[varga_n] = point["sign"]
 
             tags.append(f"varga_present:{varga_n}")
+
+    # Vedic structural findings — bhava concentrations and Vargottama
+    # (astrology.vedic_structural_findings' output), the sidereal
+    # counterpart to the Western structural-findings tags above.
+    vedic_structural_findings_value = _single_value(concepts.get("vedic_structural_findings"))
+
+    if isinstance(vedic_structural_findings_value, dict):
+        for finding in vedic_structural_findings_value.get("bhava_concentrations", []):
+            house = finding.get("house")
+
+            if house is not None:
+                tags.append(f"bhava_concentration:{house}")
+
+        for finding in vedic_structural_findings_value.get("vargottama", []):
+            if finding.get("is_dusthana"):
+                tags.append("vargottama:dusthana")
+            else:
+                tags.append("vargottama:favorable")
 
     # Vedic planetary dignity + Baladi Avastha (astrology.dignity's
     # output: {planet: {"dignity": ..., "avastha": ...}}). Body-
@@ -1110,6 +1212,20 @@ def build_features(concepts: dict[str, Any]) -> FeatureBundle:
                 if ten_god:
                     chinese_ten_gods.append(ten_god)
                     tags.append(f"ten_god_hidden:{position}:{_slug(ten_god)}")
+
+    # Chinese structural findings — repeated Ten Gods and Guan Sha
+    # Hun Za (chinese.structural_findings' output).
+    chinese_structural_findings_value = _single_value(concepts.get("chinese_structural_findings"))
+
+    if isinstance(chinese_structural_findings_value, dict):
+        for finding in chinese_structural_findings_value.get("repeated_ten_gods", []):
+            ten_god = finding.get("ten_god")
+
+            if ten_god:
+                tags.append(f"repeated_ten_god:{_slug(ten_god)}")
+
+        if chinese_structural_findings_value.get("guan_sha_hun_za"):
+            tags.append("guan_sha_hun_za:present")
 
     # Da Yun (Luck Pillars) — optional, only present when the CLI was
     # given --as-of-date/--as-of-time AND --gender.

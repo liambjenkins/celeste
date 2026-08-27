@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_venus_trine_moon",
+  "lens_id": "astrology",
+  "statement": "Comfort finds you today without you chasing it. Whatever you actually need emotionally is easier to get than usual.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:venus:trine:moon"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "emotion",
+  "editorial_note": "",
+  "status": "approved"
+}

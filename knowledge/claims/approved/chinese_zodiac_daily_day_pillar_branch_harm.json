@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_daily_day_pillar_branch_harm",
+  "lens_id": "chinese_zodiac",
+  "statement": "Nothing about today looks like conflict on the surface. But something's quietly working against your closest relationship anyway, in a way that's easy to miss until it's already cost you something.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_day_pillar_relationship"
+  ],
+  "feature_ids": [
+    "daily_day_pillar:branch_harm"
+  ],
+  "source_ids": [
+    "bazi_pillar_interaction_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "",
+  "status": "approved"
+}

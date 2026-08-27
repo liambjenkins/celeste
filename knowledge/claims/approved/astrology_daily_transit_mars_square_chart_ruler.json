@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_mars_square_chart_ruler",
+  "lens_id": "astrology",
+  "statement": "Today, your usual way of getting things done doesn't just work on its own. Something's making you push harder than you'd like to.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:mars:square:chart_ruler"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "",
+  "status": "approved"
+}

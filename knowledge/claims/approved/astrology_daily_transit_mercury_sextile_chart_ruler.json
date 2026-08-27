@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_mercury_sextile_chart_ruler",
+  "lens_id": "astrology",
+  "statement": "Saying what you actually mean is easier than usual today. The opening's there. You just have to actually use it.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:mercury:sextile:chart_ruler"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "",
+  "status": "approved"
+}

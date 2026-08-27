@@ -312,6 +312,21 @@ def normalise_observations(observations):
                 "astrology.declination_aspects"
             )
 
+        structural_findings_value = astronomy.get("structural_findings")
+
+        if isinstance(structural_findings_value, dict) and any(
+            structural_findings_value.get(key)
+            for key in (
+                "house_concentrations", "pattern_empty_leg_matches",
+                "declination_relationships",
+            )
+        ):
+            add_concept(
+                "structural_findings",
+                structural_findings_value,
+                "astrology.structural_findings"
+            )
+
         vertex_point = astronomy.get("vertex")
 
         if isinstance(vertex_point, dict) and vertex_point.get("sign"):
@@ -550,6 +565,30 @@ def normalise_observations(observations):
             )
 
     # --------------------------------------------------------
+    # VEDIC STRUCTURAL FINDINGS
+    # --------------------------------------------------------
+    #
+    # "vedic_structural_findings" is the output of
+    # astrology.vedic_structural_findings.find_vedic_structural_findings():
+    # bhava concentrations and Vargottama (same D1/D9 sign) — the
+    # sidereal counterpart to the Western structural_findings concept.
+    #
+    vedic_structural_findings = observations.get(
+        "vedic_structural_findings",
+        {}
+    )
+
+    if isinstance(vedic_structural_findings, dict) and any(
+        vedic_structural_findings.get(key)
+        for key in ("bhava_concentrations", "vargottama")
+    ):
+        add_concept(
+            "vedic_structural_findings",
+            vedic_structural_findings,
+            "astrology.vedic_structural_findings"
+        )
+
+    # --------------------------------------------------------
     # VEDIC DIVISIONAL CHARTS (Shodasavarga, beyond D1/D9)
     # --------------------------------------------------------
     #
@@ -673,6 +712,21 @@ def normalise_observations(observations):
             "chinese_ten_gods",
             ten_gods,
             "chinese_ten_gods"
+        )
+
+    chinese_structural_findings = observations.get(
+        "chinese_structural_findings",
+        {}
+    )
+
+    if isinstance(chinese_structural_findings, dict) and any(
+        chinese_structural_findings.get(key)
+        for key in ("repeated_ten_gods", "guan_sha_hun_za")
+    ):
+        add_concept(
+            "chinese_structural_findings",
+            chinese_structural_findings,
+            "chinese.structural_findings"
         )
 
     dayun = observations.get(
@@ -1137,4 +1191,62 @@ def normalise_observations(observations):
                 ],
                 "solar_activity.observations.solar_activity.sunspot_number"
             )
+
+    # --------------------------------------------------------
+    # DAILY MODE: moon phase, transit-to-key-point aspects,
+    # day-pillar relationship
+    # --------------------------------------------------------
+    #
+    # These are the output of astrology.daily's three functions,
+    # computed explicitly by a daily-mode caller (not part of
+    # build_chart()'s always-on natal computation, since they're
+    # evaluated at "now"/"today," not at birth). Distinct from the
+    # natal Sun-Moon lunation-cycle feature already emitted by
+    # lenses/features.py -- that one describes the birth chart's own
+    # Sun-Moon relationship; this describes today's real sky.
+    #
+    daily_moon_phase = observations.get("daily_moon_phase")
+
+    if isinstance(daily_moon_phase, dict) and daily_moon_phase.get("phase_name"):
+        add_concept(
+            "daily_moon_phase",
+            daily_moon_phase,
+            "astrology.daily.compute_current_moon_phase"
+        )
+
+    daily_transit_aspects = observations.get("daily_transit_aspects")
+
+    if isinstance(daily_transit_aspects, list) and daily_transit_aspects:
+        add_concept(
+            "daily_transit_aspects",
+            daily_transit_aspects,
+            "astrology.daily.compute_transit_aspects_to_key_points"
+        )
+
+    daily_transit_houses = observations.get("daily_transit_houses")
+
+    if isinstance(daily_transit_houses, list) and daily_transit_houses:
+        add_concept(
+            "daily_transit_houses",
+            daily_transit_houses,
+            "astrology.daily.compute_transit_house_placements"
+        )
+
+    daily_day_pillar_relationship = observations.get(
+        "daily_day_pillar_relationship"
+    )
+
+    if isinstance(daily_day_pillar_relationship, dict) and any(
+        daily_day_pillar_relationship.get(key)
+        for key in (
+            "stem_combination", "branch_clash",
+            "branch_combination", "branch_harm",
+        )
+    ):
+        add_concept(
+            "daily_day_pillar_relationship",
+            daily_day_pillar_relationship,
+            "astrology.daily.compute_daily_day_pillar_relationship"
+        )
+
     return concepts

@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_moon_phase_waxing_gibbous",
+  "lens_id": "astrology",
+  "statement": "You're close enough to something finishing that the temptation is to rush it. Today's for the last real adjustments, not for stopping early.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_moon_phase"
+  ],
+  "feature_ids": [
+    "daily_moon_phase:waxing_gibbous"
+  ],
+  "source_ids": [
+    "moon_phases_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "cyclicality",
+  "editorial_note": "",
+  "status": "approved"
+}

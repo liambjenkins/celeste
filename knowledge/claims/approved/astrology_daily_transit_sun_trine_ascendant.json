@@ -1,0 +1,21 @@
+{
+  "claim_id": "astrology_daily_transit_sun_trine_ascendant",
+  "lens_id": "astrology",
+  "statement": "You don't have to work to be noticed today. However you show up, it reads clearly, and it reads well.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_transit_aspects"
+  ],
+  "feature_ids": [
+    "daily_transit_aspect:sun:trine:ascendant"
+  ],
+  "source_ids": [
+    "transit_astrology_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "persona",
+  "editorial_note": "",
+  "status": "approved"
+}

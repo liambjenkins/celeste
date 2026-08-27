@@ -14,13 +14,34 @@
     "house:saturn:3",
     "house:uranus:3",
     "house:neptune:3",
-    "house:pluto:3"
+    "house:pluto:3",
+    "transit_house:sun:3",
+    "transit_house:moon:3",
+    "transit_house:mercury:3",
+    "transit_house:venus:3",
+    "transit_house:mars:3",
+    "transit_house:jupiter:3",
+    "transit_house:saturn:3",
+    "transit_house:uranus:3",
+    "transit_house:neptune:3",
+    "transit_house:pluto:3",
+    "daily_transit_house:sun:3",
+    "daily_transit_house:moon:3",
+    "daily_transit_house:mercury:3",
+    "daily_transit_house:venus:3",
+    "daily_transit_house:mars:3",
+    "daily_transit_house:jupiter:3",
+    "daily_transit_house:saturn:3",
+    "daily_transit_house:uranus:3",
+    "daily_transit_house:neptune:3",
+    "daily_transit_house:pluto:3"
   ],
   "source_ids": [
     "sasportas_twelve_houses_1985"
   ],
   "theme_tags": [
-    "life_area"
+    "life_area",
+    "daily_mode"
   ],
   "life_domain": "communication",
   "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",

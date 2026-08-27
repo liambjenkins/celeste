@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_daily_day_pillar_stem_combination",
+  "lens_id": "chinese_zodiac",
+  "statement": "Today isn't just getting along with you, it's actually aligned with you, right down to the core of who you are. Rare days like this are worth actually using, not coasting through.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_day_pillar_relationship"
+  ],
+  "feature_ids": [
+    "daily_day_pillar:stem_combination"
+  ],
+  "source_ids": [
+    "bazi_pillar_interaction_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "",
+  "status": "approved"
+}

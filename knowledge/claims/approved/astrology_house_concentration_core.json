@@ -1,0 +1,33 @@
+{
+  "claim_id": "astrology_house_concentration_core",
+  "lens_id": "astrology",
+  "statement": "Three or more significant points sharing one house — a 'house stellium' — mark an unusual concentration of life-area emphasis. Distinct from a same-sign stellium: points can share a house while spanning two different signs near a house-cusp boundary, so this catches a real clustering of focus a sign-only reading would miss. Whatever that house governs stops being one thread among several in the chart and becomes a genuinely central, load-bearing area of life.",
+  "passage_ids": [],
+  "concept_ids": [
+    "structural_findings"
+  ],
+  "feature_ids": [
+    "house_concentration:1",
+    "house_concentration:2",
+    "house_concentration:3",
+    "house_concentration:4",
+    "house_concentration:5",
+    "house_concentration:6",
+    "house_concentration:7",
+    "house_concentration:8",
+    "house_concentration:9",
+    "house_concentration:10",
+    "house_concentration:11",
+    "house_concentration:12"
+  ],
+  "source_ids": [
+    "structural_findings_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "house_concentration"
+  ],
+  "life_domain": null,
+  "editorial_note": "Threshold (3+ points) and the point set counted (10 planets, true nodes, Chiron, Lilith, the 4 main asteroids, Part of Fortune/Spirit) are this implementation's own reasoned choice — see astrology/structural_findings.py — not a claim to reproduce one single named authority's exact list. Angles (Ascendant/MC) are deliberately excluded: in a quadrant house system they sit on their own house cusp by definition, which would make every chart show a trivial 'concentration' in houses 1 and 10 every time.",
+  "status": "approved"
+}

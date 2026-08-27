@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_daily_day_pillar_branch_combination",
+  "lens_id": "chinese_zodiac",
+  "statement": "Today actually cooperates with who you are, especially in your closest relationship. Whatever needs harmony there gets it more easily than usual.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_day_pillar_relationship"
+  ],
+  "feature_ids": [
+    "daily_day_pillar:branch_combination"
+  ],
+  "source_ids": [
+    "bazi_pillar_interaction_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "",
+  "status": "approved"
+}

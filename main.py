@@ -19,6 +19,7 @@ from astrology.progressions import build_secondary_progressions
 from astrology.tertiary_progressions import build_tertiary_progressions
 from astrology.varga import build_all_vargas
 from astrology.sidereal import build_sidereal_chart
+from astrology.vedic_structural_findings import find_vedic_structural_findings
 from astrology.time import local_to_utc
 from astrology.transits import build_transits
 from astrology.yogas import find_yogas
@@ -30,6 +31,7 @@ from chinese.shen_sha import find_shen_sha
 from chinese.na_yin import build_na_yin
 from chinese.pillars import build_four_pillars
 from chinese.sexagenary import STEM_INDEX, STEMS
+from chinese.structural_findings import find_chinese_structural_findings
 from chinese.ten_gods import build_ten_gods
 from providers.atmosphere import get_atmosphere
 from providers.marine import get_marine
@@ -222,6 +224,22 @@ def parse_args():
         ),
     )
 
+    parser.add_argument(
+        "--narrate",
+        action="store_true",
+        default=False,
+        help=(
+            "Opt-in: synthesize every claim resolved for this chart into "
+            "one connected narrative reading via a live LLM call (Anthropic "
+            "API, requires ANTHROPIC_API_KEY), instead of the raw claim "
+            "list. Runs a two-part validation pass afterward (a "
+            "deterministic coverage check plus an independent fact-check "
+            "call) and prints any findings rather than hiding them. Off by "
+            "default; every other output is completely unaffected by this "
+            "flag."
+        ),
+    )
+
     args = parser.parse_args()
 
     include_tokens = [
@@ -347,6 +365,7 @@ _tropical_chart = build_chart(
 )
 
 _sidereal_chart = build_sidereal_chart(_tropical_chart)
+_navamsa_chart = build_navamsa_chart(_sidereal_chart)
 _four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
 
 # Computed unconditionally (cheap, and needed by elemental_alignment
@@ -354,16 +373,19 @@ _four_pillars = build_four_pillars(_tropical_chart, args.requested_time_local)
 # hid it from claim-matching) — only ITS PRESENCE IN `observations`
 # below is gated by the feature flag.
 _chinese_elemental_balance = build_elemental_balance(_four_pillars)
+_chinese_ten_gods = build_ten_gods(
+    _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
+)
 
 observations = {
     "astrology": _tropical_chart,
     "vedic_astrology": _sidereal_chart,
     "vedic_yogas": find_yogas(_sidereal_chart),
-    "navamsa": build_navamsa_chart(_sidereal_chart),
+    "navamsa": _navamsa_chart,
+    "vedic_structural_findings": find_vedic_structural_findings(_sidereal_chart, _navamsa_chart),
     "chinese_pillars": _four_pillars.to_dict(),
-    "chinese_ten_gods": build_ten_gods(
-        _four_pillars, _four_pillars.day_master_element, _four_pillars.day_master_polarity
-    ),
+    "chinese_ten_gods": _chinese_ten_gods,
+    "chinese_structural_findings": find_chinese_structural_findings(_chinese_ten_gods),
     "atmosphere": get_atmosphere(
         LATITUDE, LONGITUDE, REQUESTED_TIME
     ),
@@ -509,6 +531,34 @@ result = {
     },
     "elemental_alignment": elemental_alignment,
 }
+
+if args.narrate:
+    from lenses.narrative_backend import AnthropicNarrativeBackend, MissingAPIKeyError, NarrativeBackendError
+    from lenses.narrative_input import gather_narrative_claims, render_narrative_input
+    from lenses.narrative_style import build_synthesis_prompt
+    from lenses.narrative_validation import check_coverage, fact_check
+
+    narrative_claims = gather_narrative_claims(interpretations)
+    narrative_input_text = render_narrative_input(
+        interpretations, cross_system.narrative, elemental_alignment
+    )
+
+    try:
+        backend = AnthropicNarrativeBackend()
+        narrative_text = backend.synthesize(build_synthesis_prompt(narrative_input_text))
+        coverage = check_coverage(narrative_claims, narrative_text)
+        fact_check_findings = fact_check(backend, narrative_claims, narrative_text)
+
+        result["narrative"] = {
+            "text": narrative_text,
+            "claims_used": len(narrative_claims),
+            "coverage_ratio": coverage.coverage_ratio,
+            "coverage_missing_claim_ids": [c.claim_id for c in coverage.missing],
+            "fact_check_findings": fact_check_findings,
+        }
+    except (MissingAPIKeyError, NarrativeBackendError) as error:
+        result["narrative"] = {"error": str(error)}
+
 print("✨ Celeste")
 print("Environmental Reconstruction")
 print()

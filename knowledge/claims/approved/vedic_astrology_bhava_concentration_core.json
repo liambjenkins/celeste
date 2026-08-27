@@ -1,0 +1,33 @@
+{
+  "claim_id": "vedic_astrology_bhava_concentration_core",
+  "lens_id": "vedic_astrology",
+  "statement": "Three or more significant points sharing one bhava mark an unusual concentration of life-area emphasis — distinct from planets simply sharing a rashi (sign), since points can share a bhava while spanning two different signs near a bhava-cusp boundary. Whatever that bhava governs stops being one thread among several and becomes a genuinely central, load-bearing area of life.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_structural_findings"
+  ],
+  "feature_ids": [
+    "bhava_concentration:1",
+    "bhava_concentration:2",
+    "bhava_concentration:3",
+    "bhava_concentration:4",
+    "bhava_concentration:5",
+    "bhava_concentration:6",
+    "bhava_concentration:7",
+    "bhava_concentration:8",
+    "bhava_concentration:9",
+    "bhava_concentration:10",
+    "bhava_concentration:11",
+    "bhava_concentration:12"
+  ],
+  "source_ids": [
+    "structural_findings_modern_convention"
+  ],
+  "theme_tags": [
+    "structural_finding",
+    "bhava_concentration"
+  ],
+  "life_domain": null,
+  "editorial_note": "Same threshold and point set as the Western house-concentration claim (see astrology/vedic_structural_findings.py) — Lagna excluded since it defines bhava 1's cusp by definition.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_daily_day_pillar_branch_clash",
+  "lens_id": "chinese_zodiac",
+  "statement": "Today doesn't sit quietly next to who you are. Whatever comes up is likely to land on your closest relationship specifically, not just you.",
+  "passage_ids": [],
+  "concept_ids": [
+    "daily_day_pillar_relationship"
+  ],
+  "feature_ids": [
+    "daily_day_pillar:branch_clash"
+  ],
+  "source_ids": [
+    "bazi_pillar_interaction_modern_convention"
+  ],
+  "theme_tags": [
+    "daily_mode"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "",
+  "status": "approved"
+}
