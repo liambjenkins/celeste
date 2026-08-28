@@ -128,6 +128,20 @@ DAILY_GROUNDING_RULES = """
    justify a fact that isn't ALSO backed by an actual claim above --
    it disambiguates specificity, it doesn't add new permission to
    assert things.
+6. If an "OVERCLAIM CONSTRAINTS" section appears, follow it exactly
+   for every hit it names -- it states, per hit, exactly which
+   contact/exactness/amplification language is and isn't accurate
+   given the real computed numbers (never "exact" for something that
+   is a real contact but not truly exact; never imply a connection
+   that doesn't exist; never call an eclipse amplified when it isn't).
+   This is a hard rule the generated text is checked against
+   afterward, not a style preference -- treat it with the same weight
+   as rule 1.
+7. If today's claims below genuinely amount to nothing (no hits, no
+   day-pillar relationship) -- say so plainly, in the same second-
+   person, plain-fact voice as everything else. Do not manufacture
+   drama or invent a "quiet but meaningful" undertone the data doesn't
+   support; an ordinary day is a genuine, honest answer.
 """
 
 DAILY_STYLE_GUIDE = """

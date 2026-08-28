@@ -11,7 +11,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from lenses.overclaim_guard import build_overclaim_constraints, check_overclaims
+from lenses.overclaim_guard import (
+    build_batch_overclaim_constraints,
+    build_overclaim_constraints,
+    check_batch_overclaims,
+    check_overclaims,
+)
 
 print("=== OVERCLAIM GUARD ===")
 
@@ -112,6 +117,128 @@ locked_constraints = build_overclaim_constraints(ADJACENT, NOT_AMPLIFIED)
 assert "house 9" in locked_constraints and "mc" in locked_constraints
 assert "unrelated" in locked_constraints
 print("check the locked eclipse worked example produces correct, complete constraints")
+
+
+# --- Batch extension (Query-Answering/Daily-Reading Repair phase) ---
+# Additive functions -- everything above this point exercises the
+# single-event functions completely unmodified.
+
+# The locked eclipse example itself: a real direct_hit (5.69 deg from
+# MC, under the 6-deg angle threshold) that is NOT near_exact (5.69 >
+# EXACT_LANGUAGE_ORB=1.0) -- exactly the case that produced the real
+# live bug ("lands exactly on that same spot").
+ECLIPSE_HIT = {
+    "hit_id": "eclipse:2026-08-28T04:12:58+00:00",
+    "kind": "eclipse",
+    "tier": "standout",
+    "resolution": {
+        "natal_house": 9, "house_occupants": [], "nearest_natal_point": "mc",
+        "orb_to_nearest": 5.69, "direct_hit_orb_used": 6.0, "contact": "direct_hit",
+        "near_exact": False,
+    },
+    "nodal": NOT_AMPLIFIED,
+}
+
+# A near-exact aspect hit -- direct_hit AND near_exact, so "exact"
+# language IS accurate here (the opposite case from the eclipse hit).
+NEAR_EXACT_ASPECT_HIT = {
+    "hit_id": "transit_aspect:uranus:trine:moon",
+    "kind": "transit_aspect",
+    "tier": "standout",
+    "resolution": {
+        "natal_house": 1, "house_occupants": [], "nearest_natal_point": "moon",
+        "orb_to_nearest": 0.04, "direct_hit_orb_used": 3.0, "contact": "direct_hit",
+        "near_exact": True,
+    },
+    "nodal": None,
+}
+
+# A moon-phase hit -- natal_house is None (a lunation isn't "in" a
+# house), the case that previously printed "house None" before the
+# dedicated moon-phase constraint phrasing was added.
+MOON_PHASE_NO_CONTACT_HIT = {
+    "hit_id": "moon_phase:full_moon",
+    "kind": "moon_phase",
+    "tier": "background",
+    "resolution": {
+        "natal_house": None, "house_occupants": [], "nearest_natal_point": "mc",
+        "orb_to_nearest": 1.54, "direct_hit_orb_used": 1.0, "contact": "no_contact",
+        "near_exact": False,
+    },
+    "nodal": None,
+}
+
+
+eclipse_only_constraints = build_batch_overclaim_constraints([ECLIPSE_HIT])
+assert ECLIPSE_HIT["hit_id"] in eclipse_only_constraints
+assert "house None" not in eclipse_only_constraints
+for phrase in ("exact", "precisely", "dead on", "spot on", "right on"):
+    assert phrase in eclipse_only_constraints
+assert "not amplified" in eclipse_only_constraints.lower() or "NOT be amplified" in eclipse_only_constraints
+print("check build_batch_overclaim_constraints on the locked eclipse hit names it and bans true-exactness language")
+
+# The literal regression test: the exact sentence observed live.
+bad_sentence = "The eclipse lands exactly on that same spot, so this is a real turning point."
+findings = check_batch_overclaims(bad_sentence, [ECLIPSE_HIT])
+true_exact_findings = [f for f in findings if f["type"] == "overclaimed_true_exactness"]
+assert true_exact_findings, f"expected an overclaimed_true_exactness finding, got {findings}"
+assert true_exact_findings[0]["hit_id"] == ECLIPSE_HIT["hit_id"]
+print("check check_batch_overclaims catches the real observed live bug sentence, tagged to the eclipse hit_id")
+
+# The corrected version must be clean (aside from the still-required
+# not-amplified statement, which this sentence also omits on purpose
+# to keep the check focused).
+good_sentence = "The eclipse connects directly with your MC, about 5.7 degrees off. Not amplified by your nodes."
+findings_good = check_batch_overclaims(good_sentence, [ECLIPSE_HIT])
+assert not any(f["type"] == "overclaimed_true_exactness" for f in findings_good), (
+    f"'directly with' / naming the point should not trip the true-exactness rule: {findings_good}"
+)
+print("check corrected, non-exact-but-direct language produces no true-exactness finding")
+
+# A near_exact hit permits "exact" language freely (the opposite case).
+exact_sentence = "Uranus is exactly on your Moon today."
+findings_exact = check_batch_overclaims(exact_sentence, [NEAR_EXACT_ASPECT_HIT])
+assert findings_exact == [], f"near_exact=True should permit true-exactness language: {findings_exact}"
+print("check a near_exact hit permits true-exactness language with zero findings")
+
+# Moon-phase (natal_house=None) hit -- no "house None", correct
+# no_contact phrasing.
+moon_constraints = build_batch_overclaim_constraints([MOON_PHASE_NO_CONTACT_HIT])
+assert "house None" not in moon_constraints
+assert "does NOT meaningfully touch your chart" in moon_constraints
+moon_bad = "The Full Moon activates your chart today."
+moon_findings = check_batch_overclaims(moon_bad, [MOON_PHASE_NO_CONTACT_HIT])
+assert any(f["type"] == "overclaimed_connection" for f in moon_findings)
+print("check a moon-phase hit (no house) produces correct no_contact phrasing, no 'house None'")
+
+# Multiple simultaneous hits: every finding is tagged with a hit_id,
+# and a clean multi-hit text produces zero findings.
+multi_hits = [ECLIPSE_HIT, NEAR_EXACT_ASPECT_HIT, MOON_PHASE_NO_CONTACT_HIT]
+multi_constraints = build_batch_overclaim_constraints(multi_hits)
+for hit in multi_hits:
+    assert hit["hit_id"] in multi_constraints
+multi_bad_findings = check_batch_overclaims(bad_sentence, multi_hits)
+assert all("hit_id" in f for f in multi_bad_findings)
+
+# Fully generic, safe text -- no exactness/connection/amplification
+# phrase from ANY category, for ANY hit -- must produce zero findings.
+# (A text that correctly uses "directly on" for one hit while
+# correctly avoiding it for a simultaneous no_contact hit is NOT
+# achievable in one sentence -- these are per-hit RULES applied to
+# the whole text, documented as a known limitation in check_batch_
+# overclaims' own docstring, not something a single test sentence can
+# route around.)
+generic_safe_text = "Today feels different. Something's shifting, tied to how others see you."
+generic_findings = check_batch_overclaims(generic_safe_text, multi_hits)
+assert generic_findings == [
+    f for f in generic_findings if f["type"] == "missing_required_statement"
+], f"generic, phrase-free text should only ever trip the required not-amplified statement: {generic_findings}"
+print("check batch functions handle multiple simultaneous hits, tag every finding with a hit_id")
+
+# Empty hit list degrades honestly, not a crash.
+assert build_batch_overclaim_constraints([]) == ""
+assert check_batch_overclaims("Anything at all.", []) == []
+print("check empty hit list produces empty constraints and zero findings, no crash")
 
 print()
 print("OVERCLAIM GUARD: OK")

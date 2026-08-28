@@ -13,7 +13,7 @@ occupancy classification K5 didn't need but the query-answering layer
 does.
 """
 
-from astrology.event_significance import direct_hit_orb, natal_targets, nearest_primary_natal_point
+from astrology.event_significance import ANGLE_ROLES, direct_hit_orb, natal_targets, nearest_primary_natal_point
 from astrology.normaliser import longitude_in_house
 
 
@@ -37,7 +37,7 @@ def resolve_event_to_natal(longitude: float, natal_chart: dict) -> dict:
     targets = natal_targets(natal_chart)
     house_occupants = [
         target_role for target_role, target_lon in targets.items()
-        if target_role not in ("ascendant", "mc")  # angles define their own house cusp, not "in" a house
+        if target_role not in ANGLE_ROLES  # angles define their own house cusp, not "in" a house
         and longitude_in_house(target_lon, cusps) == house
     ]
 
