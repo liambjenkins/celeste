@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mars_bhava_10",
+  "lens_id": "vedic_astrology",
+  "statement": "Mars (Mangala) in the 10th bhava tends to give strong drive and courage applied to career, natural energy for public achievement.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mars:10"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

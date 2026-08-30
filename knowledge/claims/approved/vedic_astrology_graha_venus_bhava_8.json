@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_venus_bhava_8",
+  "lens_id": "vedic_astrology",
+  "statement": "Venus (Shukra) in the 8th bhava tends to give intensity around intimacy and shared resources, a transformative approach to relationships.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:venus:8"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_rahu_bhava_11",
+  "lens_id": "vedic_astrology",
+  "statement": "Rahu in the 11th bhava tends to give an amplified pursuit of gains and worldly goals, intense engagement with community.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:north_node_true:11"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

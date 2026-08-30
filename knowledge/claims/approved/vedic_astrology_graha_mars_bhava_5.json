@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mars_bhava_5",
+  "lens_id": "vedic_astrology",
+  "statement": "Mars (Mangala) in the 5th bhava tends to give bold, assertive creative energy, courage applied to children and intelligence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mars:5"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

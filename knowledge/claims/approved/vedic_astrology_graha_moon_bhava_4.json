@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_moon_bhava_4",
+  "lens_id": "vedic_astrology",
+  "statement": "Moon (Chandra) in the 4th bhava tends to give deep emotional comfort in home, a strong bond with mother and domestic happiness.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:moon:4"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

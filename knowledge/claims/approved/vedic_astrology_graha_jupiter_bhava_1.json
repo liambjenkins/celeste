@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_jupiter_bhava_1",
+  "lens_id": "vedic_astrology",
+  "statement": "Jupiter (Brihaspati) in the 1st bhava tends to give wisdom, optimism, and dharma central to identity, a naturally expansive and respected presence.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:jupiter:1"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

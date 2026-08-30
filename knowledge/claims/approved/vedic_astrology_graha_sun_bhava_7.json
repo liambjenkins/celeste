@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_sun_bhava_7",
+  "lens_id": "vedic_astrology",
+  "statement": "Sun (Surya) in the 7th bhava tends to give authority and ego expressed through partnership, a need to balance dominance with equality.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:sun:7"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

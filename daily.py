@@ -273,6 +273,26 @@ def _resolve_vedic_sign_fusion(role: str, sign: str):
     return claims
 
 
+def _resolve_vedic_house_claim(body: str, house: int):
+    """Combinatorial-Meaning Expansion Phase 5: the Vedic counterpart
+    to _resolve_natal_house_claim. Same most-specific-wins mechanism
+    (fewest feature_ids) as the Western resolver -- the generic
+    vedic_house:{body}:{house} tag is shared across all 22 _ALL_BODIES
+    on the body-agnostic bhava claim (knowledge/claims/seeds/
+    vedic_astrology.py's own established pattern), while the nine
+    classical Navagraha now also have a single-tag, graha-specific
+    claim that automatically outranks it. Honest None degrade never
+    happens for a body actually in a chart (every _ALL_BODIES member
+    has the generic fallback) -- this only returns None for a
+    genuinely invalid tag."""
+
+    tag = f"vedic_house:{body}:{house}"
+    matches = resolve_claims({}, lens_id="vedic_astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
 def _sidereal_sign_now(body: str, as_of_utc_time: datetime) -> str:
     """Today's real transiting position in sidereal (Lahiri) terms --
     the one piece that didn't exist anywhere in the engine before this
@@ -1094,6 +1114,21 @@ def build_daily_reading(
     vedic_moon_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("moon", vedic_moon_sign))
     vedic_ascendant_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("ascendant", vedic_ascendant_sign))
 
+    # Natal sidereal bhava (house) -- Combinatorial-Meaning Expansion
+    # Phase 5. Confirmed by direct search: nothing in this pipeline
+    # cited ANY bhava content before this, at all -- the body-agnostic
+    # bhava claims existed but were never wired in. Ascendant excluded,
+    # same reasoning as the tropical Big-3: it's a house cusp itself,
+    # not "in" a house.
+    vedic_sun_house = sidereal_natal["bodies"]["sun"]["house"]
+    vedic_moon_house = sidereal_natal["bodies"]["moon"]["house"]
+    vedic_sun_house_claim = _resolve_vedic_house_claim("sun", vedic_sun_house)
+    vedic_moon_house_claim = _resolve_vedic_house_claim("moon", vedic_moon_house)
+    if vedic_sun_house_claim is not None:
+        _use_vedic_claims([vedic_sun_house_claim])
+    if vedic_moon_house_claim is not None:
+        _use_vedic_claims([vedic_moon_house_claim])
+
     # Today's transiting sidereal sign -- only for a body already part
     # of a real hit today (never an unconditional sweep over all 10
     # transiting bodies, same discipline as the natal-sign grounding
@@ -1271,6 +1306,16 @@ def build_daily_reading(
             vedic_ascendant_sign, None, None,
             vedic_ascendant_claims,
             "Your natal sidereal Ascendant sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_sun_house": _vedic_identity_field(
+            f"Bhava {vedic_sun_house}", None, None,
+            [vedic_sun_house_claim] if vedic_sun_house_claim is not None else [],
+            "Your natal sidereal Sun's own bhava (house) -- standing identity context, not today's sky.",
+        ),
+        "vedic_moon_house": _vedic_identity_field(
+            f"Bhava {vedic_moon_house}", None, None,
+            [vedic_moon_house_claim] if vedic_moon_house_claim is not None else [],
+            "Your natal sidereal Moon's own bhava (house) -- standing identity context, not today's sky.",
         ),
     }
 

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mercury_bhava_2",
+  "lens_id": "vedic_astrology",
+  "statement": "Mercury (Budha) in the 2nd bhava tends to give intellect applied to wealth and speech, a skilled communicator about resources and values.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mercury:2"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

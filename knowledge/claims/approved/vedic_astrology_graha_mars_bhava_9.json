@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mars_bhava_9",
+  "lens_id": "vedic_astrology",
+  "statement": "Mars (Mangala) in the 9th bhava tends to give courage and initiative applied to belief and higher learning, an assertive relationship with father or teachers.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mars:9"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

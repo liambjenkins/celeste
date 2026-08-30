@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mercury_bhava_12",
+  "lens_id": "vedic_astrology",
+  "statement": "Mercury (Budha) in the 12th bhava tends to give an intellect turned inward, a private or reflective communication style, drawn to hidden knowledge.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mercury:12"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

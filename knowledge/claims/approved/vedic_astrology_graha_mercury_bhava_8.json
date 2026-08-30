@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mercury_bhava_8",
+  "lens_id": "vedic_astrology",
+  "statement": "Mercury (Budha) in the 8th bhava tends to give an intellect drawn to hidden or occult matters, communication around transformation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mercury:8"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

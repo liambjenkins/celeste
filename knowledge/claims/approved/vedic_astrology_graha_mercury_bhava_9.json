@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mercury_bhava_9",
+  "lens_id": "vedic_astrology",
+  "statement": "Mercury (Budha) in the 9th bhava tends to give intelligence applied to belief and higher learning, a communicative relationship with father or teachers.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mercury:9"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

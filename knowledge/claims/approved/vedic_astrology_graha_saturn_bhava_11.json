@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_saturn_bhava_11",
+  "lens_id": "vedic_astrology",
+  "statement": "Saturn (Shani) in the 11th bhava tends to give a disciplined pursuit of gains, a patient, sustained engagement with community.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:saturn:11"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
