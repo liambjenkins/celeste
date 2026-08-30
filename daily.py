@@ -147,6 +147,29 @@ def _resolve_house_claim(transiting_body: str, house: int):
     return matches[0] if matches else None
 
 
+def _resolve_natal_house_claim(role: str, house: int):
+    """One targeted lookup for a NATAL point's own birth house -- e.g.
+    natal Saturn radix in house 10, NOT the house a transiting body is
+    currently passing through (that's _resolve_house_claim, above).
+    This distinction is the actual gap this closes: a real audit found
+    natal_chart["bodies"][role]["house"] has always been computed
+    correctly (astrology/chart.py -> normalise_body ->
+    longitude_in_house against the chart's own natal cusps), but
+    nothing in this pipeline ever cited it -- every existing "house"
+    reference here is transit-through-house. Reuses the plain
+    house:{role}:{house} tag already on astrology_house_N.json (no new
+    claim content needed), which only covers the 10 classical planets
+    (_PLANETS_FOR_HOUSE_TAGS in knowledge/claims/seeds/astrology.py) --
+    honest None degrade for nodes/Chiron/asteroids/angles, same as
+    every other honest-degrade precedent in this file."""
+
+    tag = f"house:{role}:{house}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
 # The nine classical Navagraha that carry a real Vedic karaka
 # (signification) -- Uranus/Neptune/Pluto are tracked structurally but
 # have no traditional karakatva, so they never get a "planet meaning"
@@ -538,11 +561,17 @@ def _render_hit_block(hit: dict) -> str:
     with "eases today via transiting Jupiter" into one sentence,
     rather than leaving sign meaning as an unpaired, context-free
     fact. `hit.get("natal_house_note")` is the same idea for the
-    natal house a transit_aspect hit's transiting body currently
-    occupies (see _resolve_house_claim). `hit.get("vedic_sign_note")`
-    is the same idea for the Vedic/sidereal lens -- today's real
-    transiting sidereal sign for this hit's own transiting body, when
-    it's genuinely relevant."""
+    house a transit_aspect hit's TRANSITING body currently occupies
+    (see _resolve_house_claim) -- NOT a natal placement.
+    `hit.get("target_natal_house_note")` is the natal point's OWN
+    birth house instead (see _resolve_natal_house_claim) -- a real
+    audit found reading copy had confused these two, stating a natal
+    planet's house with a number sourced from nowhere in the engine;
+    the two grounding lines below are deliberately labeled
+    unambiguously so synthesis can't make the same mix-up.
+    `hit.get("vedic_sign_note")` is the same idea for the Vedic/
+    sidereal lens -- today's real transiting sidereal sign for this
+    hit's own transiting body, when it's genuinely relevant."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -561,8 +590,8 @@ def _render_hit_block(hit: dict) -> str:
         line = (
             f"  [{hit['tier']}] transit: {d['transiting_body']} {d['aspect']} natal "
             f"{d['target_role']}{retro}, orb {r['orb_to_nearest']:.2f} degrees, contact: "
-            f"{r['contact']}. Transiting {d['transiting_body']} is currently in natal house "
-            f"{r['natal_house']}."
+            f"{r['contact']}. Transiting {d['transiting_body']} is currently PASSING THROUGH "
+            f"natal house {r['natal_house']} (not {d['transiting_body']}'s own birth house)."
         )
     else:  # moon_phase
         phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
@@ -577,7 +606,11 @@ def _render_hit_block(hit: dict) -> str:
 
     natal_house_note = hit.get("natal_house_note")
     if natal_house_note:
-        line += f"\n    House {r['natal_house']} meaning: {natal_house_note}"
+        line += f"\n    Transiting body's current (transit-through) house meaning: {natal_house_note}"
+
+    target_natal_house_note = hit.get("target_natal_house_note")
+    if target_natal_house_note:
+        line += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
 
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
@@ -835,6 +868,35 @@ def build_daily_reading(
     moon_sign_claim = _use_sign_claim("moon", natal_moon_sign)
     ascendant_sign_claim = _use_sign_claim("ascendant", rising_sign)
 
+    # Natal house content: a natal point's OWN birth house (e.g. natal
+    # Saturn radix in house 10), never to be confused with the house a
+    # TRANSITING body is currently passing through (_use_house_claim,
+    # below -- a real audit found reading copy had blurred exactly
+    # this distinction, stating a natal planet's house with a number
+    # that traced to nothing Celeste actually computed). Ascendant
+    # excluded -- it's a house cusp itself, not "in" a house.
+    # Shared dedupe cache: _resolve_house_claim (transit-through) and
+    # _resolve_natal_house_claim (natal-own) both draw from the SAME
+    # astrology_house_N claim family (just different tags on the same
+    # claim file), so a transiting body currently sitting in the same
+    # house number as a natal point's own house must not append that
+    # claim to daily_claims twice.
+    house_meaning_claims_used: dict[str, object] = {}
+
+    def _use_natal_house_claim(role, house):
+        if role is None or house is None:
+            return None
+        item = _resolve_natal_house_claim(role, house)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_meaning_claims_used:
+            house_meaning_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
+    sun_house_claim = _use_natal_house_claim("sun", natal_chart["bodies"]["sun"]["house"])
+    moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
+
     for hit in hits:
         if hit["kind"] not in ("transit_aspect", "eclipse"):
             continue
@@ -848,6 +910,13 @@ def build_daily_reading(
         if claim is not None:
             hit["natal_sign_note"] = claim.claim.statement
 
+        natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
+        natal_house_claim = _use_natal_house_claim(real_role, natal_house)
+        if natal_house_claim is not None:
+            hit["target_natal_house_note"] = (
+                f"natal {real_role} radix is in house {natal_house} -- {natal_house_claim.claim.statement}"
+            )
+
     # House-meaning content: same targeted-lookup restoration as the
     # sign-meaning content above, for the daily_transit_house:{body}:
     # {house} tag family PR #4's rebuild orphaned (see
@@ -855,16 +924,14 @@ def build_daily_reading(
     # -- eclipse/moon-phase hits aren't "a transiting body currently
     # in a house" facts the same way, and never an unconditional
     # sweep over all 10 transiting bodies' house placements.
-    house_claims_used: dict[str, object] = {}
-
     def _use_house_claim(transiting_body, house):
         if house is None:
             return None
         item = _resolve_house_claim(transiting_body, house)
         if item is None:
             return None
-        if item.claim.claim_id not in house_claims_used:
-            house_claims_used[item.claim.claim_id] = item
+        if item.claim.claim_id not in house_meaning_claims_used:
+            house_meaning_claims_used[item.claim.claim_id] = item
             daily_claims.append(item)
         return item
 
@@ -1049,6 +1116,16 @@ def build_daily_reading(
         "rising_sign": _identity_field(
             rising_sign, ascendant_sign_claim,
             "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
+        ),
+        "natal_sun_house": _identity_field(
+            f"House {natal_chart['bodies']['sun']['house']}", sun_house_claim,
+            "Your natal Sun's own birth house -- standing identity context, "
+            "distinct from any house a transiting body is currently passing through.",
+        ),
+        "natal_moon_house": _identity_field(
+            f"House {natal_chart['bodies']['moon']['house']}", moon_house_claim,
+            "Your natal Moon's own birth house -- standing identity context, "
+            "distinct from any house a transiting body is currently passing through.",
         ),
         "highlights": highlights,
         "astrology_highlights_note": None if hits else _ASTROLOGY_QUIET_NOTE,

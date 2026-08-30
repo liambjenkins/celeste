@@ -1,0 +1,136 @@
+"""
+Tests for daily.py's natal-house citation -- the fabrication-guard gap
+found during the "Natal House Data Verification" audit: a natal
+planet's own birth house (e.g. natal Saturn radix in house 10) has
+always been computed correctly by astrology/chart.py (verified against
+the locked style-guide fact), but nothing in the daily pipeline ever
+cited it -- every existing "house" reference there was a TRANSITING
+body's current house, never the natal point's own. Reading copy had
+confused the two (stating a natal planet's house with a number sourced
+from nowhere in the engine), so this both restores the citation and
+locks in that the two grounding lines stay unambiguously distinct.
+"""
+
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from astrology.chart import build_chart
+from astrology.daily_hits import compute_daily_hits
+from astrology.time import local_to_utc
+from chinese.pillars import build_four_pillars
+import daily
+from daily import _resolve_natal_house_claim, build_daily_reading
+
+print("=== DAILY NATAL HOUSE ===")
+
+
+def build_natal(local_dt, tz, lat, lon):
+    aware = local_to_utc(local_dt, tz)
+    utc = aware.replace(tzinfo=timezone.utc) if aware.tzinfo is None else aware
+    return build_chart(utc, lat, lon, house_system="placidus")
+
+
+MELBOURNE = build_natal(datetime(1996, 7, 22, 3, 10), "Australia/Melbourne", -37.7392, 144.7967)
+MELBOURNE_PILLARS = build_four_pillars(MELBOURNE, datetime(1996, 7, 22, 3, 10))
+ECLIPSE_DAY = datetime(2026, 8, 28, 12, 0, tzinfo=timezone.utc)
+
+
+# --- Locked fact: natal Saturn radix must be house 10, per the style guide ---
+
+assert MELBOURNE["bodies"]["saturn"]["house"] == 10, (
+    f"locked fact broken -- natal Saturn should be house 10, got {MELBOURNE['bodies']['saturn']['house']}"
+)
+saturn_house_claim = _resolve_natal_house_claim("saturn", 10)
+assert saturn_house_claim is not None and saturn_house_claim.claim.claim_id == "astrology_house_10"
+print("check natal Saturn's real computed house (10) matches the locked style-guide fact, and resolves a real citation")
+
+# Honest degrade: a role outside the classical-planet tag family, or a nonexistent house number.
+assert _resolve_natal_house_claim("chiron", 5) is None
+assert _resolve_natal_house_claim("saturn", 13) is None
+print("check _resolve_natal_house_claim degrades honestly for an untagged role or a nonexistent house number")
+
+
+# --- Big-3: natal Sun/Moon houses always resolve real citations ---
+
+result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=False)
+
+for field, expected_house in (("natal_sun_house", MELBOURNE["bodies"]["sun"]["house"]), ("natal_moon_house", MELBOURNE["bodies"]["moon"]["house"])):
+    identity = result[field]
+    assert identity["label"] == f"House {expected_house}", f"{field}: expected label 'House {expected_house}', got {identity['label']}"
+    assert identity["claim_text"], f"{field}: expected real, cited house-meaning text"
+    assert identity["source_ids"], f"{field}: expected real source_ids"
+print("check natal Sun/Moon house identity anchors always carry a real, correctly-numbered citation")
+
+
+# --- Per-hit grounding: a hit touching a non-Big-3 natal point (Saturn,
+# on the locked eclipse day) gets its OWN natal house cited, distinct
+# from any transit-through-house note on the same hit -- the actual
+# regression test for the bug this closes ---
+
+captured = {}
+real_render = daily._render_daily_narrative_input
+
+
+def _spy(narrative_claims, hits=None):
+    captured["hits"] = hits
+    return real_render(narrative_claims, hits)
+
+
+with patch("daily._render_daily_narrative_input", side_effect=_spy):
+    build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=True)
+
+internal_hits = captured["hits"]
+saturn_hit = next(
+    (h for h in internal_hits if h["kind"] == "transit_aspect" and h["resolution"]["nearest_natal_point"] == "saturn"),
+    None,
+)
+assert saturn_hit is not None, "expected at least one hit targeting natal saturn on the locked eclipse day"
+assert saturn_hit.get("target_natal_house_note"), "expected natal saturn's own house to be cited on this hit"
+assert "house 10" in saturn_hit["target_natal_house_note"], (
+    f"expected natal saturn's own house (10) in the note, got: {saturn_hit['target_natal_house_note']}"
+)
+
+transit_house = saturn_hit["resolution"]["natal_house"]
+if transit_house != 10:
+    # The transiting body's current house differs from Saturn's own --
+    # confirm the two grounding lines don't collide/get confused.
+    assert saturn_hit.get("natal_house_note"), "expected a transit-through-house note too"
+    assert str(transit_house) not in saturn_hit["target_natal_house_note"].split("house 10")[0], (
+        "target_natal_house_note should name Saturn's OWN house, not the transiting body's current house"
+    )
+
+rendered_block = daily._render_hit_block(saturn_hit)
+assert "OWN birth house" in rendered_block and "house 10" in rendered_block
+assert "PASSING THROUGH" in rendered_block  # the transiting body's own line, still present and distinctly labeled
+print(f"check natal Saturn's OWN house (10) is cited distinctly from the transiting body's current house (transit house {transit_house}) on the same hit")
+
+
+# --- Dedupe: a natal house claim never appears twice across result['claims'] ---
+
+claim_id_counts = {}
+for c in result["claims"]:
+    claim_id_counts[c["claim_id"]] = claim_id_counts.get(c["claim_id"], 0) + 1
+duplicates = {cid: n for cid, n in claim_id_counts.items() if n > 1}
+assert not duplicates, f"expected every claim_id to appear at most once, got duplicates: {duplicates}"
+print("check no claim (natal house or otherwise) is cited twice in result['claims']")
+
+
+# --- Cross-chart: Big-3 natal house citations always resolve, no crash ---
+
+for name, local_dt, tz, lat, lon in (
+    ("new_york", datetime(2000, 1, 1, 12, 0), "America/New_York", 40.7128, -74.0060),
+    ("tokyo", datetime(1985, 6, 15, 8, 30), "Asia/Tokyo", 35.6762, 139.6503),
+):
+    chart = build_natal(local_dt, tz, lat, lon)
+    pillars = build_four_pillars(chart, local_dt)
+    r = build_daily_reading(chart, pillars, ECLIPSE_DAY, use_synthesis=False)
+    for field in ("natal_sun_house", "natal_moon_house"):
+        assert r[field]["claim_text"], f"{name}: {field} should always resolve a real citation"
+    print(f"check {name}: natal Sun/Moon house identity anchors resolve real citations")
+
+print()
+print("DAILY NATAL HOUSE: OK")

@@ -61,13 +61,21 @@ aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
 assert aspect_hits, "test assumption broken -- expected at least one transit_aspect hit on the eclipse day"
 houses_touched_today = {h["resolution"]["natal_house"] for h in aspect_hits}
 
+# Big-3 standing content (added after this test was first written) also
+# always cites natal Sun/Moon's OWN house -- distinct from, but drawing
+# on the same astrology_house_N claim family as, the transit-through
+# houses above. Expected set is the union of both.
+always_on_houses = {MELBOURNE["bodies"]["sun"]["house"], MELBOURNE["bodies"]["moon"]["house"]}
+
 result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=False)
 house_claim_ids = {c["claim_id"] for c in result["claims"] if c["claim_id"].startswith("astrology_house_")}
 assert house_claim_ids, "expected at least one house-meaning claim cited in result['claims']"
-assert house_claim_ids == {f"astrology_house_{h}" for h in houses_touched_today}, (
-    f"expected exactly the houses touched today ({houses_touched_today}) to be cited, got {house_claim_ids}"
+expected_houses = houses_touched_today | always_on_houses
+assert house_claim_ids == {f"astrology_house_{h}" for h in expected_houses}, (
+    f"expected exactly the houses touched today ({houses_touched_today}) plus natal Sun/Moon's own "
+    f"houses ({always_on_houses}) to be cited, got {house_claim_ids}"
 )
-print(f"check result['claims'] cites exactly the houses touched by today's hits ({sorted(house_claim_ids)})")
+print(f"check result['claims'] cites exactly the houses touched by today's hits plus natal Sun/Moon's own houses ({sorted(house_claim_ids)})")
 
 
 # --- Dedupe: a house claim never appears twice even when multiple
