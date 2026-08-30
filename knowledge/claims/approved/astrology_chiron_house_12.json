@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_chiron_house_12",
+  "lens_id": "astrology",
+  "statement": "Chiron in the 12th house tends to give a wound tied to the unseen or unconscious, with healing found through quiet, private integration.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:chiron:12"
+  ],
+  "source_ids": [
+    "melanie_reinhart_chiron_and_the_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

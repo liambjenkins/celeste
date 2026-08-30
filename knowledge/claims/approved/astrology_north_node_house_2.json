@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_2",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 2nd house tends to give growth found in building genuine self-worth and personal resources, moving away from dependence on others' values.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:2",
+    "house:north_node_mean:2"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

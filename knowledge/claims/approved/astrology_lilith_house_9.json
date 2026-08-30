@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_9",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 9th house tends to give raw, unfiltered instinct in belief, resistant to imposed philosophies or dogma.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:9",
+    "house:lilith_true:9"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

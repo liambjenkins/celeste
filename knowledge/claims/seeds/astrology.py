@@ -765,6 +765,173 @@ for _planet, _house_meanings in _PLANET_HOUSE_MEANINGS.items():
 
 
 # ------------------------------------------------------------
+# Extended-point-in-house (natal only) — Combinatorial-Meaning
+# Expansion, Phase 4: the same treatment as Phase 1 above, for the
+# points already covered by _EXTRA_ROLES_FOR_NATAL_HOUSE_TAG (nodes,
+# Chiron, Lilith, the four asteroids) -- all real PRIMARY_NATAL_ROLES
+# members, so all real possible hit targets, that previously only had
+# the generic per-house fallback like every other role.
+#
+# One written text per SYMBOLIC point (8), not per role (11) -- "true"
+# vs "mean" node/Lilith is a calculation-method nuance, not a
+# difference in interpretive meaning, so the same claim is tagged with
+# both role variants where applicable (matching this codebase's own
+# established pattern of one claim, many tags -- see the generic house
+# claims above). No new code needed, same mechanism as Phase 1: single-
+# tag claims automatically outrank the generic house claim.
+#
+# Sources: Chiron -- Melanie Reinhart, Chiron and the Healing Journey
+# (1989). Nodes -- Martin Schulman, Karmic Astrology (1975). Lilith --
+# Demetra George, Asteroid Goddesses (1986; also covers Ceres/Pallas/
+# Juno/Vesta, the same book already cited for the natal claims'
+# tradition elsewhere in this codebase's asteroid content).
+# ------------------------------------------------------------
+
+_CHIRON_HOUSE_MEANINGS = {
+    1: "a wound tied to identity and self-worth, with healing found through embracing rather than hiding vulnerability",
+    2: "a wound tied to resources and self-worth, with healing found through redefining what security actually means",
+    3: "a wound tied to communication or early learning, with healing found through finding one's own authentic voice",
+    4: "a wound tied to home or family, with healing found through making peace with one's roots",
+    5: "a wound tied to creative or romantic self-expression, with healing found through reclaiming joy and play",
+    6: "a wound tied to health or daily routine, with healing found through gentler, more sustainable self-care",
+    7: "a wound tied to partnership, with healing found through learning to be truly seen by another",
+    8: "a wound tied to intimacy or loss, with healing found through facing what was buried",
+    9: "a wound tied to belief or meaning, with healing found through rebuilding a personal philosophy",
+    10: "a wound tied to public role or authority, with healing found through redefining what success means",
+    11: "a wound tied to belonging or friendship, with healing found through finding a genuine community",
+    12: "a wound tied to the unseen or unconscious, with healing found through quiet, private integration",
+}
+
+_NORTH_NODE_HOUSE_MEANINGS = {
+    1: "growth found in developing independence and a stronger sense of self, moving away from over-reliance on others",
+    2: "growth found in building genuine self-worth and personal resources, moving away from dependence on others' values",
+    3: "growth found in open communication and curiosity, moving away from rigid or isolated certainty",
+    4: "growth found in emotional roots and inner security, moving away from an overextended public focus",
+    5: "growth found in creative self-expression and joy, moving away from excessive self-sacrifice",
+    6: "growth found in daily discipline and practical service, moving away from ungrounded idealism",
+    7: "growth found in genuine partnership and compromise, moving away from excessive self-focus",
+    8: "growth found in deep intimacy and shared vulnerability, moving away from excessive self-sufficiency",
+    9: "growth found in expanding belief and worldview, moving away from over-attachment to small details",
+    10: "growth found in public responsibility and achievement, moving away from over-reliance on family or home",
+    11: "growth found in community and shared ideals, moving away from an overly personal, romantic focus",
+    12: "growth found in surrender and spiritual trust, moving away from rigid control",
+}
+
+_SOUTH_NODE_HOUSE_MEANINGS = {
+    1: "an innate comfort with independence, prone to over-relying on self-sufficiency at the expense of connection",
+    2: "an innate comfort with personal resources, prone to over-relying on material security alone",
+    3: "an innate comfort with communication and information, prone to over-relying on facts over deeper meaning",
+    4: "an innate comfort with home and family, prone to over-relying on the past for security",
+    5: "an innate comfort with self-expression, prone to over-relying on personal drama or romance",
+    6: "an innate comfort with routine and service, prone to over-relying on being needed by others",
+    7: "an innate comfort with partnership, prone to over-relying on others for identity",
+    8: "an innate comfort with self-sufficiency, prone to over-relying on control to feel safe",
+    9: "an innate comfort with detail and practicality, prone to over-relying on narrow certainty",
+    10: "an innate comfort with home and privacy, prone to over-relying on family rather than public life",
+    11: "an innate comfort with romance and personal creativity, prone to over-relying on individual recognition",
+    12: "an innate comfort with control and visible achievement, prone to over-relying on external validation",
+}
+
+_LILITH_HOUSE_MEANINGS = {
+    1: "raw, unfiltered instinct expressed through identity, a rebellious streak against others' expectations of who to be",
+    2: "raw, unfiltered instinct around resources and self-worth, resistant to conventional definitions of value",
+    3: "raw, unfiltered instinct in communication, drawn to saying what others leave unsaid",
+    4: "raw, unfiltered instinct around home and family, resistant to inherited domestic expectations",
+    5: "raw, unfiltered instinct in creativity and romance, resistant to conventional expression of desire",
+    6: "raw, unfiltered instinct around service and routine, resistant to being controlled by daily obligation",
+    7: "raw, unfiltered instinct in partnership, resistant to conventional relationship roles",
+    8: "raw, unfiltered instinct around intimacy and power very much at home here, deeply resistant to being controlled",
+    9: "raw, unfiltered instinct in belief, resistant to imposed philosophies or dogma",
+    10: "raw, unfiltered instinct around public role, resistant to conventional definitions of success",
+    11: "raw, unfiltered instinct in community, resistant to group pressure to conform",
+    12: "raw, unfiltered instinct in the unconscious, deeply private and easily misunderstood by others",
+}
+
+_CERES_HOUSE_MEANINGS = {
+    1: "nurturance through direct, active care, showing love by taking charge of others' needs",
+    2: "nurturance through providing material security, showing love by building tangible stability for others",
+    3: "nurturance through communication and teaching, showing love by sharing knowledge and staying in touch",
+    4: "nurturance through home and family very much at home here, showing love by creating a safe, warm household",
+    5: "nurturance through creative encouragement, showing love by celebrating others' self-expression",
+    6: "nurturance through practical daily care, showing love by attending to others' health and routine",
+    7: "nurturance through partnership, showing love by prioritizing another's needs alongside one's own",
+    8: "nurturance through deep emotional support, showing love by staying present through hardship",
+    9: "nurturance through shared belief or teaching, showing love by encouraging others to grow and explore",
+    10: "nurturance through guidance and public responsibility, showing love by mentoring or providing for others' futures",
+    11: "nurturance through community care, showing love by supporting friends and shared causes",
+    12: "quiet, private nurturance, showing love through selfless, often unseen sacrifice",
+}
+
+_PALLAS_HOUSE_MEANINGS = {
+    1: "strategic intelligence expressed through personal identity, a natural problem-solver in how one presents to the world",
+    2: "strategic intelligence applied to resources, skilled at seeing patterns in what builds real security",
+    3: "strategic intelligence expressed through communication very much at home here, a natural gift for pattern recognition in ideas",
+    4: "strategic intelligence applied to home and family, skilled at navigating complex family dynamics",
+    5: "strategic intelligence applied to creativity, skilled at intentional, well-crafted self-expression",
+    6: "strategic intelligence applied to daily work, skilled at designing efficient systems and routines",
+    7: "strategic intelligence applied to partnership, skilled at fair, well-reasoned negotiation",
+    8: "strategic intelligence applied to shared resources, skilled at navigating complex or hidden dynamics",
+    9: "strategic intelligence applied to belief, skilled at building coherent, well-reasoned philosophies",
+    10: "strategic intelligence applied to career, skilled at long-term planning and public strategy",
+    11: "strategic intelligence applied to community, skilled at organizing groups toward shared goals",
+    12: "strategic intelligence applied inwardly, skilled at recognizing unconscious patterns others miss",
+}
+
+_JUNO_HOUSE_MEANINGS = {
+    1: "a search for a partner who supports and mirrors one's own sense of identity",
+    2: "a search for a partner who provides material stability and shares similar values",
+    3: "a search for a partner who communicates openly and shares intellectual connection",
+    4: "a search for a partner who feels like home, prioritizing emotional security in commitment",
+    5: "a search for a partner who brings romance, creativity, and playfulness to the bond",
+    6: "a search for a partner who shares practical daily life and mutual reliability",
+    7: "equal, committed partnership very much at home here, a central and natural life theme",
+    8: "a search for a partner capable of deep intimacy and shared transformation",
+    9: "a search for a partner who shares beliefs and a sense of adventure",
+    10: "a search for a partner who supports shared ambition and public standing",
+    11: "a search for a partner who is also a genuine friend, built on shared ideals",
+    12: "a search for a partnership that feels private, spiritual, or even fated",
+}
+
+_VESTA_HOUSE_MEANINGS = {
+    1: "devotion expressed through personal discipline, focus centered on self-development",
+    2: "devotion expressed through building material security, focus centered on sustained, dedicated effort toward resources",
+    3: "devotion expressed through communication or learning, focus centered on mastering ideas",
+    4: "devotion expressed through home and family, focus centered on maintaining a sacred domestic space",
+    5: "devotion expressed through creative work, focus centered on disciplined self-expression",
+    6: "devotion expressed through work and service very much at home here, a natural dedication to daily discipline",
+    7: "devotion expressed through partnership, focus centered on sustained commitment to another",
+    8: "devotion expressed through deep transformation, focus centered on facing what's hidden",
+    9: "devotion expressed through belief, focus centered on a dedicated philosophical or spiritual path",
+    10: "devotion expressed through career, focus centered on sustained public dedication",
+    11: "devotion expressed through community, focus centered on service to shared causes",
+    12: "devotion expressed through solitude, focus centered on spiritual or contemplative practice",
+}
+
+_EXTENDED_POINT_HOUSE_BATCHES = (
+    ("chiron", "Chiron", ("chiron",), _CHIRON_HOUSE_MEANINGS, "melanie_reinhart_chiron_and_the_healing_journey_1989"),
+    ("north_node", "The North Node", ("north_node_true", "north_node_mean"), _NORTH_NODE_HOUSE_MEANINGS, "schulman_karmic_astrology_1975"),
+    ("south_node", "The South Node", ("south_node_true", "south_node_mean"), _SOUTH_NODE_HOUSE_MEANINGS, "schulman_karmic_astrology_1975"),
+    ("lilith", "Lilith", ("lilith_mean", "lilith_true"), _LILITH_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),
+    ("ceres", "Ceres", ("ceres",), _CERES_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),
+    ("pallas", "Pallas", ("pallas",), _PALLAS_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),
+    ("juno", "Juno", ("juno",), _JUNO_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),
+    ("vesta", "Vesta", ("vesta",), _VESTA_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),
+)
+
+for _claim_key, _label, _roles, _house_meanings, _source in _EXTENDED_POINT_HOUSE_BATCHES:
+    for _house, _trait in _house_meanings.items():
+        _ordinal = f"{_house}{'st' if _house == 1 else 'nd' if _house == 2 else 'rd' if _house == 3 else 'th'}"
+        _add(
+            f"{_claim_key}_house_{_house}",
+            f"{_label} in the {_ordinal} house tends to give {_trait}.",
+            feature_ids=[f"house:{_role}:{_house}" for _role in _roles],
+            theme_tags=["planet_in_house"],
+            life_domain=_HOUSES[_house][1],
+            source_id=_source,
+        )
+
+
+# ------------------------------------------------------------
 # Sign-on-house-cusp (natal only) — Combinatorial-Meaning Expansion,
 # Phase 2. What sign colors a given house's affairs in THIS chart --
 # a distinct fact from "which planet occupies the house" (Phase 1

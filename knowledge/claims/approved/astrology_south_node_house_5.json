@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_south_node_house_5",
+  "lens_id": "astrology",
+  "statement": "The South Node in the 5th house tends to give an innate comfort with self-expression, prone to over-relying on personal drama or romance.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:south_node_true:5",
+    "house:south_node_mean:5"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

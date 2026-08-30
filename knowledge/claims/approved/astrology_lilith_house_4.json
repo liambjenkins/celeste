@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_4",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 4th house tends to give raw, unfiltered instinct around home and family, resistant to inherited domestic expectations.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:4",
+    "house:lilith_true:4"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

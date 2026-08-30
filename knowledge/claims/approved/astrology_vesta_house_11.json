@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_vesta_house_11",
+  "lens_id": "astrology",
+  "statement": "Vesta in the 11th house tends to give devotion expressed through community, focus centered on service to shared causes.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:vesta:11"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

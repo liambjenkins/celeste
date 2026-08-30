@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_juno_house_7",
+  "lens_id": "astrology",
+  "statement": "Juno in the 7th house tends to give equal, committed partnership very much at home here, a central and natural life theme.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:juno:7"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

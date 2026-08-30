@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_pallas_house_1",
+  "lens_id": "astrology",
+  "statement": "Pallas in the 1st house tends to give strategic intelligence expressed through personal identity, a natural problem-solver in how one presents to the world.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:pallas:1"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

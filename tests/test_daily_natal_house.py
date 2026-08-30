@@ -70,10 +70,14 @@ print("check the planet-specific natal claim stays natal-only -- transit-through
 # Scope extension (comprehensiveness fix): Chiron, nodes, Lilith, and
 # the asteroids are all real natal_chart["bodies"] entries with a real
 # computed house -- now tagged, so a hit touching one of them cites
-# its own natal house too, same as a classical planet.
+# its own natal house too, same as a classical planet. (Combinatorial-
+# Meaning Expansion Phase 4 later gave Chiron specific content of its
+# own -- tests/test_daily_extended_house.py covers that in full; this
+# just confirms the extended-role citation mechanism itself still
+# resolves something real, whichever claim wins.)
 assert MELBOURNE["bodies"]["chiron"]["house"] == 4
 chiron_house_claim = _resolve_natal_house_claim("chiron", 4)
-assert chiron_house_claim is not None and chiron_house_claim.claim.claim_id == "astrology_house_4"
+assert chiron_house_claim is not None and chiron_house_claim.claim.claim_id == "astrology_chiron_house_4"
 print("check _resolve_natal_house_claim now resolves for an extended role (chiron) previously excluded")
 
 # Honest degrade: a role genuinely outside the tag family, or a nonexistent house number.

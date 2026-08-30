@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_ceres_house_7",
+  "lens_id": "astrology",
+  "statement": "Ceres in the 7th house tends to give nurturance through partnership, showing love by prioritizing another's needs alongside one's own.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:ceres:7"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

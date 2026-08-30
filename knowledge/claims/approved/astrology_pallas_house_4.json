@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_pallas_house_4",
+  "lens_id": "astrology",
+  "statement": "Pallas in the 4th house tends to give strategic intelligence applied to home and family, skilled at navigating complex family dynamics.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:pallas:4"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

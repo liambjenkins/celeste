@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_chiron_house_6",
+  "lens_id": "astrology",
+  "statement": "Chiron in the 6th house tends to give a wound tied to health or daily routine, with healing found through gentler, more sustainable self-care.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:chiron:6"
+  ],
+  "source_ids": [
+    "melanie_reinhart_chiron_and_the_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

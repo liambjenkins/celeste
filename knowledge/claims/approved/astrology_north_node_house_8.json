@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_8",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 8th house tends to give growth found in deep intimacy and shared vulnerability, moving away from excessive self-sufficiency.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:8",
+    "house:north_node_mean:8"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

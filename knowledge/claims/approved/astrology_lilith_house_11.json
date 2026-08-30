@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_11",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 11th house tends to give raw, unfiltered instinct in community, resistant to group pressure to conform.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:11",
+    "house:lilith_true:11"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

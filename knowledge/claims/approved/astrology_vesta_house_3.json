@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_vesta_house_3",
+  "lens_id": "astrology",
+  "statement": "Vesta in the 3rd house tends to give devotion expressed through communication or learning, focus centered on mastering ideas.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:vesta:3"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

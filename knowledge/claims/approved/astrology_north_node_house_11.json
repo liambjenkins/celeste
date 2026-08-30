@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_11",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 11th house tends to give growth found in community and shared ideals, moving away from an overly personal, romantic focus.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:11",
+    "house:north_node_mean:11"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
