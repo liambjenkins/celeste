@@ -14,10 +14,15 @@ through), and astrology.daily's computations to resolve today's
 claims. Per "Celeste — Daily-Mode Scope Expansion Brief": the daily
 transit sweep now covers all 10 transiting bodies against the full
 natal chart plus natal house placements (previously 5 bodies against
-4 targets, no houses), and natal Moon/Rising sign are shown as
-standing display context alongside today's Sun sign -- all reusing
-astrology.transits.build_transits()'s existing machinery rather than
-new aspect-finding logic.
+4 targets, no houses), and natal Sun/Moon/Ascendant sign are shown as
+standing identity anchors alongside today's real transiting Sun sign
+-- all reusing astrology.transits.build_transits()'s existing
+machinery rather than new aspect-finding logic. Per the Query-
+Answering/Daily-Reading Repair phase: those three identity anchors,
+and any other natal placement a real hit touches that day, now carry
+a real, source-cited sign-meaning interpretation (_resolve_sign_claim)
+rather than a bare computed label -- 219 already-reviewed claims that
+existed but were silently dropped by the daily-mode theme-tag filter.
 
 Reading assembly is real LLM-based synthesis (lenses.narrative_backend,
 reused unmodified from N4's natal narrative feature), per "Celeste —
@@ -43,9 +48,10 @@ from astrology.daily import (
     compute_current_sun_sign,
     compute_daily_day_pillar_relationship,
     compute_full_transit_matrix,
-    compute_transit_aspects_to_key_points,
-    compute_transit_house_placements,
 )
+from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
+from astrology.daily_hits import compute_daily_hits
+from astrology.event_significance import natal_targets
 from astrology.normaliser import longitude_to_zodiac
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
@@ -61,6 +67,7 @@ from lenses.narrative_backend import (
 )
 from lenses.narrative_input import NarrativeClaim, format_source
 from lenses.narrative_validation import check_coverage, fact_check
+from lenses.overclaim_guard import build_batch_overclaim_constraints, check_batch_overclaims
 
 
 def _resolve_daily_claims(concepts, features):
@@ -77,6 +84,59 @@ def _resolve_daily_claims(concepts, features):
                 daily_claims.append(item)
 
     return daily_claims
+
+
+def _resolve_sign_claim(role: str, sign: str):
+    """One targeted sign-meaning claim lookup (astrology_{body}_sign_
+    {sign}.json / astrology_ascendant_sign_{sign}.json -- 219 already-
+    reviewed files) -- deliberately bypassing _resolve_daily_claims'
+    blanket sweep and its "daily_mode" theme-tag filter entirely.
+    Those 219 files are NOT tagged daily_mode, and that's
+    intentional: build_features() fires a sign:{body}:{sign} tag for
+    EVERY natal placement on every single run (it's fed the full
+    natal chart), so tagging them daily_mode would flood every
+    reading with every natal placement's sign every day -- the exact
+    "unfiltered spray" bug this session already fixed once, for
+    houses. Callers of this function decide relevance themselves
+    (see build_daily_reading) and call this once per role that
+    actually matters that day; the full chart is still available as
+    data (any role can be looked up), it's just never surfaced
+    unconditionally.
+
+    Returns the matched RelevantClaim, or None if no claim exists for
+    this exact role (some roles -- mc, descendant, ic -- have no
+    authored sign-claim family; degrade honestly, don't guess).
+
+    Some bodies (e.g. Sun) also have a generic "what this planet
+    represents" claim reused across all 12 signs (feature_ids lists
+    every sign, not just this one -- same generic-fallback pattern
+    already seen elsewhere in this codebase for aspect types). When
+    multiple claims match, prefer the most specific one -- the fewest
+    feature_ids -- so the sign-specific claim (feature_ids == exactly
+    this one tag) wins over a same-tagged generic one."""
+
+    tag = f"ascendant:{sign}" if role == "ascendant" else f"sign:{role}:{sign}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+def _identity_field(label: str, claim, plain_note: str) -> dict:
+    """The result-dict shape for a standing natal identity anchor.
+    `note` is always present (a short, honest description -- the
+    prior behavior, kept as a fallback); when a sign claim resolved
+    (the normal case -- all 219 sign claims cover every western body
+    plus the Ascendant), `claim_text`/`claim_id`/`source_ids` are
+    added so the identity anchor carries a real, cited interpretation
+    instead of a bare label."""
+
+    field = {"label": label, "note": plain_note}
+    if claim is not None:
+        field["claim_text"] = claim.claim.statement
+        field["claim_id"] = claim.claim.claim_id
+        field["source_ids"] = list(claim.claim.source_ids)
+    return field
 
 
 # Action-prompt lines, keyed by life_domain -- deliberately a small,
@@ -121,10 +181,16 @@ _CLAIM_PRIORITY = (
 )
 
 
-def _pick_action_prompt(daily_claims):
+def _pick_action_prompt(daily_claims, hits: list[dict] | None = None):
     """Returns (prompt_text, source_claim_id) -- the claim_id lets
     callers (e.g. the web scaffold) show real attribution for the
-    action prompt instead of inferring it after the fact."""
+    action prompt instead of inferring it after the fact.
+
+    Moon phase is no longer unconditional (it's now a tiered hit like
+    everything else -- see astrology/daily_hits.py -- absent on
+    ordinary, non-New/Full days), so the fallback chain now has one
+    more tier below it: any surviving hit at all, before finally
+    reaching the true catch-all for a genuinely quiet day."""
 
     by_id = {item.claim.claim_id: item.claim for item in daily_claims}
 
@@ -139,8 +205,6 @@ def _pick_action_prompt(daily_claims):
                 claim_id,
             )
 
-    # Moon phase always resolves (it's a standalone daily fact), so
-    # this is the real fallback when nothing else fired today.
     for item in daily_claims:
         if item.claim.claim_id.startswith("astrology_daily_moon_phase"):
             return (
@@ -149,6 +213,9 @@ def _pick_action_prompt(daily_claims):
                 ),
                 item.claim.claim_id,
             )
+
+    if hits:
+        return _ACTION_PROMPTS["cyclicality"], hits[0]["hit_id"]
 
     return "Meet today on its own terms, not yesterday's.", None
 
@@ -172,6 +239,20 @@ _CONNECTORS = (
 # Fallback-only cap on supporting claims (moon phase always additional
 # to this). See _order_reading_claims for why this exists post-widening.
 _MAX_FALLBACK_SUPPORTING_CLAIMS = 3
+
+# Shown when astrology.daily_hits.compute_daily_hits() returns nothing
+# (no standout/background-tier activity today) -- a diagnostic/API
+# field (result["astrology_highlights_note"]), never injected verbatim
+# into the reading prose itself (the style guide's plain-voice rules
+# forbid jargon like "background noise" appearing in user-facing text).
+_ASTROLOGY_QUIET_NOTE = "Nothing in today's sky rises above routine background noise -- no standout events today."
+
+# The one hand-written, style-guide-compliant fallback for a fully
+# quiet day: no surviving hits AND no day-pillar relationship claim,
+# so daily_claims is empty too. Without this, _assemble_reading_text([])
+# would silently return "" -- a latent bug this rework makes
+# materially more likely, since moon phase is no longer unconditional.
+_QUIET_DAY_READING = "Nothing's pulling hard today. Whatever you do with it is genuinely up to you."
 
 
 def _order_reading_claims(daily_claims):
@@ -267,11 +348,20 @@ def _assemble_reading_text(daily_claims):
     can't run (no ANTHROPIC_API_KEY). This is ordering + connector
     phrases, not real synthesis; it does not find a throughline or
     fold claims together the way the real synthesis path does. Moon
-    phase (always present) anchors the reading, followed by up to
-    _MAX_FALLBACK_SUPPORTING_CLAIMS other resolved claims ranked by
-    priority, joined with rotating connector phrases instead of raw
-    concatenation. A single resolved claim is returned as-is -- no
-    connector needed for a one-claim day.
+    phase, when it resolved (it's now a tiered hit like everything
+    else -- present only on a New/Full Moon day, see astrology/
+    daily_hits.py), anchors the reading; otherwise the highest-
+    priority claim does. Up to _MAX_FALLBACK_SUPPORTING_CLAIMS other
+    resolved claims follow, ranked by priority, joined with rotating
+    connector phrases instead of raw concatenation. A single resolved
+    claim is returned as-is -- no connector needed for a one-claim
+    day. daily_claims here only ever contains curated fragments (the
+    computed-fact hit records built for hits without one are
+    deliberately excluded -- see build_daily_reading -- since this
+    path never calls an LLM and should only ever emit pre-written,
+    already-reviewed sentences, never assemble hit-derived prose
+    freely). Returns "" when daily_claims is empty; build_daily_reading
+    replaces that with _QUIET_DAY_READING.
     """
 
     moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims)
@@ -326,28 +416,75 @@ def _to_narrative_claims(daily_claims) -> list[NarrativeClaim]:
     return narrative_claims
 
 
+def _render_hit_block(hit: dict) -> str:
+    """One backend-only grounding line for a single resolve->tier'd
+    hit -- house/orb/contact/retrograde facts, never the interpretive
+    prose itself. Planet/aspect/house names stay backend per the
+    grounding rules; this is disambiguation for the model's own
+    reasoning, not content to quote verbatim.
+
+    `hit.get("natal_sign_note")` (set by build_daily_reading, only
+    for hits genuinely touching a natal point today -- see its own
+    docstring) is appended as one more grounding line when present:
+    the natal sign-meaning of whatever point the hit is about,
+    letting synthesis fuse "your naturally private Scorpio Venus"
+    with "eases today via transiting Jupiter" into one sentence,
+    rather than leaving sign meaning as an unpaired, context-free
+    fact."""
+
+    r = hit["resolution"]
+    d = hit["display"]
+
+    if hit["kind"] == "eclipse":
+        line = (
+            f"  [{hit['tier']}] eclipse: {d['eclipse_type']} eclipse at {d['sign']} "
+            f"{d['degree']} degrees, exact around {d['utc_time']}. Contact: {r['contact']} "
+            f"(house {r['natal_house']}, nearest point {r['nearest_natal_point']}, "
+            f"{r['orb_to_nearest']:.1f} degrees away)."
+        )
+        if hit["nodal"] is not None:
+            line += f"\n    Nodal-axis amplification: {hit['nodal']['amplification_note']}"
+    elif hit["kind"] == "transit_aspect":
+        retro = " (retrograde)" if d["retrograde"] else ""
+        line = (
+            f"  [{hit['tier']}] transit: {d['transiting_body']} {d['aspect']} natal "
+            f"{d['target_role']}{retro}, orb {r['orb_to_nearest']:.2f} degrees, contact: "
+            f"{r['contact']}. Transiting {d['transiting_body']} is currently in natal house "
+            f"{r['natal_house']}."
+        )
+    else:  # moon_phase
+        phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
+        line = (
+            f"  [{hit['tier']}] moon phase: {phase_label}. Nearest natal point: "
+            f"{r['nearest_natal_point']} ({r['orb_to_nearest']:.2f} degrees, contact: {r['contact']})."
+        )
+
+    natal_sign_note = hit.get("natal_sign_note")
+    if natal_sign_note:
+        line += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
+
+    return line
+
+
 def _render_daily_narrative_input(
     narrative_claims: list[NarrativeClaim],
-    daily_transit_aspects: list[dict] | None = None,
-    daily_transit_houses: list[dict] | None = None,
+    hits: list[dict] | None = None,
 ) -> str:
     """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
-    same shape as N4's render_narrative_input(), plus a trailing raw-
-    data section (same precedent as N4's Cross-Tradition Synthesis /
-    Elemental Alignment sections: already-computed fact, reference
-    only, not itself a claim).
+    same shape as N4's render_narrative_input(), plus a per-hit
+    grounding section and an OVERCLAIM CONSTRAINTS section built from
+    `hits` -- astrology.daily_hits.compute_daily_hits' output, already
+    resolved and tiered.
 
-    Needed post-widening: the generic aspect-type claims (e.g.
-    "a square pulls the two placements involved...") and generic
-    house claims ("the 3rd house governs...") don't name WHICH bodies
-    or WHICH transiting body -- that specificity only exists in a
-    resolved claim's matched_features when a curated fragment exists
-    for that exact combo (the 8 daily_transit_* claims). For the many
-    aspect/house instances the widened sweep resolves that DON'T have
-    a curated fragment, the only way synthesis can be specific rather
-    than vague is to see the real underlying data -- which already
-    exists (astrology.daily's own computed output), just wasn't being
-    passed through before."""
+    Replaces the old free-text eclipse-context block and the raw,
+    UNFILTERED transit-data dump: both were the actual mechanism
+    behind a real live bug (an eclipse called "exact" when it was
+    5.69 degrees from natal MC, and a citation list naming irrelevant
+    houses) -- see lenses/overclaim_guard.py and astrology/
+    daily_hits.py's docstrings for the full story. `hits` is already
+    filtered to standout+background tier, so every hit named here is
+    something genuinely worth the reading's attention, not a spray of
+    every placement in the chart."""
 
     lines = []
 
@@ -358,43 +495,35 @@ def _render_daily_narrative_input(
         lines.append(f"  STATEMENT: {claim.statement}")
         lines.append(f"  SOURCE: {claim.source}")
 
-    if daily_transit_aspects or daily_transit_houses:
+    hits = hits or []
+
+    if hits:
         lines.append("")
-        lines.append("# Today's exact transit data (reference only, not itself a claim)")
+        lines.append("# Today's active astrological hits (real, resolved, tiered -- ground your writing in these)")
+        lines.append("")
+        for hit in hits:
+            lines.append(_render_hit_block(hit))
+
+        constraints = build_batch_overclaim_constraints(hits)
+        if constraints:
+            lines.append("")
+            lines.append("# OVERCLAIM CONSTRAINTS (follow exactly, per hit -- see grounding rule 6)")
+            lines.append("")
+            lines.append(constraints)
+    else:
+        lines.append("")
+        lines.append("# Today's active astrological hits")
         lines.append("")
         lines.append(
-            "Use this only to know which specific placement a generic "
-            "claim above is actually about, when the claim's own "
-            "STATEMENT doesn't say (e.g. \"a square pulls the two "
-            "placements involved...\" or \"the 3rd house governs...\"). "
-            "If a claim above already names the specific pairing (like "
-            "astrology_daily_transit_mars_square_moon), you already "
-            "have what you need from the claim itself. Planet/aspect/"
-            "house names stay backend per the grounding rules either way "
-            "-- this is disambiguation for your own reasoning, not "
-            "content to quote."
+            "  Nothing astrologically significant is active today -- no standout or "
+            "background-tier hits. Say so plainly if nothing else below fills the reading; "
+            "see grounding rule 7."
         )
-
-        for aspect in daily_transit_aspects or []:
-            lines.append(
-                f"  aspect: {aspect['transiting_body']} {aspect['aspect']} "
-                f"{aspect['target_role']} (orb {aspect['orb']:.2f}°)"
-            )
-
-        for house in daily_transit_houses or []:
-            lines.append(
-                f"  house: {house['transiting_body']} in natal house {house['natal_house']}"
-            )
 
     return "\n".join(lines)
 
 
-def _synthesize_reading(
-    daily_claims,
-    backend: NarrativeBackend,
-    daily_transit_aspects: list[dict] | None = None,
-    daily_transit_houses: list[dict] | None = None,
-):
+def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict]):
     """
     Real synthesis path: builds today's claims into the daily
     synthesis prompt (lenses.daily_narrative_style) and calls the
@@ -404,21 +533,23 @@ def _synthesize_reading(
     in that case. validation_dict carries check_coverage() (kept
     informational for daily mode -- a claim the model correctly folded
     into implicit context, per the synthesis addendum, will legitimately
-    score low on keyword overlap without that being a real bug) and
+    score low on keyword overlap without that being a real bug),
     fact_check()'s findings (a real check -- catches invented
-    specificity the source claims don't support).
+    specificity the source claims don't support), and (new)
+    overclaim_findings from check_batch_overclaims -- the actual fix
+    for a real live bug where an eclipse was called "exact" 5.69
+    degrees off natal MC with nothing checking the generated text
+    against what was actually computed.
 
-    daily_transit_aspects/daily_transit_houses (the raw computed data,
-    not claims) are passed through to _render_daily_narrative_input so
-    synthesis has real grounding for the generic-only aspect/house
-    claims the widened sweep resolves -- see that function's docstring.
+    `hits` (astrology.daily_hits.compute_daily_hits output, already
+    resolved and tiered) is passed through to _render_daily_narrative_input
+    for the per-hit grounding block and the OVERCLAIM CONSTRAINTS
+    section -- see that function's docstring.
     """
 
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
-        _render_daily_narrative_input(
-            narrative_claims, daily_transit_aspects, daily_transit_houses
-        )
+        _render_daily_narrative_input(narrative_claims, hits)
     )
 
     try:
@@ -428,6 +559,7 @@ def _synthesize_reading(
 
     coverage = check_coverage(narrative_claims, reading_text)
     fact_check_findings = fact_check(backend, narrative_claims, reading_text)
+    overclaim_findings = check_batch_overclaims(reading_text, hits)
 
     validation = {
         "coverage_ratio": coverage.coverage_ratio,
@@ -438,9 +570,51 @@ def _synthesize_reading(
             "low here without being a real omission."
         ),
         "fact_check_findings": fact_check_findings,
+        "overclaim_findings": overclaim_findings,
     }
 
     return reading_text, validation
+
+
+def _computed_hit_claim(hit: dict) -> dict:
+    """A citable record for a surviving hit with no matching curated
+    fragment -- a plain, backend-generated factual summary built from
+    the hit's own resolved display data, not hand-written prose. This
+    is the concrete fix for a real live bug: the old citation list
+    was built from an unscoped feature-tag sweep (every house any
+    transiting body happened to occupy) with no connection to what
+    the reading actually discussed. Every surviving hit is citable
+    now, tied to its own hit_id, whether or not a hand-written
+    fragment exists for it -- the same "computed fact, no
+    interpretive claim" treatment `sun_sign` (today's real transiting
+    Sun, a live astronomical fact rather than an interpretive
+    statement) already gets in the result dict below (source_ids=[]
+    rather than inventing a book citation for a raw computed number)."""
+
+    r = hit["resolution"]
+    d = hit["display"]
+
+    if hit["kind"] == "eclipse":
+        text = (
+            f"A {d['eclipse_type']} eclipse at {d['sign']} {d['degree']} degrees -- "
+            f"{r['contact']} on your {r['nearest_natal_point']} (house {r['natal_house']})."
+        )
+    elif hit["kind"] == "transit_aspect":
+        text = (
+            f"Transiting {d['transiting_body']} {d['aspect']} your natal {d['target_role']} "
+            f"(orb {r['orb_to_nearest']:.1f} degrees, house {r['natal_house']})."
+        )
+    else:  # moon_phase
+        phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
+        text = f"Today is a {phase_label} -- {r['contact']} with your {r['nearest_natal_point']}."
+
+    return {
+        "claim_text": text,
+        "sources": [{"type": "computed_event", "value": hit["hit_id"]}],
+        "claim_id": hit["hit_id"],
+        "source_ids": [],
+        "life_domain": None,
+    }
 
 
 def build_daily_reading(
@@ -470,20 +644,89 @@ def build_daily_reading(
     day_pillar_relationship = compute_daily_day_pillar_relationship(
         four_pillars.day, as_of_utc_time.date()
     )
-    transit_aspects = compute_transit_aspects_to_key_points(natal_chart, as_of_utc_time)
-    transit_houses = compute_transit_house_placements(natal_chart, as_of_utc_time)
+    hits = compute_daily_hits(natal_chart, as_of_utc_time)
+    highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
+
+    # daily_transit_aspects/daily_moon_phase, fed to the existing
+    # concepts->features->resolve_claims machinery below, are now
+    # scoped to SURVIVING hits only -- previously this fed the full,
+    # unfiltered sweep (every transiting body's every aspect and
+    # house placement, regardless of significance), which is the
+    # actual mechanism behind a real live bug: a citation list naming
+    # houses with no connection to what the reading discussed. See
+    # astrology/daily_hits.py's docstring for the full story.
+    aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
+    moon_hit = next((h for h in hits if h["kind"] == "moon_phase"), None)
 
     observations = {
         "astrology": natal_chart,
-        "daily_moon_phase": moon_phase_data,
-        "daily_transit_aspects": transit_aspects,
-        "daily_transit_houses": transit_houses,
+        "daily_transit_aspects": [
+            {
+                "transiting_body": h["display"]["transiting_body"],
+                "target_role": h["display"]["target_role"],
+                "aspect": h["display"]["aspect"],
+                "orb": h["resolution"]["orb_to_nearest"],
+            }
+            for h in aspect_hits
+        ],
         "daily_day_pillar_relationship": day_pillar_relationship,
     }
+    if moon_hit is not None:
+        # Only fed as a claims-resolution observation when today's
+        # phase actually survived as a hit (New/Full Moon) -- moon
+        # phase is one more tiered hit now, not an unconditional
+        # claim. moon_phase_data (above) still always exists for the
+        # separate result["moon_phase"] display block regardless.
+        observations["daily_moon_phase"] = moon_phase_data
 
     concepts = normalise_observations(observations)
     features = build_features(concepts)
     daily_claims = _resolve_daily_claims(concepts, features)
+
+    # Natal sign-meaning content: 219 already-reviewed claims exist
+    # for exactly this (astrology_{body}_sign_{sign}.json) but were
+    # never surfaced in daily mode -- see _resolve_sign_claim's
+    # docstring for why that's a targeted lookup here, not a
+    # daily_mode theme tag. Full chart considered (role_longitudes
+    # covers every natal point), but only surfaced when relevant:
+    # the Big-3 identity anchors always (standing identity context,
+    # same as before -- now with a real citation instead of a bare
+    # label), and whichever natal points today's real hits actually
+    # touch, never unconditionally.
+    role_longitudes = natal_targets(natal_chart)
+    sign_claims_used: dict[str, object] = {}
+
+    def _use_sign_claim(role, sign):
+        if role is None or sign is None:
+            return None
+        item = _resolve_sign_claim(role, sign)
+        if item is None:
+            return None
+        if item.claim.claim_id not in sign_claims_used:
+            sign_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
+    natal_sun_sign = longitude_to_zodiac(natal_chart["bodies"]["sun"]["longitude"])["sign"]
+    natal_moon_sign = longitude_to_zodiac(natal_chart["bodies"]["moon"]["longitude"])["sign"]
+    rising_sign = longitude_to_zodiac(natal_chart["houses"]["angles"]["ascendant"])["sign"]
+
+    sun_sign_claim = _use_sign_claim("sun", natal_sun_sign)
+    moon_sign_claim = _use_sign_claim("moon", natal_moon_sign)
+    ascendant_sign_claim = _use_sign_claim("ascendant", rising_sign)
+
+    for hit in hits:
+        if hit["kind"] not in ("transit_aspect", "eclipse"):
+            continue
+        role = hit["resolution"]["nearest_natal_point"]
+        if role is None:
+            continue
+        real_role = natal_chart["rulership"]["chart_ruler"] if role == "chart_ruler" else role
+        longitude = role_longitudes.get(real_role)
+        sign = longitude_to_zodiac(longitude)["sign"] if longitude is not None else None
+        claim = _use_sign_claim(real_role, sign)
+        if claim is not None:
+            hit["natal_sign_note"] = claim.claim.statement
 
     attributed = []
 
@@ -500,16 +743,26 @@ def build_daily_reading(
             "life_domain": claim.life_domain,
         })
 
+    # Every surviving hit is citable -- if its own specific feature
+    # tag already matched a curated claim above, that claim IS its
+    # citation (real prose, real source_ids); otherwise it gets a
+    # computed-fact record here, tied to its own hit_id. Either way,
+    # every hit named in the reading traces to something real, never
+    # to an unrelated feature-tag match.
+    matched_tags = {fid for item in daily_claims for fid in item.matched_features}
+    uncited_hits = [h for h in hits if h["feature_tag"] not in matched_tags]
+    for hit in uncited_hits:
+        attributed.append(_computed_hit_claim(hit))
+
     reading_text = None
     synthesis_validation = None
     synthesis_method = "deterministic_fallback"
 
-    if use_synthesis and daily_claims:
+    if use_synthesis and (daily_claims or hits):
         reading_text, synthesis_validation = _synthesize_reading(
             daily_claims,
             backend or AnthropicNarrativeBackend(),
-            daily_transit_aspects=transit_aspects,
-            daily_transit_houses=transit_houses,
+            hits,
         )
         if reading_text is not None:
             synthesis_method = "llm"
@@ -517,7 +770,13 @@ def build_daily_reading(
     if reading_text is None:
         reading_text = _assemble_reading_text(daily_claims)
 
-    action_prompt, action_prompt_source_claim_id = _pick_action_prompt(daily_claims)
+    if not reading_text:
+        # Genuinely nothing today -- no surviving hits, no day-pillar
+        # relationship claim either. _assemble_reading_text([]) would
+        # otherwise silently return "".
+        reading_text = _QUIET_DAY_READING
+
+    action_prompt, action_prompt_source_claim_id = _pick_action_prompt(daily_claims, hits)
 
     moon_phase_claim_id = next(
         (
@@ -530,18 +789,13 @@ def build_daily_reading(
     sun_sign_data = compute_current_sun_sign(as_of_utc_time)
     today_pillar = day_pillar_relationship["today_pillar"]
 
-    # Natal identity anchors, same "raw computed fact, no interpretive
-    # claim" treatment as sun_sign above -- standing context per the
-    # Daily-Mode Scope Expansion brief, not something that changes day
-    # to day (unlike sun_sign, which is today's real transiting Sun).
-    natal_moon_sign = longitude_to_zodiac(natal_chart["bodies"]["moon"]["longitude"])["sign"]
-    rising_sign = longitude_to_zodiac(natal_chart["houses"]["angles"]["ascendant"])["sign"]
-
     result = {
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "claims": attributed,
         "reading": reading_text,
-        "reading_source_claim_ids": [item.claim.claim_id for item in daily_claims],
+        "reading_source_claim_ids": (
+            [item.claim.claim_id for item in daily_claims] + [h["hit_id"] for h in uncited_hits]
+        ),
         "action_prompt": action_prompt,
         "action_prompt_source_claim_id": action_prompt_source_claim_id,
         "synthesis_method": synthesis_method,
@@ -565,15 +819,25 @@ def build_daily_reading(
                 "above when it applies."
             ),
         },
-        "natal_moon_sign": {
-            "label": natal_moon_sign,
-            "note": "Your natal Moon sign -- standing identity context, not today's sky.",
-        },
-        "rising_sign": {
-            "label": rising_sign,
-            "note": "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
-        },
+        "natal_sun_sign": _identity_field(
+            natal_sun_sign, sun_sign_claim,
+            "Your natal Sun sign -- standing identity context, not today's sky.",
+        ),
+        "natal_moon_sign": _identity_field(
+            natal_moon_sign, moon_sign_claim,
+            "Your natal Moon sign -- standing identity context, not today's sky.",
+        ),
+        "rising_sign": _identity_field(
+            rising_sign, ascendant_sign_claim,
+            "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
+        ),
+        "highlights": highlights,
+        "astrology_highlights_note": None if hits else _ASTROLOGY_QUIET_NOTE,
     }
+
+    eclipse_context = compute_eclipse_context(natal_chart, as_of_utc_time)
+    if eclipse_context is not None:
+        result["eclipse_context"] = eclipse_context
 
     if synthesis_validation is not None:
         result["synthesis_validation"] = synthesis_validation
@@ -660,9 +924,26 @@ def main():
         if validation:
             print(f"Coverage: {validation['coverage_ratio']:.0%} ({validation['coverage_note']})")
             print(f"Fact-check: {validation['fact_check_findings']}")
+            if validation.get("overclaim_findings"):
+                print(f"Overclaim guard: {validation['overclaim_findings']}")
 
         print()
         print(f"Moon: {result['natal_moon_sign']['label']}  |  Rising: {result['rising_sign']['label']}  |  Sun today: {result['sun_sign']['label']}")
+
+        eclipse_context = result.get("eclipse_context")
+        if eclipse_context:
+            resolution = eclipse_context["resolution"]
+            print()
+            print(
+                f"Eclipse: {eclipse_context['type']} {eclipse_context['kind']} in "
+                f"{eclipse_context['sign']} ({resolution['contact']}, house {resolution['natal_house']})"
+            )
+
+        highlighted_planets = result["highlights"]["highlighted_planets"]
+        standouts = [p for p in highlighted_planets if p["tier"] == "standout"]
+        if standouts:
+            print()
+            print("Standout today: " + ", ".join(p["body"] for p in standouts))
 
         print()
         print(f"({len(result['claims'])} claims, sources below)")

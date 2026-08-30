@@ -17,6 +17,27 @@ Angle direct-hit orb (6 degrees) is wider than the 3-degree orb used
 for planet-to-planet contacts -- also confirmed with Liam, sized so
 the locked eclipse worked example (5.69 degrees from natal MC) reads
 as a genuine contact rather than "thematically adjacent."
+
+Comprehensive natal-point expansion (Query-Answering/Daily-Reading
+Repair phase): PRIMARY_NATAL_ROLES originally covered only 14 points
+(10 planets + Ascendant/MC/chart_ruler/north_node_true) -- far
+narrower than what's actually in a chart. Confirmed with Liam:
+every placement should be able to participate in resolution AND
+standout-tier eligibility, not just be reported as flavor text --
+south nodes (derived, opposite the tracked north node -- same
+convention astrology/sky_snapshot.py already uses), Chiron, both
+Liliths, the four asteroids, and all four angles (not just
+Ascendant/MC) are now included. Vertex/anti-vertex are deliberately
+NOT included -- a distinct minor-point concept in natal_chart, not
+named in the comprehensiveness ask.
+
+EXACT_LANGUAGE_ORB is a separate, tighter threshold from
+DIRECT_HIT_ORB/ANGLE_DIRECT_HIT_ORB: a direct_hit contact (within 3-6
+degrees) is real, but "exact" is real astrological language reserved
+for something genuinely close to 0 degrees -- the locked eclipse
+example (5.69 degrees from natal MC) is a direct_hit but must never
+be described as "exact." See lenses/overclaim_guard.py's near_exact-
+gated phrase split, which is what this constant actually feeds.
 """
 
 from datetime import datetime
@@ -28,38 +49,74 @@ FAST_BODIES = ("sun", "moon", "mercury", "venus", "mars")
 SOCIAL_BODIES = ("jupiter",)
 SLOW_BODIES = ("saturn", "uranus", "neptune", "pluto")
 
-# 10 traditional bodies + Ascendant + MC + chart ruler + true nodes --
-# the points that can raise a tier to standout. Everything else
-# (Chiron, Liliths, asteroids, mean nodes) is still reported on any
-# event that touches it, but never raises the tier on its own.
+# The four traditional angles -- all get the wider ANGLE_DIRECT_HIT_ORB,
+# not just Ascendant/MC.
+ANGLE_ROLES = ("ascendant", "mc", "descendant", "ic")
+
+# True/mean north nodes are directly tracked bodies; south nodes are
+# derived (always exactly opposite their north counterpart) rather
+# than separately tracked, matching astrology/sky_snapshot.py's own
+# BODY_ORDER convention.
+NODE_ROLES = ("north_node_true", "north_node_mean", "south_node_true", "south_node_mean")
+
+OTHER_POINT_ROLES = ("chiron", "lilith_mean", "lilith_true", "ceres", "pallas", "juno", "vesta")
+
+# Every point in the chart that can raise a tier to standout --
+# comprehensive by design (see module docstring): the 10 planets,
+# chart ruler, all nodes, Chiron/Liliths/asteroids, and all four
+# angles.
 PRIMARY_NATAL_ROLES = (
     "sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn",
-    "uranus", "neptune", "pluto", "ascendant", "mc", "chart_ruler", "north_node_true",
-)
+    "uranus", "neptune", "pluto", "chart_ruler",
+) + NODE_ROLES + OTHER_POINT_ROLES + ANGLE_ROLES
 
 STANDOUT_SLOW_EXACT_ORB = 1.0       # slow-body exact crossing to a primary planet point
 STANDOUT_STATION_ORB = 1.0          # slow-body station within this of a primary natal point
 DIRECT_HIT_ORB = 3.0                # planet-to-planet "direct hit" boundary
-ANGLE_DIRECT_HIT_ORB = 6.0          # Ascendant/MC direct-hit boundary -- confirmed wider with Liam
+ANGLE_DIRECT_HIT_ORB = 6.0          # angle direct-hit boundary -- confirmed wider with Liam
 LUNATION_CONTACT_ORB = 1.0          # New/Full Moon degree to a primary natal point
+EXACT_LANGUAGE_ORB = 1.0            # true-exactness language boundary -- see module docstring
 
 TIERS = ("standout", "background", "appendix")
 
 
-def _direct_hit_orb(role: str) -> float:
-    return ANGLE_DIRECT_HIT_ORB if role in ("ascendant", "mc") else DIRECT_HIT_ORB
+def direct_hit_orb(role: str) -> float:
+    """The direct-hit orb boundary for a given natal role -- wider
+    for the angles than for planet-to-planet contacts, per the locked
+    decision this module documents above. Public: also reused by
+    astrology/event_resolution.py (K7)."""
+
+    return ANGLE_DIRECT_HIT_ORB if role in ANGLE_ROLES else DIRECT_HIT_ORB
 
 
-def _natal_targets(natal_chart: dict, roles=PRIMARY_NATAL_ROLES) -> dict:
+def is_near_exact(orb: float) -> bool:
+    """True-exactness language ('exact', 'precisely', ...) is only
+    accurate within this much tighter band than direct_hit_orb()'s
+    3-6 degree contact threshold -- see module docstring."""
+
+    return orb <= EXACT_LANGUAGE_ORB
+
+
+def natal_targets(natal_chart: dict, roles=PRIMARY_NATAL_ROLES) -> dict:
     chart_ruler = natal_chart["rulership"]["chart_ruler"]
+    ascendant = natal_chart["houses"]["angles"]["ascendant"]
+    mc = natal_chart["houses"]["angles"]["mc"]
     targets = {}
     for role in roles:
         if role == "ascendant":
-            targets[role] = natal_chart["houses"]["angles"]["ascendant"]
+            targets[role] = ascendant
         elif role == "mc":
-            targets[role] = natal_chart["houses"]["angles"]["mc"]
+            targets[role] = mc
+        elif role == "descendant":
+            targets[role] = (ascendant + 180.0) % 360.0
+        elif role == "ic":
+            targets[role] = (mc + 180.0) % 360.0
         elif role == "chart_ruler":
             targets[role] = natal_chart["bodies"][chart_ruler]["longitude"]
+        elif role == "south_node_true":
+            targets[role] = (natal_chart["bodies"]["north_node_true"]["longitude"] + 180.0) % 360.0
+        elif role == "south_node_mean":
+            targets[role] = (natal_chart["bodies"]["north_node_mean"]["longitude"] + 180.0) % 360.0
         else:
             targets[role] = natal_chart["bodies"][role]["longitude"]
     return targets
@@ -70,7 +127,7 @@ def nearest_primary_natal_point(longitude: float, natal_chart: dict) -> tuple[st
     (0-180 degrees, conjunction-style distance -- suitable for
     stations/ingresses/lunations, which aren't aspect-typed)."""
 
-    targets = _natal_targets(natal_chart)
+    targets = natal_targets(natal_chart)
     best_role, best_orb = None, 181.0
     for role, target_lon in targets.items():
         orb = abs(signed_diff(longitude, target_lon))
@@ -189,7 +246,7 @@ def assign_tier(event: dict, natal_chart: dict) -> tuple[str, list[str]]:
         return "background", reasons
 
     if kind in ("new_moon", "full_moon"):
-        targets = _natal_targets(natal_chart)
+        targets = natal_targets(natal_chart)
         moon_lon = event["moon_longitude"]
         # Full Moon: Sun is opposite the Moon; New Moon: Sun ~ Moon.
         sun_lon = (moon_lon + 180) % 360 if kind == "full_moon" else moon_lon

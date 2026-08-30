@@ -67,14 +67,37 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <hr>
 
+<h2>Sun Sign (natal)</h2>
+<p>{{ result.natal_sun_sign.label }}</p>
+{% if result.natal_sun_sign.claim_text %}
+<p>{{ result.natal_sun_sign.claim_text }}</p>
+<p><small>Sources: {{ result.natal_sun_sign.source_ids | join(', ') }}</small></p>
+{% else %}
+<p><small>{{ result.natal_sun_sign.note }}</small></p>
+{% endif %}
+<form method="post" action="/edit">
+  <input type="hidden" name="element_type" value="natal_sun_sign">
+  <input type="hidden" name="original_text" value="{{ result.natal_sun_sign.claim_text or result.natal_sun_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.natal_sun_sign.source_ids | join(', ') if result.natal_sun_sign.claim_text else result.natal_sun_sign.note }}">
+  <textarea name="edited_text" rows="2" cols="60">{{ result.natal_sun_sign.claim_text or result.natal_sun_sign.label }}</textarea><br>
+  <button type="submit">Save edit</button>
+</form>
+
+<hr>
+
 <h2>Moon Sign (natal)</h2>
 <p>{{ result.natal_moon_sign.label }}</p>
+{% if result.natal_moon_sign.claim_text %}
+<p>{{ result.natal_moon_sign.claim_text }}</p>
+<p><small>Sources: {{ result.natal_moon_sign.source_ids | join(', ') }}</small></p>
+{% else %}
 <p><small>{{ result.natal_moon_sign.note }}</small></p>
+{% endif %}
 <form method="post" action="/edit">
   <input type="hidden" name="element_type" value="natal_moon_sign">
-  <input type="hidden" name="original_text" value="{{ result.natal_moon_sign.label }}">
-  <input type="hidden" name="sources" value="{{ result.natal_moon_sign.note }}">
-  <textarea name="edited_text" rows="1" cols="60">{{ result.natal_moon_sign.label }}</textarea><br>
+  <input type="hidden" name="original_text" value="{{ result.natal_moon_sign.claim_text or result.natal_moon_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.natal_moon_sign.source_ids | join(', ') if result.natal_moon_sign.claim_text else result.natal_moon_sign.note }}">
+  <textarea name="edited_text" rows="2" cols="60">{{ result.natal_moon_sign.claim_text or result.natal_moon_sign.label }}</textarea><br>
   <button type="submit">Save edit</button>
 </form>
 
@@ -82,12 +105,17 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <h2>Rising Sign</h2>
 <p>{{ result.rising_sign.label }}</p>
+{% if result.rising_sign.claim_text %}
+<p>{{ result.rising_sign.claim_text }}</p>
+<p><small>Sources: {{ result.rising_sign.source_ids | join(', ') }}</small></p>
+{% else %}
 <p><small>{{ result.rising_sign.note }}</small></p>
+{% endif %}
 <form method="post" action="/edit">
   <input type="hidden" name="element_type" value="rising_sign">
-  <input type="hidden" name="original_text" value="{{ result.rising_sign.label }}">
-  <input type="hidden" name="sources" value="{{ result.rising_sign.note }}">
-  <textarea name="edited_text" rows="1" cols="60">{{ result.rising_sign.label }}</textarea><br>
+  <input type="hidden" name="original_text" value="{{ result.rising_sign.claim_text or result.rising_sign.label }}">
+  <input type="hidden" name="sources" value="{{ result.rising_sign.source_ids | join(', ') if result.rising_sign.claim_text else result.rising_sign.note }}">
+  <textarea name="edited_text" rows="2" cols="60">{{ result.rising_sign.claim_text or result.rising_sign.label }}</textarea><br>
   <button type="submit">Save edit</button>
 </form>
 

@@ -144,8 +144,23 @@ def find_transit_passes(
             continue
 
         transiting_longitude = body_longitude(transiting_body, when)
-        speed = body_speed(transiting_body, when)
         is_exact = orb < 0.01
+
+        if is_exact:
+            # A genuine longitude crossing -- the body's actual
+            # direction of motion at this exact moment is a
+            # meaningful, stable measurement.
+            speed = body_speed(transiting_body, when)
+        else:
+            # A station_in_orb pass IS (or is extremely close to) the
+            # station itself -- speed sampled exactly at that vertex
+            # is near zero and numerically unstable (its sign can
+            # flip between runs on floating-point noise alone,
+            # confirmed this session: ~7e-7 at the vertex vs a robust
+            # +/-0.00046 six hours either side). Sample 6h after,
+            # matching astrology.scanning.find_speed_zeros' own
+            # convention, to get the settled post-station direction.
+            speed = body_speed(transiting_body, when + timedelta(hours=6))
 
         passes.append({
             "kind": "exact_crossing" if is_exact else "station_in_orb",

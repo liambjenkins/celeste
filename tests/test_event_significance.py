@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from astrology.chart import build_chart
 from astrology.event_significance import (
+    PRIMARY_NATAL_ROLES,
     TIERS,
     assign_tier,
     collapse_repeat_passes,
@@ -149,10 +150,7 @@ print("check dasha tiering: mahadasha/antardasha=background, pratyantardasha/soo
 
 for name, chart in CHARTS.items():
     role, orb = nearest_primary_natal_point(0.0, chart)
-    assert role in (
-        "sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn",
-        "uranus", "neptune", "pluto", "ascendant", "mc", "chart_ruler", "north_node_true",
-    )
+    assert role in PRIMARY_NATAL_ROLES
     assert 0 <= orb <= 180
 print(f"check nearest_primary_natal_point returns a valid role+orb across {len(CHARTS)} charts")
 

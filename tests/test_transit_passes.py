@@ -62,7 +62,14 @@ assert abs((station["utc_time"] - expected_station).total_seconds()) < 2 * 86400
     f"station at {station['utc_time']}, expected near {expected_station}"
 )
 assert 0.50 < station["orb"] < 0.56, f"station orb {station['orb']} outside expected 0.50-0.56 range"
-assert station["retrograde"] is False, "station should have turned direct (motion after is direct)"
+assert station["retrograde"] is False, (
+    "station should have turned direct (motion after is direct) -- confirmed independently via "
+    "astrology.scanning.find_speed_zeros. Found and fixed a real bug here: sampling speed exactly "
+    "AT the bisected vertex is numerically unstable (~7e-7, can round either sign depending on the "
+    "exact convergence path a given call takes) vs a robust +/-0.00046 six hours either side -- a "
+    "different call path (e.g. via the full assembled key-events engine) previously flipped this to "
+    "the wrong sign even though this isolated call happened to land on the right side of the noise."
+)
 
 print(f"check locked Saturn example: 1 event, 2 passes "
       f"(exact {exact['utc_time'].date()}, station {station['utc_time'].date()} orb {station['orb']:.3f})")
