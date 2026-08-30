@@ -73,6 +73,48 @@ def _add(
 
 
 # ------------------------------------------------------------
+# Standalone sign meanings (element/modality/rulership) --
+# Combinatorial-Meaning Expansion, Phase 3. What a sign means
+# independent of any body -- distinct from the 219 planet-in-sign
+# claims elsewhere in this file, which already carry plenty of sign
+# flavor IN CONTEXT. This family exists as an honest last-resort
+# fallback for a natal point that has no body-specific sign-claim
+# family at all: lilith_true is a real PRIMARY_NATAL_ROLES member
+# (astrology/event_significance.py) -- a genuine possible hit target
+# -- that had zero sign-meaning content before this. daily.py's
+# _use_sign_claim falls back here only when no role-specific claim
+# resolves, so a natal point can never go completely silent on sign
+# meaning when it's genuinely relevant that day.
+# Source: Demetra George & Douglas Bloch, Astrology for Yourself
+# (1987) -- covers element/modality/rulership as foundational content.
+# ------------------------------------------------------------
+
+_SIGN_CORE = {
+    "Aries": ("cardinal", "fire", "Mars", "initiative, courage, and new beginnings"),
+    "Taurus": ("fixed", "earth", "Venus", "stability, sensuality, and persistence"),
+    "Gemini": ("mutable", "air", "Mercury", "curiosity, communication, and adaptability"),
+    "Cancer": ("cardinal", "water", "the Moon", "nurturing, emotional depth, and home"),
+    "Leo": ("fixed", "fire", "the Sun", "self-expression, warmth, and creative confidence"),
+    "Virgo": ("mutable", "earth", "Mercury", "discernment, service, and practical refinement"),
+    "Libra": ("cardinal", "air", "Venus", "balance, partnership, and aesthetic harmony"),
+    "Scorpio": ("fixed", "water", "Mars (traditionally) and Pluto (in modern astrology)", "intensity, transformation, and depth"),
+    "Sagittarius": ("mutable", "fire", "Jupiter", "expansion, exploration, and belief"),
+    "Capricorn": ("cardinal", "earth", "Saturn", "discipline, ambition, and long-term structure"),
+    "Aquarius": ("fixed", "air", "Saturn (traditionally) and Uranus (in modern astrology)", "originality, independence, and collective ideals"),
+    "Pisces": ("mutable", "water", "Jupiter (traditionally) and Neptune (in modern astrology)", "imagination, compassion, and spiritual sensitivity"),
+}
+
+for _sign, (_modality, _element, _ruler, _qualities) in _SIGN_CORE.items():
+    _add(
+        f"sign_core_{_sign.lower()}",
+        f"{_sign} is a {_modality} {_element} sign, ruled by {_ruler}, associated with {_qualities}.",
+        feature_ids=[f"pure_sign:{_sign}"],
+        theme_tags=["sign_core"],
+        source_id="george_bloch_astrology_for_yourself_1987",
+    )
+
+
+# ------------------------------------------------------------
 # Planet core meanings
 # Source: Alan Oken, Alan Oken's Complete Astrology (1980)
 # ------------------------------------------------------------

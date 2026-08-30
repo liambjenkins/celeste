@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_core_aquarius",
+  "lens_id": "astrology",
+  "statement": "Aquarius is a fixed air sign, ruled by Saturn (traditionally) and Uranus (in modern astrology), associated with originality, independence, and collective ideals.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "pure_sign:Aquarius"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "sign_core"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

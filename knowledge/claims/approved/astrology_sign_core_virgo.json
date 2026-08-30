@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_core_virgo",
+  "lens_id": "astrology",
+  "statement": "Virgo is a mutable earth sign, ruled by Mercury, associated with discernment, service, and practical refinement.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "pure_sign:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "sign_core"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

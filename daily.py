@@ -109,8 +109,9 @@ def _resolve_sign_claim(role: str, sign: str):
     unconditionally.
 
     Returns the matched RelevantClaim, or None if no claim exists for
-    this exact role (some roles -- mc, descendant, ic -- have no
-    authored sign-claim family; degrade honestly, don't guess).
+    this exact role (e.g. vertex has no authored sign-claim family;
+    degrade honestly, don't guess -- though see _resolve_pure_sign_
+    claim below for an honest last-resort fallback callers can use).
 
     Some bodies (e.g. Sun) also have a generic "what this planet
     represents" claim reused across all 12 signs (feature_ids lists
@@ -125,6 +126,23 @@ def _resolve_sign_claim(role: str, sign: str):
     if not matches:
         return None
     return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+def _resolve_pure_sign_claim(sign: str):
+    """Combinatorial-Meaning Expansion Phase 3: what a sign means on
+    its own (element/modality/rulership), independent of any body --
+    an honest LAST-RESORT fallback for a role with no body-specific
+    sign-claim family at all (_resolve_sign_claim returns None). Real
+    beneficiary: lilith_true is a genuine PRIMARY_NATAL_ROLES member
+    (astrology/event_significance.py) that can be a real hit target
+    with zero prior sign-meaning content. NOT a substitute for
+    role-specific content where it exists -- callers should always try
+    _resolve_sign_claim first and only fall back here on a miss (see
+    _use_sign_claim in build_daily_reading)."""
+
+    tag = f"pure_sign:{sign}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
 
 
 def _resolve_house_claim(transiting_body: str, house: int):
@@ -898,6 +916,13 @@ def build_daily_reading(
         if role is None or sign is None:
             return None
         item = _resolve_sign_claim(role, sign)
+        if item is None:
+            # Combinatorial-Meaning Expansion Phase 3: honest last-
+            # resort fallback so a role with no body-specific sign-
+            # claim family (e.g. lilith_true) still gets real sign
+            # meaning instead of total silence -- never a substitute
+            # for role-specific content, only tried on a genuine miss.
+            item = _resolve_pure_sign_claim(sign)
         if item is None:
             return None
         if item.claim.claim_id not in sign_claims_used:
