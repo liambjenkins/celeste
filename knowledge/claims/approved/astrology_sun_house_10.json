@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_house_10",
+  "lens_id": "astrology",
+  "statement": "Sun in the 10th house tends to give identity strongly tied to public role and reputation, vitality directed toward achievement and authority.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:10"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

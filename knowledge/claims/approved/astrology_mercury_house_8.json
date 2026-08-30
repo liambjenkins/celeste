@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_house_8",
+  "lens_id": "astrology",
+  "statement": "Mercury in the 8th house tends to give a mind drawn to what's hidden, naturally investigative and probing beneath the surface.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mercury:8"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

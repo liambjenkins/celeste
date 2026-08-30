@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_house_2",
+  "lens_id": "astrology",
+  "statement": "Sun in the 2nd house tends to give identity bound up with personal resources and self-worth, vitality expressed through building material security.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:2"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

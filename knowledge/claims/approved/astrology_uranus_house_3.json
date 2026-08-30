@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_uranus_house_3",
+  "lens_id": "astrology",
+  "statement": "Uranus in the 3rd house tends to give a quick, original mind, unconventional in communication and learning style.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:uranus:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

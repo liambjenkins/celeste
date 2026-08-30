@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_house_9",
+  "lens_id": "astrology",
+  "statement": "Sun in the 9th house tends to give identity expressed through belief, philosophy, and expanding horizons, purpose tied to meaning-making.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:9"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

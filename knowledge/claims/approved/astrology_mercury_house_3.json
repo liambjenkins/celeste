@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_house_3",
+  "lens_id": "astrology",
+  "statement": "Mercury in the 3rd house tends to give a sharp, curious, natural communicator, very much at home here, engaged with everyday learning and exchange.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mercury:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

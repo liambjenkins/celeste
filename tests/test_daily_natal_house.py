@@ -23,7 +23,7 @@ from astrology.daily_hits import compute_daily_hits
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 import daily
-from daily import _resolve_natal_house_claim, build_daily_reading
+from daily import _resolve_house_claim, _resolve_natal_house_claim, build_daily_reading
 
 print("=== DAILY NATAL HOUSE ===")
 
@@ -45,8 +45,27 @@ assert MELBOURNE["bodies"]["saturn"]["house"] == 10, (
     f"locked fact broken -- natal Saturn should be house 10, got {MELBOURNE['bodies']['saturn']['house']}"
 )
 saturn_house_claim = _resolve_natal_house_claim("saturn", 10)
-assert saturn_house_claim is not None and saturn_house_claim.claim.claim_id == "astrology_house_10"
-print("check natal Saturn's real computed house (10) matches the locked style-guide fact, and resolves a real citation")
+assert saturn_house_claim is not None and saturn_house_claim.claim.claim_id == "astrology_saturn_house_10", (
+    f"expected the planet-specific claim (Combinatorial-Meaning Expansion Phase 1) to win over the "
+    f"generic house claim, got {saturn_house_claim.claim.claim_id if saturn_house_claim else None}"
+)
+assert len(saturn_house_claim.claim.feature_ids) == 1
+print("check natal Saturn's real computed house (10) matches the locked style-guide fact, and resolves the specific planet-in-house citation")
+
+# Phase 1 design invariant: the specific planet-in-house claim is
+# NATAL-only -- it must never be reachable via the TRANSIT-through
+# lookup (_resolve_house_claim), only via the natal one
+# (_resolve_natal_house_claim). Otherwise a "Saturn in your 10th
+# house" statement (a fixed, lifelong trait) could get silently reused
+# for a transiting body merely passing through someone's 10th house
+# (a temporary influence) -- the exact natal/transit conflation this
+# whole session's fabrication-guard work was about closing.
+transit_through_house_10 = _resolve_house_claim("saturn", 10)
+assert transit_through_house_10 is not None and transit_through_house_10.claim.claim_id == "astrology_house_10", (
+    f"the planet-specific natal claim must not leak into the transit-through lookup, "
+    f"got {transit_through_house_10.claim.claim_id if transit_through_house_10 else None}"
+)
+print("check the planet-specific natal claim stays natal-only -- transit-through lookup still gets the generic claim")
 
 # Scope extension (comprehensiveness fix): Chiron, nodes, Lilith, and
 # the asteroids are all real natal_chart["bodies"] entries with a real

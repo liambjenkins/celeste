@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mars_house_2",
+  "lens_id": "astrology",
+  "statement": "Mars in the 2nd house tends to give drive directed toward material security, asserting the self through building resources.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mars:2"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

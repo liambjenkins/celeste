@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_venus_house_12",
+  "lens_id": "astrology",
+  "statement": "Venus in the 12th house tends to give love expressed privately or self-sacrificially, values centered on compassion and hidden connection.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:venus:12"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

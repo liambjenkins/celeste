@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_neptune_house_12",
+  "lens_id": "astrology",
+  "statement": "Neptune in the 12th house tends to give a deeply spiritual and private nature very much at home here, boundaries between self and other tending to dissolve.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:neptune:12"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

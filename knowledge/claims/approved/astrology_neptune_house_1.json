@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_neptune_house_1",
+  "lens_id": "astrology",
+  "statement": "Neptune in the 1st house tends to give a dreamy, impressionable outward identity, idealistic and sometimes elusive.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:neptune:1"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

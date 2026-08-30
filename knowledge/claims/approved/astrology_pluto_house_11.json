@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_pluto_house_11",
+  "lens_id": "astrology",
+  "statement": "Pluto in the 11th house tends to give intense engagement with community, a transformative approach to group ideals.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:pluto:11"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
