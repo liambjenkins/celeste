@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_ic_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "A Virgo IC builds an emotional foundation through order and routine, needing a home base that runs smoothly.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ic:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "home_and_roots"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

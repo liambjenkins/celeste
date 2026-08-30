@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_ic_sign_aquarius",
+  "lens_id": "astrology",
+  "statement": "An Aquarius IC builds an emotional foundation through independence and ideals, needing a home base that allows individuality.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ic:Aquarius"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "home_and_roots"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

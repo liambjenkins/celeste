@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_ic_sign_sagittarius",
+  "lens_id": "astrology",
+  "statement": "A Sagittarius IC builds an emotional foundation through freedom and belief, needing a home base that doesn't feel confining.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ic:Sagittarius"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "home_and_roots"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_descendant_sign_virgo",
+  "lens_id": "astrology",
+  "statement": "A Virgo Descendant is drawn to partners who are attentive and capable, valuing reliability and practical support.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:descendant:Virgo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "partnership_style"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_descendant_sign_cancer",
+  "lens_id": "astrology",
+  "statement": "A Cancer Descendant is drawn to partners who are nurturing and protective, valuing emotional closeness and care.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:descendant:Cancer"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "partnership_style"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -34,7 +34,18 @@
     "daily_transit_house:saturn:5",
     "daily_transit_house:uranus:5",
     "daily_transit_house:neptune:5",
-    "daily_transit_house:pluto:5"
+    "daily_transit_house:pluto:5",
+    "house:chiron:5",
+    "house:lilith_mean:5",
+    "house:lilith_true:5",
+    "house:north_node_true:5",
+    "house:north_node_mean:5",
+    "house:south_node_true:5",
+    "house:south_node_mean:5",
+    "house:ceres:5",
+    "house:pallas:5",
+    "house:juno:5",
+    "house:vesta:5"
   ],
   "source_ids": [
     "sasportas_twelve_houses_1985"

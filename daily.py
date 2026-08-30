@@ -898,7 +898,7 @@ def build_daily_reading(
     moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
 
     for hit in hits:
-        if hit["kind"] not in ("transit_aspect", "eclipse"):
+        if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase"):
             continue
         role = hit["resolution"]["nearest_natal_point"]
         if role is None:

@@ -34,7 +34,18 @@
     "daily_transit_house:saturn:4",
     "daily_transit_house:uranus:4",
     "daily_transit_house:neptune:4",
-    "daily_transit_house:pluto:4"
+    "daily_transit_house:pluto:4",
+    "house:chiron:4",
+    "house:lilith_mean:4",
+    "house:lilith_true:4",
+    "house:north_node_true:4",
+    "house:north_node_mean:4",
+    "house:south_node_true:4",
+    "house:south_node_mean:4",
+    "house:ceres:4",
+    "house:pallas:4",
+    "house:juno:4",
+    "house:vesta:4"
   ],
   "source_ids": [
     "sasportas_twelve_houses_1985"
