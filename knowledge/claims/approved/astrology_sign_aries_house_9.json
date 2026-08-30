@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_aries_house_9",
+  "lens_id": "astrology",
+  "statement": "Aries on the 9th house cusp brings an assertive pursuit of belief and philosophy, drawn to pioneering ideas and adventurous travel.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:9:Aries"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

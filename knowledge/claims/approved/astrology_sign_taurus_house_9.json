@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_taurus_house_9",
+  "lens_id": "astrology",
+  "statement": "Taurus on the 9th house cusp brings a steady, practical approach to belief, valuing philosophies that offer tangible, lasting truth.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:9:Taurus"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

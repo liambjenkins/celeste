@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_pisces_house_12",
+  "lens_id": "astrology",
+  "statement": "Pisces on the 12th house cusp brings a natural attunement to the unconscious and spiritual, very much at home here, solitude a genuine source of renewal.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:12:Pisces"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

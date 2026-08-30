@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_aries_house_3",
+  "lens_id": "astrology",
+  "statement": "Aries on the 3rd house cusp brings a quick, direct communication style, learning best through action and immediate experience.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:3:Aries"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

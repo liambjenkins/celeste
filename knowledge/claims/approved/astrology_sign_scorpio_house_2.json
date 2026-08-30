@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_scorpio_house_2",
+  "lens_id": "astrology",
+  "statement": "Scorpio on the 2nd house cusp brings an intense, private relationship with resources, drawn to shared or inherited wealth and a deep need for financial control.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:2:Scorpio"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

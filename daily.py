@@ -170,6 +170,43 @@ def _resolve_natal_house_claim(role: str, house: int):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+# Houses whose cusp is exactly one of the four angles in this engine's
+# house systems (confirmed by direct query: cusp longitude == the
+# angle's own longitude, to full float precision) -- Combinatorial-
+# Meaning Expansion Phase 2 deliberately does NOT author sign-in-house
+# content for these four, since it would duplicate the existing
+# Ascendant/MC/IC/Descendant-by-sign claims for the same underlying
+# chart fact.
+_ANGULAR_HOUSES = frozenset({1, 4, 7, 10})
+
+
+def _house_cusp_sign(natal_chart: dict, house: int) -> str:
+    """The real sign on this natal chart's own house cusp -- a fixed,
+    chart-specific fact (not a transiting one), read directly off
+    natal_chart["houses"]["cusps"] (string-keyed, per astrology/
+    normaliser.py's own convention)."""
+
+    cusp_longitude = natal_chart["houses"]["cusps"][str(house)]
+    return longitude_to_zodiac(cusp_longitude)["sign"]
+
+
+def _resolve_house_cusp_sign_claim(house: int, sign: str):
+    """One targeted lookup for what sign colors a given (non-angular)
+    house's affairs in THIS chart -- e.g. Capricorn on the natal 8th
+    house cusp. Distinct from _resolve_house_claim/
+    _resolve_natal_house_claim (which planet, if any, occupies the
+    house) -- a house can carry real, personalized cusp-sign content
+    even with no planet in it at all. Only houses 2, 3, 5, 6, 8, 9, 11,
+    12 have an authored claim family (see _ANGULAR_HOUSES); the four
+    angular houses' cusp sign is already covered by the Ascendant/MC/
+    IC/Descendant-by-sign claims -- honest None degrade here, callers
+    should resolve those instead for house in _ANGULAR_HOUSES."""
+
+    tag = f"house_cusp_sign:{house}:{sign}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
+
+
 # The nine classical Navagraha that carry a real Vedic karaka
 # (signification) -- Uranus/Neptune/Pluto are tracked structurally but
 # have no traditional karakatva, so they never get a "planet meaning"
@@ -569,6 +606,10 @@ def _render_hit_block(hit: dict) -> str:
     planet's house with a number sourced from nowhere in the engine;
     the two grounding lines below are deliberately labeled
     unambiguously so synthesis can't make the same mix-up.
+    `hit.get("house_cusp_sign_note")` is a further, separate atomic
+    fact about that same natal house: what sign colors its affairs in
+    this chart (see _resolve_house_cusp_sign_claim) -- distinct from
+    which planet occupies it, real even with no planet there at all.
     `hit.get("vedic_sign_note")` is the same idea for the Vedic/
     sidereal lens -- today's real transiting sidereal sign for this
     hit's own transiting body, when it's genuinely relevant."""
@@ -611,6 +652,10 @@ def _render_hit_block(hit: dict) -> str:
     target_natal_house_note = hit.get("target_natal_house_note")
     if target_natal_house_note:
         line += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
+
+    house_cusp_sign_note = hit.get("house_cusp_sign_note")
+    if house_cusp_sign_note:
+        line += f"\n    Sign on that house's cusp: {house_cusp_sign_note}"
 
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
@@ -897,6 +942,28 @@ def build_daily_reading(
     sun_house_claim = _use_natal_house_claim("sun", natal_chart["bodies"]["sun"]["house"])
     moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
 
+    # Sign-on-house-cusp (Combinatorial-Meaning Expansion, Phase 2): a
+    # SEPARATE atomic fact from "which planet occupies the house" above
+    # -- what sign colors the house's affairs in this chart, real even
+    # with no planet there. Own dedupe cache (different claim
+    # namespace: astrology_sign_{sign}_house_{N}, not astrology_house_N
+    # or astrology_{planet}_house_N). Only resolved for the 8 non-
+    # angular houses (_ANGULAR_HOUSES honest-skips, since that content
+    # already exists as the Ascendant/MC/IC/Descendant-by-sign claims).
+    house_cusp_sign_claims_used: dict[str, object] = {}
+
+    def _use_house_cusp_sign_claim(house):
+        if house is None or house in _ANGULAR_HOUSES:
+            return None
+        sign = _house_cusp_sign(natal_chart, house)
+        item = _resolve_house_cusp_sign_claim(house, sign)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_cusp_sign_claims_used:
+            house_cusp_sign_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
     for hit in hits:
         if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase"):
             continue
@@ -916,6 +983,10 @@ def build_daily_reading(
             hit["target_natal_house_note"] = (
                 f"natal {real_role} radix is in house {natal_house} -- {natal_house_claim.claim.statement}"
             )
+
+        cusp_sign_claim = _use_house_cusp_sign_claim(natal_house)
+        if cusp_sign_claim is not None:
+            hit["house_cusp_sign_note"] = cusp_sign_claim.claim.statement
 
     # House-meaning content: same targeted-lookup restoration as the
     # sign-meaning content above, for the daily_transit_house:{body}:

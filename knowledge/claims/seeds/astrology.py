@@ -723,6 +723,152 @@ for _planet, _house_meanings in _PLANET_HOUSE_MEANINGS.items():
 
 
 # ------------------------------------------------------------
+# Sign-on-house-cusp (natal only) — Combinatorial-Meaning Expansion,
+# Phase 2. What sign colors a given house's affairs in THIS chart --
+# a distinct fact from "which planet occupies the house" (Phase 1
+# above): a house can have real, personalized sign-cusp content even
+# with no planet in it at all.
+#
+# Deliberately covers only houses 2, 3, 5, 6, 8, 9, 11, 12 -- houses
+# 1, 4, 7, 10 are angular, and in this engine's house systems
+# (confirmed by direct query: cusp longitudes match exactly) their
+# cusps ARE the Ascendant/IC/Descendant/MC. That content already
+# exists (the Ascendant/MC/IC/Descendant-by-sign families above), so
+# authoring it again here would be duplicate content for the same
+# underlying chart fact, not new scope.
+#
+# Source: Howard Sasportas, The Twelve Houses (1985).
+# ------------------------------------------------------------
+
+_SIGN_IN_HOUSE_MEANINGS = {
+    2: {
+        "Aries": "an assertive, impulsive pursuit of resources, quick to earn but just as quick to spend",
+        "Taurus": "a natural, patient accumulation of resources, very much at home here, valuing steady security and tangible possessions",
+        "Gemini": "resourcefulness through variety -- multiple income streams, communication-based earning, and a changeable relationship with money",
+        "Cancer": "security tied to emotional safety, resources protected carefully, often saved for family",
+        "Leo": "generosity with resources, a love of spending on quality and status, self-worth tied to how resources are displayed",
+        "Virgo": "meticulous, practical management of resources, careful budgeting and real attention to value for money",
+        "Libra": "resources gained through partnership or aesthetic pursuits, a value placed on balance and fairness in finances",
+        "Scorpio": "an intense, private relationship with resources, drawn to shared or inherited wealth and a deep need for financial control",
+        "Sagittarius": "an expansive, sometimes reckless relationship with money, resources gained through travel, teaching, or risk-taking",
+        "Capricorn": "a disciplined, long-term approach to building resources, self-worth tied to security earned through effort",
+        "Aquarius": "an unconventional relationship with money, resources gained through group ventures or original ideas",
+        "Pisces": "an idealistic, sometimes imprecise relationship with resources, prone to financial sacrifice for others and intuitive about value",
+    },
+    3: {
+        "Aries": "a quick, direct communication style, learning best through action and immediate experience",
+        "Taurus": "a deliberate, practical communication style, learning at a steady pace and retaining what's useful",
+        "Gemini": "natural curiosity and quick wit, very much at home here, a versatile communicator and learner",
+        "Cancer": "communication colored by emotional sensitivity, learning best in a nurturing, familiar environment",
+        "Leo": "an expressive, dramatic communication style, often taking a leading role among siblings or peers",
+        "Virgo": "a precise, analytical communication style, learning through careful study and attention to detail",
+        "Libra": "a diplomatic communication style, learning well through dialogue and weighing different perspectives",
+        "Scorpio": "a probing, intense communication style, drawn to uncovering what's hidden in everyday exchanges",
+        "Sagittarius": "a broad, enthusiastic communication style, learning best through big-picture thinking rather than rote detail",
+        "Capricorn": "a serious, disciplined communication style, taking early learning and daily exchange seriously",
+        "Aquarius": "an original, unconventional communication style, drawn to unusual ideas and independent learning",
+        "Pisces": "an imaginative, impressionistic communication style, learning intuitively and sensitive to unspoken meaning",
+    },
+    5: {
+        "Aries": "bold, spontaneous creative expression, pursuing romance and pleasure with enthusiasm and directness",
+        "Taurus": "sensual, steady creative expression, enjoying romance and pleasure through the physical senses",
+        "Gemini": "playful, versatile creative expression, drawn to flirtation and mentally stimulating romance",
+        "Cancer": "emotionally nurturing creative expression, romance colored by tenderness and a need for security",
+        "Leo": "dramatic, generous creative expression, very much at home here, thriving on romance, play, and being admired",
+        "Virgo": "careful, refined creative expression, approaching romance and pleasure with modesty and discernment",
+        "Libra": "graceful, harmony-seeking creative expression, romance colored by partnership and aesthetic appreciation",
+        "Scorpio": "intense, transformative creative expression, romance approached with passion and emotional depth",
+        "Sagittarius": "expansive, adventurous creative expression, romance pursued with enthusiasm and a need for freedom",
+        "Capricorn": "disciplined, ambitious creative expression, romance approached seriously and with long-term intent",
+        "Aquarius": "original, unconventional creative expression, romance colored by friendship and independence",
+        "Pisces": "dreamy, imaginative creative expression, romance approached idealistically and with deep empathy",
+    },
+    6: {
+        "Aries": "an energetic, fast-paced approach to work, prone to impatience with routine but effective under pressure",
+        "Taurus": "a steady, reliable approach to work, valuing a consistent, comfortable daily routine",
+        "Gemini": "a varied, mentally engaged approach to work, thriving on variety in daily tasks and communication-based service",
+        "Cancer": "a nurturing approach to work, service often expressed through care for others, sensitive to the work environment",
+        "Leo": "a proud, engaged approach to work, wanting recognition for effort and bringing warmth to service",
+        "Virgo": "meticulous, dedicated work habits, very much at home here, a natural gift for refining systems and daily discipline",
+        "Libra": "a cooperative approach to work, valuing harmony and fairness in the workplace, service through diplomacy",
+        "Scorpio": "an intense, thorough approach to work, drawn to uncovering problems and solving them at the root",
+        "Sagittarius": "an enthusiastic, big-picture approach to work, chafing against overly repetitive routine",
+        "Capricorn": "a disciplined, responsible approach to work, taking duty and daily structure seriously",
+        "Aquarius": "an original, independent approach to work, drawn to unconventional methods or humanitarian service",
+        "Pisces": "a compassionate, sometimes disorganized approach to work, service expressed through empathy and self-sacrifice",
+    },
+    8: {
+        "Aries": "an assertive approach to intimacy and shared resources, direct about desires and drawn to intensity",
+        "Taurus": "a need for security and stability in shared resources and intimacy, slow to trust but deeply loyal once bonded",
+        "Gemini": "a curious, communicative approach to intimacy, sometimes intellectualizing deep emotional or financial matters",
+        "Cancer": "a deeply protective, cautious approach to intimacy, shared resources tied to emotional trust",
+        "Leo": "intimacy approached with warmth and drama, wanting generosity and loyalty in shared resources",
+        "Virgo": "a careful, discerning approach to intimacy and shared resources, attentive to the practical details of partnership",
+        "Libra": "a search for balance and fairness in shared resources, intimacy approached through partnership and harmony",
+        "Scorpio": "profound, transformative engagement with intimacy, very much at home here, a natural depth in facing what is hidden",
+        "Sagittarius": "a philosophical, expansive approach to intimacy, seeking meaning and freedom within deep bonds",
+        "Capricorn": "a disciplined, cautious approach to shared resources, intimacy built slowly through earned trust",
+        "Aquarius": "an unconventional approach to intimacy, valuing independence even within deep bonds",
+        "Pisces": "a deeply empathetic, sometimes boundary-less approach to intimacy, drawn to the spiritual dimensions of merging",
+    },
+    9: {
+        "Aries": "an assertive pursuit of belief and philosophy, drawn to pioneering ideas and adventurous travel",
+        "Taurus": "a steady, practical approach to belief, valuing philosophies that offer tangible, lasting truth",
+        "Gemini": "a curious, wide-ranging approach to belief, enjoying many philosophies and varied styles of travel",
+        "Cancer": "belief tied to emotional and familial roots, philosophy approached through personal, nurturing meaning",
+        "Leo": "a confident, expressive approach to belief, drawn to philosophies that celebrate personal significance",
+        "Virgo": "an analytical, discerning approach to belief, valuing philosophies that are practical and well-reasoned",
+        "Libra": "a search for balance and fairness in belief systems, philosophy approached through dialogue and partnership",
+        "Scorpio": "an intense, probing approach to belief, drawn to philosophies that explore what's hidden or taboo",
+        "Sagittarius": "expansive, enthusiastic belief, very much at home here, a natural love of travel and higher learning",
+        "Capricorn": "a disciplined, structured approach to belief, valuing philosophies with proven, traditional authority",
+        "Aquarius": "an original, progressive approach to belief, drawn to unconventional or humanitarian philosophies",
+        "Pisces": "an intuitive, spiritual approach to belief, philosophy approached through faith and compassion",
+    },
+    11: {
+        "Aries": "a pioneering role in groups, drawn to friendships that involve action and shared challenges",
+        "Taurus": "steady, loyal friendships, community engagement centered on shared practical goals",
+        "Gemini": "a wide social network, friendships built through communication and shared ideas",
+        "Cancer": "a nurturing role in groups, friendships that feel like family, protective of community",
+        "Leo": "a warm, generous role in groups, often a leading or celebrated position among friends",
+        "Virgo": "a helpful, practical role in groups, friendships built through mutual usefulness and reliability",
+        "Libra": "a harmonizing role in groups, a value placed on fairness and balance within friendships and community",
+        "Scorpio": "intense, selective friendships, community engagement approached with depth and loyalty",
+        "Sagittarius": "an expansive social network, friendships built through shared beliefs or a love of adventure",
+        "Capricorn": "a responsible, goal-oriented role in groups, friendships built through shared ambition",
+        "Aquarius": "a natural sense of belonging in groups, very much at home here, friendships built around shared ideals and causes",
+        "Pisces": "a compassionate, idealistic role in groups, friendships that offer emotional or spiritual connection",
+    },
+    12: {
+        "Aries": "unconscious drives toward action and assertion, solitude used to recharge before re-engaging",
+        "Taurus": "an unconscious need for security, solitude found through quiet, sensory comfort",
+        "Gemini": "unconscious mental restlessness, solitude processed through inner dialogue or private writing",
+        "Cancer": "an unconscious tie to deep emotional memory, solitude used for emotional healing and retreat",
+        "Leo": "an unconscious need for validation, solitude used to reconnect with inner creative confidence",
+        "Virgo": "unconscious perfectionism, solitude used for quiet refinement and self-improvement",
+        "Libra": "an unconscious longing for connection, solitude used to restore inner balance",
+        "Scorpio": "an unconscious pull toward what's hidden or taboo, solitude used for deep psychological processing",
+        "Sagittarius": "an unconscious yearning for meaning, solitude used for philosophical reflection",
+        "Capricorn": "an unconscious sense of duty or old burdens, solitude used to quietly regroup before responsibility resumes",
+        "Aquarius": "unconscious individuality, solitude used to process ideals apart from group expectation",
+        "Pisces": "a natural attunement to the unconscious and spiritual, very much at home here, solitude a genuine source of renewal",
+    },
+}
+
+for _house, _sign_meanings in _SIGN_IN_HOUSE_MEANINGS.items():
+    _ordinal = f"{_house}{'st' if _house == 1 else 'nd' if _house == 2 else 'rd' if _house == 3 else 'th'}"
+    for _sign, _trait in _sign_meanings.items():
+        _add(
+            f"sign_{_sign.lower()}_house_{_house}",
+            f"{_sign} on the {_ordinal} house cusp brings {_trait}.",
+            feature_ids=[f"house_cusp_sign:{_house}:{_sign}"],
+            theme_tags=["sign_in_house"],
+            life_domain=_HOUSES[_house][1],
+            source_id="sasportas_twelve_houses_1985",
+        )
+
+
+# ------------------------------------------------------------
 # Aspect types (generic — combinable with whichever two placements
 # are actually in aspect via the synthesis pass, not one claim per
 # planet pair)
