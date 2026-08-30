@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_eating_god_month",
+  "lens_id": "chinese_zodiac",
+  "statement": "Eating God in the Month Pillar tends to give creativity and enjoyment central to the career environment or relationship with parents.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:month:eating_god",
+    "ten_god:month:eating_god"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_jupiter_bhava_7",
+  "lens_id": "vedic_astrology",
+  "statement": "Jupiter (Brihaspati) in the 7th bhava tends to give wisdom and ethics central to partnership, a generous and dharmic approach to relationships.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:jupiter:7"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

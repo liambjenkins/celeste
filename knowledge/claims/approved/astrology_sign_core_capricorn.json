@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_core_capricorn",
+  "lens_id": "astrology",
+  "statement": "Capricorn is a cardinal earth sign, ruled by Saturn, associated with discipline, ambition, and long-term structure.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "pure_sign:Capricorn"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "sign_core"
+  ],
+  "life_domain": null,
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_pallas_house_10",
+  "lens_id": "astrology",
+  "statement": "Pallas in the 10th house tends to give strategic intelligence applied to career, skilled at long-term planning and public strategy.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:pallas:10"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_capricorn_house_6",
+  "lens_id": "astrology",
+  "statement": "Capricorn on the 6th house cusp brings a disciplined, responsible approach to work, taking duty and daily structure seriously.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:6:Capricorn"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

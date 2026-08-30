@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_ketu_bhava_6",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu in the 6th bhava tends to give a natural ability to release or transcend obstacles, detachment from daily struggle.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:south_node_true:6"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

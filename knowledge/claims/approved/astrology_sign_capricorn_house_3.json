@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_capricorn_house_3",
+  "lens_id": "astrology",
+  "statement": "Capricorn on the 3rd house cusp brings a serious, disciplined communication style, taking early learning and daily exchange seriously.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:3:Capricorn"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

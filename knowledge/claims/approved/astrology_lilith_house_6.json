@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_6",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 6th house tends to give raw, unfiltered instinct around service and routine, resistant to being controlled by daily obligation.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:6",
+    "house:lilith_true:6"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

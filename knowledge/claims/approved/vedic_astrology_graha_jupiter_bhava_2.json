@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_jupiter_bhava_2",
+  "lens_id": "vedic_astrology",
+  "statement": "Jupiter (Brihaspati) in the 2nd bhava tends to give wisdom applied to wealth and speech, a generous and ethical relationship with resources.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:jupiter:2"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

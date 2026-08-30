@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_vesta_house_12",
+  "lens_id": "astrology",
+  "statement": "Vesta in the 12th house tends to give devotion expressed through solitude, focus centered on spiritual or contemplative practice.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:vesta:12"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

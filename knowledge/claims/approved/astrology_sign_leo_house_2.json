@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_leo_house_2",
+  "lens_id": "astrology",
+  "statement": "Leo on the 2nd house cusp brings generosity with resources, a love of spending on quality and status, self-worth tied to how resources are displayed.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:2:Leo"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

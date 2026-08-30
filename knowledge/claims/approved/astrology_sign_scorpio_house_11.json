@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_scorpio_house_11",
+  "lens_id": "astrology",
+  "statement": "Scorpio on the 11th house cusp brings intense, selective friendships, community engagement approached with depth and loyalty.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:11:Scorpio"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

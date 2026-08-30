@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_seven_killings_hour",
+  "lens_id": "chinese_zodiac",
+  "statement": "Seven Killings in the Hour Pillar tends to give pressure and decisive action carried into later life, an assertive stance with children or in private matters.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:hour:seven_killings",
+    "ten_god:hour:seven_killings"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

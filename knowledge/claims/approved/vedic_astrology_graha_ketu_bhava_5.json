@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_ketu_bhava_5",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu in the 5th bhava tends to give detachment from conventional creative or romantic expression, an unusual relationship with children.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:south_node_true:5"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

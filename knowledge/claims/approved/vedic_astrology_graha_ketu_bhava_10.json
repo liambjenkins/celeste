@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_ketu_bhava_10",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu in the 10th bhava tends to give detachment from worldly career ambition, indifference toward public recognition.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:south_node_true:10"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

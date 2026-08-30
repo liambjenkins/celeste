@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_3",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 3rd house tends to give raw, unfiltered instinct in communication, drawn to saying what others leave unsaid.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:3",
+    "house:lilith_true:3"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

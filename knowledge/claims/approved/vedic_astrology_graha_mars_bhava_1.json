@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_mars_bhava_1",
+  "lens_id": "vedic_astrology",
+  "statement": "Mars (Mangala) in the 1st bhava tends to give strong physical energy and courage, a direct and assertive personality.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:mars:1"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

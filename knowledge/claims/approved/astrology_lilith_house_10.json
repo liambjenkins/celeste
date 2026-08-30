@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_10",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 10th house tends to give raw, unfiltered instinct around public role, resistant to conventional definitions of success.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:10",
+    "house:lilith_true:10"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_seven_killings_month",
+  "lens_id": "chinese_zodiac",
+  "statement": "Seven Killings in the Month Pillar tends to give authority that must be actively asserted in career or with parents, pressure met with decisive response.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:month:seven_killings",
+    "ten_god:month:seven_killings"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

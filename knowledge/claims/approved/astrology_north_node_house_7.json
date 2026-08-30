@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_7",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 7th house tends to give growth found in genuine partnership and compromise, moving away from excessive self-focus.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:7",
+    "house:north_node_mean:7"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

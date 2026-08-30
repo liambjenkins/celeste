@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_jupiter_bhava_8",
+  "lens_id": "vedic_astrology",
+  "statement": "Jupiter (Brihaspati) in the 8th bhava tends to give wisdom applied to transformation and hidden matters, a philosophical approach to longevity and inheritance.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:jupiter:8"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

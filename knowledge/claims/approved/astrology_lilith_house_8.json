@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_8",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 8th house tends to give raw, unfiltered instinct around intimacy and power very much at home here, deeply resistant to being controlled.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:8",
+    "house:lilith_true:8"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

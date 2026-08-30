@@ -73,6 +73,11 @@ result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synt
 house_claim_ids = {
     c["claim_id"] for c in result["claims"]
     if c["claim_id"].startswith("astrology_") and "_house_" in c["claim_id"]
+    # excludes Combinatorial-Meaning Expansion Phase 2's sign-on-cusp
+    # claims (astrology_sign_{sign}_house_{N}) -- a different fact
+    # (which sign colors the house) than this test covers (which
+    # planet occupies it); see tests/test_daily_sign_in_house.py.
+    and not c["claim_id"].startswith("astrology_sign_")
 }
 assert house_claim_ids, "expected at least one house-meaning claim cited in result['claims']"
 

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_sagittarius_house_5",
+  "lens_id": "astrology",
+  "statement": "Sagittarius on the 5th house cusp brings expansive, adventurous creative expression, romance pursued with enthusiasm and a need for freedom.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:5:Sagittarius"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

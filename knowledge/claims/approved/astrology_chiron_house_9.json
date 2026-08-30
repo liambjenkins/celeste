@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_chiron_house_9",
+  "lens_id": "astrology",
+  "statement": "Chiron in the 9th house tends to give a wound tied to belief or meaning, with healing found through rebuilding a personal philosophy.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:chiron:9"
+  ],
+  "source_ids": [
+    "melanie_reinhart_chiron_and_the_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

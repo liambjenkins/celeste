@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_ketu_bhava_7",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu in the 7th bhava tends to give detachment or difficulty fully investing in partnership, a spiritual undercurrent in relationships.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:south_node_true:7"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

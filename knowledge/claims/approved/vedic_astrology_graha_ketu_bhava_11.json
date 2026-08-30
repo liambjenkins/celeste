@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_ketu_bhava_11",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu in the 11th bhava tends to give detachment from material gains, indifference toward community validation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:south_node_true:11"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

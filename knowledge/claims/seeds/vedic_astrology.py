@@ -342,6 +342,191 @@ for _house, (_name, _meaning) in _BHAVAS.items():
 
 
 # ------------------------------------------------------------
+# Graha-in-bhava (natal only) — Combinatorial-Meaning Expansion,
+# Phase 5, the Vedic counterpart to Phase 1's Western planet-in-house
+# work. The bhava claims above are body-agnostic "a real, documented
+# simplification" per this file's own header docstring -- this closes
+# that gap for the nine classical Navagraha, expressing each graha's
+# own karakatva (see the vedic_planet_core_* claims) through each
+# bhava's domain.
+#
+# No new code needed for the CLAIM side: this reuses the same single-
+# tag/most-specific-wins mechanism daily.py's _resolve_natal_house_
+# claim already uses for Western. What genuinely IS new (see daily.py)
+# is that nothing in the daily pipeline cited ANY bhava content before
+# this at all -- confirmed by direct search (zero vedic_house: lookups
+# anywhere in daily.py) -- so this phase also wires natal bhava
+# citation into the Vedic Big-3/hit-relevant-body flow for the first
+# time, not just adding specific content to an unused generic family.
+#
+# Source: Brihat Parashara Hora Shastra (R. Santhanam's 1984
+# translation) -- graha-in-bhava synthesis is BPHS's core subject,
+# same source already cited for the bhava/graha-core claims above.
+# ------------------------------------------------------------
+
+_SUN_BHAVA_MEANINGS = {
+    1: "strong vitality and a confident, authoritative presence, identity closely tied to self-respect",
+    2: "authority and confidence applied to wealth and speech, though this can bring friction with family over money",
+    3: "courage and initiative in effort and communication, a strong relationship with siblings shaped by authority",
+    4: "some tension between authority and domestic peace, a strong will regarding home and mother",
+    5: "confidence and authority expressed through creativity and children, a strong sense of merit",
+    6: "strength in overcoming obstacles and competitors, natural authority in service or health matters",
+    7: "authority and ego expressed through partnership, a need to balance dominance with equality",
+    8: "intensity around transformation and hidden matters, real tests of vitality and self-respect",
+    9: "authority and confidence in matters of belief and higher purpose, a strong connection to father figures",
+    10: "exceptional authority and public standing, career and status central to identity",
+    11: "confidence expressed through networks and gains, authority recognized within community",
+    12: "vitality and confidence turned inward, sometimes a loss of status or a need for spiritual humility",
+}
+
+_MOON_BHAVA_MEANINGS = {
+    1: "a strong emotional presence, mind and mood shaping identity and outward demeanor",
+    2: "emotional security tied to accumulated resources and family values",
+    3: "emotional expression through communication and connection with siblings",
+    4: "deep emotional comfort in home, a strong bond with mother and domestic happiness",
+    5: "emotional fulfillment through creativity and children, an intuitive, imaginative mind",
+    6: "emotional sensitivity to daily obstacles and service, a mind affected by routine stress",
+    7: "emotional needs met through partnership, a mind strongly influenced by close relationships",
+    8: "emotional intensity around transformation and hidden matters, a mind drawn to what's beneath the surface",
+    9: "emotional connection to belief and higher meaning, an intuitive wisdom",
+    10: "emotional investment in public role and career, mood affected by status and reputation",
+    11: "emotional fulfillment through friendships and gains, a nurturing presence within community",
+    12: "deep emotional sensitivity turned inward, a mind drawn to solitude, dreams, and spiritual reflection",
+}
+
+_MARS_BHAVA_MEANINGS = {
+    1: "strong physical energy and courage, a direct and assertive personality",
+    2: "assertive drive applied to wealth and speech, a tendency to speak bluntly about resources",
+    3: "courage and initiative especially strong, a natural drive in effort and communication with siblings",
+    4: "tension between assertive energy and domestic peace, a drive to defend home and family",
+    5: "bold, assertive creative energy, courage applied to children and intelligence",
+    6: "a strong ability to overcome obstacles, competitors, and disease through direct action",
+    7: "assertive, sometimes challenging energy in partnership, a drive that needs conscious balance in relationships",
+    8: "intense energy around transformation, sudden events, and hidden matters",
+    9: "courage and initiative applied to belief and higher learning, an assertive relationship with father or teachers",
+    10: "strong drive and courage applied to career, natural energy for public achievement",
+    11: "energetic pursuit of gains and goals, courage expressed within community and friendships",
+    12: "energy turned inward, drive that may manifest as hidden conflict or spiritual discipline",
+}
+
+_MERCURY_BHAVA_MEANINGS = {
+    1: "a quick, communicative intellect central to identity, a sharp analytical presence",
+    2: "intellect applied to wealth and speech, a skilled communicator about resources and values",
+    3: "exceptional communication skill, a natural gift for effort and connection with siblings",
+    4: "intellectual engagement with home and domestic matters, a communicative bond with mother",
+    5: "intelligence expressed through creativity and connection with children",
+    6: "analytical skill applied to overcoming obstacles and daily service",
+    7: "intellect and communication central to partnership, skilled at negotiation in relationships",
+    8: "an intellect drawn to hidden or occult matters, communication around transformation",
+    9: "intelligence applied to belief and higher learning, a communicative relationship with father or teachers",
+    10: "a sharp intellect applied to career, communication skill central to public reputation",
+    11: "intellectual engagement with community, communication skill that supports gains and friendships",
+    12: "an intellect turned inward, a private or reflective communication style, drawn to hidden knowledge",
+}
+
+_JUPITER_BHAVA_MEANINGS = {
+    1: "wisdom, optimism, and dharma central to identity, a naturally expansive and respected presence",
+    2: "wisdom applied to wealth and speech, a generous and ethical relationship with resources",
+    3: "a wise, expansive approach to communication and connection with siblings",
+    4: "wisdom and generosity expressed through home and domestic happiness",
+    5: "the classical significator of children and intelligence, exceptional wisdom and creative merit",
+    6: "wisdom applied to overcoming obstacles, generosity even in service or difficulty",
+    7: "wisdom and ethics central to partnership, a generous and dharmic approach to relationships",
+    8: "wisdom applied to transformation and hidden matters, a philosophical approach to longevity and inheritance",
+    9: "an exceptional connection to dharma, higher learning, and fortune",
+    10: "wisdom and ethics applied to career, a generous, respected approach to public life",
+    11: "wisdom expressed through gains and community, a generous supporter of shared goals",
+    12: "wisdom turned inward, a philosophical or spiritual approach to loss and liberation",
+}
+
+_VENUS_BHAVA_MEANINGS = {
+    1: "charm, beauty, and grace central to identity, a naturally pleasant and refined presence",
+    2: "a love of luxury and beauty applied to wealth and speech, a refined relationship with resources",
+    3: "charm and grace expressed through communication and connection with siblings",
+    4: "a love of comfort and beauty expressed through home and domestic happiness",
+    5: "the classical significator of romance and creativity, exceptional artistic and romantic expression",
+    6: "a refined approach to service, with a need to balance pleasure against daily discipline",
+    7: "exceptional significance for partnership, love, and marriage",
+    8: "intensity around intimacy and shared resources, a transformative approach to relationships",
+    9: "a love of philosophy, a refined approach to higher learning and belief",
+    10: "charm and grace applied to career, a refined, well-regarded public presence",
+    11: "pleasure found through friendships and community, a refined approach to gains",
+    12: "love and pleasure turned inward, a private or spiritually inclined sensuality",
+}
+
+_SATURN_BHAVA_MEANINGS = {
+    1: "a disciplined, serious identity, sometimes early hardship followed by earned resilience",
+    2: "a disciplined, cautious relationship with wealth and speech, security built slowly through effort",
+    3: "discipline and endurance applied to effort and communication with siblings",
+    4: "tension between discipline and domestic comfort, security in home built through sustained effort",
+    5: "discipline applied to creativity and children, merit earned slowly rather than given easily",
+    6: "natural discipline and endurance in overcoming obstacles and service",
+    7: "a disciplined, serious approach to partnership, commitment built through sustained effort",
+    8: "discipline applied to transformation and longevity, karmic lessons around loss and endurance",
+    9: "a disciplined approach to belief and higher learning, a karmic relationship with father or teachers",
+    10: "exceptional discipline and endurance applied to career, authority earned through sustained effort",
+    11: "a disciplined pursuit of gains, a patient, sustained engagement with community",
+    12: "discipline applied to solitude and spiritual practice, karmic lessons around loss and letting go",
+}
+
+_RAHU_BHAVA_MEANINGS = {
+    1: "an intense, amplified drive to build and assert a new identity, restless ambition",
+    2: "an amplified, sometimes obsessive drive around wealth and resources",
+    3: "amplified courage and initiative, an unconventional approach to communication and siblings",
+    4: "a restless or unconventional relationship with home and domestic life",
+    5: "an unconventional, amplified creative drive, intensity around children or intelligence",
+    6: "an amplified drive to overcome obstacles and competitors, restless engagement with service",
+    7: "an intense, sometimes unconventional drive in partnership, an amplified desire for connection",
+    8: "an intense fascination with transformation, hidden knowledge, and the occult",
+    9: "an unconventional, amplified approach to belief and higher learning, drawn to foreign philosophies",
+    10: "amplified worldly ambition applied to career, an intense drive for public recognition",
+    11: "an amplified pursuit of gains and worldly goals, intense engagement with community",
+    12: "restlessness turned inward, an unconventional or amplified spiritual searching",
+}
+
+_KETU_BHAVA_MEANINGS = {
+    1: "detachment from identity, a sense of having already mastered aspects of the self",
+    2: "detachment from material wealth, indifference toward accumulated resources",
+    3: "detachment from ordinary effort or communication, a spiritual undercurrent in relationships with siblings",
+    4: "detachment from domestic attachment, a restlessness or spiritual undercurrent around home",
+    5: "detachment from conventional creative or romantic expression, an unusual relationship with children",
+    6: "a natural ability to release or transcend obstacles, detachment from daily struggle",
+    7: "detachment or difficulty fully investing in partnership, a spiritual undercurrent in relationships",
+    8: "a deep affinity for the occult, transformation, and matters beyond ordinary understanding",
+    9: "detachment from conventional belief, a spiritual insight beyond ordinary philosophy",
+    10: "detachment from worldly career ambition, indifference toward public recognition",
+    11: "detachment from material gains, indifference toward community validation",
+    12: "natural spiritual liberation, a deep affinity for solitude and release",
+}
+
+_GRAHA_BHAVA_BATCHES = (
+    ("sun", "sun", "Sun", "Surya", _SUN_BHAVA_MEANINGS),
+    ("moon", "moon", "Moon", "Chandra", _MOON_BHAVA_MEANINGS),
+    ("mars", "mars", "Mars", "Mangala", _MARS_BHAVA_MEANINGS),
+    ("mercury", "mercury", "Mercury", "Budha", _MERCURY_BHAVA_MEANINGS),
+    ("jupiter", "jupiter", "Jupiter", "Brihaspati", _JUPITER_BHAVA_MEANINGS),
+    ("venus", "venus", "Venus", "Shukra", _VENUS_BHAVA_MEANINGS),
+    ("saturn", "saturn", "Saturn", "Shani", _SATURN_BHAVA_MEANINGS),
+    ("rahu", "north_node_true", "Rahu", None, _RAHU_BHAVA_MEANINGS),
+    ("ketu", "south_node_true", "Ketu", None, _KETU_BHAVA_MEANINGS),
+)
+
+for _claim_key, _body, _english, _sanskrit, _house_meanings in _GRAHA_BHAVA_BATCHES:
+    _label = f"{_english} ({_sanskrit})" if _sanskrit else _english
+    for _house, _trait in _house_meanings.items():
+        _ordinal = f"{_house}{'st' if _house == 1 else 'nd' if _house == 2 else 'rd' if _house == 3 else 'th'}"
+        _add(
+            f"graha_{_claim_key}_bhava_{_house}",
+            f"{_label} in the {_ordinal} bhava tends to give {_trait}.",
+            concept_ids=["vedic_positions"],
+            feature_ids=[f"vedic_house:{_body}:{_house}"],
+            theme_tags=["graha_in_bhava"],
+            life_domain=_BHAVA_LIFE_DOMAINS[_house],
+            source_id="parashara_bphs_1984",
+        )
+
+
+# ------------------------------------------------------------
 # Navamsa (D9) core meaning
 # Source: Brihat Parashara Hora Shastra, ch. 6 (divisional charts)
 # ------------------------------------------------------------

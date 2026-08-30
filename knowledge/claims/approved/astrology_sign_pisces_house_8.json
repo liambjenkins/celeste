@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sign_pisces_house_8",
+  "lens_id": "astrology",
+  "statement": "Pisces on the 8th house cusp brings a deeply empathetic, sometimes boundary-less approach to intimacy, drawn to the spiritual dimensions of merging.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house_cusp_sign:8:Pisces"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "sign_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

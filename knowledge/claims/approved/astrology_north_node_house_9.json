@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_9",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 9th house tends to give growth found in expanding belief and worldview, moving away from over-attachment to small details.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:9",
+    "house:north_node_mean:9"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "expansion_and_meaning",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

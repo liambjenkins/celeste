@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_saturn_bhava_5",
+  "lens_id": "vedic_astrology",
+  "statement": "Saturn (Shani) in the 5th bhava tends to give discipline applied to creativity and children, merit earned slowly rather than given easily.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:saturn:5"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_saturn_bhava_8",
+  "lens_id": "vedic_astrology",
+  "statement": "Saturn (Shani) in the 8th bhava tends to give discipline applied to transformation and longevity, karmic lessons around loss and endurance.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:saturn:8"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

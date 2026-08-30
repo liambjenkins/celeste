@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_juno_house_12",
+  "lens_id": "astrology",
+  "statement": "Juno in the 12th house tends to give a search for a partnership that feels private, spiritual, or even fated.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:juno:12"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_indirect_wealth_day",
+  "lens_id": "chinese_zodiac",
+  "statement": "Indirect Wealth in the Day Pillar tends to give an opportunistic undercurrent within the closest partnership, resources gained through connection rather than steady effort.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:day:indirect_wealth"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

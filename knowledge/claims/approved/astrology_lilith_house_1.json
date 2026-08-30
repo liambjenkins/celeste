@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_lilith_house_1",
+  "lens_id": "astrology",
+  "statement": "Lilith in the 1st house tends to give raw, unfiltered instinct expressed through identity, a rebellious streak against others' expectations of who to be.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:lilith_mean:1",
+    "house:lilith_true:1"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

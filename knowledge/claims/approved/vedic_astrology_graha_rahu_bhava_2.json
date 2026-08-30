@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_graha_rahu_bhava_2",
+  "lens_id": "vedic_astrology",
+  "statement": "Rahu in the 2nd bhava tends to give an amplified, sometimes obsessive drive around wealth and resources.",
+  "passage_ids": [],
+  "concept_ids": [
+    "vedic_positions"
+  ],
+  "feature_ids": [
+    "vedic_house:north_node_true:2"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "graha_in_bhava"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard Vedic astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

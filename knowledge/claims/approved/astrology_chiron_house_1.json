@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_chiron_house_1",
+  "lens_id": "astrology",
+  "statement": "Chiron in the 1st house tends to give a wound tied to identity and self-worth, with healing found through embracing rather than hiding vulnerability.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:chiron:1"
+  ],
+  "source_ids": [
+    "melanie_reinhart_chiron_and_the_healing_journey_1989"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

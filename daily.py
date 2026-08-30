@@ -60,6 +60,7 @@ from astrology.time import local_to_utc
 from astrology.yogini_dasha import build_yogini_dasha
 from providers.astronomy import get_astronomy
 from chinese.pillars import build_four_pillars
+from chinese.ten_gods import build_ten_gods
 from concepts.normaliser import normalise_observations
 from knowledge.claims.resolver import resolve_claims
 from lenses.daily_narrative_style import build_daily_synthesis_prompt
@@ -109,8 +110,9 @@ def _resolve_sign_claim(role: str, sign: str):
     unconditionally.
 
     Returns the matched RelevantClaim, or None if no claim exists for
-    this exact role (some roles -- mc, descendant, ic -- have no
-    authored sign-claim family; degrade honestly, don't guess).
+    this exact role (e.g. vertex has no authored sign-claim family;
+    degrade honestly, don't guess -- though see _resolve_pure_sign_
+    claim below for an honest last-resort fallback callers can use).
 
     Some bodies (e.g. Sun) also have a generic "what this planet
     represents" claim reused across all 12 signs (feature_ids lists
@@ -125,6 +127,23 @@ def _resolve_sign_claim(role: str, sign: str):
     if not matches:
         return None
     return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+def _resolve_pure_sign_claim(sign: str):
+    """Combinatorial-Meaning Expansion Phase 3: what a sign means on
+    its own (element/modality/rulership), independent of any body --
+    an honest LAST-RESORT fallback for a role with no body-specific
+    sign-claim family at all (_resolve_sign_claim returns None). Real
+    beneficiary: lilith_true is a genuine PRIMARY_NATAL_ROLES member
+    (astrology/event_significance.py) that can be a real hit target
+    with zero prior sign-meaning content. NOT a substitute for
+    role-specific content where it exists -- callers should always try
+    _resolve_sign_claim first and only fall back here on a miss (see
+    _use_sign_claim in build_daily_reading)."""
+
+    tag = f"pure_sign:{sign}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
 
 
 def _resolve_house_claim(transiting_body: str, house: int):
@@ -168,6 +187,43 @@ def _resolve_natal_house_claim(role: str, house: int):
     if not matches:
         return None
     return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+# Houses whose cusp is exactly one of the four angles in this engine's
+# house systems (confirmed by direct query: cusp longitude == the
+# angle's own longitude, to full float precision) -- Combinatorial-
+# Meaning Expansion Phase 2 deliberately does NOT author sign-in-house
+# content for these four, since it would duplicate the existing
+# Ascendant/MC/IC/Descendant-by-sign claims for the same underlying
+# chart fact.
+_ANGULAR_HOUSES = frozenset({1, 4, 7, 10})
+
+
+def _house_cusp_sign(natal_chart: dict, house: int) -> str:
+    """The real sign on this natal chart's own house cusp -- a fixed,
+    chart-specific fact (not a transiting one), read directly off
+    natal_chart["houses"]["cusps"] (string-keyed, per astrology/
+    normaliser.py's own convention)."""
+
+    cusp_longitude = natal_chart["houses"]["cusps"][str(house)]
+    return longitude_to_zodiac(cusp_longitude)["sign"]
+
+
+def _resolve_house_cusp_sign_claim(house: int, sign: str):
+    """One targeted lookup for what sign colors a given (non-angular)
+    house's affairs in THIS chart -- e.g. Capricorn on the natal 8th
+    house cusp. Distinct from _resolve_house_claim/
+    _resolve_natal_house_claim (which planet, if any, occupies the
+    house) -- a house can carry real, personalized cusp-sign content
+    even with no planet in it at all. Only houses 2, 3, 5, 6, 8, 9, 11,
+    12 have an authored claim family (see _ANGULAR_HOUSES); the four
+    angular houses' cusp sign is already covered by the Ascendant/MC/
+    IC/Descendant-by-sign claims -- honest None degrade here, callers
+    should resolve those instead for house in _ANGULAR_HOUSES."""
+
+    tag = f"house_cusp_sign:{house}:{sign}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
 
 
 # The nine classical Navagraha that carry a real Vedic karaka
@@ -216,6 +272,58 @@ def _resolve_vedic_sign_fusion(role: str, sign: str):
             claims.append(planet_claim)
 
     return claims
+
+
+def _resolve_vedic_house_claim(body: str, house: int):
+    """Combinatorial-Meaning Expansion Phase 5: the Vedic counterpart
+    to _resolve_natal_house_claim. Same most-specific-wins mechanism
+    (fewest feature_ids) as the Western resolver -- the generic
+    vedic_house:{body}:{house} tag is shared across all 22 _ALL_BODIES
+    on the body-agnostic bhava claim (knowledge/claims/seeds/
+    vedic_astrology.py's own established pattern), while the nine
+    classical Navagraha now also have a single-tag, graha-specific
+    claim that automatically outranks it. Honest None degrade never
+    happens for a body actually in a chart (every _ALL_BODIES member
+    has the generic fallback) -- this only returns None for a
+    genuinely invalid tag."""
+
+    tag = f"vedic_house:{body}:{house}"
+    matches = resolve_claims({}, lens_id="vedic_astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+_TEN_GOD_SLUGS = {
+    "Friend": "friend", "Rob Wealth": "rob_wealth", "Eating God": "eating_god",
+    "Hurting Officer": "hurting_officer", "Indirect Wealth": "indirect_wealth",
+    "Direct Wealth": "direct_wealth", "Seven Killings": "seven_killings",
+    "Direct Officer": "direct_officer", "Indirect Resource": "indirect_resource",
+    "Direct Resource": "direct_resource",
+}
+
+
+def _resolve_ten_god_position_claim(position: str, ten_god: str):
+    """Combinatorial-Meaning Expansion Phase 6: the Chinese/BaZi
+    counterpart to _resolve_natal_house_claim. Same most-specific-
+    wins mechanism -- the generic ten_god_{slug} claim is tagged
+    across every position (chinese_zodiac.py's own established body-
+    agnostic pattern), while the position-specific claim (added this
+    phase) carries only the one matching tag and so always outranks
+    it. `position` is a plain lowercase pillar name ("year", "month",
+    "day", "hour"); "day" has no visible-stem tag (the Day Stem IS
+    the Day Master, not a Ten God relative to itself) so it resolves
+    via the hidden-stem tag instead -- honest by construction, not a
+    special case to remember at call sites."""
+
+    slug = _TEN_GOD_SLUGS.get(ten_god)
+    if slug is None:
+        return None
+    tag = f"ten_god_hidden:day:{slug}" if position == "day" else f"ten_god:{position}:{slug}"
+    matches = resolve_claims({}, lens_id="chinese_zodiac", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
 def _sidereal_sign_now(body: str, as_of_utc_time: datetime) -> str:
@@ -569,6 +677,10 @@ def _render_hit_block(hit: dict) -> str:
     planet's house with a number sourced from nowhere in the engine;
     the two grounding lines below are deliberately labeled
     unambiguously so synthesis can't make the same mix-up.
+    `hit.get("house_cusp_sign_note")` is a further, separate atomic
+    fact about that same natal house: what sign colors its affairs in
+    this chart (see _resolve_house_cusp_sign_claim) -- distinct from
+    which planet occupies it, real even with no planet there at all.
     `hit.get("vedic_sign_note")` is the same idea for the Vedic/
     sidereal lens -- today's real transiting sidereal sign for this
     hit's own transiting body, when it's genuinely relevant."""
@@ -611,6 +723,10 @@ def _render_hit_block(hit: dict) -> str:
     target_natal_house_note = hit.get("target_natal_house_note")
     if target_natal_house_note:
         line += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
+
+    house_cusp_sign_note = hit.get("house_cusp_sign_note")
+    if house_cusp_sign_note:
+        line += f"\n    Sign on that house's cusp: {house_cusp_sign_note}"
 
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
@@ -854,6 +970,13 @@ def build_daily_reading(
             return None
         item = _resolve_sign_claim(role, sign)
         if item is None:
+            # Combinatorial-Meaning Expansion Phase 3: honest last-
+            # resort fallback so a role with no body-specific sign-
+            # claim family (e.g. lilith_true) still gets real sign
+            # meaning instead of total silence -- never a substitute
+            # for role-specific content, only tried on a genuine miss.
+            item = _resolve_pure_sign_claim(sign)
+        if item is None:
             return None
         if item.claim.claim_id not in sign_claims_used:
             sign_claims_used[item.claim.claim_id] = item
@@ -897,6 +1020,28 @@ def build_daily_reading(
     sun_house_claim = _use_natal_house_claim("sun", natal_chart["bodies"]["sun"]["house"])
     moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
 
+    # Sign-on-house-cusp (Combinatorial-Meaning Expansion, Phase 2): a
+    # SEPARATE atomic fact from "which planet occupies the house" above
+    # -- what sign colors the house's affairs in this chart, real even
+    # with no planet there. Own dedupe cache (different claim
+    # namespace: astrology_sign_{sign}_house_{N}, not astrology_house_N
+    # or astrology_{planet}_house_N). Only resolved for the 8 non-
+    # angular houses (_ANGULAR_HOUSES honest-skips, since that content
+    # already exists as the Ascendant/MC/IC/Descendant-by-sign claims).
+    house_cusp_sign_claims_used: dict[str, object] = {}
+
+    def _use_house_cusp_sign_claim(house):
+        if house is None or house in _ANGULAR_HOUSES:
+            return None
+        sign = _house_cusp_sign(natal_chart, house)
+        item = _resolve_house_cusp_sign_claim(house, sign)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_cusp_sign_claims_used:
+            house_cusp_sign_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
     for hit in hits:
         if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase"):
             continue
@@ -916,6 +1061,10 @@ def build_daily_reading(
             hit["target_natal_house_note"] = (
                 f"natal {real_role} radix is in house {natal_house} -- {natal_house_claim.claim.statement}"
             )
+
+        cusp_sign_claim = _use_house_cusp_sign_claim(natal_house)
+        if cusp_sign_claim is not None:
+            hit["house_cusp_sign_note"] = cusp_sign_claim.claim.statement
 
     # House-meaning content: same targeted-lookup restoration as the
     # sign-meaning content above, for the daily_transit_house:{body}:
@@ -998,6 +1147,21 @@ def build_daily_reading(
     vedic_moon_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("moon", vedic_moon_sign))
     vedic_ascendant_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("ascendant", vedic_ascendant_sign))
 
+    # Natal sidereal bhava (house) -- Combinatorial-Meaning Expansion
+    # Phase 5. Confirmed by direct search: nothing in this pipeline
+    # cited ANY bhava content before this, at all -- the body-agnostic
+    # bhava claims existed but were never wired in. Ascendant excluded,
+    # same reasoning as the tropical Big-3: it's a house cusp itself,
+    # not "in" a house.
+    vedic_sun_house = sidereal_natal["bodies"]["sun"]["house"]
+    vedic_moon_house = sidereal_natal["bodies"]["moon"]["house"]
+    vedic_sun_house_claim = _resolve_vedic_house_claim("sun", vedic_sun_house)
+    vedic_moon_house_claim = _resolve_vedic_house_claim("moon", vedic_moon_house)
+    if vedic_sun_house_claim is not None:
+        _use_vedic_claims([vedic_sun_house_claim])
+    if vedic_moon_house_claim is not None:
+        _use_vedic_claims([vedic_moon_house_claim])
+
     # Today's transiting sidereal sign -- only for a body already part
     # of a real hit today (never an unconditional sweep over all 10
     # transiting bodies, same discipline as the natal-sign grounding
@@ -1013,6 +1177,29 @@ def build_daily_reading(
                 f"transiting {body} is in sidereal {sidereal_sign} -- "
                 + " ".join(c.claim.statement for c in fused)
             )
+
+    # Chinese/BaZi Ten-God-in-position -- Combinatorial-Meaning
+    # Expansion Phase 6. Confirmed by direct search: this pipeline
+    # cited zero Four Pillars natal structure before this (only the
+    # day-pillar-vs-natal-day-pillar RELATIONSHIP claims, a different
+    # mechanism entirely) -- Chinese daily mode had no Big-3-style
+    # standing identity content the way Western/Vedic do. This is
+    # that: the Year/Month/Hour Pillars' visible-stem Ten God, always
+    # shown (a fixed natal fact, doesn't change day to day, same
+    # framing as the tropical/sidereal Big-3 and Vedic Dasha standing
+    # above). Day Pillar excluded -- the Day Stem IS the Day Master,
+    # not a Ten God relative to itself.
+    ten_gods = build_ten_gods(four_pillars, four_pillars.day_master_element, four_pillars.day_master_polarity)
+    ten_god_claims_used: dict[str, object] = {}
+    chinese_pillar_ten_gods = {}
+
+    for _position in ("year", "month", "hour"):
+        _ten_god = ten_gods["stems"][_position]["ten_god"]
+        _claim = _resolve_ten_god_position_claim(_position, _ten_god)
+        if _claim is not None and _claim.claim.claim_id not in ten_god_claims_used:
+            ten_god_claims_used[_claim.claim.claim_id] = _claim
+            daily_claims.append(_claim)
+        chinese_pillar_ten_gods[_position] = {"ten_god": _ten_god, "claim": _claim}
 
     attributed = []
 
@@ -1175,6 +1362,28 @@ def build_daily_reading(
             vedic_ascendant_sign, None, None,
             vedic_ascendant_claims,
             "Your natal sidereal Ascendant sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_sun_house": _vedic_identity_field(
+            f"Bhava {vedic_sun_house}", None, None,
+            [vedic_sun_house_claim] if vedic_sun_house_claim is not None else [],
+            "Your natal sidereal Sun's own bhava (house) -- standing identity context, not today's sky.",
+        ),
+        "vedic_moon_house": _vedic_identity_field(
+            f"Bhava {vedic_moon_house}", None, None,
+            [vedic_moon_house_claim] if vedic_moon_house_claim is not None else [],
+            "Your natal sidereal Moon's own bhava (house) -- standing identity context, not today's sky.",
+        ),
+        "chinese_year_ten_god": _identity_field(
+            chinese_pillar_ten_gods["year"]["ten_god"], chinese_pillar_ten_gods["year"]["claim"],
+            "Your Year Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
+        ),
+        "chinese_month_ten_god": _identity_field(
+            chinese_pillar_ten_gods["month"]["ten_god"], chinese_pillar_ten_gods["month"]["claim"],
+            "Your Month Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
+        ),
+        "chinese_hour_ten_god": _identity_field(
+            chinese_pillar_ten_gods["hour"]["ten_god"], chinese_pillar_ten_gods["hour"]["claim"],
+            "Your Hour Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
         ),
     }
 

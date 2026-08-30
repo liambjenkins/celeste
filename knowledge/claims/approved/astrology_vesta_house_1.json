@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_vesta_house_1",
+  "lens_id": "astrology",
+  "statement": "Vesta in the 1st house tends to give devotion expressed through personal discipline, focus centered on self-development.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:vesta:1"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

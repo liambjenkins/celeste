@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_north_node_house_1",
+  "lens_id": "astrology",
+  "statement": "The North Node in the 1st house tends to give growth found in developing independence and a stronger sense of self, moving away from over-reliance on others.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:north_node_true:1",
+    "house:north_node_mean:1"
+  ],
+  "source_ids": [
+    "schulman_karmic_astrology_1975"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
