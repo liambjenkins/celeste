@@ -60,6 +60,7 @@ from astrology.time import local_to_utc
 from astrology.yogini_dasha import build_yogini_dasha
 from providers.astronomy import get_astronomy
 from chinese.pillars import build_four_pillars
+from chinese.ten_gods import build_ten_gods
 from concepts.normaliser import normalise_observations
 from knowledge.claims.resolver import resolve_claims
 from lenses.daily_narrative_style import build_daily_synthesis_prompt
@@ -288,6 +289,38 @@ def _resolve_vedic_house_claim(body: str, house: int):
 
     tag = f"vedic_house:{body}:{house}"
     matches = resolve_claims({}, lens_id="vedic_astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+_TEN_GOD_SLUGS = {
+    "Friend": "friend", "Rob Wealth": "rob_wealth", "Eating God": "eating_god",
+    "Hurting Officer": "hurting_officer", "Indirect Wealth": "indirect_wealth",
+    "Direct Wealth": "direct_wealth", "Seven Killings": "seven_killings",
+    "Direct Officer": "direct_officer", "Indirect Resource": "indirect_resource",
+    "Direct Resource": "direct_resource",
+}
+
+
+def _resolve_ten_god_position_claim(position: str, ten_god: str):
+    """Combinatorial-Meaning Expansion Phase 6: the Chinese/BaZi
+    counterpart to _resolve_natal_house_claim. Same most-specific-
+    wins mechanism -- the generic ten_god_{slug} claim is tagged
+    across every position (chinese_zodiac.py's own established body-
+    agnostic pattern), while the position-specific claim (added this
+    phase) carries only the one matching tag and so always outranks
+    it. `position` is a plain lowercase pillar name ("year", "month",
+    "day", "hour"); "day" has no visible-stem tag (the Day Stem IS
+    the Day Master, not a Ten God relative to itself) so it resolves
+    via the hidden-stem tag instead -- honest by construction, not a
+    special case to remember at call sites."""
+
+    slug = _TEN_GOD_SLUGS.get(ten_god)
+    if slug is None:
+        return None
+    tag = f"ten_god_hidden:day:{slug}" if position == "day" else f"ten_god:{position}:{slug}"
+    matches = resolve_claims({}, lens_id="chinese_zodiac", features=[tag])
     if not matches:
         return None
     return min(matches, key=lambda item: len(item.claim.feature_ids))
@@ -1145,6 +1178,29 @@ def build_daily_reading(
                 + " ".join(c.claim.statement for c in fused)
             )
 
+    # Chinese/BaZi Ten-God-in-position -- Combinatorial-Meaning
+    # Expansion Phase 6. Confirmed by direct search: this pipeline
+    # cited zero Four Pillars natal structure before this (only the
+    # day-pillar-vs-natal-day-pillar RELATIONSHIP claims, a different
+    # mechanism entirely) -- Chinese daily mode had no Big-3-style
+    # standing identity content the way Western/Vedic do. This is
+    # that: the Year/Month/Hour Pillars' visible-stem Ten God, always
+    # shown (a fixed natal fact, doesn't change day to day, same
+    # framing as the tropical/sidereal Big-3 and Vedic Dasha standing
+    # above). Day Pillar excluded -- the Day Stem IS the Day Master,
+    # not a Ten God relative to itself.
+    ten_gods = build_ten_gods(four_pillars, four_pillars.day_master_element, four_pillars.day_master_polarity)
+    ten_god_claims_used: dict[str, object] = {}
+    chinese_pillar_ten_gods = {}
+
+    for _position in ("year", "month", "hour"):
+        _ten_god = ten_gods["stems"][_position]["ten_god"]
+        _claim = _resolve_ten_god_position_claim(_position, _ten_god)
+        if _claim is not None and _claim.claim.claim_id not in ten_god_claims_used:
+            ten_god_claims_used[_claim.claim.claim_id] = _claim
+            daily_claims.append(_claim)
+        chinese_pillar_ten_gods[_position] = {"ten_god": _ten_god, "claim": _claim}
+
     attributed = []
 
     for item in daily_claims:
@@ -1316,6 +1372,18 @@ def build_daily_reading(
             f"Bhava {vedic_moon_house}", None, None,
             [vedic_moon_house_claim] if vedic_moon_house_claim is not None else [],
             "Your natal sidereal Moon's own bhava (house) -- standing identity context, not today's sky.",
+        ),
+        "chinese_year_ten_god": _identity_field(
+            chinese_pillar_ten_gods["year"]["ten_god"], chinese_pillar_ten_gods["year"]["claim"],
+            "Your Year Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
+        ),
+        "chinese_month_ten_god": _identity_field(
+            chinese_pillar_ten_gods["month"]["ten_god"], chinese_pillar_ten_gods["month"]["claim"],
+            "Your Month Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
+        ),
+        "chinese_hour_ten_god": _identity_field(
+            chinese_pillar_ten_gods["hour"]["ten_god"], chinese_pillar_ten_gods["hour"]["claim"],
+            "Your Hour Pillar's Ten God (relative to your Day Master) -- standing identity context, not today's sky.",
         ),
     }
 

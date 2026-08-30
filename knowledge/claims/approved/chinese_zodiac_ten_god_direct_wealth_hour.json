@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_direct_wealth_hour",
+  "lens_id": "chinese_zodiac",
+  "statement": "Direct Wealth in the Hour Pillar tends to give steady, earned security carried into later life, consistent provision for children or private stability.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:hour:direct_wealth",
+    "ten_god:hour:direct_wealth"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

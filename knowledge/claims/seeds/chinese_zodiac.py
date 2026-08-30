@@ -307,6 +307,114 @@ for _ten_god, (_meaning, _domain, _themes) in _TEN_GODS.items():
 
 
 # ------------------------------------------------------------
+# Ten-God-in-pillar-position (natal only) — Combinatorial-Meaning
+# Expansion, Phase 6, the Chinese/BaZi counterpart to Phase 1's
+# Western planet-in-house work. The generic Ten God claims above are
+# matched to EVERY position identically (one "Friend represents..."
+# statement reused whether Friend appears in Year, Month, or Hour) --
+# this expresses what each Ten God specifically means when it lands
+# in each pillar's own domain (Year: ancestry/early life/public face;
+# Month: environment/parents/career, per _PILLAR_ROLES above; Day:
+# the Spouse Palace undertone, hidden-stem only since the Day Stem IS
+# the Day Master itself; Hour: later life/children/private self).
+#
+# One written text per (god, position) pair, shared across the
+# visible (ten_god:) and hidden (ten_god_hidden:) tag for that
+# position where both exist -- the Ten God's meaning in a given
+# pillar doesn't change based on whether it's expressed by the
+# visible stem or a hidden one, only how directly it manifests, the
+# same reasoning already applied to Western/Vedic true-vs-mean
+# node/Lilith variants. Needs no new engine code: chinese.ten_gods.
+# build_ten_gods already computes every position's Ten God; this
+# only adds the missing claim-side specificity daily.py can cite.
+#
+# Source: Joey Yap, The Ten Gods (2011) -- same source as the generic
+# Ten God claims above; position-specific Ten God reading is that
+# book's core subject.
+# ------------------------------------------------------------
+
+_TEN_GOD_POSITION_MEANINGS = {
+    "Friend": {
+        "Year": "self-reliance expressed in one's public face and early-life environment, support drawn from peers rather than family standing",
+        "Month": "self-reliance that shapes the career environment and relationship with parents, comfortable working alongside equals",
+        "Day": "a self-reliant undercurrent within the closest partnership, valuing an equal, companionable bond",
+        "Hour": "self-reliance carried into later life and relationships with children, comfort found in peer-like rather than hierarchical bonds",
+    },
+    "Rob Wealth": {
+        "Year": "rivalry or competition shaping one's public face and early-life circumstances, resources contested rather than freely shared",
+        "Month": "competitive dynamics in the career environment or with parents, a need to actively defend one's position",
+        "Day": "a competitive undercurrent within the closest partnership, contested resources or equality tested in the bond",
+        "Hour": "rivalry carried into later life, competitive dynamics with children or in one's private inner world",
+    },
+    "Eating God": {
+        "Year": "creative talent expressed in one's public face, an early-life environment that allows relaxed self-expression",
+        "Month": "creativity and enjoyment central to the career environment or relationship with parents",
+        "Day": "a creative, enjoyment-seeking undercurrent within the closest partnership",
+        "Hour": "creativity and enjoyment carried into later life, expressed through children or private pursuits",
+    },
+    "Hurting Officer": {
+        "Year": "a rebellious or unconventional public face, early-life circumstances that challenge convention",
+        "Month": "a sharper, more challenging relationship with authority in career or with parents",
+        "Day": "a rebellious undercurrent within the closest partnership, resistant to convention in that bond",
+        "Hour": "rebellious or unconventional expression carried into later life, an independent streak with children or in private pursuits",
+    },
+    "Indirect Wealth": {
+        "Year": "opportunity and windfall shaping one's public face and early-life circumstances",
+        "Month": "opportunistic, resourceful engagement with career or parental relationships",
+        "Day": "an opportunistic undercurrent within the closest partnership, resources gained through connection rather than steady effort",
+        "Hour": "opportunity and windfall carried into later life, resourcefulness around children or private ventures",
+    },
+    "Direct Wealth": {
+        "Year": "steady, earned security shaping one's public face and early-life foundation",
+        "Month": "stable, consistent effort defining the career environment or relationship with parents",
+        "Day": "a steady, security-minded undercurrent within the closest partnership",
+        "Hour": "steady, earned security carried into later life, consistent provision for children or private stability",
+    },
+    "Seven Killings": {
+        "Year": "pressure and decisive action shaping one's public face and early-life circumstances",
+        "Month": "authority that must be actively asserted in career or with parents, pressure met with decisive response",
+        "Day": "an intense, assertive undercurrent within the closest partnership",
+        "Hour": "pressure and decisive action carried into later life, an assertive stance with children or in private matters",
+    },
+    "Direct Officer": {
+        "Year": "legitimate authority and order shaping one's public face and early-life foundation",
+        "Month": "recognized status and consistent systems defining the career environment or relationship with parents",
+        "Day": "an orderly, responsibility-minded undercurrent within the closest partnership",
+        "Hour": "legitimate authority and order carried into later life, responsibility toward children or private discipline",
+    },
+    "Indirect Resource": {
+        "Year": "unconventional or instinctive learning shaping one's public face and early-life foundation",
+        "Month": "lateral thinking and unofficial support defining the career environment or relationship with parents",
+        "Day": "an instinctive, unconventional undercurrent within the closest partnership",
+        "Hour": "unconventional learning and instinct carried into later life, an intuitive approach to children or private growth",
+    },
+    "Direct Resource": {
+        "Year": "formal knowledge and nurturing support shaping one's public face and early-life foundation",
+        "Month": "legitimate, recognized support defining the career environment or relationship with parents",
+        "Day": "a nurturing, supportive undercurrent within the closest partnership",
+        "Hour": "nurturing support and stable development carried into later life, formal guidance offered to children",
+    },
+}
+
+for _ten_god, _positions in _TEN_GOD_POSITION_MEANINGS.items():
+    _slug = _ten_god.lower().replace(" ", "_")
+    for _position, _trait in _positions.items():
+        _pos_key = _position.lower()
+        _tags = [f"ten_god_hidden:{_pos_key}:{_slug}"]
+        if _pos_key != "day":
+            _tags.append(f"ten_god:{_pos_key}:{_slug}")
+        _add(
+            f"ten_god_{_slug}_{_pos_key}",
+            f"{_ten_god} in the {_position} Pillar tends to give {_trait}.",
+            concept_ids=["chinese_ten_gods"],
+            feature_ids=_tags,
+            theme_tags=["ten_god_in_position"],
+            life_domain=_PILLAR_ROLES[_pos_key][1],
+            source_id="yap_ten_gods_2011",
+        )
+
+
+# ------------------------------------------------------------
 # Da Yun (Luck Pillars) core meaning
 # Source: Joey Yap, BaZi - The Destiny Code (2005)
 # ------------------------------------------------------------

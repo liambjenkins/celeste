@@ -1,0 +1,21 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_hurting_officer_day",
+  "lens_id": "chinese_zodiac",
+  "statement": "Hurting Officer in the Day Pillar tends to give a rebellious undercurrent within the closest partnership, resistant to convention in that bond.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:day:hurting_officer"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

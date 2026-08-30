@@ -1,0 +1,22 @@
+{
+  "claim_id": "chinese_zodiac_ten_god_direct_resource_year",
+  "lens_id": "chinese_zodiac",
+  "statement": "Direct Resource in the Year Pillar tends to give formal knowledge and nurturing support shaping one's public face and early-life foundation.",
+  "passage_ids": [],
+  "concept_ids": [
+    "chinese_ten_gods"
+  ],
+  "feature_ids": [
+    "ten_god_hidden:year:direct_resource",
+    "ten_god:year:direct_resource"
+  ],
+  "source_ids": [
+    "yap_ten_gods_2011"
+  ],
+  "theme_tags": [
+    "ten_god_in_position"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard BaZi literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
