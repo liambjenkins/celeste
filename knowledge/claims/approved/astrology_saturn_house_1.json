@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_saturn_house_1",
+  "lens_id": "astrology",
+  "statement": "Saturn in the 1st house tends to give a serious, reserved outward identity, discipline and responsibility central to the self.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:saturn:1"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

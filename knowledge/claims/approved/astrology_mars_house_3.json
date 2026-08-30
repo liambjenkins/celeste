@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mars_house_3",
+  "lens_id": "astrology",
+  "statement": "Mars in the 3rd house tends to give energy expressed through communication, sometimes quick-tempered or argumentative.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mars:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_jupiter_house_3",
+  "lens_id": "astrology",
+  "statement": "Jupiter in the 3rd house tends to give an expansive mind, love of learning carried into broad-minded, generous communication.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:jupiter:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

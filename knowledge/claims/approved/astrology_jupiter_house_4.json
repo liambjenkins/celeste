@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_jupiter_house_4",
+  "lens_id": "astrology",
+  "statement": "Jupiter in the 4th house tends to give growth rooted in home and family, an expansive, generous domestic life.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:jupiter:4"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

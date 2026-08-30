@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_house_2",
+  "lens_id": "astrology",
+  "statement": "Moon in the 2nd house tends to give emotional security tied to material resources and stable habits, comfort found in what can be held onto.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:moon:2"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

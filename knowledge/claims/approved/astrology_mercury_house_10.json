@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_house_10",
+  "lens_id": "astrology",
+  "statement": "Mercury in the 10th house tends to give a mind focused on career and public matters, communicating with authority and purpose.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mercury:10"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

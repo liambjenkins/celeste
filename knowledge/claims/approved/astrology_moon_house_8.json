@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_house_8",
+  "lens_id": "astrology",
+  "statement": "Moon in the 8th house tends to give deep emotional intensity, drawn to psychological depth, transformation, and shared intimacy.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:moon:8"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

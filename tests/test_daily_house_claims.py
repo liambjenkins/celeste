@@ -61,21 +61,40 @@ aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
 assert aspect_hits, "test assumption broken -- expected at least one transit_aspect hit on the eclipse day"
 houses_touched_today = {h["resolution"]["natal_house"] for h in aspect_hits}
 
-# Big-3 standing content (added after this test was first written) also
-# always cites natal Sun/Moon's OWN house -- distinct from, but drawing
-# on the same astrology_house_N claim family as, the transit-through
-# houses above. Expected set is the union of both.
-always_on_houses = {MELBOURNE["bodies"]["sun"]["house"], MELBOURNE["bodies"]["moon"]["house"]}
-
+# Big-3 standing content, plus (since Fix 1's widening) every hit-
+# touched natal point, also cites that point's OWN house -- distinct
+# from the transit-through houses above, and (since the Combinatorial-
+# Meaning Expansion Phase 1 added planet-specific claims) resolving to
+# the more specific astrology_{planet}_house_{N} claim rather than the
+# generic astrology_house_{N} fallback used before Phase 1 existed.
+# Computed programmatically (not hand-enumerated) since which natal
+# points get touched depends on the day's real hits, not just Sun/Moon.
 result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=False)
-house_claim_ids = {c["claim_id"] for c in result["claims"] if c["claim_id"].startswith("astrology_house_")}
+house_claim_ids = {
+    c["claim_id"] for c in result["claims"]
+    if c["claim_id"].startswith("astrology_") and "_house_" in c["claim_id"]
+}
 assert house_claim_ids, "expected at least one house-meaning claim cited in result['claims']"
-expected_houses = houses_touched_today | always_on_houses
-assert house_claim_ids == {f"astrology_house_{h}" for h in expected_houses}, (
-    f"expected exactly the houses touched today ({houses_touched_today}) plus natal Sun/Moon's own "
-    f"houses ({always_on_houses}) to be cited, got {house_claim_ids}"
+
+expected_transit_through = {f"astrology_house_{h}" for h in houses_touched_today}
+
+_chart_ruler = MELBOURNE["rulership"]["chart_ruler"]
+_touched_roles = {
+    (_chart_ruler if h["resolution"]["nearest_natal_point"] == "chart_ruler" else h["resolution"]["nearest_natal_point"])
+    for h in hits
+    if h["kind"] in ("transit_aspect", "eclipse", "moon_phase")
+}
+natal_own_roles = ({"sun", "moon"} | _touched_roles) & set(MELBOURNE["bodies"])
+expected_natal_own = {
+    f"astrology_{role}_house_{MELBOURNE['bodies'][role]['house']}" for role in natal_own_roles
+}
+expected = expected_transit_through | expected_natal_own
+assert house_claim_ids == expected, (
+    f"expected exactly the transit-through houses touched today ({expected_transit_through}) plus "
+    f"every hit-touched natal point's own specific house claim ({expected_natal_own}) to be cited, "
+    f"got {house_claim_ids}"
 )
-print(f"check result['claims'] cites exactly the houses touched by today's hits plus natal Sun/Moon's own houses ({sorted(house_claim_ids)})")
+print(f"check result['claims'] cites exactly the transit-through houses touched today plus every hit-touched natal point's own specific house claim ({sorted(house_claim_ids)})")
 
 
 # --- Dedupe: a house claim never appears twice even when multiple

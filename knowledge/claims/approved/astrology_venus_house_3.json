@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_venus_house_3",
+  "lens_id": "astrology",
+  "statement": "Venus in the 3rd house tends to give relating expressed through conversation, charm carried into everyday exchanges and sociable learning.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:venus:3"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

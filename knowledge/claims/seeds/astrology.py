@@ -543,6 +543,186 @@ for _house, (_meaning, _domain) in _HOUSES.items():
 
 
 # ------------------------------------------------------------
+# Planet-in-house (natal only) — Combinatorial-Meaning Expansion,
+# Phase 1. Where the generic per-house claim above says "the 10th
+# house governs career," these say what THIS planet specifically
+# does there (e.g. "Saturn in the 10th house..."). Deliberately
+# NATAL-ONLY: tagged house:{planet}:{house} (the natal tag) but NOT
+# transit_house:/daily_transit_house: -- a specific "Saturn in your
+# 10th house" statement describes a fixed, lifelong trait, and must
+# never be silently reused for a TRANSITING body temporarily passing
+# through someone's 10th house (a dated, temporary influence) -- the
+# exact natal/transit conflation this session's fabrication-guard
+# work spent all night closing elsewhere. Transit-through framing
+# stays on the existing generic per-house text; a transit-specific
+# "planet passing through a house" layer, if ever wanted, would need
+# its own separate content and its own framing, not this.
+#
+# Needs NO changes to daily.py: _resolve_natal_house_claim already
+# picks the most specific match (fewest feature_ids), so a single-tag
+# claim here automatically outranks the generic 10-tag house claim
+# above the moment it exists.
+# Source: Howard Sasportas, The Twelve Houses (1985) -- planet-by-
+# house synthesis is that book's core subject.
+# ------------------------------------------------------------
+
+_PLANET_HOUSE_MEANINGS = {
+    "sun": {
+        1: "a strong, visible sense of self, with vitality and identity projected directly outward",
+        2: "identity bound up with personal resources and self-worth, vitality expressed through building material security",
+        3: "identity expressed through communication and everyday learning, vitality flowing through curiosity and exchange",
+        4: "identity rooted in home and family, purpose tied to building a secure emotional foundation",
+        5: "identity expressed through creativity and self-expression, vitality shining through romance, play, or children",
+        6: "identity tied to work and daily routine, purpose found through being useful and keeping order",
+        7: "identity strongly shaped through partnership, self-discovery often mirrored through significant relationships",
+        8: "identity forged through intensity and transformation, vitality drawn to what is hidden or shared with others",
+        9: "identity expressed through belief, philosophy, and expanding horizons, purpose tied to meaning-making",
+        10: "identity strongly tied to public role and reputation, vitality directed toward achievement and authority",
+        11: "identity expressed through community and group ideals, purpose found through collective belonging",
+        12: "a more private, introspective identity, vitality processed inwardly and purpose tied to solitude or quiet service",
+    },
+    "moon": {
+        1: "an emotional nature worn openly, moods visible and instinctive reactions shaping how one comes across",
+        2: "emotional security tied to material resources and stable habits, comfort found in what can be held onto",
+        3: "emotional life expressed through communication and everyday connection, moods shifting with mental stimulation",
+        4: "a deep pull toward home and family, a natural nurturer with a strong need for emotional roots",
+        5: "emotional expression through creativity, romance, and play, nurturing others through warmth and generosity",
+        6: "emotional wellbeing tied to routine and being useful, sensitive to the daily environment and to health",
+        7: "emotional needs met through close partnership, instinctively seeking connection and reflection through others",
+        8: "deep emotional intensity, drawn to psychological depth, transformation, and shared intimacy",
+        9: "emotional fulfillment through belief and exploration, moods responding to a sense of meaning",
+        10: "emotional life intertwined with public role and reputation, nurturing expressed through responsibility",
+        11: "emotional needs met through friendship and community, nurturing group ideals and a sense of belonging",
+        12: "a private, introspective emotional life, instincts operating quietly and sensitive to unseen influences",
+    },
+    "mercury": {
+        1: "a quick, communicative persona, with thinking style shaping how one is outwardly perceived",
+        2: "a mind engaged with practical and material matters, communication focused on values and resources",
+        3: "a sharp, curious, natural communicator, very much at home here, engaged with everyday learning and exchange",
+        4: "a mind that turns inward toward family and home matters, communication centered on roots and private life",
+        5: "a mind engaged creatively, communication flowing through self-expression, play, and romance",
+        6: "a detail-oriented, service-minded mind, communication focused on work and routine",
+        7: "a mind sharpened through dialogue and partnership, thinking clarified in conversation with others",
+        8: "a mind drawn to what's hidden, naturally investigative and probing beneath the surface",
+        9: "an expansive, philosophical mind, communication turning toward belief, travel, and big ideas",
+        10: "a mind focused on career and public matters, communicating with authority and purpose",
+        11: "a mind engaged with groups and ideals, communication flowing through networks and shared causes",
+        12: "a more private, intuitive mind, thinking processes often working beneath conscious awareness",
+    },
+    "venus": {
+        1: "personal charm and magnetism defining the outward identity, an easy, likable presence",
+        2: "values centered on comfort, beauty, and financial security, love expressed through tangible pleasures",
+        3: "relating expressed through conversation, charm carried into everyday exchanges and sociable learning",
+        4: "values placed on home and family harmony, seeking beauty and comfort in domestic life",
+        5: "a natural love of romance, creativity, and pleasure, drawn to self-expression through art",
+        6: "values placed on order and service, pleasure found in helpful routines and refined work",
+        7: "relationships central here, a natural, harmony-seeking approach to partnership",
+        8: "a nature drawn to intensity in intimacy, valuing deep, transformative bonds over surface connection",
+        9: "values placed on philosophy, travel, and expansive experience, love expressed through shared belief",
+        10: "values placed on public recognition and reputation, charm put in service of career and status",
+        11: "values placed on friendship and community, love expressed through shared ideals",
+        12: "love expressed privately or self-sacrificially, values centered on compassion and hidden connection",
+    },
+    "mars": {
+        1: "an assertive, direct, energetic outward identity, quick to act on impulse",
+        2: "drive directed toward material security, asserting the self through building resources",
+        3: "energy expressed through communication, sometimes quick-tempered or argumentative",
+        4: "assertion tied to home and family, sometimes acting protectively or clashing within domestic life",
+        5: "energy expressed through creativity, competition, and romance",
+        6: "drive channeled into work, service, and discipline, energetic about routine and health",
+        7: "assertion playing out through partnership, sometimes as healthy challenge, sometimes as conflict",
+        8: "an intense drive toward transformation, power, and shared resources",
+        9: "energy directed at expanding horizons, belief, and adventure",
+        10: "ambition and drive focused squarely on career and public achievement",
+        11: "energy directed toward group goals and collective causes",
+        12: "drive turned inward or hidden, energy expressed privately or through subconscious patterns",
+    },
+    "jupiter": {
+        1: "an expansive, optimistic, confident outward identity",
+        2: "growth pursued through material resources, a generous relationship with money",
+        3: "an expansive mind, love of learning carried into broad-minded, generous communication",
+        4: "growth rooted in home and family, an expansive, generous domestic life",
+        5: "growth pursued through creativity, romance, and self-expression, luck often found in pleasure and play",
+        6: "growth pursued through work and service, an expansive approach to daily routine and health",
+        7: "growth pursued through partnership, a generous, expansive approach to relating",
+        8: "growth pursued through transformation and shared resources, deep engagement with intensity",
+        9: "a philosophical, expansive nature very much at home here, drawn to belief, travel, and higher learning",
+        10: "growth pursued through career and public role, expansive ambition and reputation",
+        11: "growth pursued through community and group ideals, generous toward shared causes",
+        12: "growth pursued through spirituality and solitude, generosity expressed through quiet service",
+    },
+    "saturn": {
+        1: "a serious, reserved outward identity, discipline and responsibility central to the self",
+        2: "caution and discipline around resources, security earned through sustained effort",
+        3: "a disciplined mind, early learning or communication that may feel restricted but matures with effort",
+        4: "structure and responsibility rooted in home and family, often carrying the weight of family duty",
+        5: "discipline around creativity and romance, self-expression that matures slowly through sustained effort",
+        6: "a strong sense of duty in work and routine, discipline central to daily life",
+        7: "structure and responsibility taken seriously in partnership, commitment approached with gravity",
+        8: "a disciplined approach to intensity and transformation, mastery earned by facing what is hidden",
+        9: "a structured approach to belief and philosophy, wisdom earned through disciplined study",
+        10: "career and public role central, very much at home here, disciplined ambition and authority earned over time",
+        11: "discipline brought to friendship and community, responsibility taken toward group goals",
+        12: "structure and discipline turned inward, mastery earned through solitude or spiritual discipline",
+    },
+    "uranus": {
+        1: "an original, unconventional outward identity, unpredictable and freedom-seeking",
+        2: "an unconventional relationship with resources and values, sudden shifts in security",
+        3: "a quick, original mind, unconventional in communication and learning style",
+        4: "an unconventional home life, often seeking freedom from inherited family patterns",
+        5: "original creative expression, an unconventional approach to romance and self-expression",
+        6: "an unconventional approach to work and routine, sudden changes in daily life or health",
+        7: "unconventional partnerships, needing real freedom within relationship",
+        8: "sudden transformation, an unconventional approach to shared resources and intimacy",
+        9: "original beliefs, drawn to unconventional philosophy and sudden expansion of horizons",
+        10: "an unconventional career path, sudden shifts in public role or reputation",
+        11: "an original, freedom-loving approach to community and group ideals, very much at home here",
+        12: "unconventional, hidden individuality, sudden insight arising from the unconscious",
+    },
+    "neptune": {
+        1: "a dreamy, impressionable outward identity, idealistic and sometimes elusive",
+        2: "an idealistic or unclear relationship with resources and values, drawn to intangible worth",
+        3: "an imaginative mind, communication that can be poetic but sometimes vague",
+        4: "an idealized or elusive sense of home and family, a deep spiritual connection to roots",
+        5: "imaginative, romantic creative expression, an idealized approach to love and play",
+        6: "an idealistic approach to service, boundaries between work and compassion often blurred",
+        7: "idealized, sometimes elusive partnerships, drawn to spiritual or compassionate connection",
+        8: "a deep spiritual engagement with intensity and transformation",
+        9: "an expansive spiritual and philosophical imagination, idealistic beliefs",
+        10: "an idealistic or elusive public role, a career tied to compassion, art, or spirituality",
+        11: "an idealistic approach to community, drawn to humanitarian causes",
+        12: "a deeply spiritual and private nature very much at home here, boundaries between self and other tending to dissolve",
+    },
+    "pluto": {
+        1: "an intense, powerful outward identity, a transformative sense of self",
+        2: "an intense relationship with resources and values, a drive toward control over security",
+        3: "a probing, intense mind, communication that can uncover hidden truths",
+        4: "an intense, transformative relationship with home and family, deep-rooted family patterns",
+        5: "intense creative or romantic expression, a transformative approach to self-expression",
+        6: "intense engagement with work and routine, a transformative approach to health and service",
+        7: "intense, transformative partnerships, power dynamics central to relating",
+        8: "a deep, transformative engagement with intensity, shared resources, and mortality, very much at home here",
+        9: "intense engagement with belief and philosophy, a transformative expansion of worldview",
+        10: "an intense drive for power in career and public role, a transformative relationship with authority",
+        11: "intense engagement with community, a transformative approach to group ideals",
+        12: "a deeply hidden, transformative inner life, power processed privately in the subconscious depths",
+    },
+}
+
+for _planet, _house_meanings in _PLANET_HOUSE_MEANINGS.items():
+    for _house, _trait in _house_meanings.items():
+        _ordinal = f"{_house}{'st' if _house == 1 else 'nd' if _house == 2 else 'rd' if _house == 3 else 'th'}"
+        _add(
+            f"{_planet}_house_{_house}",
+            f"{_planet.capitalize()} in the {_ordinal} house tends to give {_trait}.",
+            feature_ids=[f"house:{_planet}:{_house}"],
+            theme_tags=["planet_in_house"],
+            life_domain=_HOUSES[_house][1],
+            source_id="sasportas_twelve_houses_1985",
+        )
+
+
+# ------------------------------------------------------------
 # Aspect types (generic — combinable with whichever two placements
 # are actually in aspect via the synthesis pass, not one claim per
 # planet pair)

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_pluto_house_10",
+  "lens_id": "astrology",
+  "statement": "Pluto in the 10th house tends to give an intense drive for power in career and public role, a transformative relationship with authority.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:pluto:10"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mercury_house_7",
+  "lens_id": "astrology",
+  "statement": "Mercury in the 7th house tends to give a mind sharpened through dialogue and partnership, thinking clarified in conversation with others.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:mercury:7"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

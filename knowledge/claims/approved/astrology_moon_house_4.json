@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_moon_house_4",
+  "lens_id": "astrology",
+  "statement": "Moon in the 4th house tends to give a deep pull toward home and family, a natural nurturer with a strong need for emotional roots.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:moon:4"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

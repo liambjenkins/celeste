@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_sun_house_5",
+  "lens_id": "astrology",
+  "statement": "Sun in the 5th house tends to give identity expressed through creativity and self-expression, vitality shining through romance, play, or children.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "house:sun:5"
+  ],
+  "source_ids": [
+    "sasportas_twelve_houses_1985"
+  ],
+  "theme_tags": [
+    "planet_in_house"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
