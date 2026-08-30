@@ -241,6 +241,83 @@ for _sign, _trait in _ASCENDANT_SIGNS.items():
 
 
 # ------------------------------------------------------------
+# MC / IC / Descendant by sign -- previously the only angle with any
+# sign-meaning content was the Ascendant. A hit CAN genuinely land on
+# natal MC/IC/Descendant (confirmed: the locked eclipse example is a
+# direct hit on natal MC), and role_longitudes (natal_targets()) has
+# always carried a real sign for all three -- this was missing
+# content, not a wiring gap. Tagged sign:{role}:{sign} -- the SAME
+# generic pattern _resolve_sign_claim already builds for any
+# non-ascendant role, so no code changes were needed to surface these
+# once written.
+# Source: Demetra George & Douglas Bloch, Astrology for Yourself
+# (1987) -- covers all four angles by sign, same book as Ascendant.
+# ------------------------------------------------------------
+
+_MC_SIGNS = {
+    "Aries": "pursues a public role through initiative and direct action, drawn to pioneering or competitive work",
+    "Taurus": "pursues a public role through steady, tangible effort, drawn to work that builds lasting value",
+    "Gemini": "pursues a public role through communication and versatility, drawn to work involving ideas or information",
+    "Cancer": "pursues a public role through nurturing and care, drawn to work that protects or provides for others",
+    "Leo": "pursues a public role through visibility and creative expression, drawn to work that earns recognition",
+    "Virgo": "pursues a public role through precision and service, drawn to work that improves or refines systems",
+    "Libra": "pursues a public role through diplomacy and partnership, drawn to work involving fairness or aesthetics",
+    "Scorpio": "pursues a public role through depth and strategy, drawn to work involving transformation or the hidden",
+    "Sagittarius": "pursues a public role through vision and exploration, drawn to work involving teaching or travel",
+    "Capricorn": "pursues a public role through discipline and long-term ambition, at home in structures of authority",
+    "Aquarius": "pursues a public role through originality and reform, drawn to work serving a collective or cause",
+    "Pisces": "pursues a public role through imagination and compassion, drawn to work involving healing or the arts",
+}
+
+_IC_SIGNS = {
+    "Aries": "builds an emotional foundation through independence, needing a home base that lets action happen freely",
+    "Taurus": "builds an emotional foundation through stability, needing a home base that feels physically secure",
+    "Gemini": "builds an emotional foundation through variety and conversation, needing a home base that stays mentally alive",
+    "Cancer": "builds an emotional foundation through close family bonds, needing a home base that feels nurturing",
+    "Leo": "builds an emotional foundation through warmth and pride of place, needing a home base that feels like a stage of its own",
+    "Virgo": "builds an emotional foundation through order and routine, needing a home base that runs smoothly",
+    "Libra": "builds an emotional foundation through harmony and companionship, needing a home base that feels balanced",
+    "Scorpio": "builds an emotional foundation through privacy and trust, needing a home base that feels safe to be unguarded in",
+    "Sagittarius": "builds an emotional foundation through freedom and belief, needing a home base that doesn't feel confining",
+    "Capricorn": "builds an emotional foundation through responsibility and tradition, needing a home base with clear structure",
+    "Aquarius": "builds an emotional foundation through independence and ideals, needing a home base that allows individuality",
+    "Pisces": "builds an emotional foundation through feeling and imagination, needing a home base that feels emotionally soft",
+}
+
+_DESCENDANT_SIGNS = {
+    "Aries": "is drawn to partners who are direct and assertive, and learns partnership through balancing self with other",
+    "Taurus": "is drawn to partners who are steady and reliable, valuing loyalty and shared material security",
+    "Gemini": "is drawn to partners who are communicative and curious, valuing mental connection and variety",
+    "Cancer": "is drawn to partners who are nurturing and protective, valuing emotional closeness and care",
+    "Leo": "is drawn to partners who are confident and generous, valuing warmth and mutual admiration",
+    "Virgo": "is drawn to partners who are attentive and capable, valuing reliability and practical support",
+    "Libra": "is drawn to partners who are diplomatic and fair, valuing harmony and equal give-and-take",
+    "Scorpio": "is drawn to partners who are intense and deep, valuing total honesty and emotional depth",
+    "Sagittarius": "is drawn to partners who are open and adventurous, valuing freedom and shared belief",
+    "Capricorn": "is drawn to partners who are ambitious and dependable, valuing commitment and long-term stability",
+    "Aquarius": "is drawn to partners who are independent and original, valuing friendship and shared ideals",
+    "Pisces": "is drawn to partners who are compassionate and imaginative, valuing empathy and emotional attunement",
+}
+
+_ANGLE_BATCHES = (
+    ("mc", _MC_SIGNS, "MC", "drive_and_ambition", ["public_role"]),
+    ("ic", _IC_SIGNS, "IC", "foundation_and_security", ["home_and_roots"]),
+    ("descendant", _DESCENDANT_SIGNS, "Descendant", "relationships", ["partnership_style"]),
+)
+
+for _role, _signs, _label, _domain, _themes in _ANGLE_BATCHES:
+    for _sign, _trait in _signs.items():
+        _add(
+            f"{_role}_sign_{_sign.lower()}",
+            f"{_article(_sign)} {_sign} {_label} {_trait}.",
+            feature_ids=[f"sign:{_role}:{_sign}"],
+            theme_tags=_themes,
+            life_domain=_domain,
+            source_id="george_bloch_astrology_for_yourself_1987",
+        )
+
+
+# ------------------------------------------------------------
 # Mercury / Venus / Mars / Jupiter / Saturn by sign
 # Source: Alan Oken, Alan Oken's Complete Astrology (1980)
 # ------------------------------------------------------------
@@ -411,6 +488,23 @@ _PLANETS_FOR_HOUSE_TAGS = (
     "uranus", "neptune", "pluto",
 )
 
+# NATAL-only roles for the plain house:{role}:{house} tag -- nodes,
+# Chiron, Lilith, and the four asteroids are all real direct entries
+# in natal_chart["bodies"] with a correctly computed natal house
+# already (confirmed by direct query), so a hit touching one of them
+# should get its own natal-house citation the same way a classical
+# planet does. Deliberately NOT added to _PLANETS_FOR_HOUSE_TAGS
+# itself -- that constant also drives transit_house:/
+# daily_transit_house: (a TRANSITING body's current house), and none
+# of these points ever appear as a transiting body in this pipeline's
+# TRANSIT_BODIES, so extending those two families for them would just
+# be dead tags no code path can ever produce.
+_EXTRA_ROLES_FOR_NATAL_HOUSE_TAG = (
+    "chiron", "lilith_mean", "lilith_true",
+    "north_node_true", "north_node_mean", "south_node_true", "south_node_mean",
+    "ceres", "pallas", "juno", "vesta",
+)
+
 for _house, (_meaning, _domain) in _HOUSES.items():
     _add(
         f"house_{_house}",
@@ -425,12 +519,24 @@ for _house, (_meaning, _domain) in _HOUSES.items():
         # lenses/features.py already tags but which had zero matching
         # claims until now -- a real pre-existing gap, not new scope)
         # and daily_transit_house: (the daily sweep, new this brief).
+        #
+        # NOT tagged daily_mode (unlike the original Aug-21 version of
+        # this claim): the plain "house:{planet}:{house}" tag fires
+        # unconditionally for every natal placement on every run (the
+        # full natal chart is always in concepts), so daily_mode here
+        # would flood every reading with every natal placement's house
+        # every day regardless of relevance -- the exact "unfiltered
+        # spray" bug this codebase already fixed once, for houses.
+        # daily.py's _resolve_house_claim does the same targeted,
+        # non-blanket single-tag lookup used for sign-meaning claims,
+        # called once per hit that actually survived resolve->tier.
         feature_ids=(
             [f"house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
             + [f"transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
             + [f"daily_transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
+            + [f"house:{role}:{_house}" for role in _EXTRA_ROLES_FOR_NATAL_HOUSE_TAG]
         ),
-        theme_tags=["life_area", "daily_mode"],
+        theme_tags=["life_area"],
         life_domain=_domain,
         source_id="sasportas_twelve_houses_1985",
     )

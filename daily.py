@@ -43,6 +43,7 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 
 from astrology.chart import build_chart
+from astrology.chara_dasha import build_chara_dasha
 from astrology.daily import (
     compute_current_moon_phase,
     compute_current_sun_sign,
@@ -51,9 +52,13 @@ from astrology.daily import (
 )
 from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
 from astrology.daily_hits import compute_daily_hits
+from astrology.dasha import build_vimshottari_dasha
 from astrology.event_significance import natal_targets
 from astrology.normaliser import longitude_to_zodiac
+from astrology.sidereal import build_sidereal_chart, get_ayanamsa, sidereal_longitude
 from astrology.time import local_to_utc
+from astrology.yogini_dasha import build_yogini_dasha
+from providers.astronomy import get_astronomy
 from chinese.pillars import build_four_pillars
 from concepts.normaliser import normalise_observations
 from knowledge.claims.resolver import resolve_claims
@@ -122,6 +127,112 @@ def _resolve_sign_claim(role: str, sign: str):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+def _resolve_house_claim(transiting_body: str, house: int):
+    """One targeted house-meaning claim lookup (astrology_house_{N}.
+    json, already tagged daily_transit_house:{body}:{house} for all
+    10 transiting bodies x 12 houses -- see the Aug-21 daily-transit-
+    sweep widening). Same non-blanket-sweep discipline as
+    _resolve_sign_claim: the resolve->tier->guard rebuild (PR #4)
+    stopped feeding daily_transit_houses through the old
+    concepts->features sweep -- that sweep was itself the unfiltered-
+    spray mechanism behind the "citation list naming irrelevant
+    houses" bug -- which orphaned this tag family without a
+    replacement. This restores real per-hit house-meaning citations
+    the same way natal/Vedic sign meaning was restored: called once
+    per hit that already survived resolve->tier, never for every
+    transiting body's every house placement."""
+
+    tag = f"daily_transit_house:{transiting_body}:{house}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
+
+
+def _resolve_natal_house_claim(role: str, house: int):
+    """One targeted lookup for a NATAL point's own birth house -- e.g.
+    natal Saturn radix in house 10, NOT the house a transiting body is
+    currently passing through (that's _resolve_house_claim, above).
+    This distinction is the actual gap this closes: a real audit found
+    natal_chart["bodies"][role]["house"] has always been computed
+    correctly (astrology/chart.py -> normalise_body ->
+    longitude_in_house against the chart's own natal cusps), but
+    nothing in this pipeline ever cited it -- every existing "house"
+    reference here is transit-through-house. Reuses the plain
+    house:{role}:{house} tag already on astrology_house_N.json (no new
+    claim content needed), which only covers the 10 classical planets
+    (_PLANETS_FOR_HOUSE_TAGS in knowledge/claims/seeds/astrology.py) --
+    honest None degrade for nodes/Chiron/asteroids/angles, same as
+    every other honest-degrade precedent in this file."""
+
+    tag = f"house:{role}:{house}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+# The nine classical Navagraha that carry a real Vedic karaka
+# (signification) -- Uranus/Neptune/Pluto are tracked structurally but
+# have no traditional karakatva, so they never get a "planet meaning"
+# fusion (honest degrade, not a gap -- see _resolve_vedic_planet_fusion).
+_VEDIC_PLANET_MEANING_BODIES = frozenset({
+    "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn",
+    "north_node_true", "south_node_true",
+})
+
+
+def _resolve_vedic_claim(tag: str):
+    """One targeted Vedic claim lookup (lens_id="vedic_astrology"),
+    the same non-blanket-sweep discipline as _resolve_sign_claim and
+    for the identical reason: none of the ~150 Vedic claim files are
+    tagged "daily_mode" -- build_features() fires a vedic_sign:*/
+    dasha_*:* tag for every natal placement and every Dasha level on
+    every run, so a blanket sweep would flood daily mode with
+    standing Vedic content unrelated to what's actually relevant that
+    day. Unlike the Western sign lookup, no generic multi-tag claim
+    exists in this family to disambiguate against -- confirmed each
+    tag maps to exactly one claim file -- so this is a plain single-
+    match lookup. Returns None if nothing matches."""
+
+    matches = resolve_claims({}, lens_id="vedic_astrology", features=[tag])
+    return matches[0] if matches else None
+
+
+def _resolve_vedic_sign_fusion(role: str, sign: str):
+    """The sign-meaning claim plus (when this role has a real
+    karaka -- see _VEDIC_PLANET_MEANING_BODIES) the planet-meaning
+    claim, returned as a list of 1 or 2 RelevantClaims -- presented
+    together rather than fused into one "Venus is Leo"-style blended
+    statement, which is less astrologically standard than giving the
+    planet's own significations and the sign's own qualities as
+    paired facts for synthesis to combine (confirmed with Liam)."""
+
+    tag = "ascendant" if role == "ascendant" else role
+    sign_claim = _resolve_vedic_claim(f"vedic_sign:{tag}:{sign}")
+    claims = [sign_claim] if sign_claim is not None else []
+
+    if role in _VEDIC_PLANET_MEANING_BODIES:
+        planet_claim = _resolve_vedic_claim(f"vedic_planet:{role}")
+        if planet_claim is not None:
+            claims.append(planet_claim)
+
+    return claims
+
+
+def _sidereal_sign_now(body: str, as_of_utc_time: datetime) -> str:
+    """Today's real transiting position in sidereal (Lahiri) terms --
+    the one piece that didn't exist anywhere in the engine before this
+    phase (astrology/sidereal.py only ever derives from a NATAL
+    tropical chart -- every call site in the repo confirmed natal-
+    only). Composes three already-existing primitives (get_astronomy,
+    get_ayanamsa, sidereal_longitude) rather than adding new engine
+    machinery."""
+
+    astronomy = get_astronomy(as_of_utc_time)
+    ayanamsa = get_ayanamsa(astronomy["julian_day"])
+    sidereal_lon = sidereal_longitude(astronomy["bodies"][body]["longitude"], ayanamsa)
+    return longitude_to_zodiac(sidereal_lon)["sign"]
+
+
 def _identity_field(label: str, claim, plain_note: str) -> dict:
     """The result-dict shape for a standing natal identity anchor.
     `note` is always present (a short, honest description -- the
@@ -136,6 +247,25 @@ def _identity_field(label: str, claim, plain_note: str) -> dict:
         field["claim_text"] = claim.claim.statement
         field["claim_id"] = claim.claim.claim_id
         field["source_ids"] = list(claim.claim.source_ids)
+    return field
+
+
+def _vedic_identity_field(label: str, nakshatra: str | None, pada: int | None, claims: list, plain_note: str) -> dict:
+    """The result-dict shape for a Vedic (sidereal) identity anchor --
+    same `note`-always-present, `claim_text` when real content
+    resolved pattern as `_identity_field`, extended for `claims` being
+    a LIST of 1-2 items (sign-meaning plus, where a real karaka
+    exists, planet-meaning -- see _resolve_vedic_sign_fusion) rather
+    than a single claim."""
+
+    field = {"label": label, "note": plain_note}
+    if nakshatra is not None:
+        field["nakshatra"] = nakshatra
+        field["nakshatra_pada"] = pada
+    if claims:
+        field["claim_text"] = " ".join(c.claim.statement for c in claims)
+        field["claim_ids"] = [c.claim.claim_id for c in claims]
+        field["source_ids"] = sorted({sid for c in claims for sid in c.claim.source_ids})
     return field
 
 
@@ -430,7 +560,18 @@ def _render_hit_block(hit: dict) -> str:
     letting synthesis fuse "your naturally private Scorpio Venus"
     with "eases today via transiting Jupiter" into one sentence,
     rather than leaving sign meaning as an unpaired, context-free
-    fact."""
+    fact. `hit.get("natal_house_note")` is the same idea for the
+    house a transit_aspect hit's TRANSITING body currently occupies
+    (see _resolve_house_claim) -- NOT a natal placement.
+    `hit.get("target_natal_house_note")` is the natal point's OWN
+    birth house instead (see _resolve_natal_house_claim) -- a real
+    audit found reading copy had confused these two, stating a natal
+    planet's house with a number sourced from nowhere in the engine;
+    the two grounding lines below are deliberately labeled
+    unambiguously so synthesis can't make the same mix-up.
+    `hit.get("vedic_sign_note")` is the same idea for the Vedic/
+    sidereal lens -- today's real transiting sidereal sign for this
+    hit's own transiting body, when it's genuinely relevant."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -449,8 +590,8 @@ def _render_hit_block(hit: dict) -> str:
         line = (
             f"  [{hit['tier']}] transit: {d['transiting_body']} {d['aspect']} natal "
             f"{d['target_role']}{retro}, orb {r['orb_to_nearest']:.2f} degrees, contact: "
-            f"{r['contact']}. Transiting {d['transiting_body']} is currently in natal house "
-            f"{r['natal_house']}."
+            f"{r['contact']}. Transiting {d['transiting_body']} is currently PASSING THROUGH "
+            f"natal house {r['natal_house']} (not {d['transiting_body']}'s own birth house)."
         )
     else:  # moon_phase
         phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
@@ -462,6 +603,18 @@ def _render_hit_block(hit: dict) -> str:
     natal_sign_note = hit.get("natal_sign_note")
     if natal_sign_note:
         line += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
+
+    natal_house_note = hit.get("natal_house_note")
+    if natal_house_note:
+        line += f"\n    Transiting body's current (transit-through) house meaning: {natal_house_note}"
+
+    target_natal_house_note = hit.get("target_natal_house_note")
+    if target_natal_house_note:
+        line += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
+
+    vedic_sign_note = hit.get("vedic_sign_note")
+    if vedic_sign_note:
+        line += f"\n    Vedic (sidereal): {vedic_sign_note}"
 
     return line
 
@@ -715,8 +868,37 @@ def build_daily_reading(
     moon_sign_claim = _use_sign_claim("moon", natal_moon_sign)
     ascendant_sign_claim = _use_sign_claim("ascendant", rising_sign)
 
+    # Natal house content: a natal point's OWN birth house (e.g. natal
+    # Saturn radix in house 10), never to be confused with the house a
+    # TRANSITING body is currently passing through (_use_house_claim,
+    # below -- a real audit found reading copy had blurred exactly
+    # this distinction, stating a natal planet's house with a number
+    # that traced to nothing Celeste actually computed). Ascendant
+    # excluded -- it's a house cusp itself, not "in" a house.
+    # Shared dedupe cache: _resolve_house_claim (transit-through) and
+    # _resolve_natal_house_claim (natal-own) both draw from the SAME
+    # astrology_house_N claim family (just different tags on the same
+    # claim file), so a transiting body currently sitting in the same
+    # house number as a natal point's own house must not append that
+    # claim to daily_claims twice.
+    house_meaning_claims_used: dict[str, object] = {}
+
+    def _use_natal_house_claim(role, house):
+        if role is None or house is None:
+            return None
+        item = _resolve_natal_house_claim(role, house)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_meaning_claims_used:
+            house_meaning_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
+    sun_house_claim = _use_natal_house_claim("sun", natal_chart["bodies"]["sun"]["house"])
+    moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
+
     for hit in hits:
-        if hit["kind"] not in ("transit_aspect", "eclipse"):
+        if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase"):
             continue
         role = hit["resolution"]["nearest_natal_point"]
         if role is None:
@@ -727,6 +909,110 @@ def build_daily_reading(
         claim = _use_sign_claim(real_role, sign)
         if claim is not None:
             hit["natal_sign_note"] = claim.claim.statement
+
+        natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
+        natal_house_claim = _use_natal_house_claim(real_role, natal_house)
+        if natal_house_claim is not None:
+            hit["target_natal_house_note"] = (
+                f"natal {real_role} radix is in house {natal_house} -- {natal_house_claim.claim.statement}"
+            )
+
+    # House-meaning content: same targeted-lookup restoration as the
+    # sign-meaning content above, for the daily_transit_house:{body}:
+    # {house} tag family PR #4's rebuild orphaned (see
+    # _resolve_house_claim's docstring). Only for transit_aspect hits
+    # -- eclipse/moon-phase hits aren't "a transiting body currently
+    # in a house" facts the same way, and never an unconditional
+    # sweep over all 10 transiting bodies' house placements.
+    def _use_house_claim(transiting_body, house):
+        if house is None:
+            return None
+        item = _resolve_house_claim(transiting_body, house)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_meaning_claims_used:
+            house_meaning_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
+    for hit in hits:
+        if hit["kind"] != "transit_aspect":
+            continue
+        claim = _use_house_claim(hit["display"]["transiting_body"], hit["resolution"]["natal_house"])
+        if claim is not None:
+            hit["natal_house_note"] = claim.claim.statement
+
+    # Vedic (sidereal): full chart considered in the data layer (the
+    # sidereal chart and current Dasha standing are always computed),
+    # but surfaced with the same relevance discipline as the Western
+    # content above -- Dasha standing and natal sidereal Big-3 always
+    # (standing context, like the tropical identity anchors), today's
+    # transiting sidereal sign only for whichever body a real hit
+    # already touches, never an unconditional sweep. See
+    # _resolve_vedic_claim's docstring for why this bypasses the
+    # daily_mode filter the same way the Western sign lookup does.
+    vedic_claims_used: dict[str, object] = {}
+
+    def _use_vedic_claims(items):
+        result = []
+        for item in items:
+            if item.claim.claim_id not in vedic_claims_used:
+                vedic_claims_used[item.claim.claim_id] = item
+                daily_claims.append(item)
+            result.append(item)
+        return result
+
+    birth_utc_time = datetime.fromisoformat(natal_chart["utc_time"])
+    sidereal_natal = build_sidereal_chart(natal_chart)
+
+    vimshottari = build_vimshottari_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+    yogini = build_yogini_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+    chara = build_chara_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+
+    dasha_lords = {
+        vimshottari["current_mahadasha"]["lord"],
+        vimshottari["current_antardasha"]["lord"],
+        vimshottari["current_pratyantardasha"]["lord"],
+        vimshottari["current_sookshma_dasha"]["lord"],
+    }
+    dasha_lord_claims = {}
+    for lord in dasha_lords:
+        item = _resolve_vedic_claim(f"dasha_mahadasha:{lord}")
+        if item is not None:
+            dasha_lord_claims[lord] = item
+    _use_vedic_claims(dasha_lord_claims.values())
+
+    chara_sign_claim = _resolve_vedic_claim(f"chara_dasha_sign:{chara['current_sign_dasha']['sign']}")
+    if chara_sign_claim is not None:
+        _use_vedic_claims([chara_sign_claim])
+
+    # Natal sidereal Big-3 -- same identity-anchor treatment as the
+    # tropical Sun/Moon/Ascendant, sign-meaning + planet-meaning
+    # presented together rather than one blended "Venus is Leo"-style
+    # statement (confirmed with Liam -- see _resolve_vedic_sign_fusion).
+    vedic_sun_sign = sidereal_natal["bodies"]["sun"]["sign"]
+    vedic_moon_sign = sidereal_natal["bodies"]["moon"]["sign"]
+    vedic_ascendant_sign = sidereal_natal["ascendant"]["sign"]
+
+    vedic_sun_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("sun", vedic_sun_sign))
+    vedic_moon_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("moon", vedic_moon_sign))
+    vedic_ascendant_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("ascendant", vedic_ascendant_sign))
+
+    # Today's transiting sidereal sign -- only for a body already part
+    # of a real hit today (never an unconditional sweep over all 10
+    # transiting bodies, same discipline as the natal-sign grounding
+    # above).
+    for hit in hits:
+        if hit["kind"] != "transit_aspect":
+            continue
+        body = hit["display"]["transiting_body"]
+        sidereal_sign = _sidereal_sign_now(body, as_of_utc_time)
+        fused = _use_vedic_claims(_resolve_vedic_sign_fusion(body, sidereal_sign))
+        if fused:
+            hit["vedic_sign_note"] = (
+                f"transiting {body} is in sidereal {sidereal_sign} -- "
+                + " ".join(c.claim.statement for c in fused)
+            )
 
     attributed = []
 
@@ -831,8 +1117,65 @@ def build_daily_reading(
             rising_sign, ascendant_sign_claim,
             "Your natal Ascendant (Rising) sign -- standing identity context, not today's sky.",
         ),
+        "natal_sun_house": _identity_field(
+            f"House {natal_chart['bodies']['sun']['house']}", sun_house_claim,
+            "Your natal Sun's own birth house -- standing identity context, "
+            "distinct from any house a transiting body is currently passing through.",
+        ),
+        "natal_moon_house": _identity_field(
+            f"House {natal_chart['bodies']['moon']['house']}", moon_house_claim,
+            "Your natal Moon's own birth house -- standing identity context, "
+            "distinct from any house a transiting body is currently passing through.",
+        ),
         "highlights": highlights,
         "astrology_highlights_note": None if hits else _ASTROLOGY_QUIET_NOTE,
+        "vedic_dasha": {
+            "mahadasha": vimshottari["current_mahadasha"],
+            "antardasha": vimshottari["current_antardasha"],
+            "pratyantardasha": vimshottari["current_pratyantardasha"],
+            "sookshma": vimshottari["current_sookshma_dasha"],
+            "yogini": yogini["current_yogini_dasha"],
+            "chara_sign": chara["current_sign_dasha"],
+            "lord_claims": [
+                {
+                    "lord": lord,
+                    "claim_text": item.claim.statement,
+                    "claim_id": item.claim.claim_id,
+                    "source_ids": list(item.claim.source_ids),
+                }
+                for lord, item in dasha_lord_claims.items()
+            ],
+            "chara_sign_claim": (
+                {
+                    "claim_text": chara_sign_claim.claim.statement,
+                    "claim_id": chara_sign_claim.claim.claim_id,
+                    "source_ids": list(chara_sign_claim.claim.source_ids),
+                }
+                if chara_sign_claim is not None else None
+            ),
+            "note": (
+                "Vedic (Vimshottari/Yogini/Chara) timing standing as of today -- "
+                "doesn't change day to day (each level spans months to years), "
+                "shown as standing context alongside today's reading."
+            ),
+        },
+        "vedic_sun_sign": _vedic_identity_field(
+            vedic_sun_sign,
+            sidereal_natal["bodies"]["sun"]["nakshatra"], sidereal_natal["bodies"]["sun"]["nakshatra_pada"],
+            vedic_sun_claims,
+            "Your natal sidereal Sun sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_moon_sign": _vedic_identity_field(
+            vedic_moon_sign,
+            sidereal_natal["bodies"]["moon"]["nakshatra"], sidereal_natal["bodies"]["moon"]["nakshatra_pada"],
+            vedic_moon_claims,
+            "Your natal sidereal Moon sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_ascendant_sign": _vedic_identity_field(
+            vedic_ascendant_sign, None, None,
+            vedic_ascendant_claims,
+            "Your natal sidereal Ascendant sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
     }
 
     eclipse_context = compute_eclipse_context(natal_chart, as_of_utc_time)
@@ -929,6 +1272,11 @@ def main():
 
         print()
         print(f"Moon: {result['natal_moon_sign']['label']}  |  Rising: {result['rising_sign']['label']}  |  Sun today: {result['sun_sign']['label']}")
+        print(
+            f"Vedic (sidereal): Sun {result['vedic_sun_sign']['label']}  |  "
+            f"Moon {result['vedic_moon_sign']['label']}  |  Asc {result['vedic_ascendant_sign']['label']}  |  "
+            f"Dasha {result['vedic_dasha']['mahadasha']['lord']}/{result['vedic_dasha']['antardasha']['lord']}"
+        )
 
         eclipse_context = result.get("eclipse_context")
         if eclipse_context:

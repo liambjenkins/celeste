@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mc_sign_taurus",
+  "lens_id": "astrology",
+  "statement": "A Taurus MC pursues a public role through steady, tangible effort, drawn to work that builds lasting value.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mc:Taurus"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "public_role"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

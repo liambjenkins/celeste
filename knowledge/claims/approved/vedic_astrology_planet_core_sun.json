@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_sun",
+  "lens_id": "vedic_astrology",
+  "statement": "Sun (Surya) is the karaka of the soul, vitality, authority, and father figures — the core of identity and life-force.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:sun"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "identity",
+    "vitality"
+  ],
+  "life_domain": "identity",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

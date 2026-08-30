@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_descendant_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "A Pisces Descendant is drawn to partners who are compassionate and imaginative, valuing empathy and emotional attunement.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:descendant:Pisces"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "partnership_style"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_descendant_sign_scorpio",
+  "lens_id": "astrology",
+  "statement": "A Scorpio Descendant is drawn to partners who are intense and deep, valuing total honesty and emotional depth.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:descendant:Scorpio"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "partnership_style"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

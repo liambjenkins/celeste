@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_ic_sign_leo",
+  "lens_id": "astrology",
+  "statement": "A Leo IC builds an emotional foundation through warmth and pride of place, needing a home base that feels like a stage of its own.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:ic:Leo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "home_and_roots"
+  ],
+  "life_domain": "foundation_and_security",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

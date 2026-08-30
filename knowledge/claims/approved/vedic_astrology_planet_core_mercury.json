@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_mercury",
+  "lens_id": "vedic_astrology",
+  "statement": "Mercury (Budha) is the karaka of intellect, communication, and commerce — governing reasoning, speech, and how information is exchanged.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:mercury"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "intellect",
+    "communication"
+  ],
+  "life_domain": "communication",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

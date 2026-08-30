@@ -34,14 +34,24 @@
     "daily_transit_house:saturn:12",
     "daily_transit_house:uranus:12",
     "daily_transit_house:neptune:12",
-    "daily_transit_house:pluto:12"
+    "daily_transit_house:pluto:12",
+    "house:chiron:12",
+    "house:lilith_mean:12",
+    "house:lilith_true:12",
+    "house:north_node_true:12",
+    "house:north_node_mean:12",
+    "house:south_node_true:12",
+    "house:south_node_mean:12",
+    "house:ceres:12",
+    "house:pallas:12",
+    "house:juno:12",
+    "house:vesta:12"
   ],
   "source_ids": [
     "sasportas_twelve_houses_1985"
   ],
   "theme_tags": [
-    "life_area",
-    "daily_mode"
+    "life_area"
   ],
   "life_domain": "transformation",
   "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",

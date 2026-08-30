@@ -53,8 +53,15 @@ assert sun_claim.claim.claim_id == "astrology_sun_sign_cancer", (
 assert len(sun_claim.claim.feature_ids) == 1
 print("check _resolve_sign_claim prefers the sign-specific claim over a same-tagged generic one")
 
-# A role with no authored sign-claim family (e.g. mc) degrades honestly.
-assert _resolve_sign_claim("mc", "Pisces") is None
+# MC/IC/Descendant now have a real sign-claim family (added alongside
+# the natal-house comprehensiveness fixes -- previously only the
+# Ascendant did, and a hit CAN genuinely land on MC/IC/Descendant).
+mc_claim = _resolve_sign_claim("mc", "Pisces")
+assert mc_claim is not None and mc_claim.claim.claim_id == "astrology_mc_sign_pisces"
+print("check _resolve_sign_claim resolves a real claim for mc (angle-meaning family added)")
+
+# A role with genuinely no authored sign-claim family still degrades honestly.
+assert _resolve_sign_claim("vertex", "Pisces") is None
 print("check _resolve_sign_claim returns None honestly for a role with no sign-claim family")
 
 
@@ -138,6 +145,18 @@ assert "harmony" in moon_hit["natal_sign_note"]
 rendered_block = daily._render_hit_block(moon_hit)
 assert "sign meaning" in rendered_block and "harmony" in rendered_block
 print("check a hit's own natal_sign_note grounding is set correctly and rendered into its block")
+
+
+# --- Comprehensiveness fix: moon_phase hits get sign grounding too,
+# not just transit_aspect/eclipse (previously silently excluded with
+# no documented reason, even though they carry a real
+# nearest_natal_point the same as eclipse hits) ---
+
+moon_phase_hit = next((h for h in internal_hits if h["kind"] == "moon_phase"), None)
+assert moon_phase_hit is not None, "expected a moon_phase hit on the locked eclipse day"
+assert moon_phase_hit["resolution"]["nearest_natal_point"] is not None
+assert moon_phase_hit.get("natal_sign_note"), "moon_phase hits should now carry sign grounding, same as eclipse hits"
+print("check moon_phase hits now carry natal_sign_note grounding (previously silently excluded)")
 
 
 # --- Cross-chart: no crash, Big-3 always resolves across charts ---

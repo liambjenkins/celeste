@@ -34,14 +34,24 @@
     "daily_transit_house:saturn:3",
     "daily_transit_house:uranus:3",
     "daily_transit_house:neptune:3",
-    "daily_transit_house:pluto:3"
+    "daily_transit_house:pluto:3",
+    "house:chiron:3",
+    "house:lilith_mean:3",
+    "house:lilith_true:3",
+    "house:north_node_true:3",
+    "house:north_node_mean:3",
+    "house:south_node_true:3",
+    "house:south_node_mean:3",
+    "house:ceres:3",
+    "house:pallas:3",
+    "house:juno:3",
+    "house:vesta:3"
   ],
   "source_ids": [
     "sasportas_twelve_houses_1985"
   ],
   "theme_tags": [
-    "life_area",
-    "daily_mode"
+    "life_area"
   ],
   "life_domain": "communication",
   "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",

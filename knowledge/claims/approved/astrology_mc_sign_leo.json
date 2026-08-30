@@ -1,0 +1,19 @@
+{
+  "claim_id": "astrology_mc_sign_leo",
+  "lens_id": "astrology",
+  "statement": "A Leo MC pursues a public role through visibility and creative expression, drawn to work that earns recognition.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:mc:Leo"
+  ],
+  "source_ids": [
+    "george_bloch_astrology_for_yourself_1987"
+  ],
+  "theme_tags": [
+    "public_role"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

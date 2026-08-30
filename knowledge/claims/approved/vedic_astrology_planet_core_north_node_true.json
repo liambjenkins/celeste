@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_north_node_true",
+  "lens_id": "vedic_astrology",
+  "statement": "Rahu is the karaka of worldly ambition, obsession, and unconventional pursuit — a shadow point associated with amplification, material craving, and a restlessness not easily satisfied.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:north_node_true"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "ambition",
+    "amplification"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}
