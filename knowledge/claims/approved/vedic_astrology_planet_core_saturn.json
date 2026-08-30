@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_saturn",
+  "lens_id": "vedic_astrology",
+  "statement": "Saturn (Shani) is the karaka of discipline, longevity, hardship, and labor — governing structure, endurance, and what is earned slowly.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:saturn"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "discipline",
+    "resilience"
+  ],
+  "life_domain": "discipline",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

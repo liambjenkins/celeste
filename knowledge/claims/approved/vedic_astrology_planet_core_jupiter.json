@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_jupiter",
+  "lens_id": "vedic_astrology",
+  "statement": "Jupiter (Guru) is the karaka of wisdom, wealth, children, and spiritual growth — the great benefic of expansion, knowledge, and guidance.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:jupiter"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "wisdom",
+    "expansion"
+  ],
+  "life_domain": "values_and_desire",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

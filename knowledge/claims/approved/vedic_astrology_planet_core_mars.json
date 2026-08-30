@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_mars",
+  "lens_id": "vedic_astrology",
+  "statement": "Mars (Mangala) is the karaka of courage, energy, siblings, and conflict — governing drive, assertiveness, and physical action.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:mars"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "courage",
+    "conflict"
+  ],
+  "life_domain": "drive_and_ambition",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

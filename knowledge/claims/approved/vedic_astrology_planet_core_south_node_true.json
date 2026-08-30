@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_south_node_true",
+  "lens_id": "vedic_astrology",
+  "statement": "Ketu is the karaka of detachment, spirituality, and past-life karma — a shadow point associated with release, introspection, and what no longer needs holding onto.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:south_node_true"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "spirituality",
+    "introspection"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

@@ -96,6 +96,114 @@ def _add(
 
 
 # ------------------------------------------------------------
+# Planetary significations (karakatva) — what each of the nine
+# classical Navagraha generally represents, independent of any sign
+# or house placement. Added for the Query-Answering/Daily-Reading
+# Repair phase's Vedic integration: astrologically, presenting a
+# placement as "Venus in Leo" fused into one blended statement is
+# less standard than presenting the planet's own significations
+# alongside the sign's own qualities and letting synthesis combine
+# them -- the same building-block-not-permutation philosophy this
+# file's own docstring already states for sign/house content, just
+# extended one level further (planet-alone, not just sign-alone).
+#
+# Tagged vedic_planet:{body} using this project's existing body-key
+# convention (north_node_true/south_node_true), NOT the Sanskrit
+# lord names (rahu/ketu) the Dasha claims below use -- so this
+# family pairs correctly with the vedic_sign:{body}:{sign} tags
+# above/below for fusion at read time. The claim text still names
+# the traditional Sanskrit term for clarity.
+#
+# Source: Brihat Parashara Hora Shastra, ch. 3 (karakatva)
+# ------------------------------------------------------------
+
+_PLANET_SIGNIFICATIONS = {
+    "sun": (
+        "Sun (Surya)",
+        "the karaka of the soul, vitality, authority, and father "
+        "figures — the core of identity and life-force",
+        "identity",
+        ["identity", "vitality"],
+    ),
+    "moon": (
+        "Moon (Chandra)",
+        "the karaka of the mind, emotions, and mother figures — "
+        "governing mental disposition, feeling, and inner life",
+        "emotion",
+        ["emotion", "mind"],
+    ),
+    "mars": (
+        "Mars (Mangala)",
+        "the karaka of courage, energy, siblings, and conflict — "
+        "governing drive, assertiveness, and physical action",
+        "drive_and_ambition",
+        ["courage", "conflict"],
+    ),
+    "mercury": (
+        "Mercury (Budha)",
+        "the karaka of intellect, communication, and commerce — "
+        "governing reasoning, speech, and how information is exchanged",
+        "communication",
+        ["intellect", "communication"],
+    ),
+    "jupiter": (
+        "Jupiter (Guru)",
+        "the karaka of wisdom, wealth, children, and spiritual "
+        "growth — the great benefic of expansion, knowledge, and guidance",
+        "values_and_desire",
+        ["wisdom", "expansion"],
+    ),
+    "venus": (
+        "Venus (Shukra)",
+        "the karaka of love, beauty, luxury, and relationships — "
+        "governing pleasure, comfort, and material enjoyment",
+        "relationships",
+        ["relationships", "aesthetics"],
+    ),
+    "saturn": (
+        "Saturn (Shani)",
+        "the karaka of discipline, longevity, hardship, and labor — "
+        "governing structure, endurance, and what is earned slowly",
+        "discipline",
+        ["discipline", "resilience"],
+    ),
+    "north_node_true": (
+        "Rahu",
+        "the karaka of worldly ambition, obsession, and unconventional "
+        "pursuit — a shadow point associated with amplification, "
+        "material craving, and a restlessness not easily satisfied",
+        "drive_and_ambition",
+        ["ambition", "amplification"],
+    ),
+    "south_node_true": (
+        "Ketu",
+        "the karaka of detachment, spirituality, and past-life "
+        "karma — a shadow point associated with release, "
+        "introspection, and what no longer needs holding onto",
+        "transformation",
+        ["spirituality", "introspection"],
+    ),
+}
+
+for _body, (_name, _signifies, _domain, _themes) in _PLANET_SIGNIFICATIONS.items():
+    _add(
+        f"planet_core_{_body}",
+        f"{_name} is {_signifies}.",
+        feature_ids=[f"vedic_planet:{_body}"],
+        theme_tags=["karakatva"] + _themes,
+        life_domain=_domain,
+        source_id="parashara_bphs_1984",
+        notes=(
+            "General significations (karakatva) only, independent of "
+            "sign, house, or dignity in any specific chart -- BPHS's "
+            "own distinction between a planet's general nature and "
+            "its distinctive (chart-specific) effects, same "
+            "distinction already applied to the Dasha claims below."
+        ),
+    )
+
+
+# ------------------------------------------------------------
 # Sidereal sign meanings — body-agnostic (see module docstring).
 # Source: Brihat Parashara Hora Shastra
 # ------------------------------------------------------------

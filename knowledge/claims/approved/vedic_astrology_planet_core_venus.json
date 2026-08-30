@@ -1,0 +1,21 @@
+{
+  "claim_id": "vedic_astrology_planet_core_venus",
+  "lens_id": "vedic_astrology",
+  "statement": "Venus (Shukra) is the karaka of love, beauty, luxury, and relationships — governing pleasure, comfort, and material enjoyment.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "vedic_planet:venus"
+  ],
+  "source_ids": [
+    "parashara_bphs_1984"
+  ],
+  "theme_tags": [
+    "karakatva",
+    "relationships",
+    "aesthetics"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "General significations (karakatva) only, independent of sign, house, or dignity in any specific chart -- BPHS's own distinction between a planet's general nature and its distinctive (chart-specific) effects, same distinction already applied to the Dasha claims below.",
+  "status": "approved"
+}

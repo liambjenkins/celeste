@@ -43,6 +43,7 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 
 from astrology.chart import build_chart
+from astrology.chara_dasha import build_chara_dasha
 from astrology.daily import (
     compute_current_moon_phase,
     compute_current_sun_sign,
@@ -51,9 +52,13 @@ from astrology.daily import (
 )
 from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
 from astrology.daily_hits import compute_daily_hits
+from astrology.dasha import build_vimshottari_dasha
 from astrology.event_significance import natal_targets
 from astrology.normaliser import longitude_to_zodiac
+from astrology.sidereal import build_sidereal_chart, get_ayanamsa, sidereal_longitude
 from astrology.time import local_to_utc
+from astrology.yogini_dasha import build_yogini_dasha
+from providers.astronomy import get_astronomy
 from chinese.pillars import build_four_pillars
 from concepts.normaliser import normalise_observations
 from knowledge.claims.resolver import resolve_claims
@@ -122,6 +127,69 @@ def _resolve_sign_claim(role: str, sign: str):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+# The nine classical Navagraha that carry a real Vedic karaka
+# (signification) -- Uranus/Neptune/Pluto are tracked structurally but
+# have no traditional karakatva, so they never get a "planet meaning"
+# fusion (honest degrade, not a gap -- see _resolve_vedic_planet_fusion).
+_VEDIC_PLANET_MEANING_BODIES = frozenset({
+    "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn",
+    "north_node_true", "south_node_true",
+})
+
+
+def _resolve_vedic_claim(tag: str):
+    """One targeted Vedic claim lookup (lens_id="vedic_astrology"),
+    the same non-blanket-sweep discipline as _resolve_sign_claim and
+    for the identical reason: none of the ~150 Vedic claim files are
+    tagged "daily_mode" -- build_features() fires a vedic_sign:*/
+    dasha_*:* tag for every natal placement and every Dasha level on
+    every run, so a blanket sweep would flood daily mode with
+    standing Vedic content unrelated to what's actually relevant that
+    day. Unlike the Western sign lookup, no generic multi-tag claim
+    exists in this family to disambiguate against -- confirmed each
+    tag maps to exactly one claim file -- so this is a plain single-
+    match lookup. Returns None if nothing matches."""
+
+    matches = resolve_claims({}, lens_id="vedic_astrology", features=[tag])
+    return matches[0] if matches else None
+
+
+def _resolve_vedic_sign_fusion(role: str, sign: str):
+    """The sign-meaning claim plus (when this role has a real
+    karaka -- see _VEDIC_PLANET_MEANING_BODIES) the planet-meaning
+    claim, returned as a list of 1 or 2 RelevantClaims -- presented
+    together rather than fused into one "Venus is Leo"-style blended
+    statement, which is less astrologically standard than giving the
+    planet's own significations and the sign's own qualities as
+    paired facts for synthesis to combine (confirmed with Liam)."""
+
+    tag = "ascendant" if role == "ascendant" else role
+    sign_claim = _resolve_vedic_claim(f"vedic_sign:{tag}:{sign}")
+    claims = [sign_claim] if sign_claim is not None else []
+
+    if role in _VEDIC_PLANET_MEANING_BODIES:
+        planet_claim = _resolve_vedic_claim(f"vedic_planet:{role}")
+        if planet_claim is not None:
+            claims.append(planet_claim)
+
+    return claims
+
+
+def _sidereal_sign_now(body: str, as_of_utc_time: datetime) -> str:
+    """Today's real transiting position in sidereal (Lahiri) terms --
+    the one piece that didn't exist anywhere in the engine before this
+    phase (astrology/sidereal.py only ever derives from a NATAL
+    tropical chart -- every call site in the repo confirmed natal-
+    only). Composes three already-existing primitives (get_astronomy,
+    get_ayanamsa, sidereal_longitude) rather than adding new engine
+    machinery."""
+
+    astronomy = get_astronomy(as_of_utc_time)
+    ayanamsa = get_ayanamsa(astronomy["julian_day"])
+    sidereal_lon = sidereal_longitude(astronomy["bodies"][body]["longitude"], ayanamsa)
+    return longitude_to_zodiac(sidereal_lon)["sign"]
+
+
 def _identity_field(label: str, claim, plain_note: str) -> dict:
     """The result-dict shape for a standing natal identity anchor.
     `note` is always present (a short, honest description -- the
@@ -136,6 +204,25 @@ def _identity_field(label: str, claim, plain_note: str) -> dict:
         field["claim_text"] = claim.claim.statement
         field["claim_id"] = claim.claim.claim_id
         field["source_ids"] = list(claim.claim.source_ids)
+    return field
+
+
+def _vedic_identity_field(label: str, nakshatra: str | None, pada: int | None, claims: list, plain_note: str) -> dict:
+    """The result-dict shape for a Vedic (sidereal) identity anchor --
+    same `note`-always-present, `claim_text` when real content
+    resolved pattern as `_identity_field`, extended for `claims` being
+    a LIST of 1-2 items (sign-meaning plus, where a real karaka
+    exists, planet-meaning -- see _resolve_vedic_sign_fusion) rather
+    than a single claim."""
+
+    field = {"label": label, "note": plain_note}
+    if nakshatra is not None:
+        field["nakshatra"] = nakshatra
+        field["nakshatra_pada"] = pada
+    if claims:
+        field["claim_text"] = " ".join(c.claim.statement for c in claims)
+        field["claim_ids"] = [c.claim.claim_id for c in claims]
+        field["source_ids"] = sorted({sid for c in claims for sid in c.claim.source_ids})
     return field
 
 
@@ -430,7 +517,9 @@ def _render_hit_block(hit: dict) -> str:
     letting synthesis fuse "your naturally private Scorpio Venus"
     with "eases today via transiting Jupiter" into one sentence,
     rather than leaving sign meaning as an unpaired, context-free
-    fact."""
+    fact. `hit.get("vedic_sign_note")` is the same idea for the
+    Vedic/sidereal lens -- today's real transiting sidereal sign for
+    this hit's own transiting body, when it's genuinely relevant."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -462,6 +551,10 @@ def _render_hit_block(hit: dict) -> str:
     natal_sign_note = hit.get("natal_sign_note")
     if natal_sign_note:
         line += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
+
+    vedic_sign_note = hit.get("vedic_sign_note")
+    if vedic_sign_note:
+        line += f"\n    Vedic (sidereal): {vedic_sign_note}"
 
     return line
 
@@ -728,6 +821,78 @@ def build_daily_reading(
         if claim is not None:
             hit["natal_sign_note"] = claim.claim.statement
 
+    # Vedic (sidereal): full chart considered in the data layer (the
+    # sidereal chart and current Dasha standing are always computed),
+    # but surfaced with the same relevance discipline as the Western
+    # content above -- Dasha standing and natal sidereal Big-3 always
+    # (standing context, like the tropical identity anchors), today's
+    # transiting sidereal sign only for whichever body a real hit
+    # already touches, never an unconditional sweep. See
+    # _resolve_vedic_claim's docstring for why this bypasses the
+    # daily_mode filter the same way the Western sign lookup does.
+    vedic_claims_used: dict[str, object] = {}
+
+    def _use_vedic_claims(items):
+        result = []
+        for item in items:
+            if item.claim.claim_id not in vedic_claims_used:
+                vedic_claims_used[item.claim.claim_id] = item
+                daily_claims.append(item)
+            result.append(item)
+        return result
+
+    birth_utc_time = datetime.fromisoformat(natal_chart["utc_time"])
+    sidereal_natal = build_sidereal_chart(natal_chart)
+
+    vimshottari = build_vimshottari_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+    yogini = build_yogini_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+    chara = build_chara_dasha(sidereal_natal, birth_utc_time, as_of_utc_time)
+
+    dasha_lords = {
+        vimshottari["current_mahadasha"]["lord"],
+        vimshottari["current_antardasha"]["lord"],
+        vimshottari["current_pratyantardasha"]["lord"],
+        vimshottari["current_sookshma_dasha"]["lord"],
+    }
+    dasha_lord_claims = {}
+    for lord in dasha_lords:
+        item = _resolve_vedic_claim(f"dasha_mahadasha:{lord}")
+        if item is not None:
+            dasha_lord_claims[lord] = item
+    _use_vedic_claims(dasha_lord_claims.values())
+
+    chara_sign_claim = _resolve_vedic_claim(f"chara_dasha_sign:{chara['current_sign_dasha']['sign']}")
+    if chara_sign_claim is not None:
+        _use_vedic_claims([chara_sign_claim])
+
+    # Natal sidereal Big-3 -- same identity-anchor treatment as the
+    # tropical Sun/Moon/Ascendant, sign-meaning + planet-meaning
+    # presented together rather than one blended "Venus is Leo"-style
+    # statement (confirmed with Liam -- see _resolve_vedic_sign_fusion).
+    vedic_sun_sign = sidereal_natal["bodies"]["sun"]["sign"]
+    vedic_moon_sign = sidereal_natal["bodies"]["moon"]["sign"]
+    vedic_ascendant_sign = sidereal_natal["ascendant"]["sign"]
+
+    vedic_sun_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("sun", vedic_sun_sign))
+    vedic_moon_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("moon", vedic_moon_sign))
+    vedic_ascendant_claims = _use_vedic_claims(_resolve_vedic_sign_fusion("ascendant", vedic_ascendant_sign))
+
+    # Today's transiting sidereal sign -- only for a body already part
+    # of a real hit today (never an unconditional sweep over all 10
+    # transiting bodies, same discipline as the natal-sign grounding
+    # above).
+    for hit in hits:
+        if hit["kind"] != "transit_aspect":
+            continue
+        body = hit["display"]["transiting_body"]
+        sidereal_sign = _sidereal_sign_now(body, as_of_utc_time)
+        fused = _use_vedic_claims(_resolve_vedic_sign_fusion(body, sidereal_sign))
+        if fused:
+            hit["vedic_sign_note"] = (
+                f"transiting {body} is in sidereal {sidereal_sign} -- "
+                + " ".join(c.claim.statement for c in fused)
+            )
+
     attributed = []
 
     for item in daily_claims:
@@ -833,6 +998,53 @@ def build_daily_reading(
         ),
         "highlights": highlights,
         "astrology_highlights_note": None if hits else _ASTROLOGY_QUIET_NOTE,
+        "vedic_dasha": {
+            "mahadasha": vimshottari["current_mahadasha"],
+            "antardasha": vimshottari["current_antardasha"],
+            "pratyantardasha": vimshottari["current_pratyantardasha"],
+            "sookshma": vimshottari["current_sookshma_dasha"],
+            "yogini": yogini["current_yogini_dasha"],
+            "chara_sign": chara["current_sign_dasha"],
+            "lord_claims": [
+                {
+                    "lord": lord,
+                    "claim_text": item.claim.statement,
+                    "claim_id": item.claim.claim_id,
+                    "source_ids": list(item.claim.source_ids),
+                }
+                for lord, item in dasha_lord_claims.items()
+            ],
+            "chara_sign_claim": (
+                {
+                    "claim_text": chara_sign_claim.claim.statement,
+                    "claim_id": chara_sign_claim.claim.claim_id,
+                    "source_ids": list(chara_sign_claim.claim.source_ids),
+                }
+                if chara_sign_claim is not None else None
+            ),
+            "note": (
+                "Vedic (Vimshottari/Yogini/Chara) timing standing as of today -- "
+                "doesn't change day to day (each level spans months to years), "
+                "shown as standing context alongside today's reading."
+            ),
+        },
+        "vedic_sun_sign": _vedic_identity_field(
+            vedic_sun_sign,
+            sidereal_natal["bodies"]["sun"]["nakshatra"], sidereal_natal["bodies"]["sun"]["nakshatra_pada"],
+            vedic_sun_claims,
+            "Your natal sidereal Sun sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_moon_sign": _vedic_identity_field(
+            vedic_moon_sign,
+            sidereal_natal["bodies"]["moon"]["nakshatra"], sidereal_natal["bodies"]["moon"]["nakshatra_pada"],
+            vedic_moon_claims,
+            "Your natal sidereal Moon sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
+        "vedic_ascendant_sign": _vedic_identity_field(
+            vedic_ascendant_sign, None, None,
+            vedic_ascendant_claims,
+            "Your natal sidereal Ascendant sign (Lahiri ayanamsa) -- standing identity context, not today's sky.",
+        ),
     }
 
     eclipse_context = compute_eclipse_context(natal_chart, as_of_utc_time)
@@ -929,6 +1141,11 @@ def main():
 
         print()
         print(f"Moon: {result['natal_moon_sign']['label']}  |  Rising: {result['rising_sign']['label']}  |  Sun today: {result['sun_sign']['label']}")
+        print(
+            f"Vedic (sidereal): Sun {result['vedic_sun_sign']['label']}  |  "
+            f"Moon {result['vedic_moon_sign']['label']}  |  Asc {result['vedic_ascendant_sign']['label']}  |  "
+            f"Dasha {result['vedic_dasha']['mahadasha']['lord']}/{result['vedic_dasha']['antardasha']['lord']}"
+        )
 
         eclipse_context = result.get("eclipse_context")
         if eclipse_context:
