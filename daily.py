@@ -827,7 +827,17 @@ def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict
         return None, None
 
     coverage = check_coverage(narrative_claims, reading_text)
-    fact_check_findings = fact_check(backend, narrative_claims, reading_text)
+
+    try:
+        fact_check_findings = fact_check(backend, narrative_claims, reading_text)
+    except (MissingAPIKeyError, NarrativeBackendError):
+        # The reading itself already synthesized successfully above --
+        # a failure on this second, separate backend call (checking
+        # the reading, not producing it) shouldn't discard a real
+        # reading. Degrade to "fact-check unavailable" rather than
+        # raising into an unhandled 500.
+        fact_check_findings = "(fact-check unavailable: backend call failed)"
+
     overclaim_findings = check_batch_overclaims(reading_text, hits)
 
     validation = {

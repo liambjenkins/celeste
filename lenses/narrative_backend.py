@@ -70,7 +70,7 @@ class AnthropicNarrativeBackend(NarrativeBackend):
                 "max_tokens": self.max_tokens,
                 "messages": [{"role": "user", "content": prompt}],
             },
-            timeout=120,
+            timeout=45,
         )
 
         if response.status_code != 200:
