@@ -127,6 +127,26 @@ def _resolve_sign_claim(role: str, sign: str):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+def _resolve_house_claim(transiting_body: str, house: int):
+    """One targeted house-meaning claim lookup (astrology_house_{N}.
+    json, already tagged daily_transit_house:{body}:{house} for all
+    10 transiting bodies x 12 houses -- see the Aug-21 daily-transit-
+    sweep widening). Same non-blanket-sweep discipline as
+    _resolve_sign_claim: the resolve->tier->guard rebuild (PR #4)
+    stopped feeding daily_transit_houses through the old
+    concepts->features sweep -- that sweep was itself the unfiltered-
+    spray mechanism behind the "citation list naming irrelevant
+    houses" bug -- which orphaned this tag family without a
+    replacement. This restores real per-hit house-meaning citations
+    the same way natal/Vedic sign meaning was restored: called once
+    per hit that already survived resolve->tier, never for every
+    transiting body's every house placement."""
+
+    tag = f"daily_transit_house:{transiting_body}:{house}"
+    matches = resolve_claims({}, lens_id="astrology", features=[tag])
+    return matches[0] if matches else None
+
+
 # The nine classical Navagraha that carry a real Vedic karaka
 # (signification) -- Uranus/Neptune/Pluto are tracked structurally but
 # have no traditional karakatva, so they never get a "planet meaning"
@@ -517,9 +537,12 @@ def _render_hit_block(hit: dict) -> str:
     letting synthesis fuse "your naturally private Scorpio Venus"
     with "eases today via transiting Jupiter" into one sentence,
     rather than leaving sign meaning as an unpaired, context-free
-    fact. `hit.get("vedic_sign_note")` is the same idea for the
-    Vedic/sidereal lens -- today's real transiting sidereal sign for
-    this hit's own transiting body, when it's genuinely relevant."""
+    fact. `hit.get("natal_house_note")` is the same idea for the
+    natal house a transit_aspect hit's transiting body currently
+    occupies (see _resolve_house_claim). `hit.get("vedic_sign_note")`
+    is the same idea for the Vedic/sidereal lens -- today's real
+    transiting sidereal sign for this hit's own transiting body, when
+    it's genuinely relevant."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -551,6 +574,10 @@ def _render_hit_block(hit: dict) -> str:
     natal_sign_note = hit.get("natal_sign_note")
     if natal_sign_note:
         line += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
+
+    natal_house_note = hit.get("natal_house_note")
+    if natal_house_note:
+        line += f"\n    House {r['natal_house']} meaning: {natal_house_note}"
 
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
@@ -820,6 +847,33 @@ def build_daily_reading(
         claim = _use_sign_claim(real_role, sign)
         if claim is not None:
             hit["natal_sign_note"] = claim.claim.statement
+
+    # House-meaning content: same targeted-lookup restoration as the
+    # sign-meaning content above, for the daily_transit_house:{body}:
+    # {house} tag family PR #4's rebuild orphaned (see
+    # _resolve_house_claim's docstring). Only for transit_aspect hits
+    # -- eclipse/moon-phase hits aren't "a transiting body currently
+    # in a house" facts the same way, and never an unconditional
+    # sweep over all 10 transiting bodies' house placements.
+    house_claims_used: dict[str, object] = {}
+
+    def _use_house_claim(transiting_body, house):
+        if house is None:
+            return None
+        item = _resolve_house_claim(transiting_body, house)
+        if item is None:
+            return None
+        if item.claim.claim_id not in house_claims_used:
+            house_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        return item
+
+    for hit in hits:
+        if hit["kind"] != "transit_aspect":
+            continue
+        claim = _use_house_claim(hit["display"]["transiting_body"], hit["resolution"]["natal_house"])
+        if claim is not None:
+            hit["natal_house_note"] = claim.claim.statement
 
     # Vedic (sidereal): full chart considered in the data layer (the
     # sidereal chart and current Dasha standing are always computed),

@@ -425,12 +425,23 @@ for _house, (_meaning, _domain) in _HOUSES.items():
         # lenses/features.py already tags but which had zero matching
         # claims until now -- a real pre-existing gap, not new scope)
         # and daily_transit_house: (the daily sweep, new this brief).
+        #
+        # NOT tagged daily_mode (unlike the original Aug-21 version of
+        # this claim): the plain "house:{planet}:{house}" tag fires
+        # unconditionally for every natal placement on every run (the
+        # full natal chart is always in concepts), so daily_mode here
+        # would flood every reading with every natal placement's house
+        # every day regardless of relevance -- the exact "unfiltered
+        # spray" bug this codebase already fixed once, for houses.
+        # daily.py's _resolve_house_claim does the same targeted,
+        # non-blanket single-tag lookup used for sign-meaning claims,
+        # called once per hit that actually survived resolve->tier.
         feature_ids=(
             [f"house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
             + [f"transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
             + [f"daily_transit_house:{planet}:{_house}" for planet in _PLANETS_FOR_HOUSE_TAGS]
         ),
-        theme_tags=["life_area", "daily_mode"],
+        theme_tags=["life_area"],
         life_domain=_domain,
         source_id="sasportas_twelve_houses_1985",
     )
