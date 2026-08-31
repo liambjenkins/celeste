@@ -1108,17 +1108,87 @@ for _aspect, _meaning in _ASPECTS.items():
             f"transit_aspect:{_aspect}",
             f"progression_aspect:{_aspect}",
         ],
-        # "daily_mode" added per the Daily-Mode Scope Expansion brief:
-        # these claims already carried transit_aspect:<type> in
-        # feature_ids specifically so the daily sweep's generic
-        # fallback could reach them (per this project's own earlier
-        # documentation), but _resolve_daily_claims() in daily.py
-        # filters strictly on theme_tags containing "daily_mode" --
-        # which this list never had, so that fallback was actually
-        # unreachable in daily mode until now. Real pre-existing gap,
-        # not new scope.
-        theme_tags=["relationship_between_placements", "daily_mode"],
+        # No "daily_mode" theme_tag: resolved for daily mode via
+        # daily.py's _resolve_aspect_claim() targeted lookup (paired
+        # per hit, not a once-per-day disconnected fact), NOT the
+        # blanket sweep. "Pair meaning to every hit" fix -- these
+        # claims briefly carried daily_mode (Daily-Mode Scope
+        # Expansion brief) so the blanket sweep's generic fallback
+        # could reach them at all, but that sweep only ever cited the
+        # aspect type once per day, never tied to the specific hit
+        # that earned it; leaving daily_mode here now would double-
+        # cite the same claim via both mechanisms.
+        theme_tags=["relationship_between_placements"],
         source_id="lilly_christian_astrology_1647",
+    )
+
+
+# ------------------------------------------------------------
+# Eclipse type meaning
+# Source: standard modern eclipse-astrology convention (solar =
+# external/identity-facing new beginning, lunar = internal/emotional
+# culmination or release -- the base solar/lunar distinction; total/
+# partial/annular/penumbral distinguish how COMPLETE that beginning or
+# culmination is, per Swiss Ephemeris's own classify_eclipse_type()
+# categories), cross-referenced across multiple sources during
+# curation, not recalled from training alone -- same sourcing
+# discipline as the minor-aspect content above.
+#
+# Real content gap this closes: a full audit ("Pair meaning to every
+# hit" brief) found NO eclipse-type content existed anywhere in this
+# knowledge base -- every eclipse hit fell through to a bare computed
+# fact with no interpretive meaning at all, unlike aspect-type hits
+# (which had real content, just disconnected -- a different, already-
+# fixed bug). Resolved via daily.py's _resolve_eclipse_type_claim()
+# targeted lookup, tagged eclipse_type:{kind}_{type} -- no daily_mode
+# theme_tag, matching the targeted-lookup-not-blanket-sweep pattern
+# every other fact type in this file now uses.
+# ------------------------------------------------------------
+
+_ECLIPSE_TYPES = {
+    "solar_partial": (
+        "a partial solar eclipse marks a new beginning that only partially clears "
+        "view -- something starts, but not everything about it is visible yet"
+    ),
+    "solar_annular": (
+        "an annular solar eclipse marks a new beginning held in tension between "
+        "control and surrender -- the old situation isn't fully eclipsed, so the "
+        "new one can't fully take over either"
+    ),
+    "solar_total": (
+        "a total solar eclipse marks the most complete kind of new beginning this "
+        "cycle offers -- the old situation is fully obscured, clearing the way for "
+        "something genuinely new"
+    ),
+    "solar_hybrid": (
+        "a hybrid solar eclipse (shifting between annular and total along its "
+        "path) marks a new beginning whose character isn't settled yet -- what "
+        "starts now may keep changing shape before it's fully underway"
+    ),
+    "lunar_penumbral": (
+        "a penumbral lunar eclipse marks a subtle, easy-to-miss emotional "
+        "undercurrent -- something is shifting internally, but faintly enough "
+        "that it may not register as a turning point until later"
+    ),
+    "lunar_partial": (
+        "a partial lunar eclipse marks an emotional culmination that's only "
+        "partly complete -- something comes to a head, but not everything about "
+        "it resolves at once"
+    ),
+    "lunar_total": (
+        "a total lunar eclipse marks the most complete kind of emotional "
+        "culmination or release this cycle offers -- whatever's been building "
+        "comes fully into view, ready to be let go of or fully felt"
+    ),
+}
+
+for _eclipse_key, _eclipse_meaning in _ECLIPSE_TYPES.items():
+    _add(
+        f"eclipse_type_{_eclipse_key}",
+        f"{_eclipse_meaning.capitalize()}.",
+        feature_ids=[f"eclipse_type:{_eclipse_key}"],
+        theme_tags=["turning_point"],
+        source_id="eclipse_astrology_modern_convention",
     )
 
 

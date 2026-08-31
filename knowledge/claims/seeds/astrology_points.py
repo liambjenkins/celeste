@@ -114,13 +114,12 @@ for _house, _domain_text in _VERTEX_HOUSES.items():
 # calculate_aspects's include_minor) -- a distinct, more esoteric
 # harmonic family, not part of that widened default sweep.
 #
-# They also need the "daily_mode" theme_tag: daily.py's
-# _resolve_daily_claims() blanket sweep filters strictly on
-# "daily_mode" in theme_tags (same gate astrology.py's own _ASPECTS
-# loop documents needing for the 6 major aspects) -- without it, a
-# claim can carry a matching transit_aspect: feature_id and still
-# never actually reach the daily sweep. septile/novile don't get it,
-# same reasoning as above.
+# No "daily_mode" theme_tag on any of these: aspect-meaning citation
+# for daily mode is resolved via daily.py's _resolve_aspect_claim()
+# targeted lookup (paired per hit), not the blanket sweep -- same
+# migration as astrology.py's _ASPECTS loop ("Pair meaning to every
+# hit" fix). Leaving daily_mode on the three daily-wired minors here
+# would double-cite the same claim via both mechanisms.
 # ------------------------------------------------------------
 
 _DAILY_WIRED_MINORS = {"semisextile", "semisquare", "sesquiquadrate"}
@@ -158,19 +157,17 @@ _MINOR_ASPECTS = {
 
 for _minor, _meaning in _MINOR_ASPECTS.items():
     _minor_feature_ids = [f"minor_aspect:{_minor}"]
-    _minor_theme_tags = ["relationship_between_placements", "minor_aspect"]
     if _minor in _DAILY_WIRED_MINORS:
         _minor_feature_ids += [
             f"aspect:{_minor}",
             f"transit_aspect:{_minor}",
             f"progression_aspect:{_minor}",
         ]
-        _minor_theme_tags += ["daily_mode"]
     _add(
         f"minor_aspect_{_minor}",
         f"A {_minor.capitalize()}: {_meaning}.",
         feature_ids=_minor_feature_ids,
-        theme_tags=_minor_theme_tags,
+        theme_tags=["relationship_between_placements", "minor_aspect"],
         source_id="minor_aspects_modern_convention",
     )
 

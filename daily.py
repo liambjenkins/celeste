@@ -189,6 +189,53 @@ def _resolve_natal_house_claim(role: str, house: int):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+def _resolve_aspect_claim(hit: dict):
+    """One targeted lookup for what a transit_aspect hit's own aspect
+    TYPE means -- e.g. "a trine lets the two placements involved flow
+    together smoothly...". A real audit found this content already
+    existed and was already being cited once per day per aspect type
+    via the old blanket sweep, but never paired to the specific hit
+    that earned it: every hit's own feature_tag is a hyper-specific
+    per-pair string (daily_transit_aspect:{body}:{aspect}:{role}) that
+    essentially no claim's feature_ids ever match, except 8 hand-
+    written special-pair claims (e.g. Mars square Sun) -- so every
+    OTHER hit fell through to _computed_hit_claim's bare, meaningless
+    fact, even though real meaning for its aspect type existed
+    elsewhere in the very same citation list. Checks both the hit's
+    own hyper-specific tag (catches the 8 special pairs) and the
+    generic transit_aspect:{aspect} tag (catches everything else) in
+    one resolve_claims call, same most-specific-wins pattern as every
+    other _resolve_*_claim helper here -- the special-pair claims'
+    single feature_id naturally outranks the generic claims' three."""
+
+    aspect = hit["display"]["aspect"]
+    matches = resolve_claims(
+        {}, lens_id="astrology",
+        features=[hit["feature_tag"], f"transit_aspect:{aspect}"],
+    )
+    if not matches:
+        return None
+    return min(matches, key=lambda item: len(item.claim.feature_ids))
+
+
+def _resolve_eclipse_type_claim(hit: dict):
+    """One targeted lookup for what an eclipse hit's own (kind, type)
+    combination means -- e.g. "a total solar eclipse marks the most
+    complete kind of new beginning...". A full audit ("Pair meaning to
+    every hit" brief) found NO eclipse-type content existed anywhere
+    in this knowledge base before it -- every eclipse hit fell through
+    to _computed_hit_claim's bare fact with no real interpretive
+    meaning at all (a genuine content gap, unlike aspect-type hits,
+    where real content existed but was disconnected -- a separate,
+    already-fixed bug). Reuses astrology/daily_hits.py's own
+    eclipse_type:{kind}_{type} feature_tag directly (see
+    _resolve_eclipse_hit) -- no most-specific-wins needed here, there
+    is exactly one claim per combination."""
+
+    matches = resolve_claims({}, lens_id="astrology", features=[hit["feature_tag"]])
+    return matches[0] if matches else None
+
+
 # Houses whose cusp is exactly one of the four angles in this engine's
 # house systems (confirmed by direct query: cusp longitude == the
 # angle's own longitude, to full float precision) -- Combinatorial-
@@ -683,7 +730,14 @@ def _render_hit_block(hit: dict) -> str:
     which planet occupies it, real even with no planet there at all.
     `hit.get("vedic_sign_note")` is the same idea for the Vedic/
     sidereal lens -- today's real transiting sidereal sign for this
-    hit's own transiting body, when it's genuinely relevant."""
+    hit's own transiting body, when it's genuinely relevant.
+    `hit.get("aspect_meaning_note")` is what the hit's own aspect TYPE
+    means (see _resolve_aspect_claim) -- paired to the specific hit
+    rather than left as a disconnected, once-per-day-per-type fact the
+    model would have to notice and connect on its own.
+    `hit.get("eclipse_meaning_note")` is the same idea for an eclipse
+    hit's own (kind, type) combination (see _resolve_eclipse_type_claim)
+    -- real content authored for a gap that previously had none."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -731,6 +785,14 @@ def _render_hit_block(hit: dict) -> str:
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
         line += f"\n    Vedic (sidereal): {vedic_sign_note}"
+
+    aspect_meaning_note = hit.get("aspect_meaning_note")
+    if aspect_meaning_note:
+        line += f"\n    What this aspect means: {aspect_meaning_note}"
+
+    eclipse_meaning_note = hit.get("eclipse_meaning_note")
+    if eclipse_meaning_note:
+        line += f"\n    What this eclipse means: {eclipse_meaning_note}"
 
     return line
 
@@ -1101,6 +1163,48 @@ def build_daily_reading(
         if claim is not None:
             hit["natal_house_note"] = claim.claim.statement
 
+    # Aspect-meaning content: what the hit's own aspect TYPE means
+    # (e.g. "a trine lets the two placements involved flow together
+    # smoothly..."), paired to the specific hit -- same targeted-
+    # lookup discipline as every fact type above, closing a real gap:
+    # this meaning already existed and was already being cited once
+    # per day per aspect type, but never paired to the hit that earned
+    # it, so every transit_aspect hit fell through to a bare,
+    # meaningless computed-fact fallback in the citation list even
+    # when real interpretive content for its aspect type existed
+    # elsewhere in the very same list. See _resolve_aspect_claim.
+    aspect_meaning_claims_used: dict[str, object] = {}
+
+    for hit in hits:
+        if hit["kind"] != "transit_aspect":
+            continue
+        claim = _resolve_aspect_claim(hit)
+        if claim is None:
+            continue
+        if claim.claim.claim_id not in aspect_meaning_claims_used:
+            aspect_meaning_claims_used[claim.claim.claim_id] = claim
+            daily_claims.append(claim)
+        hit["aspect_meaning_note"] = claim.claim.statement
+
+    # Eclipse-type meaning content: what the hit's own (kind, type)
+    # combination means (e.g. "a total solar eclipse marks the most
+    # complete kind of new beginning..."). A full audit found NO
+    # eclipse-type content existed anywhere before this -- a genuine
+    # content gap, not a wiring gap like the aspect-meaning fix above.
+    # See _resolve_eclipse_type_claim.
+    eclipse_meaning_claims_used: dict[str, object] = {}
+
+    for hit in hits:
+        if hit["kind"] != "eclipse":
+            continue
+        claim = _resolve_eclipse_type_claim(hit)
+        if claim is None:
+            continue
+        if claim.claim.claim_id not in eclipse_meaning_claims_used:
+            eclipse_meaning_claims_used[claim.claim.claim_id] = claim
+            daily_claims.append(claim)
+        hit["eclipse_meaning_note"] = claim.claim.statement
+
     # Vedic (sidereal): full chart considered in the data layer (the
     # sidereal chart and current Dasha standing are always computed),
     # but surfaced with the same relevance discipline as the Western
@@ -1232,8 +1336,21 @@ def build_daily_reading(
     # computed-fact record here, tied to its own hit_id. Either way,
     # every hit named in the reading traces to something real, never
     # to an unrelated feature-tag match.
+    #
+    # transit_aspect hits are also considered cited when
+    # aspect_meaning_note is set: _resolve_aspect_claim (above) is a
+    # targeted lookup, not the blanket sweep this matched_tags check
+    # was built for, so its matched_features reflects whichever tag
+    # (the hit's own hyper-specific one, or the generic transit_aspect:
+    # {type} fallback) the resolved claim actually carries -- for the
+    # generic case that's never equal to hit["feature_tag"] itself, so
+    # without this a hit whose aspect type DOES have real meaning
+    # would still fall through to the bare computed-fact record below.
     matched_tags = {fid for item in daily_claims for fid in item.matched_features}
-    uncited_hits = [h for h in hits if h["feature_tag"] not in matched_tags]
+    uncited_hits = [
+        h for h in hits
+        if h["feature_tag"] not in matched_tags and not h.get("aspect_meaning_note")
+    ]
     for hit in uncited_hits:
         attributed.append(_computed_hit_claim(hit))
 
