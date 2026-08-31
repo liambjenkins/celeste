@@ -59,9 +59,9 @@ mechanisms:
 from datetime import date, datetime
 
 from astrology.aspects import evaluate_all_aspects, find_aspect
+from astrology.event_significance import natal_targets as primary_natal_targets
 from astrology.normaliser import longitude_to_zodiac
-from astrology.rulership import TRADITIONAL_RULERS
-from astrology.transits import NATAL_TARGETS, TRANSIT_BODIES, TRANSIT_ORBS, build_transits
+from astrology.transits import TRANSIT_BODIES, TRANSIT_ORBS, build_transits
 from chinese.interactions import (
     BRANCH_CLASHES,
     BRANCH_COMBINATIONS,
@@ -134,62 +134,39 @@ def compute_current_sun_sign(as_of_utc_time: datetime) -> dict:
     }
 
 
-def _chart_ruler_body(natal_chart: dict) -> str:
-    ascendant_longitude = natal_chart["houses"]["angles"]["ascendant"]
-    ascendant_sign = longitude_to_zodiac(ascendant_longitude)["sign"]
-
-    return TRADITIONAL_RULERS[ascendant_sign]
-
-
-def _angle_targets(natal_chart: dict) -> list[tuple[str, float, str | None]]:
-    """The two non-planet natal targets build_transits() doesn't
-    cover (it only evaluates the 10 traditional bodies, not chart
-    angles) -- Ascendant and the chart ruler, whichever body that
-    resolves to for this natal chart."""
-
-    natal_bodies = natal_chart["bodies"]
-    ascendant_longitude = natal_chart["houses"]["angles"]["ascendant"]
-    chart_ruler = _chart_ruler_body(natal_chart)
-
-    return [
-        ("ascendant", ascendant_longitude, None),
-        ("chart_ruler", natal_bodies[chart_ruler]["longitude"], chart_ruler),
-    ]
-
-
 def compute_transit_aspects_to_key_points(
     natal_chart: dict,
     as_of_utc_time: datetime,
 ) -> list[dict]:
     """
     Aspects from today's transiting bodies (all 10 -- Sun through
-    Pluto, reusing astrology.transits.TRANSIT_BODIES) to the full
-    natal chart: all 10 natal bodies (reusing build_transits()'s own
-    aspect list directly, not a second computation of the same
-    arithmetic) plus the Ascendant and chart ruler (angles
-    build_transits() doesn't cover).
+    Pluto, reusing astrology.transits.TRANSIT_BODIES) to EVERY natal
+    reference point the engine tracks -- astrology.event_significance.
+    PRIMARY_NATAL_ROLES (10 planets, chart ruler, all four nodes,
+    Chiron/both Liliths/four asteroids, all four angles -- the same
+    ~26-32-point table natal_targets() already builds and tiering
+    already understands), not just the 10 planets + Ascendant this
+    used to check.
 
-    Each result names both the target ROLE (a natal body's own name
-    for the 10x10 grid, or "ascendant"/"chart_ruler" -- stable across
-    charts, what a claim's feature_ids should key on) and the
-    target's actual BODY when that's not already obvious (chart_ruler
-    varies person to person).
+    Per "Natal House Verification + Silent-Drop" brief: compute
+    against everything here; let astrology.event_significance.
+    assign_tier() (called downstream in astrology.daily_hits) decide
+    what's significant. A months-long transiting-Saturn-to-natal-
+    South-Node thread was previously invisible end to end because the
+    South Node was never even checked here, let alone tiered --
+    filtering at computation time instead of at tiering time was the
+    actual bug, not the tiering rules themselves.
+
+    Only one build_transits()/ephemeris call regardless of target
+    count -- reused here purely for its already-computed transiting-
+    body longitudes (transits["bodies"]), not its narrower internal
+    aspect list.
     """
 
     transits = build_transits(natal_chart, as_of_utc_time, orbs=TRANSIT_ORBS)
+    targets = primary_natal_targets(natal_chart)
 
-    results = [
-        {
-            "transiting_body": item["transiting_body"],
-            "target_role": item["natal_body"],
-            "target_body": item["natal_body"],
-            "aspect": item["aspect"],
-            "orb": item["orb"],
-        }
-        for item in transits["aspects"]
-    ]
-
-    angle_targets = _angle_targets(natal_chart)
+    results = []
 
     for transiting_body in TRANSIT_BODIES:
         body_data = transits["bodies"].get(transiting_body)
@@ -199,7 +176,7 @@ def compute_transit_aspects_to_key_points(
 
         transiting_longitude = body_data["longitude"]
 
-        for target_role, target_longitude, target_body in angle_targets:
+        for target_role, target_longitude in targets.items():
             match = find_aspect(
                 transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
             )
@@ -210,7 +187,7 @@ def compute_transit_aspects_to_key_points(
             results.append({
                 "transiting_body": transiting_body,
                 "target_role": target_role,
-                "target_body": target_body,
+                "target_body": target_role,
                 "aspect": match["aspect"],
                 "orb": match["orb"],
             })
@@ -250,18 +227,14 @@ def compute_full_transit_matrix(
     find_aspect -- the latter only returns the best match or None).
     Never fed into the reading/claims pipeline; purely diagnostic, so
     it's possible to see the full sweep is really running rather than
-    just what happened to resolve into a claim.
+    just what happened to resolve into a claim. Uses the same full
+    ~26-32-point target table (astrology.event_significance.
+    natal_targets()) as compute_transit_aspects_to_key_points(), so
+    this diagnostic actually reflects the real, widened computation.
     """
 
     astronomy = get_astronomy(as_of_utc_time)
-    natal_bodies = natal_chart["bodies"]
-    angle_targets = _angle_targets(natal_chart)
-
-    targets = [
-        (name, data["longitude"], name)
-        for name, data in natal_bodies.items()
-        if name in NATAL_TARGETS
-    ] + angle_targets
+    targets = primary_natal_targets(natal_chart)
 
     rows = []
 
@@ -273,14 +246,14 @@ def compute_full_transit_matrix(
 
         transiting_longitude = data["longitude"]
 
-        for target_role, target_longitude, target_body in targets:
+        for target_role, target_longitude in targets.items():
             for candidate in evaluate_all_aspects(
                 transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
             ):
                 rows.append({
                     "transiting_body": transiting_body,
                     "target_role": target_role,
-                    "target_body": target_body,
+                    "target_body": target_role,
                     **candidate,
                 })
 

@@ -101,11 +101,27 @@ rendered_block = daily._render_hit_block(house_8_hits[0])
 assert "Sign on that house's cusp" in rendered_block
 print(f"check hits sharing natal house 8 all carry identical cusp-sign grounding, correctly labeled and rendered")
 
-cusp_sign_claim_ids = {c["claim_id"] for c in result["claims"] if c["claim_id"].startswith("astrology_sign_")}
-assert len(cusp_sign_claim_ids) == 1, (
-    f"expected exactly one deduped cusp-sign citation despite multiple hits sharing house 8, got {cusp_sign_claim_ids}"
+cusp_sign_claim_ids = [c["claim_id"] for c in result["claims"] if c["claim_id"].startswith("astrology_sign_")]
+
+# Since "Natal House Verification + Silent-Drop" widened the transit-
+# aspect target set to the full ~26-32-point table, hits can now
+# legitimately land in houses other than 8 too on this same day --
+# so more than one DISTINCT cusp-sign claim can appear. The real
+# invariant this test cares about is dedup: house 8's own cusp-sign
+# claim (Sagittarius, shared by the Uranus+Jupiter hits above) must
+# still appear only ONCE, not once per hit that touches it.
+house_8_sign = _house_cusp_sign(MELBOURNE, 8)
+house_8_claim = _resolve_house_cusp_sign_claim(8, house_8_sign)
+assert house_8_claim is not None
+house_8_claim_id = house_8_claim.claim.claim_id
+assert house_8_claim_id in cusp_sign_claim_ids, (
+    f"expected house 8's cusp-sign claim ({house_8_claim_id}) to be cited, got {cusp_sign_claim_ids}"
 )
-print(f"check the shared house-8 cusp-sign claim is cited exactly once in result['claims'] ({cusp_sign_claim_ids})")
+assert cusp_sign_claim_ids.count(house_8_claim_id) == 1, (
+    f"expected house 8's cusp-sign claim cited exactly once despite 2+ hits sharing it, "
+    f"got {cusp_sign_claim_ids.count(house_8_claim_id)} in {cusp_sign_claim_ids}"
+)
+print(f"check the shared house-8 cusp-sign claim is cited exactly once in result['claims'] ({sorted(set(cusp_sign_claim_ids))})")
 
 
 # --- No duplicate citation across the whole reading ---
