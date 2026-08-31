@@ -77,6 +77,26 @@ ANGLE_DIRECT_HIT_ORB = 6.0          # angle direct-hit boundary -- confirmed wid
 LUNATION_CONTACT_ORB = 1.0          # New/Full Moon degree to a primary natal point
 EXACT_LANGUAGE_ORB = 1.0            # true-exactness language boundary -- see module docstring
 
+# Relative weight of each aspect TYPE for thread-scoring/headline
+# selection (Synthesis Repair Brief, Part 2.1) -- confirmed with Liam.
+# assign_tier() itself deliberately stays orb/body-speed-based only
+# (unchanged); this is a separate signal daily.py's thread-scoring
+# step (see daily.py's _score_threads) combines with orb tightness
+# and point/house convergence, so a pile of minor-aspect hits can't
+# automatically outrank a comparable major-aspect thread the way it
+# could before this existed.
+ASPECT_WEIGHTS = {
+    "conjunction": 1.0,
+    "opposition": 1.0,
+    "square": 0.9,
+    "trine": 0.8,
+    "sextile": 0.6,
+    "quincunx": 0.4,
+    "semisquare": 0.3,
+    "sesquiquadrate": 0.3,
+    "semisextile": 0.2,
+}
+
 TIERS = ("standout", "background", "appendix")
 
 
@@ -245,11 +265,25 @@ def assign_tier(event: dict, natal_chart: dict) -> tuple[str, list[str]]:
         reasons.append("fast_body_house_ingress")
         return "background", reasons
 
-    if kind in ("new_moon", "full_moon"):
+    if kind in ("new_moon", "first_quarter", "full_moon", "last_quarter"):
         targets = natal_targets(natal_chart)
         moon_lon = event["moon_longitude"]
-        # Full Moon: Sun is opposite the Moon; New Moon: Sun ~ Moon.
-        sun_lon = (moon_lon + 180) % 360 if kind == "full_moon" else moon_lon
+        # Prefer a real sun_longitude when the caller has one (daily_
+        # hits.py's snapshot-bin classification -- "today's phase bins
+        # to first_quarter" is only APPROXIMATELY 90 degrees Sun-Moon
+        # separation, so deriving sun_lon from the exact 0/90/180/270
+        # angle can be off by up to ~22 degrees at a bin edge, enough
+        # to flip a standout/background verdict against the 1-degree
+        # LUNATION_CONTACT_ORB threshold). Falls back to the derived
+        # angle for callers with a true exact-root-found moment
+        # (astrology.event_detectors.find_lunations via key_events.py),
+        # where moon_longitude IS the exact crossing and the derived
+        # sun_lon is therefore exact too, not an approximation.
+        if "sun_longitude" in event:
+            sun_lon = event["sun_longitude"]
+        else:
+            _phase_angle = {"new_moon": 0, "first_quarter": 90, "full_moon": 180, "last_quarter": 270}[kind]
+            sun_lon = (moon_lon - _phase_angle) % 360
         for label, lon in (("moon", moon_lon), ("sun", sun_lon)):
             for role, target_lon in targets.items():
                 conj = abs(signed_diff(lon, target_lon))
