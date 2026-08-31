@@ -51,7 +51,7 @@ from astrology.daily import (
     compute_full_transit_matrix,
 )
 from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
-from astrology.daily_hits import compute_daily_hits
+from astrology.daily_hits import attach_continuity_note, compute_daily_hits
 from astrology.dasha import build_vimshottari_dasha
 from astrology.event_significance import ASPECT_WEIGHTS, natal_targets
 from astrology.transits import TRANSIT_ORBS
@@ -738,7 +738,20 @@ def _render_hit_block(hit: dict) -> str:
     model would have to notice and connect on its own.
     `hit.get("eclipse_meaning_note")` is the same idea for an eclipse
     hit's own (kind, type) combination (see _resolve_eclipse_type_claim)
-    -- real content authored for a gap that previously had none."""
+    -- real content authored for a gap that previously had none.
+    `hit.get("ingress_sign_note")` is the body-agnostic meaning of the
+    sign a sign_ingress hit's body has just entered (see
+    _resolve_pure_sign_claim, called directly for these hits).
+    `hit.get("recurrence_note")` (set directly by astrology/daily_hits.
+    py's _resolve_return_hits, not by build_daily_reading) names a
+    slow body's earlier/later passes over the same natal degree when a
+    return is a multi-pass (retrograde-driven) event, not a single
+    exact date. `hit.get("continuity_note")` is the same idea for an
+    ordinary transit_aspect hit (see astrology/daily_hits.py's
+    _attach_continuity_note) -- today's contact isn't the first time
+    this slow body has crossed this exact natal degree, so synthesis
+    can correctly say "this is a return visit", not imply a single
+    isolated moment."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -759,6 +772,36 @@ def _render_hit_block(hit: dict) -> str:
             f"{d['target_role']}{retro}, orb {r['orb_to_nearest']:.2f} degrees, contact: "
             f"{r['contact']}. Transiting {d['transiting_body']} is currently PASSING THROUGH "
             f"natal house {r['natal_house']} (not {d['transiting_body']}'s own birth house)."
+        )
+        if hit.get("continuity_note"):
+            line += f"\n    {hit['continuity_note']}"
+    elif hit["kind"] == "return":
+        retro = " (retrograde)" if d["retrograde"] else ""
+        line = (
+            f"  [{hit['tier']}] RETURN: {d['transiting_body']} returns to its own natal "
+            f"degree ({d['sign']} {d['degree']:.2f}){retro}, orb {r['orb_to_nearest']:.2f} "
+            f"degrees, contact: {r['contact']}. This is {d['transiting_body']}'s OWN birth "
+            f"house (house {r['natal_house']})."
+        )
+        if hit.get("recurrence_note"):
+            line += f"\n    {hit['recurrence_note']}"
+    elif hit["kind"] == "station":
+        motion = "retrograde" if d["retrograde"] else "direct"
+        line = (
+            f"  [{hit['tier']}] STATION: {d['transiting_body']} stations {motion} at "
+            f"{d['sign']} {d['degree']:.2f} degrees, currently in natal house "
+            f"{r['natal_house']}. Nearest natal point: {r['nearest_natal_point']} "
+            f"({r['orb_to_nearest']:.2f} degrees, contact: {r['contact']})."
+        )
+    elif hit["kind"] == "sign_ingress":
+        line = (
+            f"  [{hit['tier']}] SIGN INGRESS: {d['transiting_body']} enters {d['sign']} "
+            f"(from {d['from_sign']})."
+        )
+    elif hit["kind"] == "natal_house_ingress":
+        line = (
+            f"  [{hit['tier']}] HOUSE INGRESS: {d['transiting_body']} enters natal house "
+            f"{r['natal_house']} (from house {d['from_house']})."
         )
     else:  # moon_phase
         phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
@@ -794,6 +837,10 @@ def _render_hit_block(hit: dict) -> str:
     eclipse_meaning_note = hit.get("eclipse_meaning_note")
     if eclipse_meaning_note:
         line += f"\n    What this eclipse means: {eclipse_meaning_note}"
+
+    ingress_sign_note = hit.get("ingress_sign_note")
+    if ingress_sign_note:
+        line += f"\n    What entering this sign means: {ingress_sign_note}"
 
     return line
 
@@ -966,6 +1013,22 @@ def _computed_hit_claim(hit: dict) -> dict:
             f"Transiting {d['transiting_body']} {d['aspect']} your natal {d['target_role']} "
             f"(orb {r['orb_to_nearest']:.1f} degrees, house {r['natal_house']})."
         )
+    elif hit["kind"] == "return":
+        text = (
+            f"Transiting {d['transiting_body']} returns to its own natal degree "
+            f"({d['sign']} {d['degree']:.1f} degrees) -- {r['contact']} "
+            f"(orb {r['orb_to_nearest']:.1f} degrees, house {r['natal_house']})."
+        )
+    elif hit["kind"] == "station":
+        motion = "retrograde" if d["retrograde"] else "direct"
+        text = (
+            f"{d['transiting_body']} stations {motion} at {d['sign']} {d['degree']:.1f} "
+            f"degrees (house {r['natal_house']})."
+        )
+    elif hit["kind"] == "sign_ingress":
+        text = f"{d['transiting_body']} enters {d['sign']} (from {d['from_sign']})."
+    elif hit["kind"] == "natal_house_ingress":
+        text = f"{d['transiting_body']} enters natal house {r['natal_house']} (from house {d['from_house']})."
     else:  # moon_phase
         phase_label = hit["hit_id"].split(":", 1)[1].replace("_", " ")
         text = f"Today is a {phase_label} -- {r['contact']} with your {r['nearest_natal_point']}."
@@ -1004,51 +1067,77 @@ def _score_threads(hits: list[dict]) -> dict | None:
     house-thread's score is weighted down (x0.5) relative to an equal
     raw-score point-thread, so real point-convergence always outranks
     a same-score house-only convergence.
+
+    Named-occasion override (Synthesis Repair Brief Part 2.2, per
+    Liam's own wording): a standout-tier return or station whose own
+    contact is genuinely exact, or that lands in a confirmed natal
+    house, is headline-worthy on its own merit -- "today is your
+    Saturn Return" doesn't need to out-convergence a pile of minor
+    aspects to earn the lead, it bypasses the score-based ranking
+    above entirely rather than merely competing inside it. Checked
+    LAST so it always wins over an ordinary aspect thread when it
+    qualifies.
     """
 
     aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
-    if not aspect_hits:
-        return None
 
-    for hit in aspect_hits:
-        aspect = hit["display"]["aspect"]
-        weight = ASPECT_WEIGHTS.get(aspect, 0.5)
-        orb = hit["resolution"]["orb_to_nearest"]
-        max_orb = TRANSIT_ORBS.get(aspect, 2.0)
-        hit["thread_score"] = weight * max(0.0, 1.0 - (orb / max_orb))
-        hit["thread_rank"] = None
+    point_thread = None
+    if aspect_hits:
+        for hit in aspect_hits:
+            aspect = hit["display"]["aspect"]
+            weight = ASPECT_WEIGHTS.get(aspect, 0.5)
+            orb = hit["resolution"]["orb_to_nearest"]
+            max_orb = TRANSIT_ORBS.get(aspect, 2.0)
+            hit["thread_score"] = weight * max(0.0, 1.0 - (orb / max_orb))
+            hit["thread_rank"] = None
 
-    by_role: dict[str, list[dict]] = {}
-    for hit in aspect_hits:
-        by_role.setdefault(hit["display"]["target_role"], []).append(hit)
+        by_role: dict[str, list[dict]] = {}
+        for hit in aspect_hits:
+            by_role.setdefault(hit["display"]["target_role"], []).append(hit)
 
-    threads = [
-        (sum(h["thread_score"] for h in role_hits), role_hits, f"natal {role}")
-        for role, role_hits in by_role.items()
+        threads = [
+            (sum(h["thread_score"] for h in role_hits), role_hits, f"natal {role}")
+            for role, role_hits in by_role.items()
+        ]
+
+        singleton_hits = [role_hits[0] for role_hits in by_role.values() if len(role_hits) == 1]
+        by_house: dict[int, list[dict]] = {}
+        for hit in singleton_hits:
+            house = hit["resolution"]["natal_house"]
+            if house is not None:
+                by_house.setdefault(house, []).append(hit)
+
+        for house, house_hits in by_house.items():
+            if len(house_hits) < 2:
+                continue  # not a real convergence -- one lone hit already counted as its own point-thread above
+            raw_score = sum(h["thread_score"] for h in house_hits)
+            threads.append((raw_score * 0.5, house_hits, f"house {house}"))
+
+        score, winning_hits, label = max(threads, key=lambda t: t[0])
+        for hit in winning_hits:
+            hit["thread_rank"] = 1
+
+        point_thread = {
+            "label": label,
+            "score": score,
+            "hit_ids": [h["hit_id"] for h in winning_hits],
+        }
+
+    occasion_hits = [h for h in hits if h["kind"] in ("return", "station") and h["tier"] == "standout"]
+    qualifying = [
+        h for h in occasion_hits
+        if h["resolution"]["near_exact"] or h["resolution"]["natal_house"] is not None
     ]
+    if qualifying:
+        winner = min(qualifying, key=lambda h: h["resolution"]["orb_to_nearest"])
+        winner["thread_rank"] = 1
+        return {
+            "label": f"{winner['kind']}: {winner['display']['transiting_body']}",
+            "score": float("inf"),
+            "hit_ids": [winner["hit_id"]],
+        }
 
-    singleton_hits = [role_hits[0] for role_hits in by_role.values() if len(role_hits) == 1]
-    by_house: dict[int, list[dict]] = {}
-    for hit in singleton_hits:
-        house = hit["resolution"]["natal_house"]
-        if house is not None:
-            by_house.setdefault(house, []).append(hit)
-
-    for house, house_hits in by_house.items():
-        if len(house_hits) < 2:
-            continue  # not a real convergence -- one lone hit already counted as its own point-thread above
-        raw_score = sum(h["thread_score"] for h in house_hits)
-        threads.append((raw_score * 0.5, house_hits, f"house {house}"))
-
-    score, winning_hits, label = max(threads, key=lambda t: t[0])
-    for hit in winning_hits:
-        hit["thread_rank"] = 1
-
-    return {
-        "label": label,
-        "score": score,
-        "hit_ids": [h["hit_id"] for h in winning_hits],
-    }
+    return point_thread
 
 
 def build_daily_reading(
@@ -1081,6 +1170,19 @@ def build_daily_reading(
     hits = compute_daily_hits(natal_chart, as_of_utc_time)
     highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
     headline_thread = _score_threads(hits)
+
+    # Continuity ("is this the first time, or a slow-moving arc I'm
+    # already in?") is real, but expensive per hit -- computed only for
+    # the day's headline thread's hit(s), not every surviving hit, both
+    # because that's the thread the reading actually narrates and
+    # because computing it for every qualifying hit measured at 15-25+
+    # extra seconds per request (see astrology/daily_hits.py::
+    # attach_continuity_note's own docstring for the numbers).
+    if headline_thread is not None:
+        winning_ids = set(headline_thread["hit_ids"])
+        for hit in hits:
+            if hit["hit_id"] in winning_ids and hit["kind"] == "transit_aspect":
+                attach_continuity_note(natal_chart, hit, as_of_utc_time)
 
     # daily_transit_aspects/daily_moon_phase, fed to the existing
     # concepts->features->resolve_claims machinery below, are now
@@ -1209,7 +1311,7 @@ def build_daily_reading(
         return item
 
     for hit in hits:
-        if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase"):
+        if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase", "return", "station"):
             continue
         role = hit["resolution"]["nearest_natal_point"]
         if role is None:
@@ -1251,7 +1353,7 @@ def build_daily_reading(
         return item
 
     for hit in hits:
-        if hit["kind"] != "transit_aspect":
+        if hit["kind"] not in ("transit_aspect", "return", "station", "natal_house_ingress"):
             continue
         claim = _use_house_claim(hit["display"]["transiting_body"], hit["resolution"]["natal_house"])
         if claim is not None:
@@ -1270,7 +1372,12 @@ def build_daily_reading(
     aspect_meaning_claims_used: dict[str, object] = {}
 
     for hit in hits:
-        if hit["kind"] != "transit_aspect":
+        # "return" reuses this lookup too -- a return's own display.
+        # aspect is always "conjunction" (see astrology/daily_hits.py's
+        # _resolve_return_hits), so it resolves the same generic
+        # conjunction-meaning content an ordinary transit_aspect hit
+        # would, no bespoke return content needed.
+        if hit["kind"] not in ("transit_aspect", "return"):
             continue
         claim = _resolve_aspect_claim(hit)
         if claim is None:
@@ -1298,6 +1405,27 @@ def build_daily_reading(
             eclipse_meaning_claims_used[claim.claim.claim_id] = claim
             daily_claims.append(claim)
         hit["eclipse_meaning_note"] = claim.claim.statement
+
+    # Sign-ingress meaning content: the body-agnostic pure-sign meaning
+    # of the sign a body has just entered (Synthesis Repair Brief Part
+    # 2.2) -- reuses the same pure_sign:{sign} claim family
+    # _resolve_pure_sign_claim already serves as an honest last-resort
+    # fallback for role-specific sign content elsewhere in this
+    # function; here it's the PRIMARY content for a sign_ingress hit,
+    # since the fact being grounded is "which sign was just entered",
+    # not "which body's natal sign". Shares sign_claims_used's dedupe
+    # cache -- the same claim family, so a sign a natal point is
+    # already grounded in today shouldn't be cited twice.
+    for hit in hits:
+        if hit["kind"] != "sign_ingress":
+            continue
+        item = _resolve_pure_sign_claim(hit["display"]["sign"])
+        if item is None:
+            continue
+        if item.claim.claim_id not in sign_claims_used:
+            sign_claims_used[item.claim.claim_id] = item
+            daily_claims.append(item)
+        hit["ingress_sign_note"] = item.claim.statement
 
     # Vedic (sidereal): full chart considered in the data layer (the
     # sidereal chart and current Dasha standing are always computed),
@@ -1431,7 +1559,7 @@ def build_daily_reading(
     # every hit named in the reading traces to something real, never
     # to an unrelated feature-tag match.
     #
-    # transit_aspect hits are also considered cited when
+    # transit_aspect/return hits are also considered cited when
     # aspect_meaning_note is set: _resolve_aspect_claim (above) is a
     # targeted lookup, not the blanket sweep this matched_tags check
     # was built for, so its matched_features reflects whichever tag
@@ -1440,10 +1568,18 @@ def build_daily_reading(
     # generic case that's never equal to hit["feature_tag"] itself, so
     # without this a hit whose aspect type DOES have real meaning
     # would still fall through to the bare computed-fact record below.
+    #
+    # station/natal_house_ingress hits (Synthesis Repair Brief Part
+    # 2.2) carry feature_tag=None by design -- their real content is
+    # the paired natal_house_note set by the _use_house_claim loop
+    # above (a targeted lookup, same reasoning as aspect_meaning_note)
+    # -- so they're exempted the same way whenever that note resolved.
     matched_tags = {fid for item in daily_claims for fid in item.matched_features}
     uncited_hits = [
         h for h in hits
-        if h["feature_tag"] not in matched_tags and not h.get("aspect_meaning_note")
+        if h["feature_tag"] not in matched_tags
+        and not h.get("aspect_meaning_note")
+        and not h.get("natal_house_note")
     ]
     for hit in uncited_hits:
         attributed.append(_computed_hit_claim(hit))

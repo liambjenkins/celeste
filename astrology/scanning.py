@@ -32,7 +32,7 @@ natal degree again.
 from datetime import datetime, timedelta
 from typing import Callable
 
-from astrology.aspects import ASPECTS
+from astrology.aspects import CLASSICAL_ASPECTS
 from providers.astronomy import get_astronomy
 
 # Days for a transiting body to return to the same zodiacal degree.
@@ -120,9 +120,18 @@ def aspect_targets(target_longitude: float, aspect: str) -> list[float]:
     opposition are self-symmetric (one target each); sextile/square/
     trine/quincunx have two -- a moving body forms e.g. a sextile
     once waxing and once waning per relative cycle, and both are
-    genuine, separately-dated events, not duplicates."""
+    genuine, separately-dated events, not duplicates.
 
-    angle = ASPECTS[aspect]
+    Looks up CLASSICAL_ASPECTS (majors + semisextile/semisquare/
+    sesquiquadrate), not the narrower ASPECTS -- astrology/daily_hits.
+    py's continuity tracking (Synthesis Repair Brief Part 2.3) calls
+    astrology.transit_passes.find_transit_passes with whatever aspect
+    type a real hit carries, which can now be one of those three minor
+    types since the daily-transit pipeline itself was widened to
+    detect them; this must resolve the same set or it raises KeyError
+    on the exact hits it's meant to explain."""
+
+    angle = CLASSICAL_ASPECTS[aspect]
 
     if angle in (0.0, 180.0):
         return [(target_longitude + angle) % 360]
