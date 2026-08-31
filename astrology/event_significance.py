@@ -70,12 +70,58 @@ PRIMARY_NATAL_ROLES = (
     "uranus", "neptune", "pluto", "chart_ruler",
 ) + NODE_ROLES + OTHER_POINT_ROLES + ANGLE_ROLES
 
-STANDOUT_SLOW_EXACT_ORB = 1.0       # slow-body exact crossing to a primary planet point
+STANDOUT_SLOW_EXACT_ORB = 1.0       # fallback/default standout orb -- see STANDOUT_TARGET_ORB below for the real, category-scaled thresholds a transit_aspect hit actually uses
 STANDOUT_STATION_ORB = 1.0          # slow-body station within this of a primary natal point
 DIRECT_HIT_ORB = 3.0                # planet-to-planet "direct hit" boundary
 ANGLE_DIRECT_HIT_ORB = 6.0          # angle direct-hit boundary -- confirmed wider with Liam
 LUNATION_CONTACT_ORB = 1.0          # New/Full Moon degree to a primary natal point
 EXACT_LANGUAGE_ORB = 1.0            # true-exactness language boundary -- see module docstring
+
+# Category-scaled standout-tier orb thresholds for a transit_aspect
+# hit, keyed by the NATAL TARGET's role (not the transiting body) --
+# replaces the old flat STANDOUT_SLOW_EXACT_ORB (1deg for every one
+# of the ~26 widened PRIMARY_NATAL_ROLES alike). Confirmed real
+# problem: once natal targets widened from ~11 points to ~26-32, the
+# same flat 1deg let categories through that traditional practice
+# never gave planet-level orb allowance -- 4 of 10 real standout hits
+# on a sampled date existed purely because of the widening, all four
+# asteroid/Lilith or angle contacts.
+#
+# Every orb convention that spans multiple point categories scales by
+# the point's traditional "weight", none use one flat number:
+# - Angles get the widest allowance (classical practice already gives
+#   angles wider orb than planet-to-planet contacts -- see
+#   ANGLE_DIRECT_HIT_ORB above, same logic).
+# - Luminaries + personal planets: highest moiety in Ptolemy/Lilly's
+#   classical system (Sun ~15deg, Moon ~12deg orb-of-existence --
+#   this standout threshold is far tighter than that, but preserves
+#   the relative ordering).
+# - Social planets (Jupiter, Saturn): real but lower classical moiety.
+# - Outer modern planets (Uranus/Neptune/Pluto): no classical basis;
+#   modern convention already favors tight 1-2deg orbs here -- the
+#   pre-existing flat 1.0 was already correct for this category, kept
+#   unchanged.
+# - Nodes: mathematical points, no traditional dignity to radiate
+#   influence -- Forrest/Schulman's nodal-aspect convention favors
+#   tighter geometric precision over planet-style orb allowance.
+# - Asteroids + Lilith: Demetra George's Asteroid Goddesses (already
+#   a cited source in this project) explicitly recommends tight orbs,
+#   1-3deg even for conjunctions, specifically to avoid this kind of
+#   noise-flooding.
+# Verified against real data (2026-08-31 and the 8 locked named-
+# occasion dates): a 0.5deg asteroid/Lilith threshold still passes
+# genuinely tight real contacts (Saturn conjunct Juno 0.13deg, Pluto
+# opposition Lilith Mean 0.32deg, Neptune trine Lilith Mean 0.48deg)
+# while dropping the looser ones that only existed near the old flat
+# 1deg edge.
+STANDOUT_TARGET_ORB = {
+    **{role: 1.5 for role in ANGLE_ROLES},
+    **{role: 1.2 for role in FAST_BODIES},
+    **{role: 1.0 for role in SOCIAL_BODIES + ("saturn",)},
+    **{role: 1.0 for role in ("uranus", "neptune", "pluto")},  # unchanged, already correct
+    **{role: 0.75 for role in NODE_ROLES},
+    **{role: 0.5 for role in OTHER_POINT_ROLES},
+}
 
 # Relative weight of each aspect TYPE for thread-scoring/headline
 # selection (Synthesis Repair Brief, Part 2.1) -- confirmed with Liam.
@@ -115,6 +161,23 @@ def is_near_exact(orb: float) -> bool:
     3-6 degree contact threshold -- see module docstring."""
 
     return orb <= EXACT_LANGUAGE_ORB
+
+
+def standout_target_orb(role: str, natal_chart: dict) -> float:
+    """The standout-tier orb threshold for a transit_aspect hit
+    targeting natal `role` -- category-scaled (see STANDOUT_TARGET_ORB
+    above), not the old flat STANDOUT_SLOW_EXACT_ORB. chart_ruler
+    inherits whatever threshold its own real ruling planet gets (a
+    chart-specific lookup, since which planet rules varies by
+    Ascendant sign) rather than having its own fixed entry. Reused
+    identically by both the synthesis layer's tiering (assign_tier,
+    below) and the constellation-visual's node-eligibility check
+    (both call assign_tier -> this function -- a single shared source
+    of truth, never two separately-tuned copies)."""
+
+    if role == "chart_ruler":
+        role = natal_chart["rulership"]["chart_ruler"]
+    return STANDOUT_TARGET_ORB.get(role, STANDOUT_SLOW_EXACT_ORB)
 
 
 def natal_targets(natal_chart: dict, roles=PRIMARY_NATAL_ROLES) -> dict:
@@ -232,8 +295,8 @@ def assign_tier(event: dict, natal_chart: dict) -> tuple[str, list[str]]:
         body = event["transiting_body"]
         role = event["target_role"]
         orb = event["peak_orb"]
-        if body in SLOW_BODIES and role in PRIMARY_NATAL_ROLES and orb <= STANDOUT_SLOW_EXACT_ORB:
-            reasons.append("slow_body_exact_within_1deg")
+        if body in SLOW_BODIES and role in PRIMARY_NATAL_ROLES and orb <= standout_target_orb(role, natal_chart):
+            reasons.append(f"slow_body_exact_within_category_orb_{role}")
             return "standout", reasons
         reasons.append("ordinary_transit_aspect")
         return "background", reasons
