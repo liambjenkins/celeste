@@ -89,7 +89,7 @@ fabricated_text = (
     "Today marks a real turning point -- this cycle is central, with something "
     "stirring in your 9th house."
 )
-_, validation = _synthesize_reading(
+rejected_reading_text, validation = _synthesize_reading(
     captured["daily_claims"],
     _FixedTextBackend(fabricated_text),
     captured["hits"],
@@ -99,6 +99,12 @@ _, validation = _synthesize_reading(
     set(),
     real_houses,
 )
+# Enforcement, not just detection: a real overclaim finding must
+# reject the LLM text outright (reading_text is None, forcing the
+# caller's fallback to the deterministic path) -- validation itself
+# is still returned, not discarded, so the real reason stays visible.
+assert rejected_reading_text is None, "a real overclaim finding must null out reading_text, not just log it"
+assert validation is not None
 finding_types = {f["type"] for f in validation["overclaim_findings"]}
 assert "invented_occasion_language" in finding_types, finding_types
 assert "invented_life_domain" in finding_types, finding_types
@@ -114,7 +120,7 @@ else:
 # three new finding types (though other pre-existing checks may still
 # fire on coverage/fact-check, which this test doesn't touch).
 honest_text = "Today asks something real of you, quietly."
-_, validation_clean = _synthesize_reading(
+accepted_reading_text, validation_clean = _synthesize_reading(
     captured["daily_claims"],
     _FixedTextBackend(honest_text),
     captured["hits"],
@@ -126,7 +132,29 @@ _, validation_clean = _synthesize_reading(
 )
 clean_types = {f["type"] for f in validation_clean["overclaim_findings"]}
 assert not clean_types & {"invented_occasion_language", "invented_life_domain", "invented_house_number"}
-print("check plain, unspecific honest text triggers none of the three new Part 2.4 checks")
+assert accepted_reading_text == honest_text, "clean text with no real findings must be returned as-is, not rejected"
+print("check plain, unspecific honest text triggers none of the three new Part 2.4 checks, and is NOT rejected")
+
+
+# --- Enforcement, end to end through build_daily_reading: the flagged
+# LLM text must never reach result["reading"], and synthesis_method
+# must say WHY (guard_rejected, not a generic deterministic_fallback
+# indistinguishable from "no API key") ---
+
+with patch("daily.AnthropicNarrativeBackend", return_value=_FixedTextBackend(fabricated_text)):
+    rejected_result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, TEST_DAY, use_synthesis=True)
+
+assert fabricated_text not in rejected_result["reading"], "the flagged, fabricated LLM text must never reach the served reading"
+assert rejected_result["synthesis_method"] == "guard_rejected"
+assert rejected_result["synthesis_validation"]["overclaim_findings"], "the real findings must still be visible in the result, not discarded"
+print("check build_daily_reading end-to-end: fabricated LLM text is rejected, never shown, synthesis_method says why")
+
+with patch("daily.AnthropicNarrativeBackend", return_value=_FixedTextBackend(honest_text)):
+    accepted_result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, TEST_DAY, use_synthesis=True)
+
+assert accepted_result["reading"] == honest_text
+assert accepted_result["synthesis_method"] == "llm"
+print("check build_daily_reading end-to-end: clean LLM text is shown as-is, synthesis_method is llm")
 
 print()
 print("DAILY OVERCLAIM EXTENSIONS: OK")

@@ -35,6 +35,19 @@ synthesis backend's own MissingAPIKeyError), _assemble_reading_text()
 is a clearly-labeled deterministic fallback -- ordering claims by
 priority and joining with rotating connector phrases -- so the CLI
 still produces a reading rather than failing outright.
+
+The same deterministic fallback is also the enforcement mechanism for
+lenses.overclaim_guard's checks (Query-Answering/Daily-Reading Repair
+phase, extended by Synthesis Repair Brief Part 2.4): a real, audited
+gap found the guard's findings were computed but never actually
+gated anything -- a flagged LLM reading still shipped unchanged, since
+neither web.py nor daily.py's own CLI path ever checked them before
+showing the reading. _synthesize_reading() now rejects its own output
+(returns reading_text=None, forcing this same fallback) whenever a
+real overclaim finding fires, same treatment as a missing API key or
+a backend error -- synthesis_method reports "guard_rejected"
+specifically so this is distinguishable from "the backend was
+unavailable" in the result.
 """
 
 import argparse
@@ -1076,6 +1089,31 @@ def _synthesize_reading(
         "overclaim_findings": overclaim_findings,
     }
 
+    if overclaim_findings:
+        # These are the deterministic checks (exactness/connection/
+        # amplification/true-exactness, plus the Part 2.4 domain/
+        # occasion/house-number checks) -- real, computed violations,
+        # not fact_check's softer LLM opinion. Until now overclaim_
+        # findings was pure observability: computed, attached to
+        # synthesis_validation, but never actually stopping the flagged
+        # text from being the reading a real user sees -- web.py never
+        # even reads this field, and daily.py's own CLI path only
+        # prints it AFTER already printing the reading. A guard that
+        # never blocks anything isn't a guard. Reject the LLM reading
+        # here (validation is still returned, not discarded, so the
+        # real reason is visible in result["synthesis_validation"]) --
+        # the caller falls back to _assemble_reading_text, which is
+        # already fully grounded in real claims with no fabrication
+        # risk, the same safety net a missing/failed backend call
+        # already falls back to above.
+        print(
+            f"[daily synthesis] overclaim guard rejected the LLM reading "
+            f"({len(overclaim_findings)} finding(s)), falling back to deterministic reading: "
+            f"{overclaim_findings}",
+            file=sys.stderr,
+        )
+        return None, validation
+
     return reading_text, validation
 
 
@@ -1940,6 +1978,14 @@ def build_daily_reading(
         )
         if reading_text is not None:
             synthesis_method = "llm"
+        elif synthesis_validation is not None and synthesis_validation.get("overclaim_findings"):
+            # Distinct from the other deterministic_fallback causes
+            # (no API key, backend error) -- here the LLM call
+            # succeeded but its own output was rejected by the
+            # overclaim guard. Worth its own label: this is a real,
+            # detected fabrication being caught, not an unavailable
+            # backend.
+            synthesis_method = "guard_rejected"
 
     if reading_text is None:
         reading_text = _assemble_reading_text(daily_claims)
