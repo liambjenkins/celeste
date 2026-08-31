@@ -52,9 +52,10 @@ from astrology.daily import (
     compute_full_transit_matrix,
 )
 from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
-from astrology.daily_hits import attach_continuity_note, compute_daily_hits
+from astrology.daily_hits import attach_continuity_note, compute_arc_status, compute_daily_hits
 from astrology.dasha import build_vimshottari_dasha
 from astrology.event_significance import ASPECT_WEIGHTS, natal_targets
+from astrology.key_events import EXACT_HIT_BODIES
 from astrology.transits import TRANSIT_ORBS
 from astrology.normaliser import longitude_to_zodiac
 from astrology.sidereal import build_sidereal_chart, get_ayanamsa, sidereal_longitude
@@ -850,6 +851,8 @@ def _render_daily_narrative_input(
     narrative_claims: list[NarrativeClaim],
     hits: list[dict] | None = None,
     headline_thread: dict | None = None,
+    western_arc_standing: dict | None = None,
+    daily_mode_depth: str | None = None,
 ) -> str:
     """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
     same shape as N4's render_narrative_input(), plus a per-hit
@@ -874,9 +877,34 @@ def _render_daily_narrative_input(
     a pile of minor-aspect hits could read as more compelling than a
     tighter major-aspect thread purely by hit count. Rendered as an
     explicit anchor naming the day's highest-scoring thread, so the
-    reading's headline has a concrete deterministic basis."""
+    reading's headline has a concrete deterministic basis.
+
+    `western_arc_standing` and `daily_mode_depth` (daily.py's own
+    _compute_western_arc_standing()/_daily_mode_depth() output,
+    Synthesis Repair Brief Part 4) are the data half of "arcs as the
+    primary content unit" -- the STANDING ARC section below gives
+    synthesis the real, always-available multi-month story to draw on
+    even on a day with no fresh headline, and the DEPTH directive
+    tells it how much space today's real signal actually earns (see
+    lenses/daily_narrative_style.py for the prose-level rules on HOW
+    to use both -- this function only supplies the data)."""
 
     lines = []
+
+    if daily_mode_depth is not None:
+        lines.append(f"TODAY'S DEPTH: {daily_mode_depth}")
+        lines.append("")
+
+    if western_arc_standing is not None:
+        lines.append(
+            f"STANDING ARC (ongoing -- not necessarily new today): "
+            f"{western_arc_standing['transiting_body']} {western_arc_standing['aspect']} "
+            f"natal {western_arc_standing['target_role']}, phase: {western_arc_standing['phase']}"
+            + (f" -- {western_arc_standing['recurrence_note']}" if western_arc_standing["recurrence_note"] else "")
+        )
+        if western_arc_standing["claim_text"]:
+            lines.append(f"  What this arc means: {western_arc_standing['claim_text']}")
+        lines.append("")
 
     for claim in narrative_claims:
         lines.append(f"- CLAIM_ID: {claim.claim_id}")
@@ -923,7 +951,14 @@ def _render_daily_narrative_input(
     return "\n".join(lines)
 
 
-def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict], headline_thread: dict | None = None):
+def _synthesize_reading(
+    daily_claims,
+    backend: NarrativeBackend,
+    hits: list[dict],
+    headline_thread: dict | None = None,
+    western_arc_standing: dict | None = None,
+    daily_mode_depth: str | None = None,
+):
     """
     Real synthesis path: builds today's claims into the daily
     synthesis prompt (lenses.daily_narrative_style) and calls the
@@ -949,7 +984,9 @@ def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict
 
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
-        _render_daily_narrative_input(narrative_claims, hits, headline_thread)
+        _render_daily_narrative_input(
+            narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth
+        )
     )
 
     try:
@@ -1150,6 +1187,174 @@ def _score_threads(hits: list[dict]) -> dict | None:
         }
 
     return point_thread
+
+
+# EXACT_HIT_BODIES (slow + social bodies) is the same scope
+# attach_continuity_note and compute_arc_status already restrict
+# themselves to -- a fast body's transit doesn't produce a real
+# multi-month "arc" story to stand alongside vedic_dasha.
+_ARC_STANDING_CANDIDATE_CAP = 3
+
+
+def _compute_western_arc_standing(natal_chart: dict, as_of_utc_time: datetime, hits: list[dict]):
+    """The real, standing Western arc -- Synthesis Repair Brief Part 4:
+    "a multi-month conjunction building toward exactness... is one
+    story," given its own always-present standing block the same way
+    result["vedic_dasha"] already is, independent of whether it's
+    today's headline (see headline_thread for what's actually NEW
+    today; this is what's ALREADY ongoing).
+
+    compute_arc_status (astrology/daily_hits.py) does the real work
+    per hit, but it's expensive -- measured directly at ~1.3s/call
+    average, up to 3s for some bodies, against a real 29-slow-body-hit
+    date (2026-03-01; a typical day sampled across 2026 runs 15-34
+    such hits, not an outlier). Calling it for every one of today's
+    slow-body hits, as a literal "score every arc, keep the best"
+    implementation would, costs 20-40+ seconds per request -- the same
+    class of problem attach_continuity_note's own docstring already
+    solved by scoping to a small hit set instead of every qualifying
+    one.
+
+    Same fix here: rank candidates first using a CHEAP proxy (today's
+    own orb/aspect-weight closeness, already computed, no extra
+    ephemeris calls) -- the same weight*(1-orb/max_orb) shape
+    _score_threads uses for headline selection -- then only call
+    compute_arc_status for the top _ARC_STANDING_CANDIDATE_CAP
+    candidates, keeping whichever of THOSE resolves to the highest
+    real arc score (ASPECT_WEIGHTS[aspect] * (1 - peak_orb/max_orb),
+    evaluated on the arc's own peak orb, not today's). Candidates are
+    also deduped to one (their own best-scoring) hit per transiting
+    body first, so the cap searches across distinct stories rather
+    than burning slots on one body's several simultaneous hits.
+
+    This can, in principle, miss a real arc that's dominant on its own
+    merits but weak on today's specific orb -- an accepted, documented
+    tradeoff (matching this session's established cost-scoping
+    discipline), not a silent one.
+
+    Returns None only when today has no real slow/social-body transit_
+    aspect/return hit at all -- confirmed rare in real data (15-34
+    such hits on every date sampled across 2026), not the common case.
+    """
+
+    candidates = [
+        h for h in hits
+        if h["kind"] in ("transit_aspect", "return")
+        and h["display"]["transiting_body"] in EXACT_HIT_BODIES
+    ]
+    if not candidates:
+        return None
+
+    def _cheap_score(hit):
+        aspect = hit["display"]["aspect"]
+        weight = ASPECT_WEIGHTS.get(aspect, 0.5)
+        max_orb = hit["resolution"]["direct_hit_orb_used"]
+        if not max_orb:
+            return weight
+        orb = hit["resolution"]["orb_to_nearest"]
+        return weight * max(0.0, 1.0 - (orb / max_orb))
+
+    best_per_body: dict[str, dict] = {}
+    for hit in candidates:
+        body = hit["display"]["transiting_body"]
+        if body not in best_per_body or _cheap_score(hit) > _cheap_score(best_per_body[body]):
+            best_per_body[body] = hit
+
+    ranked = sorted(best_per_body.values(), key=_cheap_score, reverse=True)
+
+    best = None
+    for hit in ranked[:_ARC_STANDING_CANDIDATE_CAP]:
+        arc = compute_arc_status(natal_chart, hit, as_of_utc_time)
+        if arc is None:
+            continue
+        max_orb = TRANSIT_ORBS.get(arc["aspect"], 2.0)
+        real_score = ASPECT_WEIGHTS.get(arc["aspect"], 0.5) * max(0.0, 1.0 - (arc["peak_orb"] / max_orb))
+        if best is None or real_score > best[0]:
+            best = (real_score, arc, hit)
+
+    if best is None:
+        return None
+
+    _, arc, source_hit = best
+    return {
+        "transiting_body": arc["transiting_body"],
+        "target_role": arc["target_role"],
+        "aspect": arc["aspect"],
+        "phase": arc["phase"],
+        "peak_utc_time": arc["peak_utc_time"].isoformat(),
+        "peak_orb": arc["peak_orb"],
+        "natal_house": arc["natal_house"],
+        "is_repeating": arc["is_repeating"],
+        "recurrence_note": arc["recurrence_note"],
+        "claim_text": source_hit.get("aspect_meaning_note"),
+        # Internal only (not itself interpretive content) -- lets
+        # _daily_mode_depth tell "today's headline IS just this arc
+        # continuing" apart from "today's headline is something else,
+        # or this same arc just went exact" without re-deriving hit
+        # identity from scratch.
+        "source_hit_id": source_hit["hit_id"],
+        "note": (
+            "The dominant ongoing Western transit arc as of today -- "
+            "standing context, not necessarily today's headline (see "
+            "headline_thread for what's actually new today)."
+        ),
+    }
+
+
+def _daily_mode_depth(
+    hits: list[dict], daily_claims: list, headline_thread: dict | None, arc_standing: dict | None
+) -> str:
+    """How much real, non-padded content today actually supports --
+    Synthesis Repair Brief Part 4: daily mode stays a real layer, but
+    "restrained and confidence-scaled... a full reading, a short
+    status line, or near-silent, depending on whether today's real
+    data supports more." Mirrors Part 3's own confidence-scaling
+    spirit (proportionate space, not padding a thin day to look like a
+    rich one) at the structural level, one layer up from Part 3's
+    prose-level rules.
+
+    - "near_silent": no surviving hits AND no other real daily_claims
+      content (identity/standing claims included) -- the exact same
+      "genuinely nothing" condition build_daily_reading's own
+      pre-existing `if use_synthesis and (daily_claims or hits)` gate
+      and _assemble_reading_text([]) == "" already required to reach
+      _QUIET_DAY_READING, now reached by a deliberate depth decision
+      rather than only by literal emptiness. In practice this is rare
+      to never (Big-3 identity claims resolve on essentially every
+      real date), matching this session's own "quiet days may not
+      exist" finding from the constellation-visual work -- not a new
+      claim, just consistent with it.
+    - "short": real content exists, but it doesn't clear the bar for a
+      full reading -- either nothing converged into a headline thread
+      at all (e.g. a lone moon-phase hit with no significant aspect
+      thread), or the ONLY thing headline-worthy today is the standing
+      arc simply continuing (same hit, non-exact phase) with nothing
+      new layered on top.
+    - "full": a named-occasion override (return/station going exact,
+      score=inf) always qualifies; otherwise, any headline thread that
+      ISN'T just the continuing standing arc restating itself -- either
+      a genuinely different thread, or the standing arc itself having
+      just gone exact (real news, even if it's the "same" story).
+
+    A real judgment call, not a mechanical derivation: whether the
+    standing arc going exact counts as "new" is a genuine editorial
+    choice (made here: yes, an exact moment is always real news),
+    flagged rather than silently baked in."""
+
+    if not hits and not daily_claims:
+        return "near_silent"
+
+    if headline_thread is None:
+        return "short"
+
+    if headline_thread["score"] == float("inf"):
+        return "full"
+
+    if arc_standing is not None and arc_standing["phase"] != "exact":
+        if set(headline_thread["hit_ids"]) == {arc_standing["source_hit_id"]}:
+            return "short"
+
+    return "full"
 
 
 def build_daily_reading(
@@ -1399,6 +1604,15 @@ def build_daily_reading(
             daily_claims.append(claim)
         hit["aspect_meaning_note"] = claim.claim.statement
 
+    # Synthesis Repair Brief Part 4: the standing Western arc (always
+    # computed, like vedic_dasha, independent of today's headline) and
+    # the depth decision it feeds into -- run after the aspect-meaning
+    # loop above so a real arc's citation (claim_text) reuses the same
+    # already-resolved, already-deduped claim rather than a second
+    # resolve_claims call.
+    western_arc_standing = _compute_western_arc_standing(natal_chart, as_of_utc_time, hits)
+    daily_mode_depth = _daily_mode_depth(hits, daily_claims, headline_thread, western_arc_standing)
+
     # Eclipse-type meaning content: what the hit's own (kind, type)
     # combination means (e.g. "a total solar eclipse marks the most
     # complete kind of new beginning..."). A full audit found NO
@@ -1606,6 +1820,8 @@ def build_daily_reading(
             backend or AnthropicNarrativeBackend(),
             hits,
             headline_thread,
+            western_arc_standing,
+            daily_mode_depth,
         )
         if reading_text is not None:
             synthesis_method = "llm"
@@ -1636,6 +1852,8 @@ def build_daily_reading(
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "claims": attributed,
         "headline_thread": headline_thread,
+        "western_arc_standing": western_arc_standing,
+        "daily_mode_depth": daily_mode_depth,
         "reading": reading_text,
         "reading_source_claim_ids": (
             [item.claim.claim_id for item in daily_claims] + [h["hit_id"] for h in uncited_hits]

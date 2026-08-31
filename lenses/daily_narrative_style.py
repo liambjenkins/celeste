@@ -92,6 +92,24 @@ scaling's score bands (1.5, 2.3) are empirical, from a 53-date 2026
 sample of real headline_thread scores for Liam's chart (p25=1.52,
 p75=2.26) -- not arbitrary, and revisitable if that distribution
 shifts.
+
+Revised a fifth time for the same Repair Brief's Part 4 (arcs as the
+primary content unit): daily.py now always computes a STANDING ARC
+(western_arc_standing, mirroring result["vedic_dasha"]'s own always-
+present shape) and a TODAY'S DEPTH decision (full/short/near_silent),
+both now reaching this prompt via _render_daily_narrative_input. Two
+additions, reconciled against the existing rules rather than layered
+on: standing-arc phrasing (phase-aware, reusing the arc's own phase
+label and recurrence_note verbatim -- never inventing new language for
+timing this system didn't compute) and the short-depth register (one
+honest sentence, not three compressed into one breath, for a day
+whose only real content is the standing arc simply continuing) -- the
+same confidence-scaling spirit Part 3 already established, applied one
+level up, at the structural (how much space) rather than sentence (how
+many claims) level. near_silent needed no new instruction: it's the
+same "genuinely nothing" condition grounding rule 7 already covers,
+just reached by a named decision now instead of only by incidental
+emptiness.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -232,6 +250,56 @@ certainty a thread gets -- never the facts themselves, and never
 actual hedge words. A mild thread stated plainly is still stated
 plainly; it just isn't given the whole reading to itself.
 
+### The STANDING ARC: real, but not automatically the headline
+
+A STANDING ARC line (when present) names the single dominant, ongoing
+multi-month Western transit -- real and computed, but a SEPARATE
+signal from the PRIMARY THREAD above, not a second headline candidate
+to weigh against it. It shows up in three different shapes:
+
+- **It IS the PRIMARY THREAD** (the arc's own hit is today's headline
+  material). Nothing extra to do -- write it exactly as PRIMARY THREAD
+  guidance above already says; the STANDING ARC line here just gives
+  you the wider phase context (approaching/exact/separating) for that
+  same thread.
+- **Present, but something else converged more strongly today.** The
+  arc still deserves at most one honest, low-weight clause naming
+  what's ongoing -- real estate proportional to TODAY'S DEPTH, never
+  equal footing with the actual headline it lost to.
+- **It's the ONLY real content today** (TODAY'S DEPTH: short) -- see
+  below.
+
+Phase language: use the arc's own `phase` value directly and only
+that word's plain meaning -- "approaching" is building toward
+exactness, "exact" is the peak moment itself, "separating" is past its
+peak and loosening. If a recurrence_note is given, its own wording is
+the ONLY source for any date-specific claim about the arc's timing
+(which real dates it crossed or will cross) -- never invent a date, a
+pass count, or a timeframe the recurrence_note doesn't itself state.
+This is grounding rule 1 applied to the arc specifically: the STANDING
+ARC block is real computed fact, same status as a claim, not a prompt
+to elaborate beyond what phase/recurrence_note actually say.
+
+### TODAY'S DEPTH: short -- one honest line, not a compressed full reading
+
+When the input is marked TODAY'S DEPTH: short, today's real content
+doesn't clear the bar for a full reading -- write ONE plain, direct
+sentence, not the usual two to three compressed into the same breath
+(the "Two to three short sentences" rule below assumes TODAY'S DEPTH:
+full; short is the documented exception, not a violation of it). This
+is Part 3's confidence-scaling principle applied at the structural
+level, one layer up from sentence-by-sentence scaling: a day whose
+only real content is the standing arc simply continuing gets
+proportionate space, not padded with restatement to look like a
+richer day than it is. Still follows every grounding rule above --
+real claims only, no invented resolution, no hedging -- shorter
+because there is genuinely less new to say today, not because the
+rules relax.
+
+TODAY'S DEPTH: near_silent needs no separate instruction here --
+that's the same "claims genuinely amount to nothing" case grounding
+rule 7 already covers.
+
 ### One throughline by default; a second one must be earned
 
 Default assumption: there is one throughline for the day. Actively
@@ -302,9 +370,10 @@ to avoid admitting a claim got compressed.
   everything else plainly. ("The door's open, walk through it" was
   tried and rejected as trying too hard for an UNEARNED image -- that
   bar doesn't change, only the count does.)
-- Two to three short sentences total. This is a daily reading, not a
-  full narrative -- brevity is correct, not a shortfall to fix by
-  adding more sentences.
+- Two to three short sentences total (one, when TODAY'S DEPTH: short
+  is given -- see "TODAY'S DEPTH: short" above). This is a daily
+  reading, not a full narrative -- brevity is correct, not a shortfall
+  to fix by adding more sentences.
 - No em dashes, no hedging ("tends to," "may," "can sometimes"), no
   therapy-speak padding, no generic truisms a reading like this could
   say on any day regardless of its actual claims.

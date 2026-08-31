@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from astrology.chart import build_chart
-from astrology.daily_hits import compute_daily_hits
+from astrology.daily_hits import compute_arc_status, compute_daily_hits
 from astrology.time import local_to_utc
 
 print("=== DAILY HITS ===")
@@ -196,6 +196,64 @@ house_ingress = house_ingress_hits[0]
 assert house_ingress["resolution"]["natal_house"] is not None
 assert house_ingress["display"]["from_house"] != house_ingress["resolution"]["natal_house"]
 print("check a real natal-house-ingress date produces a natal_house_ingress hit with correct schema")
+
+# --- compute_arc_status (Synthesis Repair Brief Part 4): the standing
+# multi-month arc around a slow-body hit -- locks in two real bugs
+# found and fixed this session, both of which silently dropped a
+# real, already-qualified hit to phase=None. ---
+
+# Bug 1: find_transit_passes' own default hit_orb (TRANSIT_ORBS, 1-2
+# deg) is narrower than direct_hit_orb (3-6 deg) -- the orb
+# compute_daily_hits already used to classify these as real direct
+# hits. Bug 2: even with the wider orb, the fixed 60-day
+# _CONTINUITY_WINDOW search horizon is too narrow to contain the
+# actual crossing/turning point for a slow body sitting within that
+# wider orb but still weeks from its own peak -- find_transit_passes'
+# widen=True only widens AROUND an already-found candidate, so with
+# nothing found in the initial horizon, there's nothing to widen from.
+dense_day = datetime(2026, 3, 1, tzinfo=timezone.utc)
+dense_hits = compute_daily_hits(MELBOURNE, dense_day)
+known_bad_pairs = {("pluto", "trine", "moon"), ("neptune", "trine", "sun")}
+checked = 0
+for h in dense_hits:
+    if h["kind"] not in ("transit_aspect", "return"):
+        continue
+    d = h["display"]
+    key = (d["transiting_body"], d["aspect"], d["target_role"])
+    if key not in known_bad_pairs:
+        continue
+    checked += 1
+    arc = compute_arc_status(MELBOURNE, h, dense_day)
+    assert arc is not None, f"{key}: compute_arc_status regressed to None (orb/horizon bug reintroduced)"
+    assert arc["phase"] in ("approaching", "exact", "separating")
+assert checked == len(known_bad_pairs), "expected both known-bad real pairs to still exist in today's hits"
+print("check compute_arc_status no longer regresses to None for the 2 real cases the orb/horizon bugs caused")
+
+# Real, locked multi-pass example (already established this session):
+# Saturn conjunct South Node, is_repeating with a real recurrence_note
+# naming 3 real exact dates.
+snode_day = datetime(2026, 9, 25, tzinfo=timezone.utc)
+snode_hits = [
+    h for h in compute_daily_hits(MELBOURNE, snode_day)
+    if h["kind"] == "transit_aspect"
+    and h["display"]["transiting_body"] == "saturn"
+    and h["display"]["target_role"] == "south_node_mean"
+]
+assert snode_hits, "expected a real saturn-conjunct-south_node_mean hit on 2026-09-25"
+snode_arc = compute_arc_status(MELBOURNE, snode_hits[0], snode_day)
+assert snode_arc is not None
+assert snode_arc["is_repeating"] is True
+assert snode_arc["recurrence_note"] is not None
+assert snode_arc["phase"] in ("approaching", "exact", "separating")
+print("check compute_arc_status resolves the real, locked Saturn/South-Node multi-pass arc correctly")
+
+# A fast body (out of EXACT_HIT_BODIES scope) must still honestly
+# degrade to None -- never fabricate an arc for a body that doesn't
+# retrograde back over the same degree.
+fast_hits = [h for h in dense_hits if h["kind"] == "transit_aspect" and h["display"]["transiting_body"] in ("mercury", "venus", "mars")]
+if fast_hits:
+    assert compute_arc_status(MELBOURNE, fast_hits[0], dense_day) is None
+    print("check compute_arc_status honestly degrades to None for a fast (out-of-scope) body")
 
 print()
 print("DAILY HITS: OK")
