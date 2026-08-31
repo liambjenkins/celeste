@@ -39,6 +39,7 @@ still produces a reading rather than failing outright.
 
 import argparse
 import json
+import sys
 from dataclasses import asdict
 from datetime import datetime, timezone
 
@@ -953,19 +954,30 @@ def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict
 
     try:
         reading_text = backend.synthesize(prompt)
-    except (MissingAPIKeyError, NarrativeBackendError):
+    except (MissingAPIKeyError, NarrativeBackendError) as exc:
+        # Never shown to the reader (the caller falls back to the
+        # deterministic path) -- but a real failure reason (missing
+        # key, invalid key, billing/quota, a deprecated model ID, a
+        # timeout) was previously discarded here with zero trace, not
+        # even in the server's own log stream. A real live incident
+        # (Anthropic account out of credits) was undiagnosable from
+        # Render's logs specifically because of this silence -- fixed
+        # by printing the real exception to stderr before degrading.
+        print(f"[daily synthesis] main synthesis call failed, falling back to deterministic reading: {exc}", file=sys.stderr)
         return None, None
 
     coverage = check_coverage(narrative_claims, reading_text)
 
     try:
         fact_check_findings = fact_check(backend, narrative_claims, reading_text)
-    except (MissingAPIKeyError, NarrativeBackendError):
+    except (MissingAPIKeyError, NarrativeBackendError) as exc:
         # The reading itself already synthesized successfully above --
         # a failure on this second, separate backend call (checking
         # the reading, not producing it) shouldn't discard a real
         # reading. Degrade to "fact-check unavailable" rather than
-        # raising into an unhandled 500.
+        # raising into an unhandled 500 -- but still log the real
+        # reason, same as the main synthesis call above.
+        print(f"[daily synthesis] fact-check call failed, reading kept: {exc}", file=sys.stderr)
         fact_check_findings = "(fact-check unavailable: backend call failed)"
 
     overclaim_findings = check_batch_overclaims(reading_text, hits)
