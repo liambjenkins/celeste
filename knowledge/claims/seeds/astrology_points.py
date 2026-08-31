@@ -104,9 +104,33 @@ for _house, _domain_text in _VERTEX_HOUSES.items():
 # Source: standard modern astrological convention on minor aspects,
 # cross-referenced across multiple sources during curation (verified
 # via search, not recalled from training alone).
+#
+# _DAILY_WIRED_MINORS additionally carry the aspect:/transit_aspect:/
+# progression_aspect: tags astrology.py's _ASPECTS loop uses -- these
+# three (semisextile/semisquare/sesquiquadrate) complete the standard
+# classical aspect set astrology.aspects.CLASSICAL_ASPECTS wires into
+# the daily-transit pipeline (astrology/daily.py). septile/novile
+# deliberately stay minor_aspect:-only (natal-chart-only, opt-in via
+# calculate_aspects's include_minor) -- a distinct, more esoteric
+# harmonic family, not part of that widened default sweep.
+#
+# They also need the "daily_mode" theme_tag: daily.py's
+# _resolve_daily_claims() blanket sweep filters strictly on
+# "daily_mode" in theme_tags (same gate astrology.py's own _ASPECTS
+# loop documents needing for the 6 major aspects) -- without it, a
+# claim can carry a matching transit_aspect: feature_id and still
+# never actually reach the daily sweep. septile/novile don't get it,
+# same reasoning as above.
 # ------------------------------------------------------------
 
+_DAILY_WIRED_MINORS = {"semisextile", "semisquare", "sesquiquadrate"}
+
 _MINOR_ASPECTS = {
+    "semisextile": (
+        "a semisextile (30°) carries a mild, easy-to-overlook "
+        "connection between the two placements involved — a quiet, "
+        "low-key link that supports without demanding attention"
+    ),
     "semisquare": (
         "a semisquare (45°) carries a challenging, stimulating "
         "friction between the two placements involved — like a "
@@ -133,11 +157,20 @@ _MINOR_ASPECTS = {
 }
 
 for _minor, _meaning in _MINOR_ASPECTS.items():
+    _minor_feature_ids = [f"minor_aspect:{_minor}"]
+    _minor_theme_tags = ["relationship_between_placements", "minor_aspect"]
+    if _minor in _DAILY_WIRED_MINORS:
+        _minor_feature_ids += [
+            f"aspect:{_minor}",
+            f"transit_aspect:{_minor}",
+            f"progression_aspect:{_minor}",
+        ]
+        _minor_theme_tags += ["daily_mode"]
     _add(
         f"minor_aspect_{_minor}",
         f"A {_minor.capitalize()}: {_meaning}.",
-        feature_ids=[f"minor_aspect:{_minor}"],
-        theme_tags=["relationship_between_placements", "minor_aspect"],
+        feature_ids=_minor_feature_ids,
+        theme_tags=_minor_theme_tags,
         source_id="minor_aspects_modern_convention",
     )
 
