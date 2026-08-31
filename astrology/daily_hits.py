@@ -55,7 +55,7 @@ from astrology.event_significance import (
 )
 from astrology.key_events import EXACT_HIT_BODIES, INGRESS_BODIES, STATION_BODIES
 from astrology.normaliser import longitude_in_house, longitude_to_zodiac
-from astrology.scanning import signed_diff
+from astrology.scanning import MULTI_PASS_WINDOW_DAYS, signed_diff
 from astrology.sky_snapshot import build_sky_snapshot
 from astrology.transit_passes import find_transit_passes, group_passes
 from astrology.transits import TRANSIT_ORBS
@@ -554,6 +554,98 @@ def attach_continuity_note(natal_chart: dict, hit: dict, as_of_utc_time: datetim
         if event["is_repeating"] and event["start_date"] <= as_of_utc_time <= event["end_date"]:
             hit["continuity_note"] = event["recurrence_note"]
             return
+
+
+def compute_arc_status(natal_chart: dict, hit: dict, as_of_utc_time: datetime) -> dict | None:
+    """The real multi-month arc status around a slow-body transit_
+    aspect/return hit -- Synthesis Repair Brief Part 4: "a multi-month
+    conjunction building toward exactness... is one story," the
+    primitive `result["western_arc_standing"]` (daily.py) is built on.
+
+    Unlike attach_continuity_note (which only fires once a pass is
+    already REPEATING and today falls inside its own collapsed
+    window), this fires for ANY real arc, single-pass or multi-pass --
+    a first-time approach that hasn't yet had a second pass is still a
+    real, ongoing story, just not yet a "recurring" one. Same body
+    scope and cost-scoping discipline as attach_continuity_note (only
+    ever called for a hit already surviving resolve->tier, never a
+    blind scan over every possible body x target pair).
+
+    Returns None only when the body is out of scope (not a slow/
+    social body) or the target role has no real natal longitude --
+    both honest "nothing to report" cases, not failures."""
+
+    d = hit["display"]
+    body = d["transiting_body"]
+    if body not in _CONTINUITY_BODIES:
+        return None
+
+    target_longitude = natal_targets(natal_chart).get(d["target_role"])
+    if target_longitude is None:
+        return None
+
+    # hit_orb is explicit and wide (direct_hit_orb, 3-6 deg) rather
+    # than find_transit_passes's own default (TRANSIT_ORBS[aspect],
+    # 1-2 deg) -- the default is narrower than the orb
+    # compute_daily_hits already used to classify this as a real
+    # direct_hit in the first place, so passing it unset would
+    # silently drop some real, already-qualified hits.
+    #
+    # The search horizon also can't stay pinned to the fixed 60-day
+    # _CONTINUITY_WINDOW (calibrated for attach_continuity_note's much
+    # narrower TRANSIT_ORBS-based hit_orb, where a body already that
+    # close to exact is guaranteed to cross within a narrow window).
+    # At the wider direct_hit_orb accepted here, a slow body can sit
+    # within orb for months without its own exact crossing/turning
+    # point falling inside a narrow horizon at all -- and
+    # find_transit_passes's widen=True only widens AROUND an
+    # already-found candidate, so if the coarse scan finds nothing in
+    # the initial horizon, there's nothing to widen from. Verified
+    # directly against 2 real cases the 60-day window missed (pluto
+    # trine moon, neptune trine sun on 2026-03-01): their true
+    # crossings sit ~65-90 days outside as_of_utc_time. Each body's
+    # own MULTI_PASS_WINDOW_DAYS (already sized as "how far can a
+    # related pass be and still be one continuous story") is reused as
+    # the initial horizon instead of inventing a second constant.
+    window = timedelta(days=MULTI_PASS_WINDOW_DAYS.get(body, _CONTINUITY_WINDOW.days))
+    passes = find_transit_passes(
+        natal_chart, body, d["target_role"], target_longitude, d["aspect"],
+        as_of_utc_time - window, as_of_utc_time + window,
+        hit_orb=direct_hit_orb(d["target_role"]), widen=True,
+    )
+    groups = group_passes(passes, body)
+    if not groups:
+        return None
+
+    def _distance_from_today(group):
+        return min(abs((p["utc_time"] - as_of_utc_time).total_seconds()) for p in group)
+
+    event = collapse_repeat_passes(min(groups, key=_distance_from_today))
+
+    # Today's own hit orb already tells us whether this is a genuinely
+    # exact moment (near_exact reuses the same 1-degree threshold
+    # every other "exact" claim in this pipeline is gated on -- never
+    # a separately-invented exactness concept). Otherwise, whether the
+    # peak is still ahead of or already behind today decides
+    # approaching vs separating.
+    if hit["resolution"]["near_exact"]:
+        phase = "exact"
+    elif event["peak_utc_time"] > as_of_utc_time:
+        phase = "approaching"
+    else:
+        phase = "separating"
+
+    return {
+        "transiting_body": body,
+        "target_role": d["target_role"],
+        "aspect": d["aspect"],
+        "phase": phase,
+        "peak_utc_time": event["peak_utc_time"],
+        "peak_orb": event["peak_orb"],
+        "natal_house": event["natal_house"],
+        "is_repeating": event["is_repeating"],
+        "recurrence_note": event["recurrence_note"],
+    }
 
 
 def compute_daily_hits(
