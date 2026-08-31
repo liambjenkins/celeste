@@ -66,6 +66,32 @@ section (daily.py's _render_daily_narrative_input), so synthesis can
 know which placement a generic claim is actually about without
 inventing anything -- the data was always computed, it just wasn't
 reaching the prompt.
+
+Revised a fourth time for the Synthesis/Tone/Content-Architecture
+Repair Brief's Part 3 (prose-layer rules), after Part 2.1 gave
+daily.py a real, computed PRIMARY THREAD signal (_score_threads' own
+aspect-weight + convergence score, already reaching this prompt via
+the hit-grounding section) that the style guide itself never
+referenced as a structural instruction -- headline selection was left
+to the model re-deriving "which claim is the headline" from the raw
+claim list, with no requirement to actually lead with the thread the
+engine already identified as strongest. Four additions, reconciled
+against every existing rule rather than layered on top of them:
+headline-first structure (the PRIMARY THREAD, when present, decides
+what leads -- see "When a PRIMARY THREAD is named"), confidence-
+scaling by the same real score (a real tension with the existing
+"never hedge" voice rule -- resolved as scaling how much SPACE/WEIGHT
+a thread gets, never hedge words; a mild thread stated plainly is
+still stated plainly, just not given the whole reading), a payoff
+requirement (reconciled against the existing generic-advice-tag ban --
+payoff means the claims' own real resolution, e.g. the locked worked
+example's third sentence, not an appended imperative), and a one-
+metaphor cap (refining the existing near-total metaphor ban into "at
+most one, still only if earned" rather than reversing it). Confidence-
+scaling's score bands (1.5, 2.3) are empirical, from a 53-date 2026
+sample of real headline_thread scores for Liam's chart (p25=1.52,
+p75=2.26) -- not arbitrary, and revisitable if that distribution
+shifts.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -165,6 +191,47 @@ Only once that relationship is identified should prose get written --
 and the prose should express THAT relationship, not restate each
 claim in its own sentence in sequence.
 
+### When a PRIMARY THREAD is named, it IS the headline -- lead with it
+
+If the hit-grounding section below names a PRIMARY THREAD, the
+question above ("is one claim clearly the headline?") is already
+answered for you by real, computed convergence and aspect-weight
+data -- not something to re-derive from reading the claims cold. The
+reading's first sentence or beat must be about that thread
+specifically, even if a different claim happens to appear first in
+the claim list. Everything else still gets folded, given its own
+beat, or compressed per the rules below -- PRIMARY THREAD only
+decides what leads, not what the whole reading is about.
+
+### Confidence-scaling by signal strength
+
+The PRIMARY THREAD line (when present) gives a real score -- how
+tight and how convergent today's leading thread actually is, not a
+feeling to guess at. Scale how CENTRAL that thread sounds against it
+-- never by hedging (the "never hedged, never softened" voice rule
+below still applies in full; every sentence still states a plain,
+direct fact) -- by how much SPACE and WEIGHT it gets:
+
+- **Score below ~1.5, or no PRIMARY THREAD at all**: real, but one
+  presence among several, not the day's defining force. Give it
+  proportionate weight -- a clause, "also present," not a whole
+  sentence built to sound decisive. Still a direct, unhedged
+  statement of what's true -- just scoped as one factor, not the
+  story.
+- **Score ~1.5 to ~2.3**: the normal case -- lead with it plainly,
+  the way the locked worked example does. No special softening or
+  amplification needed.
+- **Score above ~2.3, or an exact named occasion (a return or station
+  at its own peak)**: this genuinely is the day's dominant story --
+  real convergence, or an exact structural moment. Let the language
+  carry that weight; don't undersell a real convergence by describing
+  it as just one more thing among others.
+
+This changes how much of the reading's real estate and framing
+certainty a thread gets -- never the facts themselves, and never
+actual hedge words. A mild thread stated plainly is still stated
+plainly; it just isn't given the whole reading to itself.
+
 ### One throughline by default; a second one must be earned
 
 Default assumption: there is one throughline for the day. Actively
@@ -228,10 +295,13 @@ to avoid admitting a claim got compressed.
   "Whatever comes up won't just affect you" is right; "your partner"
   or "someone specific" is invented specificity the source claim
   doesn't support.
-- No reaching for an image or metaphor that isn't earned by the
-  claims themselves -- state the thing plainly rather than dress it
-  up. ("The door's open, walk through it" was tried and rejected as
-  trying too hard; state the plain fact instead.)
+- At most ONE image or metaphor per reading, and only if it's earned
+  by the claims themselves -- most readings should have zero. Never
+  reach for one to dress up a plain fact, and never use more than one
+  even if a second feels earned too; pick the strongest, state
+  everything else plainly. ("The door's open, walk through it" was
+  tried and rejected as trying too hard for an UNEARNED image -- that
+  bar doesn't change, only the count does.)
 - Two to three short sentences total. This is a daily reading, not a
   full narrative -- brevity is correct, not a shortfall to fix by
   adding more sentences.
@@ -268,6 +338,30 @@ sentence, not sentence count. Fix these specifically:
   pushing past 18-20 words is very likely doing two things at once --
   split it or cut a qualifier, don't just let it run on with commas
   and "and."
+
+### End on a real payoff, not a trailing description
+
+The reading needs to land on something -- what today's claims
+actually give you or cost you -- not just describe facts and stop
+mid-air. This is NOT a generic advice-tag (already banned above); a
+tacked-on "so use it" is not a payoff, it's the exact failure that
+rule already forbids. A real payoff is content the claims themselves
+support:
+
+- If a resource, relief, or resolution claim exists among today's
+  claims, it's usually the payoff -- see the locked worked example's
+  third sentence ("whatever needs saying won't cost you to say it"),
+  which resolves sentences 1-2 rather than adding a fourth fact next
+  to them.
+- If nothing among today's real claims functions as a resolution, end
+  on the single clearest, most decisive true statement available --
+  never invent a resolution the claims don't support just to have one
+  (that's grounding rule 1, applied to endings specifically).
+- A reading that only describes pressure or friction with no claim
+  that resolves it should end ON that pressure stated plainly, not
+  papered over with an invented silver lining -- an honest, unresolved
+  ending is correct when that's genuinely what the claims support;
+  fabricating relief is not.
 
 ## Worked example (locked, for calibration -- not to be reused verbatim as content)
 
