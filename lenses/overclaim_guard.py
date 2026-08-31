@@ -109,7 +109,15 @@ def build_overclaim_constraints(resolution: dict | None, nodal: dict | None) -> 
 
     if resolution is not None:
         contact = resolution["contact"]
-        if contact == "direct_hit":
+        if contact == "direct_hit" and resolution["nearest_natal_point"] is None:
+            # A named-occasion hit with no specific natal point being
+            # touched (e.g. a sign/house ingress -- the fact being
+            # stated is "this body entered X", not "this body is
+            # conjunct natal point Y") -- orb 0.0 here is genuinely
+            # exact, so there's no overclaim risk to guard against;
+            # nothing to constrain.
+            pass
+        elif contact == "direct_hit":
             lines.append(
                 f"This event is a DIRECT HIT on your {resolution['nearest_natal_point']} "
                 f"(orb {resolution['orb_to_nearest']:.2f} degrees, house {resolution['natal_house']}) -- "
@@ -216,6 +224,13 @@ def _resolution_constraint_line(resolution: dict | None) -> str | None:
     contact = resolution["contact"]
     point = resolution["nearest_natal_point"]
     orb = resolution["orb_to_nearest"]
+
+    if contact == "direct_hit" and point is None:
+        # Same "nothing to constrain" case as build_overclaim_
+        # constraints' own direct_hit branch -- a named-occasion hit
+        # with no house AND no specific natal point (a sign ingress)
+        # isn't claiming contact with any particular placement.
+        return None
 
     if contact == "direct_hit":
         return (

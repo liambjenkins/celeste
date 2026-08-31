@@ -110,7 +110,10 @@ for name, chart in CHARTS.items():
         assert set(h.keys()) >= {
             "hit_id", "kind", "tier", "tier_reasons", "resolution", "nodal", "display", "feature_tag",
         }
-        assert h["kind"] in ("eclipse", "transit_aspect", "moon_phase")
+        assert h["kind"] in (
+            "eclipse", "transit_aspect", "moon_phase",
+            "return", "station", "sign_ingress", "natal_house_ingress",
+        )
         res = h["resolution"]
         assert set(res.keys()) == {
             "natal_house", "house_occupants", "nearest_natal_point",
@@ -138,6 +141,61 @@ for name, chart in CHARTS.items():
             f"{name}: {h['hit_id']} lists its own aspect target as a house occupant"
         )
 print("check transit_aspect house_occupants never includes the aspect's own target, across all 3 charts")
+
+
+# --- Named structural occasions (Synthesis Repair Brief Part 2.2):
+# returns/stations/ingresses now fold into compute_daily_hits' output.
+# Dates below were found by direct scan against MELBOURNE for 2026.
+
+return_day = datetime(2026, 4, 16, tzinfo=timezone.utc)
+return_hits = [h for h in compute_daily_hits(MELBOURNE, return_day) if h["kind"] == "return"]
+assert len(return_hits) == 1
+saturn_return = return_hits[0]
+assert saturn_return["display"]["transiting_body"] == "saturn"
+assert saturn_return["display"]["target_role"] == "saturn"
+assert saturn_return["display"]["aspect"] == "conjunction"
+assert saturn_return["tier"] == "standout"
+assert saturn_return["resolution"]["orb_to_nearest"] < 0.01
+assert saturn_return["is_repeating"] is True, "Saturn's own retrograde should produce a real multi-pass return"
+assert saturn_return["recurrence_note"] is not None
+print("check a real Saturn Return date produces a standout return hit with a real recurrence note")
+
+# The self-pair (saturn conjunct its own natal degree) must never ALSO
+# appear as an ordinary transit_aspect hit -- that would double-report
+# the same physical event (see astrology/daily_hits.py::compute_daily_hits).
+self_pairs = [
+    h for h in compute_daily_hits(MELBOURNE, return_day)
+    if h["kind"] == "transit_aspect" and h["display"]["transiting_body"] == h["display"]["target_role"]
+]
+assert not self_pairs, "a return must not also surface as a self-pair transit_aspect hit"
+print("check a return never double-reports as a self-pair transit_aspect hit")
+
+station_hits = [h for h in compute_daily_hits(MELBOURNE, datetime(2026, 2, 4, tzinfo=timezone.utc)) if h["kind"] == "station"]
+assert station_hits
+station = station_hits[0]
+assert station["display"]["retrograde"] in (True, False)
+assert station["resolution"]["direct_hit_orb_used"] == 1.0
+print(f"check a real station date produces {len(station_hits)} station hit(s) with correct schema")
+
+ingress_hits = [
+    h for h in compute_daily_hits(MELBOURNE, datetime(2026, 1, 23, tzinfo=timezone.utc))
+    if h["kind"] == "sign_ingress"
+]
+assert ingress_hits
+sign_ingress = ingress_hits[0]
+assert sign_ingress["resolution"]["orb_to_nearest"] == 0.0, "an ingress IS the exact boundary crossing -- orb 0.0 is real, not fabricated"
+assert sign_ingress["feature_tag"].startswith("pure_sign:")
+print("check a real sign-ingress date produces a sign_ingress hit with orb 0.0 (genuinely exact)")
+
+house_ingress_hits = [
+    h for h in compute_daily_hits(MELBOURNE, datetime(2026, 1, 29, tzinfo=timezone.utc))
+    if h["kind"] == "natal_house_ingress"
+]
+assert house_ingress_hits
+house_ingress = house_ingress_hits[0]
+assert house_ingress["resolution"]["natal_house"] is not None
+assert house_ingress["display"]["from_house"] != house_ingress["resolution"]["natal_house"]
+print("check a real natal-house-ingress date produces a natal_house_ingress hit with correct schema")
 
 print()
 print("DAILY HITS: OK")
