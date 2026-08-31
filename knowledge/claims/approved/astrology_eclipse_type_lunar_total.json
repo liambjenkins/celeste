@@ -1,19 +1,17 @@
 {
-  "claim_id": "astrology_aspect_square",
+  "claim_id": "astrology_eclipse_type_lunar_total",
   "lens_id": "astrology",
-  "statement": "A square pulls the two placements involved in different directions, producing tension that calls for conscious effort to resolve.",
+  "statement": "A total lunar eclipse marks the most complete kind of emotional culmination or release this cycle offers -- whatever's been building comes fully into view, ready to be let go of or fully felt.",
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "aspect:square",
-    "transit_aspect:square",
-    "progression_aspect:square"
+    "eclipse_type:lunar_total"
   ],
   "source_ids": [
-    "lilly_christian_astrology_1647"
+    "eclipse_astrology_modern_convention"
   ],
   "theme_tags": [
-    "relationship_between_placements"
+    "turning_point"
   ],
   "life_domain": null,
   "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",

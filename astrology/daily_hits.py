@@ -92,9 +92,14 @@ def _resolve_eclipse_hit(natal_chart: dict, as_of_utc_time: datetime) -> dict | 
             "degree": ctx["degree"],
             "retrograde": None,
             "eclipse_type": ctx["type"],
+            "eclipse_kind": ctx["kind"],
             "utc_time": ctx["utc_time"],
         },
-        "feature_tag": None,  # no curated fragment exists for eclipses
+        # Real content now exists (astrology_eclipse_type_{kind}_{type}
+        # -- see knowledge/claims/seeds/astrology.py's _ECLIPSE_TYPES),
+        # resolved via daily.py's _resolve_eclipse_type_claim() targeted
+        # lookup, same as transit_aspect hits' aspect-meaning content.
+        "feature_tag": f"eclipse_type:{ctx['kind']}_{ctx['type']}",
     }
 
 

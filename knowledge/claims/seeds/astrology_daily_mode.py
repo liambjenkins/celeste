@@ -185,6 +185,13 @@ _add(
 # ------------------------------------------------------------------
 # Transit-to-natal-key-point fragments -- first tranche (8 of the
 # larger combinatorial space; see module docstring)
+#
+# No "daily_mode" theme_tag: these are resolved via daily.py's
+# _resolve_aspect_claim() targeted lookup (checks the hit's own
+# hyper-specific feature_tag directly, which exactly matches these
+# claims' feature_ids), NOT the blanket sweep -- same migration as
+# the generic aspect-type claims below. Leaving daily_mode here would
+# double-cite the same claim via both mechanisms.
 # ------------------------------------------------------------------
 
 _add(
@@ -193,7 +200,6 @@ _add(
     "are lands well, without you having to dress it up.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:venus:trine:sun"],
-    theme_tags=["daily_mode"],
     life_domain="identity",
     source_id="transit_astrology_modern_convention",
 )
@@ -205,7 +211,6 @@ _add(
     "are takes real effort.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:mars:square:sun"],
-    theme_tags=["daily_mode"],
     life_domain="identity",
     source_id="transit_astrology_modern_convention",
 )
@@ -216,7 +221,6 @@ _add(
     "actually need emotionally is easier to get than usual.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:venus:trine:moon"],
-    theme_tags=["daily_mode"],
     life_domain="emotion",
     source_id="transit_astrology_modern_convention",
 )
@@ -228,7 +232,6 @@ _add(
     "you try to ignore either one.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:mars:square:moon"],
-    theme_tags=["daily_mode"],
     life_domain="emotion",
     source_id="transit_astrology_modern_convention",
     notes=(
@@ -247,7 +250,6 @@ _add(
     "up, it reads clearly, and it reads well.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:sun:trine:ascendant"],
-    theme_tags=["daily_mode"],
     life_domain="persona",
     source_id="transit_astrology_modern_convention",
 )
@@ -259,7 +261,6 @@ _add(
     "agreement.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:mars:opposition:ascendant"],
-    theme_tags=["daily_mode"],
     life_domain="persona",
     source_id="transit_astrology_modern_convention",
 )
@@ -270,7 +271,6 @@ _add(
     "opening's there. You just have to actually use it.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:mercury:sextile:chart_ruler"],
-    theme_tags=["daily_mode"],
     life_domain="communication",
     source_id="transit_astrology_modern_convention",
 )
@@ -282,7 +282,6 @@ _add(
     "to.",
     concept_ids=["daily_transit_aspects"],
     feature_ids=["daily_transit_aspect:mars:square:chart_ruler"],
-    theme_tags=["daily_mode"],
     life_domain="drive_and_ambition",
     source_id="transit_astrology_modern_convention",
 )
