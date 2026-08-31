@@ -14,10 +14,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from astrology.chart import build_chart
 from astrology.event_significance import (
     PRIMARY_NATAL_ROLES,
+    STANDOUT_TARGET_ORB,
     TIERS,
     assign_tier,
     collapse_repeat_passes,
     nearest_primary_natal_point,
+    standout_target_orb,
 )
 from astrology.time import local_to_utc
 from astrology.transit_passes import find_transit_passes, group_passes
@@ -90,6 +92,50 @@ fast_exact = {"kind": "transit_aspect", "transiting_body": "venus", "target_role
 tier, _ = assign_tier(fast_exact, MELBOURNE)
 assert tier == "background", "fast bodies are never standout on ordinary aspects, even exact"
 print("check transit-aspect tiering: slow+exact=standout, slow+loose=background, fast=always background")
+
+
+# --- Category-scaled standout orb thresholds (tiered orb brief) ---
+# Replaces the old flat 1deg for every one of PRIMARY_NATAL_ROLES --
+# angles get a WIDER allowance (1.5deg), asteroids/Lilith and nodes a
+# TIGHTER one (0.5/0.75deg) than the old flat threshold, luminaries/
+# personal planets and social planets stay close to it (1.2/1.0deg),
+# outer planets unchanged (1.0deg).
+
+assert standout_target_orb("ascendant", MELBOURNE) == 1.5
+assert standout_target_orb("sun", MELBOURNE) == 1.2
+assert standout_target_orb("saturn", MELBOURNE) == 1.0
+assert standout_target_orb("uranus", MELBOURNE) == 1.0
+assert standout_target_orb("north_node_mean", MELBOURNE) == 0.75
+assert standout_target_orb("juno", MELBOURNE) == 0.5
+print("check standout_target_orb returns the correct category threshold for one role per category")
+
+# chart_ruler inherits whatever category its own real ruling planet
+# falls into, not a fixed entry of its own.
+chart_ruler_body = MELBOURNE["rulership"]["chart_ruler"]
+assert standout_target_orb("chart_ruler", MELBOURNE) == STANDOUT_TARGET_ORB[chart_ruler_body]
+print(f"check chart_ruler ({chart_ruler_body}) inherits its real ruling planet's category threshold")
+
+# An angle contact between the old flat 1.0 and the new wider 1.5
+# threshold is now standout -- previously excluded, now correctly
+# included per the widened angle allowance.
+widened_angle = {"kind": "transit_aspect", "transiting_body": "uranus", "target_role": "ascendant", "peak_orb": 1.3}
+tier, reasons = assign_tier(widened_angle, MELBOURNE)
+assert tier == "standout", "an angle contact within the new 1.5deg allowance should now be standout"
+assert any("category_orb_ascendant" in r for r in reasons)
+
+# An asteroid/Lilith contact between the old flat 1.0 and the new
+# tighter 0.5 threshold is now correctly excluded -- this is the
+# actual noise-flooding fix the brief targets.
+tightened_asteroid = {"kind": "transit_aspect", "transiting_body": "pluto", "target_role": "juno", "peak_orb": 0.8}
+tier, _ = assign_tier(tightened_asteroid, MELBOURNE)
+assert tier == "background", "an asteroid/Lilith contact outside the new 0.5deg allowance should now be background"
+
+# A genuinely tight asteroid/Lilith contact (within 0.5deg) still
+# qualifies -- the fix must not silently discard real, tight contacts.
+still_standout_asteroid = {"kind": "transit_aspect", "transiting_body": "saturn", "target_role": "juno", "peak_orb": 0.16}
+tier, _ = assign_tier(still_standout_asteroid, MELBOURNE)
+assert tier == "standout", "a genuinely tight asteroid/Lilith contact must still qualify as standout"
+print("check tiered thresholds: angle contact newly included, loose asteroid/Lilith contact newly excluded, tight one still included")
 
 
 # --- Station tiering: slow body within/beyond 1 deg of a natal point ---

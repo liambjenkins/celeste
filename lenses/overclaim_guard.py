@@ -329,6 +329,190 @@ def check_batch_overclaims(answer_text: str, hits: list[dict]) -> list[dict]:
     return findings
 
 
+# --- Part 2.4: three additional overclaim categories a real audit
+# found the exactness/connection/amplification checks above structurally
+# can't catch -- they're keyed to a single hit's orb/nodal data, with
+# zero domain-matching, zero occasion-existence checking against the
+# real hits list, and zero house-number extraction. All three below are
+# best-effort, deterministic (no API call), phrase/keyword-based checks
+# -- real natural-language coverage, not exhaustive fact-checking (that
+# remains lenses.narrative_validation.fact_check's job, which reads the
+# generated text against the actual source claims via a second LLM call
+# and has no backend-terminology blind spot a phrase-matcher does).
+
+# A small, precise keyword set per real life_domain value (the 13
+# actually in use across the claims knowledge base -- see
+# knowledge/claims/model.py's life_domain field). Deliberately narrow:
+# favors missing a genuine domain-invention (a false negative) over
+# flagging an incidental word overlap (a false positive) -- a life
+# domain is an abstract psychological category, not a keyword, so this
+# can only ever be an approximate signal, not a real classifier.
+_LIFE_DOMAIN_KEYWORDS = {
+    "identity": ("your identity", "who you are", "your sense of self"),
+    "relationships": ("your relationship", "your partner", "your closest relationship", "someone close to you"),
+    "emotion": ("your feelings", "how you feel", "emotionally"),
+    "communication": ("what you say", "how you communicate", "the conversation"),
+    "values_and_desire": ("your self-worth", "what you value", "what you truly want"),
+    "drive_and_ambition": ("your ambition", "your drive", "your career"),
+    "expansion_and_meaning": ("your beliefs", "a new opportunity", "your sense of meaning"),
+    "foundation_and_security": ("your home", "your family", "your sense of security"),
+    "discipline": ("your responsibilities", "your discipline", "your duty"),
+    "transformation": ("letting go of", "a real transformation", "releasing"),
+    "persona": ("how others see you", "your public image", "your reputation"),
+    "cyclicality": ("this cycle", "this phase", "the rhythm of"),
+    "underlying_strength": ("your inner strength", "your resilience"),
+}
+
+
+def _find_domain_mentions(text: str) -> dict[str, list[str]]:
+    lowered = text.lower()
+    found = {}
+    for domain, phrases in _LIFE_DOMAIN_KEYWORDS.items():
+        hits = [p for p in phrases if p in lowered]
+        if hits:
+            found[domain] = hits
+    return found
+
+
+def check_life_domain_overclaims(answer_text: str, daily_claims: list) -> list[dict]:
+    """Flags the reading invoking a life_domain (career/ambition,
+    relationships, home/security, ...) that NO claim resolved today
+    actually carries -- the "invented life-domain" fabrication case: a
+    real gap since none of check_batch_overclaims' rules ever inspect
+    domain/topic at all. `daily_claims` is the same resolved-claims
+    list build_daily_reading already has (each item's `.claim.
+    life_domain` is the real, already-curated domain tag) -- best-
+    effort: a domain invoked without using any of _LIFE_DOMAIN_KEYWORDS'
+    specific phrases won't be caught, same honest limitation every
+    keyword-based check in this codebase (e.g. narrative_validation.
+    check_coverage) already has."""
+
+    supported_domains = {
+        item.claim.life_domain for item in daily_claims if item.claim.life_domain
+    }
+
+    findings = []
+    for domain, phrases in _find_domain_mentions(answer_text).items():
+        if domain not in supported_domains:
+            findings.append({
+                "type": "invented_life_domain",
+                "domain": domain,
+                "phrases_found": phrases,
+                "reason": (
+                    f"Text invokes the '{domain}' life domain ({', '.join(phrases)}), "
+                    "but no claim resolved today carries that life_domain."
+                ),
+            })
+    return findings
+
+
+# Phrases that assert today is a special/significant MOMENT -- a real
+# named occasion (return/station/ingress/eclipse, or a standing arc at
+# its own exact peak) earns this kind of language; an ordinary day of
+# background/appendix-tier hits does not. Deliberately NOT astrology
+# terminology (grounding rule 4 already bans planet/aspect/technique
+# names from the reading itself, so a fabricated occasion wouldn't
+# name itself -- these are the plain-language "big day" phrases that
+# terminology-hiding still allows through).
+_OCCASION_LANGUAGE_PHRASES = (
+    "marks a", "marks the", "today marks", "this cycle completes",
+    "comes full circle", "a new chapter", "a turning point",
+    "a real milestone", "returns to where it began", "closes a chapter",
+    "begins a new era", "a once-in-a-lifetime",
+)
+
+_NAMED_OCCASION_KINDS = ("return", "station", "sign_ingress", "natal_house_ingress", "eclipse")
+
+
+def check_occasion_overclaims(answer_text: str, hits: list[dict], western_arc_standing: dict | None = None) -> list[dict]:
+    """Flags the reading using "big occasion" language with no real
+    named-occasion hit (or an exact standing arc) behind it today --
+    the "invented occasion" fabrication case. Best-effort and
+    genuinely weaker than the other two Part 2.4 checks: grounding
+    rule 4 already keeps backend terminology (the actual event name --
+    "Saturn return", "this eclipse") out of the reading, so a
+    fabricated occasion is described in the SAME plain feeling-
+    language a real one would be -- there is real, accepted false-
+    negative risk here that a sufficiently generic fabrication evades
+    every phrase in _OCCASION_LANGUAGE_PHRASES. Flagged honestly
+    rather than oversold; lenses.narrative_validation.fact_check (a
+    live LLM comparison against the real source claims) is the
+    stronger backstop for this specific category."""
+
+    lowered = answer_text.lower()
+    used_phrases = [p for p in _OCCASION_LANGUAGE_PHRASES if p in lowered]
+    if not used_phrases:
+        return []
+
+    real_occasion_today = any(h["kind"] in _NAMED_OCCASION_KINDS for h in hits)
+    arc_exact = western_arc_standing is not None and western_arc_standing.get("phase") == "exact"
+    if real_occasion_today or arc_exact:
+        return []
+
+    return [{
+        "type": "invented_occasion_language",
+        "phrases_found": used_phrases,
+        "reason": (
+            "Text uses occasion/milestone language ('marks a', 'turning point', ...), "
+            "but today has no real named-occasion hit (return/station/ingress/eclipse) "
+            "and no standing arc at its own exact peak to back it."
+        ),
+    }]
+
+
+_ORDINAL_HOUSE_WORDS = {
+    "first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6,
+    "seventh": 7, "eighth": 8, "ninth": 9, "tenth": 10, "eleventh": 11, "twelfth": 12,
+}
+
+_HOUSE_NUMBER_RE = re.compile(
+    r"\b(?:(\d{1,2})(?:st|nd|rd|th)?|(" + "|".join(_ORDINAL_HOUSE_WORDS) + r"))\s+house\b",
+    re.IGNORECASE,
+)
+
+
+def _extract_house_numbers(text: str) -> set[int]:
+    numbers = set()
+    for match in _HOUSE_NUMBER_RE.finditer(text.lower()):
+        if match.group(1):
+            n = int(match.group(1))
+            if 1 <= n <= 12:
+                numbers.add(n)
+        elif match.group(2):
+            numbers.add(_ORDINAL_HOUSE_WORDS[match.group(2)])
+    return numbers
+
+
+def check_house_number_overclaims(answer_text: str, real_house_numbers: set[int]) -> list[dict]:
+    """Flags a house number named in the reading that matches NO real,
+    computed house number from today's context -- the "wrong/invented
+    house number" fabrication case. `real_house_numbers` is the union
+    of every transit-through house (a transiting body's current house,
+    from hits) and every natal-own house relevant today (Big-3, any
+    hit-touched point, Vedic sidereal Big-3) -- both tropical and
+    sidereal systems unioned together, since the reading's own plain-
+    language prose never states which system it means (grounding rule
+    4 hides that distinction along with everything else backend).
+    Silent (by design) on whether a house number should appear in the
+    reading text AT ALL -- that's grounding rule 4's own scope, a
+    separate question from whether a number that DOES appear is real."""
+
+    mentioned = _extract_house_numbers(answer_text)
+    invented = mentioned - set(real_house_numbers)
+    if not invented:
+        return []
+
+    return [{
+        "type": "invented_house_number",
+        "houses_found": sorted(invented),
+        "reason": (
+            f"Text names house number(s) {sorted(invented)}, but no real, computed "
+            "house number from today's context (transit-through or natal-own, "
+            "tropical or sidereal) matches."
+        ),
+    }]
+
+
 if __name__ == "__main__":
     # The locked eclipse worked example: thematically_adjacent + not amplified.
     resolution = {

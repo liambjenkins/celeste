@@ -15,6 +15,9 @@ from lenses.overclaim_guard import (
     build_batch_overclaim_constraints,
     build_overclaim_constraints,
     check_batch_overclaims,
+    check_house_number_overclaims,
+    check_life_domain_overclaims,
+    check_occasion_overclaims,
     check_overclaims,
 )
 
@@ -239,6 +242,88 @@ print("check batch functions handle multiple simultaneous hits, tag every findin
 assert build_batch_overclaim_constraints([]) == ""
 assert check_batch_overclaims("Anything at all.", []) == []
 print("check empty hit list produces empty constraints and zero findings, no crash")
+
+# --- Part 2.4: three additional overclaim categories (life-domain,
+# occasion, house number) the checks above structurally can't catch,
+# since none of them ever inspect domain/topic, occasion-existence
+# against the real hits list, or numeric house claims. Best-effort,
+# phrase/keyword-based -- real coverage of a real gap, not exhaustive
+# fact-checking. ---
+
+
+class _FakeClaim:
+    def __init__(self, life_domain):
+        self.life_domain = life_domain
+
+
+class _FakeClaimItem:
+    def __init__(self, life_domain):
+        self.claim = _FakeClaim(life_domain)
+
+
+# check_life_domain_overclaims: flags a domain no claim resolved
+# today actually carries.
+today_claims = [_FakeClaimItem("emotion"), _FakeClaimItem("cyclicality")]
+
+domain_bad = "Today, your career takes center stage -- a real push in your ambition."
+domain_findings = check_life_domain_overclaims(domain_bad, today_claims)
+assert any(f["type"] == "invented_life_domain" and f["domain"] == "drive_and_ambition" for f in domain_findings)
+print("check check_life_domain_overclaims flags a domain with zero supporting claims today")
+
+domain_good = "Today, how you feel matters more than usual."
+assert check_life_domain_overclaims(domain_good, today_claims) == []
+print("check check_life_domain_overclaims produces zero findings when the invoked domain IS supported")
+
+domain_supported = [_FakeClaimItem("drive_and_ambition")]
+assert check_life_domain_overclaims(domain_bad, domain_supported) == [], (
+    "a real claim supporting the domain today must clear the check"
+)
+print("check check_life_domain_overclaims correctly clears a domain that IS backed by a real claim")
+
+
+# check_occasion_overclaims: flags "big occasion" language with no
+# real named-occasion hit (or exact standing arc) behind it.
+no_occasion_hits = [{"kind": "transit_aspect"}, {"kind": "moon_phase"}]
+occasion_bad = "This marks a real turning point for you."
+occasion_findings = check_occasion_overclaims(occasion_bad, no_occasion_hits, None)
+assert any(f["type"] == "invented_occasion_language" for f in occasion_findings)
+print("check check_occasion_overclaims flags occasion language with no real occasion hit today")
+
+real_occasion_hits = [{"kind": "return"}]
+assert check_occasion_overclaims(occasion_bad, real_occasion_hits, None) == []
+print("check check_occasion_overclaims clears occasion language when a real named-occasion hit exists")
+
+exact_arc = {"phase": "exact"}
+assert check_occasion_overclaims(occasion_bad, no_occasion_hits, exact_arc) == [], (
+    "a standing arc at its own exact peak is real occasion-worthy news"
+)
+print("check check_occasion_overclaims clears occasion language when the standing arc is at its own exact peak")
+
+assert check_occasion_overclaims("An ordinary day, nothing special.", no_occasion_hits, None) == []
+print("check check_occasion_overclaims produces zero findings when no occasion language is used at all")
+
+
+# check_house_number_overclaims: flags a house number with no real
+# computed match today (transit-through or natal-own, either system).
+real_houses = {2, 9, 10}
+
+house_bad = "Something is stirring in your 7th house today."
+house_findings = check_house_number_overclaims(house_bad, real_houses)
+assert house_findings and house_findings[0]["houses_found"] == [7]
+print("check check_house_number_overclaims flags a house number with no real match today")
+
+house_good = "Something is stirring in your 9th house today."
+assert check_house_number_overclaims(house_good, real_houses) == []
+print("check check_house_number_overclaims clears a house number that DOES match today's real data")
+
+house_word_form = "There's real movement in your tenth house right now."
+assert check_house_number_overclaims(house_word_form, real_houses) == [], (
+    "ordinal word form ('tenth house') must resolve the same as '10th house'"
+)
+print("check check_house_number_overclaims correctly parses ordinal word form, not just digit+suffix")
+
+assert check_house_number_overclaims("Nothing house-related mentioned here.", real_houses) == []
+print("check check_house_number_overclaims produces zero findings with no house number mentioned at all")
 
 print()
 print("OVERCLAIM GUARD: OK")

@@ -77,9 +77,9 @@ captured = {}
 real_render = daily._render_daily_narrative_input
 
 
-def _spy(narrative_claims, hits=None, headline_thread=None, western_arc_standing=None, daily_mode_depth=None):
+def _spy(narrative_claims, hits=None, headline_thread=None, western_arc_standing=None, daily_mode_depth=None, standing_claim_ids=None):
     captured["hits"] = hits
-    return real_render(narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth)
+    return real_render(narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth, standing_claim_ids)
 
 
 with patch("daily._render_daily_narrative_input", side_effect=_spy):
