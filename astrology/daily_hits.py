@@ -164,23 +164,31 @@ def _resolve_transit_aspect_hit(aspect: dict, natal_chart: dict, snap: dict) -> 
 
 
 def _resolve_moon_phase_hit(natal_chart: dict, as_of_utc_time: datetime, snap: dict) -> dict | None:
-    """At most one hit, only when today's phase bins to New or Full
-    (astrology.daily's own 8-way _phase_name convention, matching the
-    8 curated astrology_daily_moon_phase_*.json fragments -- the same
-    convention lenses/features.py's daily_moon_phase tag already
-    keys on). Every other phase name (first_quarter, waxing_gibbous,
-    ...) produces no hit at all -- assign_tier has no kind for an
-    ordinary lunation, and Celeste has no significance concept for
-    e.g. "waxing gibbous" alone."""
+    """At most one hit, only when today's phase bins to one of the 4
+    exact-angle lunar phases -- New (0deg), First Quarter (90deg),
+    Full (180deg), Last Quarter (270deg) -- out of astrology.daily's
+    own 8-way _phase_name convention. These 4 are the only phase
+    names with a genuine single exact Sun-Moon angle; the other 4
+    (waxing/waning crescent/gibbous) are multi-day RANGES with no
+    defining exact degree, so there is no astronomically honest
+    "contact" moment for them -- assign_tier correctly has no kind for
+    those, and this deliberately stays that way (widening to all 8
+    would mean fabricating an exactness concept that doesn't exist,
+    against this project's own fabrication-guard discipline). All 4
+    of the phases handled here have curated astrology_daily_moon_
+    phase_*.json content, the same convention lenses/features.py's
+    daily_moon_phase tag already keys on."""
 
     phase_name = snap["moon_phase"]["phase_name"]
-    if phase_name not in ("new_moon", "full_moon"):
+    if phase_name not in ("new_moon", "first_quarter", "full_moon", "last_quarter"):
         return None
 
     moon_lon = snap["moon_phase"]["moon_longitude"]
     sun_lon = snap["moon_phase"]["sun_longitude"]
 
-    tier, reasons = assign_tier({"kind": phase_name, "moon_longitude": moon_lon}, natal_chart)
+    tier, reasons = assign_tier(
+        {"kind": phase_name, "moon_longitude": moon_lon, "sun_longitude": sun_lon}, natal_chart
+    )
 
     # Re-derive which point is nearest, for grounding/citation -- not
     # extracted from `reasons` (fragile string parsing); assign_tier's

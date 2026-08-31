@@ -53,7 +53,8 @@ from astrology.daily import (
 from astrology.daily_highlights import compute_eclipse_context, compute_todays_highlights
 from astrology.daily_hits import compute_daily_hits
 from astrology.dasha import build_vimshottari_dasha
-from astrology.event_significance import natal_targets
+from astrology.event_significance import ASPECT_WEIGHTS, natal_targets
+from astrology.transits import TRANSIT_ORBS
 from astrology.normaliser import longitude_to_zodiac
 from astrology.sidereal import build_sidereal_chart, get_ayanamsa, sidereal_longitude
 from astrology.time import local_to_utc
@@ -800,6 +801,7 @@ def _render_hit_block(hit: dict) -> str:
 def _render_daily_narrative_input(
     narrative_claims: list[NarrativeClaim],
     hits: list[dict] | None = None,
+    headline_thread: dict | None = None,
 ) -> str:
     """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
     same shape as N4's render_narrative_input(), plus a per-hit
@@ -815,7 +817,16 @@ def _render_daily_narrative_input(
     daily_hits.py's docstrings for the full story. `hits` is already
     filtered to standout+background tier, so every hit named here is
     something genuinely worth the reading's attention, not a spray of
-    every placement in the chart."""
+    every placement in the chart.
+
+    `headline_thread` (daily.py's own _score_threads() output) is a
+    real gap this closes: without it, headline selection among
+    several real hits was left entirely to synthesis's own judgment,
+    with no explicit signal for aspect-type strength or convergence --
+    a pile of minor-aspect hits could read as more compelling than a
+    tighter major-aspect thread purely by hit count. Rendered as an
+    explicit anchor naming the day's highest-scoring thread, so the
+    reading's headline has a concrete deterministic basis."""
 
     lines = []
 
@@ -832,6 +843,16 @@ def _render_daily_narrative_input(
         lines.append("")
         lines.append("# Today's active astrological hits (real, resolved, tiered -- ground your writing in these)")
         lines.append("")
+
+        if headline_thread is not None:
+            lines.append(
+                f"PRIMARY THREAD (highest combined aspect-weight + convergence score, "
+                f"{headline_thread['score']:.2f}): {headline_thread['label']} -- "
+                f"lead with this hit or these converging hits ({', '.join(headline_thread['hit_ids'])}) "
+                f"as the reading's dominant story; everything else below is secondary."
+            )
+            lines.append("")
+
         for hit in hits:
             lines.append(_render_hit_block(hit))
 
@@ -854,7 +875,7 @@ def _render_daily_narrative_input(
     return "\n".join(lines)
 
 
-def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict]):
+def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict], headline_thread: dict | None = None):
     """
     Real synthesis path: builds today's claims into the daily
     synthesis prompt (lenses.daily_narrative_style) and calls the
@@ -880,7 +901,7 @@ def _synthesize_reading(daily_claims, backend: NarrativeBackend, hits: list[dict
 
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
-        _render_daily_narrative_input(narrative_claims, hits)
+        _render_daily_narrative_input(narrative_claims, hits, headline_thread)
     )
 
     try:
@@ -958,6 +979,78 @@ def _computed_hit_claim(hit: dict) -> dict:
     }
 
 
+def _score_threads(hits: list[dict]) -> dict | None:
+    """Deterministic thread scoring for headline selection (Synthesis
+    Repair Brief, Part 2.1) -- a real gap this closes: assign_tier()
+    only ever looks at orb/body-speed, never aspect TYPE, so a pile of
+    minor-aspect hits could tier identically to (and get selected over
+    by synthesis) a comparable major-aspect thread that was arguably
+    the day's real story. Mutates every surviving transit_aspect hit
+    in place, setting hit["thread_score"] (its own contribution) and
+    hit["thread_rank"] (1 for every hit belonging to the day's single
+    highest-scoring thread, None otherwise); returns a small
+    descriptor of the winning thread (or None if there are no
+    transit_aspect hits today) for _render_daily_narrative_input to
+    surface as an explicit anchor, so headline selection has a
+    concrete deterministic signal instead of being left entirely to
+    synthesis's own judgment.
+
+    Two-tier grouping, confirmed with Liam: primary threads group by
+    exact natal target ROLE (tighter, more defensible -- "three things
+    hitting your Venus" is a clearer single story than "three things
+    somewhere in house 7", which could be three unrelated points).
+    Secondary house-threads only form for roles that have just ONE hit
+    today (no real point-convergence already claimed that hit) -- a
+    house-thread's score is weighted down (x0.5) relative to an equal
+    raw-score point-thread, so real point-convergence always outranks
+    a same-score house-only convergence.
+    """
+
+    aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
+    if not aspect_hits:
+        return None
+
+    for hit in aspect_hits:
+        aspect = hit["display"]["aspect"]
+        weight = ASPECT_WEIGHTS.get(aspect, 0.5)
+        orb = hit["resolution"]["orb_to_nearest"]
+        max_orb = TRANSIT_ORBS.get(aspect, 2.0)
+        hit["thread_score"] = weight * max(0.0, 1.0 - (orb / max_orb))
+        hit["thread_rank"] = None
+
+    by_role: dict[str, list[dict]] = {}
+    for hit in aspect_hits:
+        by_role.setdefault(hit["display"]["target_role"], []).append(hit)
+
+    threads = [
+        (sum(h["thread_score"] for h in role_hits), role_hits, f"natal {role}")
+        for role, role_hits in by_role.items()
+    ]
+
+    singleton_hits = [role_hits[0] for role_hits in by_role.values() if len(role_hits) == 1]
+    by_house: dict[int, list[dict]] = {}
+    for hit in singleton_hits:
+        house = hit["resolution"]["natal_house"]
+        if house is not None:
+            by_house.setdefault(house, []).append(hit)
+
+    for house, house_hits in by_house.items():
+        if len(house_hits) < 2:
+            continue  # not a real convergence -- one lone hit already counted as its own point-thread above
+        raw_score = sum(h["thread_score"] for h in house_hits)
+        threads.append((raw_score * 0.5, house_hits, f"house {house}"))
+
+    score, winning_hits, label = max(threads, key=lambda t: t[0])
+    for hit in winning_hits:
+        hit["thread_rank"] = 1
+
+    return {
+        "label": label,
+        "score": score,
+        "hit_ids": [h["hit_id"] for h in winning_hits],
+    }
+
+
 def build_daily_reading(
     natal_chart: dict,
     four_pillars,
@@ -987,6 +1080,7 @@ def build_daily_reading(
     )
     hits = compute_daily_hits(natal_chart, as_of_utc_time)
     highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
+    headline_thread = _score_threads(hits)
 
     # daily_transit_aspects/daily_moon_phase, fed to the existing
     # concepts->features->resolve_claims machinery below, are now
@@ -1363,6 +1457,7 @@ def build_daily_reading(
             daily_claims,
             backend or AnthropicNarrativeBackend(),
             hits,
+            headline_thread,
         )
         if reading_text is not None:
             synthesis_method = "llm"
@@ -1392,6 +1487,7 @@ def build_daily_reading(
     result = {
         "as_of_utc_time": as_of_utc_time.isoformat(),
         "claims": attributed,
+        "headline_thread": headline_thread,
         "reading": reading_text,
         "reading_source_claim_ids": (
             [item.claim.claim_id for item in daily_claims] + [h["hit_id"] for h in uncited_hits]
