@@ -95,13 +95,25 @@ sign_claim_ids = {c["claim_id"] for c in result["claims"] if "sign" in c["claim_
 assert "astrology_jupiter_sign_capricorn" in sign_claim_ids, "jupiter is touched by a hit today, its sign claim must be cited"
 print("check a hit-touched natal placement's sign claim is cited in result['claims']")
 
-# The actual regression test: venus is NOT touched by any hit this
-# day and is not Big-3 -- its sign claim must NOT appear anywhere.
-assert "venus" not in roles_touched_today, "test assumption broken -- venus is touched by a hit today, pick a different check"
-assert not any("venus" in cid for cid in sign_claim_ids), (
-    f"venus is untouched by any hit and isn't Big-3 -- its sign claim must not be cited, got {sign_claim_ids}"
+# The actual regression test: a placement NOT touched by any hit
+# today and not Big-3 must have its sign claim NOT appear anywhere.
+# Which specific role qualifies shifts as aspect-type coverage widens
+# (e.g. completing the classical aspect set surfaced a new hit on
+# Venus on this same locked day) -- computed programmatically rather
+# than hardcoded, so this stays correct regardless.
+_big_three_roles = {"sun", "moon", "ascendant"}
+_untouched_role = next(
+    (
+        role for role in MELBOURNE["bodies"]
+        if role not in roles_touched_today and role not in _big_three_roles
+    ),
+    None,
 )
-print("check a natal placement untouched by any hit today (venus) and not Big-3 is correctly NOT cited -- no spray regression")
+assert _untouched_role is not None, "test assumption broken -- every natal body is touched by a hit today, pick a different check"
+assert not any(f"_{_untouched_role}_sign_" in cid for cid in sign_claim_ids), (
+    f"{_untouched_role} is untouched by any hit and isn't Big-3 -- its sign claim must not be cited, got {sign_claim_ids}"
+)
+print(f"check a natal placement untouched by any hit today ({_untouched_role}) and not Big-3 is correctly NOT cited -- no spray regression")
 
 
 # --- Dedupe: a sign claim never appears twice across result['claims'] ---

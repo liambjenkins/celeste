@@ -32,6 +32,12 @@ TRANSIT_ORBS = {
     "trine": 2.0,
     "quincunx": 1.0,
     "opposition": 2.0,
+    # semisextile matches quincunx (1.0) -- its traditional aspect-
+    # family counterpart (both "no major relationship" aspects, 30/150
+    # degrees). semisquare/sesquiquadrate match MINOR_ORBS (2.0).
+    "semisextile": 1.0,
+    "semisquare": 2.0,
+    "sesquiquadrate": 2.0,
 }
 
 # Fast personal-planet transits (Mercury/Venus/Mars) are traditionally

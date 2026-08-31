@@ -58,7 +58,7 @@ mechanisms:
 
 from datetime import date, datetime
 
-from astrology.aspects import evaluate_all_aspects, find_aspect
+from astrology.aspects import CLASSICAL_ASPECTS, evaluate_all_aspects, find_aspect
 from astrology.event_significance import natal_targets as primary_natal_targets
 from astrology.normaliser import longitude_to_zodiac
 from astrology.transits import TRANSIT_BODIES, TRANSIT_ORBS, build_transits
@@ -178,7 +178,8 @@ def compute_transit_aspects_to_key_points(
 
         for target_role, target_longitude in targets.items():
             match = find_aspect(
-                transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
+                transiting_longitude, target_longitude,
+                orbs=TRANSIT_ORBS, angles=CLASSICAL_ASPECTS,
             )
 
             if match is None:
@@ -248,7 +249,8 @@ def compute_full_transit_matrix(
 
         for target_role, target_longitude in targets.items():
             for candidate in evaluate_all_aspects(
-                transiting_longitude, target_longitude, orbs=TRANSIT_ORBS
+                transiting_longitude, target_longitude,
+                orbs=TRANSIT_ORBS, angles=CLASSICAL_ASPECTS,
             ):
                 rows.append({
                     "transiting_body": transiting_body,

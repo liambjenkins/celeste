@@ -5,14 +5,18 @@
   "passage_ids": [],
   "concept_ids": [],
   "feature_ids": [
-    "minor_aspect:sesquiquadrate"
+    "minor_aspect:sesquiquadrate",
+    "aspect:sesquiquadrate",
+    "transit_aspect:sesquiquadrate",
+    "progression_aspect:sesquiquadrate"
   ],
   "source_ids": [
     "minor_aspects_modern_convention"
   ],
   "theme_tags": [
     "relationship_between_placements",
-    "minor_aspect"
+    "minor_aspect",
+    "daily_mode"
   ],
   "life_domain": null,
   "editorial_note": "",

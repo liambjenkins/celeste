@@ -24,6 +24,7 @@ DEFAULT_ORBS = {
 # convention (most astrologers cap minor-aspect orbs at 2-3 degrees,
 # tighter than major aspects, since these are subtler harmonics).
 MINOR_ASPECTS = {
+    "semisextile": 30.0,
     "semisquare": 45.0,
     "sesquiquadrate": 135.0,
     "septile": 360.0 / 7.0,
@@ -31,10 +32,25 @@ MINOR_ASPECTS = {
 }
 
 MINOR_ORBS = {
+    "semisextile": 2.0,
     "semisquare": 2.0,
     "sesquiquadrate": 2.0,
     "septile": 1.0,
     "novile": 1.0,
+}
+
+
+# The standard classical aspect set (majors + the three non-harmonic
+# minors) used by the daily-transit pipeline (astrology/daily.py) --
+# deliberately excludes the harmonic minors (septile, novile), which
+# stay opt-in-only via calculate_aspects's include_minor, not part of
+# the default daily sweep. Mirrors the exact merge pattern
+# calculate_aspects's own include_minor branch already uses below.
+CLASSICAL_ASPECTS = {
+    **ASPECTS,
+    "semisextile": MINOR_ASPECTS["semisextile"],
+    "semisquare": MINOR_ASPECTS["semisquare"],
+    "sesquiquadrate": MINOR_ASPECTS["sesquiquadrate"],
 }
 
 

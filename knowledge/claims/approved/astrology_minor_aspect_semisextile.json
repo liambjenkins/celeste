@@ -1,0 +1,24 @@
+{
+  "claim_id": "astrology_minor_aspect_semisextile",
+  "lens_id": "astrology",
+  "statement": "A Semisextile: a semisextile (30°) carries a mild, easy-to-overlook connection between the two placements involved — a quiet, low-key link that supports without demanding attention.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "minor_aspect:semisextile",
+    "aspect:semisextile",
+    "transit_aspect:semisextile",
+    "progression_aspect:semisextile"
+  ],
+  "source_ids": [
+    "minor_aspects_modern_convention"
+  ],
+  "theme_tags": [
+    "relationship_between_placements",
+    "minor_aspect",
+    "daily_mode"
+  ],
+  "life_domain": null,
+  "editorial_note": "",
+  "status": "approved"
+}
