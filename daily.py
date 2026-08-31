@@ -76,7 +76,13 @@ from lenses.narrative_backend import (
 )
 from lenses.narrative_input import NarrativeClaim, format_source
 from lenses.narrative_validation import check_coverage, fact_check
-from lenses.overclaim_guard import build_batch_overclaim_constraints, check_batch_overclaims
+from lenses.overclaim_guard import (
+    build_batch_overclaim_constraints,
+    check_batch_overclaims,
+    check_house_number_overclaims,
+    check_life_domain_overclaims,
+    check_occasion_overclaims,
+)
 
 
 def _resolve_daily_claims(concepts, features):
@@ -853,6 +859,7 @@ def _render_daily_narrative_input(
     headline_thread: dict | None = None,
     western_arc_standing: dict | None = None,
     daily_mode_depth: str | None = None,
+    standing_claim_ids: set[str] | None = None,
 ) -> str:
     """Plain-text CLAIM_ID/STATEMENT/SOURCE block for today's claims,
     same shape as N4's render_narrative_input(), plus a per-hit
@@ -887,7 +894,17 @@ def _render_daily_narrative_input(
     even on a day with no fresh headline, and the DEPTH directive
     tells it how much space today's real signal actually earns (see
     lenses/daily_narrative_style.py for the prose-level rules on HOW
-    to use both -- this function only supplies the data)."""
+    to use both -- this function only supplies the data).
+
+    `standing_claim_ids` (Synthesis Repair Brief Part 2.5, "invented
+    timeliness") is the set of claim_ids for real, natal-only/timing
+    content (Big-3 sign+house, Vedic Dasha, Vedic sidereal Big-3+
+    bhava, Chinese Ten-God-in-position) that has NO real hit backing
+    it today -- until now these rendered identically to hit-backed
+    claims in the flat loop below, with zero signal that they aren't
+    today's news. Split into their own labeled section instead of the
+    flat loop, same principle as STANDING ARC above but for these five
+    always-on identity/timing families."""
 
     lines = []
 
@@ -906,7 +923,26 @@ def _render_daily_narrative_input(
             lines.append(f"  What this arc means: {western_arc_standing['claim_text']}")
         lines.append("")
 
-    for claim in narrative_claims:
+    standing_claim_ids = standing_claim_ids or set()
+    standing_claims = [c for c in narrative_claims if c.claim_id in standing_claim_ids]
+    other_claims = [c for c in narrative_claims if c.claim_id not in standing_claim_ids]
+
+    if standing_claims:
+        lines.append(
+            "# Standing identity & context (real, natal-only facts -- NOT today's "
+            "news; only present-tense/active language if the SAME fact is also "
+            "independently named above in STANDING ARC or the hits section below)"
+        )
+        lines.append("")
+        for claim in standing_claims:
+            lines.append(f"- CLAIM_ID: {claim.claim_id}")
+            lines.append(f"  TRADITION: {claim.tradition}")
+            lines.append(f"  LIFE_DOMAIN: {claim.life_domain or 'general'}")
+            lines.append(f"  STATEMENT: {claim.statement}")
+            lines.append(f"  SOURCE: {claim.source}")
+        lines.append("")
+
+    for claim in other_claims:
         lines.append(f"- CLAIM_ID: {claim.claim_id}")
         lines.append(f"  TRADITION: {claim.tradition}")
         lines.append(f"  LIFE_DOMAIN: {claim.life_domain or 'general'}")
@@ -958,6 +994,8 @@ def _synthesize_reading(
     headline_thread: dict | None = None,
     western_arc_standing: dict | None = None,
     daily_mode_depth: str | None = None,
+    standing_claim_ids: set[str] | None = None,
+    real_house_numbers: set[int] | None = None,
 ):
     """
     Real synthesis path: builds today's claims into the daily
@@ -970,11 +1008,15 @@ def _synthesize_reading(
     into implicit context, per the synthesis addendum, will legitimately
     score low on keyword overlap without that being a real bug),
     fact_check()'s findings (a real check -- catches invented
-    specificity the source claims don't support), and (new)
-    overclaim_findings from check_batch_overclaims -- the actual fix
-    for a real live bug where an eclipse was called "exact" 5.69
-    degrees off natal MC with nothing checking the generated text
-    against what was actually computed.
+    specificity the source claims don't support), and overclaim_
+    findings from check_batch_overclaims (the fix for a real live bug
+    where an eclipse was called "exact" 5.69 degrees off natal MC)
+    plus, per Synthesis Repair Brief Part 2.4, check_life_domain_
+    overclaims/check_occasion_overclaims/check_house_number_overclaims
+    -- three more deterministic categories a real audit found
+    check_batch_overclaims structurally can't catch (it only ever
+    checks orb/contact/amplification, never domain, occasion-
+    existence, or house numbers).
 
     `hits` (astrology.daily_hits.compute_daily_hits output, already
     resolved and tiered) is passed through to _render_daily_narrative_input
@@ -985,7 +1027,7 @@ def _synthesize_reading(
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
         _render_daily_narrative_input(
-            narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth
+            narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth, standing_claim_ids
         )
     )
 
@@ -1018,6 +1060,9 @@ def _synthesize_reading(
         fact_check_findings = "(fact-check unavailable: backend call failed)"
 
     overclaim_findings = check_batch_overclaims(reading_text, hits)
+    overclaim_findings += check_life_domain_overclaims(reading_text, daily_claims)
+    overclaim_findings += check_occasion_overclaims(reading_text, hits, western_arc_standing)
+    overclaim_findings += check_house_number_overclaims(reading_text, real_house_numbers or set())
 
     validation = {
         "coverage_ratio": coverage.coverage_ratio,
@@ -1388,6 +1433,20 @@ def build_daily_reading(
     highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
     headline_thread = _score_threads(hits)
 
+    # Synthesis Repair Brief Part 2.4: every real, computed house
+    # number relevant today -- transit-through (a transiting body's
+    # current house) to start; natal-own (Big-3, hit-touched points,
+    # Vedic sidereal Big-3) are unioned in further below as each is
+    # computed. Feeds check_house_number_overclaims -- a house number
+    # the generated reading names that ISN'T in this set traces to
+    # nothing Celeste actually computed today, tropical or sidereal
+    # (both systems unioned together since the reading's own plain-
+    # language prose never says which system it means, per grounding
+    # rule 4 hiding backend terminology).
+    real_house_numbers: set[int] = {
+        h["resolution"]["natal_house"] for h in hits if h["resolution"].get("natal_house") is not None
+    }
+
     # Continuity ("is this the first time, or a slow-moving arc I'm
     # already in?") is real, but expensive per hit -- computed only for
     # the day's headline thread's hit(s), not every surviving hit, both
@@ -1504,6 +1563,37 @@ def build_daily_reading(
 
     sun_house_claim = _use_natal_house_claim("sun", natal_chart["bodies"]["sun"]["house"])
     moon_house_claim = _use_natal_house_claim("moon", natal_chart["bodies"]["moon"]["house"])
+    real_house_numbers.add(natal_chart["bodies"]["sun"]["house"])
+    real_house_numbers.add(natal_chart["bodies"]["moon"]["house"])
+
+    # Synthesis Repair Brief Part 2.5 ("invented timeliness"): every
+    # claim resolved unconditionally here (Big-3 sign/house, and
+    # further below Vedic Dasha/sidereal Big-3/Chinese Ten-God) is a
+    # real, permanent chart fact -- not something "activating" today.
+    # Until now these fed _render_daily_narrative_input's flat claims
+    # loop with zero temporal signal, identical in shape to a claim
+    # actually paired to a real hit today -- a real, confirmed gap:
+    # nothing told synthesis these are standing/background, not news.
+    # standing_claim_ids collects exactly which claim_ids are standing-
+    # only, so the prompt can render them under their own header with
+    # explicit "not necessarily active today" framing (see
+    # _render_daily_narrative_input) instead of unmarked in the flat
+    # list. A Big-3 point ALSO touched by a real hit today (role in
+    # hit_touched_roles) is excluded from this set -- it's legitimately
+    # paired to today's real activity via that hit, not standing-only,
+    # even though it's the same underlying claim object.
+    hit_touched_roles = {
+        h["resolution"].get("nearest_natal_point")
+        for h in hits
+        if h["resolution"].get("nearest_natal_point")
+    }
+    standing_claim_ids: set[str] = set()
+    for claim, role in (
+        (sun_sign_claim, "sun"), (moon_sign_claim, "moon"), (ascendant_sign_claim, "ascendant"),
+        (sun_house_claim, "sun"), (moon_house_claim, "moon"),
+    ):
+        if claim is not None and role not in hit_touched_roles:
+            standing_claim_ids.add(claim.claim.claim_id)
 
     # Sign-on-house-cusp (Combinatorial-Meaning Expansion, Phase 2): a
     # SEPARATE atomic fact from "which planet occupies the house" above
@@ -1541,6 +1631,8 @@ def build_daily_reading(
             hit["natal_sign_note"] = claim.claim.statement
 
         natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
+        if natal_house is not None:
+            real_house_numbers.add(natal_house)
         natal_house_claim = _use_natal_house_claim(real_role, natal_house)
         if natal_house_claim is not None:
             hit["target_natal_house_note"] = (
@@ -1717,6 +1809,8 @@ def build_daily_reading(
     # not "in" a house.
     vedic_sun_house = sidereal_natal["bodies"]["sun"]["house"]
     vedic_moon_house = sidereal_natal["bodies"]["moon"]["house"]
+    real_house_numbers.add(vedic_sun_house)
+    real_house_numbers.add(vedic_moon_house)
     vedic_sun_house_claim = _resolve_vedic_house_claim("sun", vedic_sun_house)
     vedic_moon_house_claim = _resolve_vedic_house_claim("moon", vedic_moon_house)
     if vedic_sun_house_claim is not None:
@@ -1762,6 +1856,25 @@ def build_daily_reading(
             ten_god_claims_used[_claim.claim.claim_id] = _claim
             daily_claims.append(_claim)
         chinese_pillar_ten_gods[_position] = {"ten_god": _ten_god, "claim": _claim}
+
+    # Continuing the standing-content collection started above: Vedic
+    # Dasha timing, natal sidereal Big-3/bhava, and Chinese Ten-God-in-
+    # position have NO hit-pairing equivalent at all (nothing in this
+    # pipeline ever produces a "Dasha lord activated today" or "Ten-
+    # God activated today" hit) -- always standing, no exclusion check
+    # needed, unlike the tropical Big-3 above.
+    for item in dasha_lord_claims.values():
+        standing_claim_ids.add(item.claim.claim_id)
+    if chara_sign_claim is not None:
+        standing_claim_ids.add(chara_sign_claim.claim.claim_id)
+    for item in vedic_sun_claims + vedic_moon_claims + vedic_ascendant_claims:
+        standing_claim_ids.add(item.claim.claim_id)
+    if vedic_sun_house_claim is not None:
+        standing_claim_ids.add(vedic_sun_house_claim.claim.claim_id)
+    if vedic_moon_house_claim is not None:
+        standing_claim_ids.add(vedic_moon_house_claim.claim.claim_id)
+    for item in ten_god_claims_used.values():
+        standing_claim_ids.add(item.claim.claim_id)
 
     attributed = []
 
@@ -1822,6 +1935,8 @@ def build_daily_reading(
             headline_thread,
             western_arc_standing,
             daily_mode_depth,
+            standing_claim_ids,
+            real_house_numbers,
         )
         if reading_text is not None:
             synthesis_method = "llm"

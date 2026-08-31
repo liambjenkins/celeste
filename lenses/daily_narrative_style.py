@@ -110,6 +110,21 @@ many claims) level. near_silent needed no new instruction: it's the
 same "genuinely nothing" condition grounding rule 7 already covers,
 just reached by a named decision now instead of only by incidental
 emptiness.
+
+Revised a sixth time for Part 2.5 ("invented timeliness"): a real,
+confirmed gap where five always-on identity/timing families (Big-3
+sign+house, Vedic Dasha, Vedic sidereal Big-3+bhava, Chinese Ten-God-
+in-position) reached this prompt in the same flat claims list as
+hit-backed content, with zero temporal signal telling synthesis they
+aren't today's news -- daily.py's own result dict already carried a
+"standing identity context, not today's sky" note for exactly this
+content, but that note never reached the prompt. Fixed at both ends:
+daily.py now separates these into their own "# Standing identity &
+context" section (see _render_daily_narrative_input), and grounding
+rule 8 above states the hard rule for how to write about them --
+never present-tense activation language unless the same fact is
+independently paired to something real today via STANDING ARC or an
+actual hit.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -186,6 +201,21 @@ DAILY_GROUNDING_RULES = """
    person, plain-fact voice as everything else. Do not manufacture
    drama or invent a "quiet but meaningful" undertone the data doesn't
    support; an ordinary day is a genuine, honest answer.
+8. If a "# Standing identity & context" section appears, those claims
+   are real, permanent chart facts (natal sign/house placements,
+   Dasha timing, generational pillar structure) with NO real event
+   behind them today -- never phrase them as "activating," "showing
+   up," or "happening" today ("today, your Sun sign is...", "right
+   now you're feeling your Mercury Dasha..."). Write them as timeless
+   background instead ("as a [sign] Sun...", "you're in a multi-year
+   Saturn Mahadasha..."). The one exception: if the SAME underlying
+   fact is ALSO independently named in the STANDING ARC block or the
+   hits section below, treat it as today-relevant via THAT pairing --
+   not because it happens to also appear in the standing section.
+   This is a hard rule, same weight as rule 6: inventing timeliness
+   for a fact this system never computed as active today is exactly
+   the same class of overclaim as inventing exactness for a loose
+   contact.
 """
 
 DAILY_STYLE_GUIDE = """
