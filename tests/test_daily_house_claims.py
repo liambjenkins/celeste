@@ -28,7 +28,7 @@ from astrology.daily_hits import compute_daily_hits
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 import daily
-from daily import _resolve_house_claim, build_daily_reading
+from daily import _resolve_house_claim, _resolve_natal_house_claim, build_daily_reading
 
 print("=== DAILY HOUSE CLAIMS ===")
 
@@ -69,6 +69,16 @@ houses_touched_today = {h["resolution"]["natal_house"] for h in aspect_hits}
 # generic astrology_house_{N} fallback used before Phase 1 existed.
 # Computed programmatically (not hand-enumerated) since which natal
 # points get touched depends on the day's real hits, not just Sun/Moon.
+#
+# Since "Natal House Verification + Silent-Drop" widened the transit-
+# aspect target set to the full ~26-32-point table, node/Lilith roles
+# (north_node_true/mean, south_node_true/mean, lilith_mean/true) can
+# now genuinely get touched -- and their house content is authored
+# once per symbolic point, shared across both true/mean tag variants
+# (same pattern as their sign claims), so claim_id does NOT always
+# mirror the exact role string. Resolve via _resolve_natal_house_claim
+# itself (the real mechanism daily.py uses) rather than hand-building
+# the claim_id, so this stays correct regardless of naming convention.
 result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=False)
 house_claim_ids = {
     c["claim_id"] for c in result["claims"]
@@ -90,9 +100,11 @@ _touched_roles = {
     if h["kind"] in ("transit_aspect", "eclipse", "moon_phase")
 }
 natal_own_roles = ({"sun", "moon"} | _touched_roles) & set(MELBOURNE["bodies"])
-expected_natal_own = {
-    f"astrology_{role}_house_{MELBOURNE['bodies'][role]['house']}" for role in natal_own_roles
-}
+expected_natal_own = set()
+for role in natal_own_roles:
+    claim = _resolve_natal_house_claim(role, MELBOURNE["bodies"][role]["house"])
+    if claim is not None:
+        expected_natal_own.add(claim.claim.claim_id)
 expected = expected_transit_through | expected_natal_own
 assert house_claim_ids == expected, (
     f"expected exactly the transit-through houses touched today ({expected_transit_through}) plus "
