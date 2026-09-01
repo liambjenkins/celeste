@@ -105,7 +105,13 @@ def _build_today(as_of_utc_time: datetime) -> dict:
     )
     four_pillars = build_four_pillars(natal_chart, local_time)
 
-    return build_daily_reading(natal_chart, four_pillars, as_of_utc_time)
+    # run_fact_check=False: fact_check() is a second, full Anthropic
+    # round trip whose findings only ever reach a human via main.py's
+    # CLI --narrate debug print -- nothing the web page reads or gates
+    # on. Confirmed by direct trace (daily.py::_synthesize_reading's
+    # own docstring). Skipping it here roughly halves real synthesis
+    # latency with no change to what gets served.
+    return build_daily_reading(natal_chart, four_pillars, as_of_utc_time, run_fact_check=False)
 
 
 def _load_cache() -> dict:

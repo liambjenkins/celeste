@@ -147,6 +147,26 @@ session produced, confirmed by Liam as "better, genuinely" -- showing
 committed single-thread execution against a real day with multiple
 equally-cited competing threads (Moon/Uranus, Mars/Jupiter) that it
 correctly says nothing about at all.
+
+Revised an eighth time, immediately after: the very first live test of
+the seventh revision produced a reading that reproduced two of that
+revision's own quoted "don't do this" example sentences almost
+verbatim (same em-dash-aside-plus-verb shape, the same "what you're
+willing to commit to... and what simply won't bend" list, and a
+landing line that was a near word-for-word match for the banned
+"It's not abstract, and it's not later"). Full, reusable bad-example
+sentences aren't warnings the model reliably avoids -- they're
+templates it can crib from; this is a known failure mode for few-shot
+negative examples, not a one-off fluke. Fixed by rewriting every "real
+observed violation" quote in this file from a full reproducible
+sentence into an abstract description of the failure's SHAPE (which
+clauses, in what order, doing what), each now paired with an explicit
+instruction not to reproduce or closely paraphrase the pattern, and a
+note that swapping in different nouns/verbs while keeping the same
+clause structure doesn't count as a fix. The one deliberate exception
+is the "Say Less" worked example, which stays fully quoted -- it's a
+POSITIVE example the model should pattern-match toward, where
+imitation is the entire point.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -440,13 +460,14 @@ to avoid admitting a claim got compressed.
   or "someone specific" is invented specificity the source claim
   doesn't support.
 - Non-specificity means ONE plain phrase, never a menu of options.
-  Real observed violation: "someone close — friend, partner,
-  something built on shared ground" -- offering three possibilities
-  is not staying non-specific, it's hedging dressed up as caution.
-  "Someone close to you" already IS the non-specific phrasing; don't
-  then list what that might mean. If you're reaching for "or" or
-  "something like" to cover multiple possibilities in one clause,
-  that's the tell -- pick the single plainest phrasing and stop.
+  Real observed violation (pattern, not exact wording -- do not
+  reproduce or closely paraphrase this): naming someone non-
+  specifically, then immediately listing several relationship-types it
+  might be, as if the menu were the caution. "Someone close to you"
+  already IS the non-specific phrasing; don't then list what that
+  might mean. If you're reaching for "or" or "something like" to cover
+  multiple possibilities in one clause, that's the tell -- pick the
+  single plainest phrasing and stop.
 - At most ONE image or metaphor per reading, and only if it's earned
   by the claims themselves -- most readings should have zero. Never
   reach for one to dress up a plain fact, and never use more than one
@@ -461,14 +482,18 @@ to avoid admitting a claim got compressed.
 - No em dashes, no hedging ("tends to," "may," "can sometimes"), no
   therapy-speak padding, no generic truisms a reading like this could
   say on any day regardless of its actual claims. Real observed
-  violations, from actual generated output, not hypotheticals: "What
-  commitment actually means — in practice, not principle — is being
-  tested directly" and "The question of what you actually need from
-  someone close — friend, partner, something built on shared ground —
-  is being tested against..." Both em dashes AND the parenthetical-
-  aside habit they enable ("in practice, not principle") are the
-  failure -- use a period or a plain comma instead, or cut the aside
-  entirely if it's not adding a new fact.
+  failure shape, from actual generated output (pattern only -- do not
+  reproduce or closely paraphrase any specific sentence built this
+  way): opening with an abstract restatement of a claim's subject
+  ("what X actually means"), then an em-dash-set-off aside that
+  narrows or qualifies it ("not the idea of it, the actual thing"),
+  then a verb phrase completing the sentence. Both the em dash AND the
+  parenthetical-aside habit it enables are the failure, independent of
+  the exact words used -- use a period or a plain comma instead of the
+  dash, or cut the aside entirely if it's not adding a new fact. A
+  reading that avoids the literal character "—" but keeps this same
+  three-part shape (abstract restatement, qualifying aside, verb
+  completion) has not actually fixed the problem.
 
 ### Say it once, then stop
 
@@ -498,16 +523,20 @@ sentence, not sentence count. Fix these specifically:
   9 words; "Whatever comes up won't just affect you" is 7). A sentence
   pushing past 18-20 words is very likely doing two things at once --
   split it or cut a qualifier, don't just let it run on with commas
-  and "and." Real observed violation, ~40 words in one sentence:
-  "The question of what you actually need from someone close — friend,
-  partner, something built on shared ground — is being tested against
-  what you're willing to commit to, what you can't avoid saying, and
-  what simply won't bend." That's at least three separate clauses
-  (a hedged aside, a three-item list, a triple predicate) doing the
-  work of one sentence -- exactly the "doing two [or more] things at
-  once" failure this rule already names, just not caught in practice.
-  Compare the locked "Say Less" example below, whose longest line is
-  still under 20 words.
+  and "and." Real observed failure shape, ~40 words in one sentence
+  (pattern only -- do not reproduce or closely paraphrase any specific
+  sentence built this way): a hedged, em-dash-set-off aside naming
+  several possible relationship-types, stacked onto a closing list of
+  three separate demands ("what you're willing to commit to," "what
+  you [can't avoid / have to] say," "what won't bend"). That's at
+  least three separate clauses (a hedged aside, a three-item list, a
+  triple predicate) doing the work of one sentence -- exactly the
+  "doing two [or more] things at once" failure this rule already
+  names, just not caught in practice. A rewritten version that swaps
+  in different nouns but keeps this same three-clause shape (aside +
+  list + triple predicate) has not actually fixed the problem, only
+  disguised it. Compare the locked "Say Less" example below, whose
+  longest line is still under 20 words.
 
 ### End on a real payoff, not a trailing description
 
@@ -532,15 +561,19 @@ support:
   papered over with an invented silver lining -- an honest, unresolved
   ending is correct when that's genuinely what the claims support;
   fabricating relief is not.
-- **A landing line is a claim, not more setup.** Real observed
-  violation: "It's not abstract, and it's not later" -- this restates
-  the pressure already established in sentences 1-2 in slightly
-  different words (more abstraction) instead of landing on anything
-  new. It reads as a payoff but functions as a fourth description.
-  Compare the locked "Say Less" example's real button line below --
-  "Stop performing him out of habit" -- which names a specific,
-  concrete thing to do or recognize, not a restatement of the tension
-  that came before it.
+- **A landing line is a claim, not more setup.** Real observed failure
+  shape (pattern only -- do not reproduce or closely paraphrase any
+  specific sentence built this way): a short closing sentence that
+  denies the tension is abstract or distant ("it's not X, and it's not
+  Y") instead of resolving it -- this restates the pressure already
+  established in sentences 1-2 in slightly different, more abstract
+  words instead of landing on anything new. It reads as a payoff but
+  functions as a fourth description. A rewritten version using
+  different words for X/Y in that same denial-shaped sentence has not
+  actually fixed the problem. Compare the locked "Say Less" example's
+  real button line below -- "Stop performing him out of habit" --
+  which names a specific, concrete thing to do or recognize, not a
+  restatement of the tension that came before it.
 
 ## Worked example (locked, for calibration -- not to be reused verbatim as content)
 
