@@ -22,7 +22,7 @@ from astrology.chart import build_chart
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 import daily
-from daily import _house_cusp_sign, _resolve_house_cusp_sign_claim, build_daily_reading
+from daily import _house_cusp_sign, _resolve_house_cusp_sign_claim, _score_threads, build_daily_reading
 
 print("=== DAILY SIGN IN HOUSE ===")
 
@@ -69,9 +69,15 @@ print("check angular houses (1/4/7/10) honestly degrade to None -- that content 
 
 
 # --- Per-hit grounding + citation on the locked eclipse day: multiple
-# hits sharing a natal house (Uranus and Jupiter both natally in house
-# 8) must all carry the SAME cusp-sign grounding text, but the claim
-# must be cited only once in result['claims'] ---
+# hits sharing a natal house must all carry the SAME cusp-sign
+# grounding text, but the claim must be cited only once in
+# result['claims']. Synthesis Repair Brief Part 6 scopes per-hit
+# grounding to standout-tier hits (plus anything winning today's
+# headline thread) -- so which house happens to have 2+ qualifying
+# hits shifts with tiering/orb thresholds; found programmatically
+# (matching the standout_hits definition build_daily_reading itself
+# uses -- see tests/test_daily_house_claims.py) rather than hardcoded
+# to house 8. ---
 
 captured = {}
 real_render = daily._render_daily_narrative_input
@@ -89,39 +95,44 @@ internal_hits = captured["hits"]
 hits_with_cusp_note = [h for h in internal_hits if h.get("house_cusp_sign_note")]
 assert hits_with_cusp_note, "expected at least one hit to carry a house_cusp_sign_note on the locked eclipse day"
 
-house_8_hits = [
-    h for h in hits_with_cusp_note
-    if MELBOURNE["bodies"].get(h["resolution"]["nearest_natal_point"], {}).get("house") == 8
-]
-assert len(house_8_hits) >= 2, "test assumption broken -- expected 2+ hits touching a natal house-8 planet"
-assert len({h["house_cusp_sign_note"] for h in house_8_hits}) == 1, (
-    "expected identical cusp-sign grounding text across all hits sharing house 8"
+_houses_seen: dict[int, list] = {}
+for h in hits_with_cusp_note:
+    _house = MELBOURNE["bodies"].get(h["resolution"]["nearest_natal_point"], {}).get("house")
+    if _house is not None:
+        _houses_seen.setdefault(_house, []).append(h)
+_shared_house, shared_house_hits = next(
+    ((house, hs) for house, hs in _houses_seen.items() if len(hs) >= 2),
+    (None, None),
 )
-rendered_block = daily._render_hit_block(house_8_hits[0])
+assert _shared_house is not None, "test assumption broken -- expected 2+ standout-scoped hits sharing a natal house today"
+assert len({h["house_cusp_sign_note"] for h in shared_house_hits}) == 1, (
+    f"expected identical cusp-sign grounding text across all hits sharing house {_shared_house}"
+)
+rendered_block = daily._render_hit_block(shared_house_hits[0])
 assert "Sign on that house's cusp" in rendered_block
-print(f"check hits sharing natal house 8 all carry identical cusp-sign grounding, correctly labeled and rendered")
+print(f"check hits sharing natal house {_shared_house} all carry identical cusp-sign grounding, correctly labeled and rendered")
 
 cusp_sign_claim_ids = [c["claim_id"] for c in result["claims"] if c["claim_id"].startswith("astrology_sign_")]
 
 # Since "Natal House Verification + Silent-Drop" widened the transit-
 # aspect target set to the full ~26-32-point table, hits can now
-# legitimately land in houses other than 8 too on this same day --
-# so more than one DISTINCT cusp-sign claim can appear. The real
-# invariant this test cares about is dedup: house 8's own cusp-sign
-# claim (Sagittarius, shared by the Uranus+Jupiter hits above) must
-# still appear only ONCE, not once per hit that touches it.
-house_8_sign = _house_cusp_sign(MELBOURNE, 8)
-house_8_claim = _resolve_house_cusp_sign_claim(8, house_8_sign)
-assert house_8_claim is not None
-house_8_claim_id = house_8_claim.claim.claim_id
-assert house_8_claim_id in cusp_sign_claim_ids, (
-    f"expected house 8's cusp-sign claim ({house_8_claim_id}) to be cited, got {cusp_sign_claim_ids}"
+# legitimately land in houses other than the shared one too on this
+# same day -- so more than one DISTINCT cusp-sign claim can appear.
+# The real invariant this test cares about is dedup: the shared
+# house's own cusp-sign claim must still appear only ONCE, not once
+# per hit that touches it.
+shared_house_sign = _house_cusp_sign(MELBOURNE, _shared_house)
+shared_house_claim = _resolve_house_cusp_sign_claim(_shared_house, shared_house_sign)
+assert shared_house_claim is not None
+shared_house_claim_id = shared_house_claim.claim.claim_id
+assert shared_house_claim_id in cusp_sign_claim_ids, (
+    f"expected house {_shared_house}'s cusp-sign claim ({shared_house_claim_id}) to be cited, got {cusp_sign_claim_ids}"
 )
-assert cusp_sign_claim_ids.count(house_8_claim_id) == 1, (
-    f"expected house 8's cusp-sign claim cited exactly once despite 2+ hits sharing it, "
-    f"got {cusp_sign_claim_ids.count(house_8_claim_id)} in {cusp_sign_claim_ids}"
+assert cusp_sign_claim_ids.count(shared_house_claim_id) == 1, (
+    f"expected house {_shared_house}'s cusp-sign claim cited exactly once despite 2+ hits sharing it, "
+    f"got {cusp_sign_claim_ids.count(shared_house_claim_id)} in {cusp_sign_claim_ids}"
 )
-print(f"check the shared house-8 cusp-sign claim is cited exactly once in result['claims'] ({sorted(set(cusp_sign_claim_ids))})")
+print(f"check the shared house-{_shared_house} cusp-sign claim is cited exactly once in result['claims'] ({sorted(set(cusp_sign_claim_ids))})")
 
 
 # --- No duplicate citation across the whole reading ---

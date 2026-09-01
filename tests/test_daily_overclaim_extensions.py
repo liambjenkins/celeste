@@ -57,12 +57,12 @@ real_synth = daily._synthesize_reading
 
 
 def _spy(daily_claims, backend, hits, headline_thread=None, western_arc_standing=None,
-         daily_mode_depth=None, standing_claim_ids=None, real_house_numbers=None):
+         daily_mode_depth=None, standing_claim_ids=None, real_house_numbers=None, narrative_hits=None):
     captured["real_house_numbers"] = real_house_numbers
     captured["hits"] = hits
     captured["daily_claims"] = daily_claims
     return real_synth(daily_claims, backend, hits, headline_thread, western_arc_standing,
-                       daily_mode_depth, standing_claim_ids, real_house_numbers)
+                       daily_mode_depth, standing_claim_ids, real_house_numbers, narrative_hits)
 
 
 with patch("daily._synthesize_reading", side_effect=_spy):
