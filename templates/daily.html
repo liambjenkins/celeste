@@ -31,7 +31,20 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <h2>Reading</h2>
 <p>{{ result.reading }}</p>
-<p><small>Sources: {{ result.reading_source_claim_ids | join(', ') }}</small></p>
+<!--
+Sources here is the FULL attribution list (every claim resolved
+today, standout+background, not just what the reading text actually
+drew from -- see daily.py::build_daily_reading's own
+reading_source_claim_ids comment) -- deliberately comprehensive for
+audit purposes, but ~70 entries is real visual noise for a reader who
+just wants to know what grounded THIS reading. Collapsed by default,
+same treatment as the full "Referenced hits" section below (both are
+the same underlying data, shown twice at different granularity).
+-->
+<details>
+  <summary><small>Sources ({{ result.reading_source_claim_ids | length }} claims -- full attribution, click to expand)</small></summary>
+  <p><small>{{ result.reading_source_claim_ids | join(', ') }}</small></p>
+</details>
 <form method="post" action="/edit">
   <input type="hidden" name="element_type" value="reading">
   <input type="hidden" name="original_text" value="{{ result.reading }}">
@@ -42,17 +55,19 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <hr>
 
-<h2>Referenced hits (full attribution)</h2>
-<ul>
-{% for claim in result.claims %}
-  <li>
-    <strong>{{ claim.claim_id }}</strong> ({{ claim.life_domain }}) —
-    {{ claim.claim_text }}
-    <br><small>sources: {{ claim.source_ids | join(', ') }};
-    features: {{ claim.sources | map(attribute='value') | join(', ') }}</small>
-  </li>
-{% endfor %}
-</ul>
+<details>
+  <summary><h2 style="display:inline">Referenced hits ({{ result.claims | length }} claims -- full attribution, click to expand)</h2></summary>
+  <ul>
+  {% for claim in result.claims %}
+    <li>
+      <strong>{{ claim.claim_id }}</strong> ({{ claim.life_domain }}) —
+      {{ claim.claim_text }}
+      <br><small>sources: {{ claim.source_ids | join(', ') }};
+      features: {{ claim.sources | map(attribute='value') | join(', ') }}</small>
+    </li>
+  {% endfor %}
+  </ul>
+</details>
 
 </body>
 </html>
