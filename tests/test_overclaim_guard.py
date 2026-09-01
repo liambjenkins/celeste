@@ -17,6 +17,7 @@ from lenses.overclaim_guard import (
     check_batch_overclaims,
     check_house_number_overclaims,
     check_life_domain_overclaims,
+    check_moon_phase_overclaims,
     check_occasion_overclaims,
     check_overclaims,
 )
@@ -280,6 +281,17 @@ assert check_life_domain_overclaims(domain_bad, domain_supported) == [], (
 )
 print("check check_life_domain_overclaims correctly clears a domain that IS backed by a real claim")
 
+# Regression: a real historical fabrication case this check originally
+# missed -- "intimate ties" is a paraphrase of the relationships
+# domain with no keyword overlap against the original narrow phrase
+# list ("your relationship", "your partner", ...).
+intimate_ties_bad = "Something in your intimate ties is asking for attention right now."
+intimate_findings = check_life_domain_overclaims(intimate_ties_bad, today_claims)
+assert any(f["type"] == "invented_life_domain" and f["domain"] == "relationships" for f in intimate_findings), (
+    "'intimate ties' must be recognized as relationships-domain language"
+)
+print("check check_life_domain_overclaims catches the real 'intimate ties' historical fabrication case")
+
 
 # check_occasion_overclaims: flags "big occasion" language with no
 # real named-occasion hit (or exact standing arc) behind it.
@@ -324,6 +336,32 @@ print("check check_house_number_overclaims correctly parses ordinal word form, n
 
 assert check_house_number_overclaims("Nothing house-related mentioned here.", real_houses) == []
 print("check check_house_number_overclaims produces zero findings with no house number mentioned at all")
+
+
+# check_moon_phase_overclaims: flags a named lunar phase with no real
+# moon_phase hit of that type today -- the "invented full moon"
+# historical fabrication case.
+no_phase_hits = [{"kind": "transit_aspect", "hit_id": "transit_aspect:x"}]
+full_moon_bad = "Under tonight's full moon, something in you wants to be seen."
+phase_findings = check_moon_phase_overclaims(full_moon_bad, no_phase_hits)
+assert any(f["type"] == "invented_moon_phase" and f["phase"] == "full_moon" for f in phase_findings), (
+    "must catch the real 'invented full moon' historical fabrication case"
+)
+print("check check_moon_phase_overclaims catches the real 'invented full moon' historical fabrication case (no phase hit at all)")
+
+new_moon_hits = [{"kind": "moon_phase", "hit_id": "moon_phase:new_moon"}]
+mismatched_findings = check_moon_phase_overclaims(full_moon_bad, new_moon_hits)
+assert any(f["type"] == "invented_moon_phase" and f["phase"] == "full_moon" for f in mismatched_findings), (
+    "a real moon_phase hit of a DIFFERENT phase must not clear a mismatched phase name"
+)
+print("check check_moon_phase_overclaims flags a mismatched phase name even when a different real phase hit exists today")
+
+full_moon_hits = [{"kind": "moon_phase", "hit_id": "moon_phase:full_moon"}]
+assert check_moon_phase_overclaims(full_moon_bad, full_moon_hits) == []
+print("check check_moon_phase_overclaims clears a phase name that DOES match today's real moon_phase hit")
+
+assert check_moon_phase_overclaims("An ordinary day, nothing lunar mentioned.", no_phase_hits) == []
+print("check check_moon_phase_overclaims produces zero findings with no phase name mentioned at all")
 
 print()
 print("OVERCLAIM GUARD: OK")

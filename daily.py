@@ -95,6 +95,7 @@ from lenses.overclaim_guard import (
     check_batch_overclaims,
     check_house_number_overclaims,
     check_life_domain_overclaims,
+    check_moon_phase_overclaims,
     check_occasion_overclaims,
 )
 
@@ -1022,11 +1023,11 @@ def _synthesize_reading(
     findings from check_batch_overclaims (the fix for a real live bug
     where an eclipse was called "exact" 5.69 degrees off natal MC)
     plus, per Synthesis Repair Brief Part 2.4, check_life_domain_
-    overclaims/check_occasion_overclaims/check_house_number_overclaims
-    -- three more deterministic categories a real audit found
-    check_batch_overclaims structurally can't catch (it only ever
-    checks orb/contact/amplification, never domain, occasion-
-    existence, or house numbers).
+    overclaims/check_occasion_overclaims/check_house_number_overclaims/
+    check_moon_phase_overclaims -- four more deterministic categories a
+    real audit found check_batch_overclaims structurally can't catch
+    (it only ever checks orb/contact/amplification, never domain,
+    occasion-existence, house numbers, or named lunar phases).
 
     `hits` (astrology.daily_hits.compute_daily_hits output, already
     resolved and tiered, full standout+background) is used for the
@@ -1094,6 +1095,7 @@ def _synthesize_reading(
     overclaim_findings += check_life_domain_overclaims(reading_text, narrative_eligible_claims)
     overclaim_findings += check_occasion_overclaims(reading_text, hits, western_arc_standing)
     overclaim_findings += check_house_number_overclaims(reading_text, real_house_numbers or set())
+    overclaim_findings += check_moon_phase_overclaims(reading_text, hits)
 
     validation = {
         "coverage_ratio": coverage.coverage_ratio,

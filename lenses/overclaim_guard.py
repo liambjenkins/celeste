@@ -349,7 +349,10 @@ def check_batch_overclaims(answer_text: str, hits: list[dict]) -> list[dict]:
 # can only ever be an approximate signal, not a real classifier.
 _LIFE_DOMAIN_KEYWORDS = {
     "identity": ("your identity", "who you are", "your sense of self"),
-    "relationships": ("your relationship", "your partner", "your closest relationship", "someone close to you"),
+    "relationships": (
+        "your relationship", "your partner", "your closest relationship", "someone close to you",
+        "intimate ties", "your intimacy", "your bond with", "close bonds",
+    ),
     "emotion": ("your feelings", "how you feel", "emotionally"),
     "communication": ("what you say", "how you communicate", "the conversation"),
     "values_and_desire": ("your self-worth", "what you value", "what you truly want"),
@@ -511,6 +514,77 @@ def check_house_number_overclaims(answer_text: str, real_house_numbers: set[int]
             "tropical or sidereal) matches."
         ),
     }]
+
+
+# Plain-language mentions of a specific named lunar phase -- a real
+# historical fabrication case invented a "full moon" on a day with no
+# such hit at all. Covers all 8 conventional phase names (not just the
+# 4 exact-angle ones _resolve_moon_phase_hit can produce a real hit
+# for -- astrology/daily_hits.py's own docstring explains why the
+# other 4 are permanently unreachable as hits) since a fabrication
+# isn't bound by which phases the engine can honestly detect; the
+# check just needs to know whether TODAY's real moon_phase hit, if
+# any, matches whatever phase name the text actually claims.
+_MOON_PHASE_NAME_PHRASES = {
+    "new_moon": ("new moon",),
+    "first_quarter": ("first quarter moon", "first-quarter moon"),
+    "full_moon": ("full moon",),
+    "last_quarter": ("last quarter moon", "last-quarter moon", "third quarter moon", "third-quarter moon"),
+    "waxing_crescent": ("waxing crescent",),
+    "waxing_gibbous": ("waxing gibbous",),
+    "waning_gibbous": ("waning gibbous",),
+    "waning_crescent": ("waning crescent",),
+}
+
+
+def _find_moon_phase_mentions(text: str) -> dict[str, list[str]]:
+    lowered = text.lower()
+    found = {}
+    for phase, phrases in _MOON_PHASE_NAME_PHRASES.items():
+        hits = [p for p in phrases if p in lowered]
+        if hits:
+            found[phase] = hits
+    return found
+
+
+def check_moon_phase_overclaims(answer_text: str, hits: list[dict]) -> list[dict]:
+    """Flags the reading naming a specific lunar phase (e.g. "full
+    moon") that ISN'T today's real moon_phase hit -- the "invented
+    full moon" fabrication case: check_occasion_overclaims' generic
+    _OCCASION_LANGUAGE_PHRASES scan has no concept of phase-name
+    specificity at all, so a fabricated "full moon" reads as
+    indistinguishable from a real one to that check. `hits` is the
+    full (not narrative-narrowed) hit list, same conservatism as
+    check_house_number_overclaims -- a real background-tier moon_phase
+    hit still makes that phase name real, even on a day it doesn't
+    earn narrative detail. A day with no moon_phase hit at all (the
+    lunation is outside LUNATION_CONTACT_ORB of every natal point, or
+    today's phase is one of the 4 range-phases with no exact-angle
+    hit) has no real phase name to back ANY mention."""
+
+    mentioned = _find_moon_phase_mentions(answer_text)
+    if not mentioned:
+        return []
+
+    real_phase = next(
+        (h["hit_id"].split(":", 1)[1] for h in hits if h["kind"] == "moon_phase"),
+        None,
+    )
+
+    findings = []
+    for phase, phrases in mentioned.items():
+        if phase != real_phase:
+            findings.append({
+                "type": "invented_moon_phase",
+                "phase": phase,
+                "phrases_found": phrases,
+                "reason": (
+                    f"Text names the '{phase.replace('_', ' ')}' phase ({', '.join(phrases)}), but "
+                    + (f"today's real moon phase hit is '{real_phase.replace('_', ' ')}'." if real_phase
+                       else "there is no real moon_phase hit today at all.")
+                ),
+            })
+    return findings
 
 
 if __name__ == "__main__":
