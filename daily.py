@@ -52,6 +52,7 @@ unavailable" in the result.
 
 import argparse
 import json
+import re
 import sys
 import time as _time
 from dataclasses import asdict
@@ -1180,6 +1181,47 @@ def _render_daily_narrative_input(
     return "\n".join(lines)
 
 
+_EM_DASH_RE = re.compile(r"\s*(?:--|—)\s*")
+
+
+def _strip_em_dashes(text: str) -> str:
+    """
+    Deterministic post-process: replaces every em dash (real "—" or
+    the ASCII "--" stand-in) with a comma. Purely typographic -- no
+    rejection, no regeneration, no judgment call about sentence
+    length/hedging/content, unlike the mechanical style-compliance
+    guard that was explicitly deferred. Added after real live testing:
+    lenses.daily_narrative_style's "no em dashes, ever" instruction
+    (already reinforced twice, including a rewrite specifically to stop
+    the model cribbing quoted bad examples) failed on 2 for 2
+    confirmed-fresh (?force=1) regenerations, each time in the SAME
+    underlying shape -- a parallel-clause list capped by an em-dash-
+    introduced summary clause -- just with different wording each time.
+    That pattern (same structural habit, different topic/words) is
+    good evidence the model's sentence-construction tendency here isn't
+    something further prompt wording was likely to fix reliably, while
+    still being narrow enough (one unambiguous, purely typographic
+    rule) not to need a real accept/reject guard.
+
+    A comma, not a period, because one substitution rule has to handle
+    both an em dash used as a single connecting/summary clause (a
+    period works there) AND a PAIRED em-dash parenthetical aside (a
+    period breaks that into a sentence fragment -- "in practice, not
+    principle." is not a sentence). A comma reads correctly in both
+    shapes, at the cost of an occasional mild comma splice rather than
+    a broken fragment -- an acceptable trade for a fully deterministic,
+    unconditional fix.
+    """
+
+    text = _EM_DASH_RE.sub(", ", text)
+    # A paired em-dash aside sitting next to the sentence's own existing
+    # comma can produce a double-comma or a comma-then-punctuation
+    # artifact -- normalize both defensively (the common case has none).
+    text = re.sub(r",\s*,+", ",", text)
+    text = re.sub(r",\s*([.!?])", r"\1", text)
+    return text
+
+
 def _synthesize_reading(
     daily_claims,
     backend: NarrativeBackend,
@@ -1263,6 +1305,7 @@ def _synthesize_reading(
         print(f"[daily synthesis] main synthesis call failed, falling back to deterministic reading: {exc}", file=sys.stderr)
         return None, None
 
+    reading_text = _strip_em_dashes(reading_text)
     coverage = check_coverage(narrative_claims, reading_text)
 
     if not run_fact_check:
