@@ -224,6 +224,47 @@ for hit in multi_hits:
 multi_bad_findings = check_batch_overclaims(bad_sentence, multi_hits)
 assert all("hit_id" in f for f in multi_bad_findings)
 
+# Real live incident regression: a real near-exact hit (e.g. a tight
+# asteroid convergence) coexisting with many ordinary non-near-exact
+# direct hits (the normal shape of a real day with the widened target
+# set) -- correctly writing "exact" about the ONE near-exact hit must
+# NOT re-trigger overclaimed_true_exactness for every other hit in the
+# list. A real production run hit this exactly: one true "exact"
+# sentence about a real near-exact convergence produced 19 false
+# overclaimed_true_exactness findings, one per unrelated non-near-
+# exact hit, rejecting a genuinely well-grounded reading.
+_many_non_exact_hits = [
+    {
+        "hit_id": f"transit_aspect:body{i}:aspect:target{i}",
+        "kind": "transit_aspect",
+        "tier": "background",
+        "resolution": {
+            "natal_house": 3, "house_occupants": [], "nearest_natal_point": f"target{i}",
+            "orb_to_nearest": 1.5 + i * 0.02, "direct_hit_orb_used": 3.0, "contact": "direct_hit",
+            "near_exact": False,
+        },
+        "nodal": None,
+    }
+    for i in range(19)
+]
+_real_incident_hits = _many_non_exact_hits + [NEAR_EXACT_ASPECT_HIT]
+_real_incident_sentence = "Saturn's exact conjunction with your Juno is the day's real story."
+_incident_findings = check_batch_overclaims(_real_incident_sentence, _real_incident_hits)
+assert not any(f["type"] == "overclaimed_true_exactness" for f in _incident_findings), (
+    f"a real near-exact hit anywhere today must suppress the true-exactness check entirely, "
+    f"not just for itself -- got {[f for f in _incident_findings if f['type'] == 'overclaimed_true_exactness']}"
+)
+print("check a real near-exact hit prevents the true-exactness false-positive avalanche across unrelated non-near-exact hits")
+
+# Sanity check the check STILL fires correctly when no near-exact hit
+# exists anywhere -- the fix narrows the false-positive case, it
+# doesn't disable the rule.
+_no_near_exact_findings = check_batch_overclaims(_real_incident_sentence, _many_non_exact_hits)
+assert any(f["type"] == "overclaimed_true_exactness" for f in _no_near_exact_findings), (
+    "with no real near-exact hit anywhere, true-exactness language must still be flagged"
+)
+print("check the true-exactness rule still fires normally when no real near-exact hit exists anywhere")
+
 # Fully generic, safe text -- no exactness/connection/amplification
 # phrase from ANY category, for ANY hit -- must produce zero findings.
 # (A text that correctly uses "directly on" for one hit while

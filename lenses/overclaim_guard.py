@@ -297,13 +297,38 @@ def check_batch_overclaims(answer_text: str, hits: list[dict]) -> list[dict]:
     the hit the offending phrase was actually written about (a plain
     text scan can't do that attribution -- same limitation the single-
     event function already has, just more visible with several hits
-    in one prompt). One real violation can therefore surface as
-    several same-phrase findings across multiple non-near-exact hits;
-    treat findings as "something to review", not "this exact hit was
-    misdescribed". Never silently drops anything, same discipline as
-    the single-event function."""
+    in one prompt). Treat findings as "something to review", not "this
+    exact hit was misdescribed". Never silently drops anything, same
+    discipline as the single-event function.
+
+    True-exactness is the one category this attribution gap makes
+    genuinely dangerous rather than just imprecise, confirmed by a
+    real live incident: on a day with one real near-exact hit (e.g. a
+    tight asteroid convergence) among many ordinary direct-hit-but-
+    not-near-exact ones, correctly writing "exact" about the ONE
+    near-exact hit still independently re-triggers this rule for EVERY
+    other non-near-exact hit in the list -- 19 false findings from one
+    true sentence, all real content rejected for a fabrication that
+    never happened. Fixed: computed once, whether ANY hit in `hits`
+    is itself a near-exact direct_hit -- if so, "exact" language has a
+    real, legitimate referent somewhere in today's data, and the per-
+    hit true-exactness check is skipped entirely (the same
+    attribution gap that can't tell which hit "exact" describes also
+    can't safely tell which hits it DOESN'T describe, so this errs
+    toward not blocking real synthesis over an unprovable guess). This
+    only relaxes true-exactness specifically -- exactness/connection/
+    amplification (check_overclaims, called below) still apply per hit
+    exactly as before, since those aren't subject to the same one-
+    real-referent-explains-everything ambiguity."""
 
     findings = []
+
+    any_near_exact_direct_hit = any(
+        h.get("resolution") is not None
+        and h["resolution"]["contact"] == "direct_hit"
+        and h["resolution"].get("near_exact")
+        for h in hits
+    )
 
     for hit in hits:
         resolution = hit.get("resolution")
@@ -312,7 +337,12 @@ def check_batch_overclaims(answer_text: str, hits: list[dict]) -> list[dict]:
         for finding in check_overclaims(answer_text, resolution, nodal):
             findings.append({**finding, "hit_id": hit["hit_id"]})
 
-        if resolution is not None and resolution["contact"] == "direct_hit" and not resolution.get("near_exact"):
+        if (
+            resolution is not None
+            and resolution["contact"] == "direct_hit"
+            and not resolution.get("near_exact")
+            and not any_near_exact_direct_hit
+        ):
             true_exact_hits = _find_unnegated(answer_text, _TRUE_EXACT_PHRASES)
             if true_exact_hits:
                 findings.append({
