@@ -53,6 +53,7 @@ unavailable" in the result.
 import argparse
 import json
 import sys
+import time as _time
 from dataclasses import asdict
 from datetime import datetime, timezone
 
@@ -1276,7 +1277,30 @@ def _score_threads(hits: list[dict]) -> dict | None:
 # attach_continuity_note and compute_arc_status already restrict
 # themselves to -- a fast body's transit doesn't produce a real
 # multi-month "arc" story to stand alongside vedic_dasha.
+#
+# _ARC_STANDING_CANDIDATE_CAP alone (originally 3) turned out not to
+# bound wall-clock cost tightly enough: compute_arc_status's real
+# per-call cost varies 3-4x by body (its own search window scales
+# with each body's MULTI_PASS_WINDOW_DAYS, up to 299 days for
+# jupiter) -- a count-based cap assumes uniform per-call cost, which
+# isn't true here. Confirmed as the actual cause of a real live
+# incident: this computation runs unconditionally on every request
+# (both the LLM and deterministic paths), and its true added cost
+# (measured directly: ~3s for 3 calls, worse on Render's slower free-
+# tier CPU) was enough to tip the live app's already-tight gunicorn-
+# timeout-vs-LLM-call-budget (see the "Fix live daily-mode page"
+# fix earlier this session) over the edge -- the exact same hang
+# symptom that fix already solved once, reintroduced by this
+# feature's own added cost. _ARC_STANDING_TIME_BUDGET_SECONDS is the
+# real bound now: a wall-clock ceiling checked between calls (it
+# can't preempt a single call already in progress, so the true worst
+# case is "budget plus one more call," not a hard ceiling -- still a
+# real, large improvement over the old count-only cap's worst case of
+# CAP times the single slowest body's cost). The count cap stays as a
+# secondary bound for the case where every candidate happens to
+# resolve unusually fast.
 _ARC_STANDING_CANDIDATE_CAP = 3
+_ARC_STANDING_TIME_BUDGET_SECONDS = 1.0
 
 
 def _compute_western_arc_standing(natal_chart: dict, as_of_utc_time: datetime, hits: list[dict]):
@@ -1302,18 +1326,21 @@ def _compute_western_arc_standing(natal_chart: dict, as_of_utc_time: datetime, h
     own orb/aspect-weight closeness, already computed, no extra
     ephemeris calls) -- the same weight*(1-orb/max_orb) shape
     _score_threads uses for headline selection -- then only call
-    compute_arc_status for the top _ARC_STANDING_CANDIDATE_CAP
-    candidates, keeping whichever of THOSE resolves to the highest
-    real arc score (ASPECT_WEIGHTS[aspect] * (1 - peak_orb/max_orb),
-    evaluated on the arc's own peak orb, not today's). Candidates are
-    also deduped to one (their own best-scoring) hit per transiting
-    body first, so the cap searches across distinct stories rather
-    than burning slots on one body's several simultaneous hits.
+    compute_arc_status for candidates up to _ARC_STANDING_CANDIDATE_CAP
+    OR until _ARC_STANDING_TIME_BUDGET_SECONDS of real wall-clock time
+    is spent, whichever comes first, keeping whichever of THOSE
+    resolves to the highest real arc score (ASPECT_WEIGHTS[aspect] *
+    (1 - peak_orb/max_orb), evaluated on the arc's own peak orb, not
+    today's). Candidates are also deduped to one (their own best-
+    scoring) hit per transiting body first, so the search covers
+    distinct stories rather than burning budget on one body's several
+    simultaneous hits.
 
     This can, in principle, miss a real arc that's dominant on its own
-    merits but weak on today's specific orb -- an accepted, documented
-    tradeoff (matching this session's established cost-scoping
-    discipline), not a silent one.
+    merits but weak on today's specific orb (or simply never gets
+    tried because the time budget ran out first) -- an accepted,
+    documented tradeoff (matching this session's established cost-
+    scoping discipline), not a silent one.
 
     Returns None only when today has no real slow/social-body transit_
     aspect/return hit at all -- confirmed rare in real data (15-34
@@ -1346,14 +1373,19 @@ def _compute_western_arc_standing(natal_chart: dict, as_of_utc_time: datetime, h
     ranked = sorted(best_per_body.values(), key=_cheap_score, reverse=True)
 
     best = None
+    search_start = _time.monotonic()
     for hit in ranked[:_ARC_STANDING_CANDIDATE_CAP]:
         arc = compute_arc_status(natal_chart, hit, as_of_utc_time)
-        if arc is None:
-            continue
-        max_orb = TRANSIT_ORBS.get(arc["aspect"], 2.0)
-        real_score = ASPECT_WEIGHTS.get(arc["aspect"], 0.5) * max(0.0, 1.0 - (arc["peak_orb"] / max_orb))
-        if best is None or real_score > best[0]:
-            best = (real_score, arc, hit)
+        if arc is not None:
+            max_orb = TRANSIT_ORBS.get(arc["aspect"], 2.0)
+            real_score = ASPECT_WEIGHTS.get(arc["aspect"], 0.5) * max(0.0, 1.0 - (arc["peak_orb"] / max_orb))
+            if best is None or real_score > best[0]:
+                best = (real_score, arc, hit)
+        if _time.monotonic() - search_start >= _ARC_STANDING_TIME_BUDGET_SECONDS:
+            # Can't preempt the call already in flight, only stop
+            # trying further ones -- see the docstring above for why
+            # this is the real cost bound, not the count cap alone.
+            break
 
     if best is None:
         return None
