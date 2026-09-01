@@ -201,21 +201,38 @@ DAILY_GROUNDING_RULES = """
    person, plain-fact voice as everything else. Do not manufacture
    drama or invent a "quiet but meaningful" undertone the data doesn't
    support; an ordinary day is a genuine, honest answer.
-8. If a "# Standing identity & context" section appears, those claims
-   are real, permanent chart facts (natal sign/house placements,
-   Dasha timing, generational pillar structure) with NO real event
-   behind them today -- never phrase them as "activating," "showing
-   up," or "happening" today ("today, your Sun sign is...", "right
-   now you're feeling your Mercury Dasha..."). Write them as timeless
-   background instead ("as a [sign] Sun...", "you're in a multi-year
-   Saturn Mahadasha..."). The one exception: if the SAME underlying
-   fact is ALSO independently named in the STANDING ARC block or the
-   hits section below, treat it as today-relevant via THAT pairing --
-   not because it happens to also appear in the standing section.
-   This is a hard rule, same weight as rule 6: inventing timeliness
-   for a fact this system never computed as active today is exactly
-   the same class of overclaim as inventing exactness for a loose
-   contact.
+8. Permanent chart facts (natal sign/house placements, Dasha timing,
+   generational pillar structure) with NO real event behind them
+   today are no longer sent to you at all as of Part 6 -- daily.py
+   drops them from this prompt entirely unless a real STANDOUT-tier
+   hit today also genuinely touches that same point (in which case
+   they reach you as ordinary grounding on that hit, already paired
+   to something real, not as separate standing content). The rule
+   this used to describe (never phrase a standing fact as
+   "activating" today) is now structural rather than something you
+   need to police yourself for that specific content family -- but
+   the underlying principle still applies to anything below that
+   reads as a plain, general truth rather than something tied to a
+   real hit or the STANDING ARC block: never present-tense
+   "activating today" language for a fact that isn't paired to real
+   evidence of that in this prompt. Same weight as rule 6: inventing
+   timeliness for a fact this system never computed as active today
+   is exactly the same class of overclaim as inventing exactness for
+   a loose contact.
+9. Every hit under "Today's active astrological hits" carries a real
+   TIER label, and hits below a "# Other real hits today (supporting
+   texture only...)" header are deliberately shown with LESS detail
+   than the PRIMARY THREAD's own hit(s) above them -- this is not
+   because they're less real, only because they're not today's
+   headline. Never build the reading's dominant story or its
+   full-committing/present-tense language around one of these
+   compressed hits, however specific or emotionally resonant it
+   sounds in isolation -- see "When a PRIMARY THREAD is named" below
+   for exactly how to use both sections together. A real incident:
+   a reading built its whole "under real pressure right now" headline
+   on a single compressed minor-aspect hit while a genuine 4-hit
+   convergence (the real PRIMARY THREAD, score 2.70) sat unused in the
+   same prompt -- that failure is what this rule exists to prevent.
 """
 
 DAILY_STYLE_GUIDE = """
@@ -249,7 +266,14 @@ reading's first sentence or beat must be about that thread
 specifically, even if a different claim happens to appear first in
 the claim list. Everything else still gets folded, given its own
 beat, or compressed per the rules below -- PRIMARY THREAD only
-decides what leads, not what the whole reading is about.
+decides what leads, not what the whole reading is about. The hits
+listed under "Other real hits today (supporting texture only)"
+(grounding rule 9) are deliberately given less detail than the
+PRIMARY THREAD's own hit(s) above them for exactly this reason -- use
+that detail gap as a real signal, not an accident: the PRIMARY
+THREAD's hits are where the reading's committed, present-tense
+language belongs, and the compressed hits are where a brief, honest
+mention (if any) belongs.
 
 ### Confidence-scaling by signal strength
 
