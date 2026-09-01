@@ -269,7 +269,16 @@ def _get_today_reading(force: bool = False) -> dict:
         result = _build_today(datetime.now(timezone.utc))
         cache = {today_key: result}  # only today's entry needs keeping
         _save_cache(cache)
-        _save_cache_to_github(cache)
+        # Fire-and-forget: the GitHub write is a durability layer for
+        # the NEXT cold-started container, not something this request
+        # needs to wait on -- it costs up to two sequential GitHub API
+        # round trips (a GET for the current sha, then a PUT), pure
+        # added latency on the user-facing critical path for no benefit
+        # to the response being returned right now. Same fail-open
+        # discipline as _save_cache_to_github itself (never raises);
+        # a request-ending process still lets an already-started daemon
+        # thread finish in the background under gunicorn's sync worker.
+        threading.Thread(target=_save_cache_to_github, args=(cache,), daemon=True).start()
         return result
 
 
