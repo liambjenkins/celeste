@@ -1257,10 +1257,22 @@ def _synthesize_reading(
         # already fully grounded in real claims with no fabrication
         # risk, the same safety net a missing/failed backend call
         # already falls back to above.
+        # Logs the RAW rejected text too, not just the findings that
+        # rejected it -- a real gap found the first time this fired
+        # after Option A shipped: with only the findings logged, a
+        # rejected run tells you NOTHING about whether the prompt-scope
+        # fix actually changed what the LLM produced before the guard
+        # stepped in. This is server-side only (Render's log stream via
+        # stderr, same convention as every other [daily synthesis] log
+        # line) -- never added to `validation`/result["synthesis_
+        # validation"], which the served page can read, so a flagged,
+        # possibly-fabricated draft never has a path to reaching the
+        # reader even indirectly.
         print(
             f"[daily synthesis] overclaim guard rejected the LLM reading "
-            f"({len(overclaim_findings)} finding(s)), falling back to deterministic reading: "
-            f"{overclaim_findings}",
+            f"({len(overclaim_findings)} finding(s)), falling back to deterministic reading. "
+            f"Findings: {overclaim_findings}\n"
+            f"Rejected raw text (server-side only, never shown to the reader): {reading_text!r}",
             file=sys.stderr,
         )
         return None, validation
