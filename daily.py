@@ -564,14 +564,38 @@ _ASTROLOGY_QUIET_NOTE = "Nothing in today's sky rises above routine background n
 _QUIET_DAY_READING = "Nothing's pulling hard today. Whatever you do with it is genuinely up to you."
 
 
-def _order_reading_claims(daily_claims, standing_claim_ids: set[str] | None = None, daily_mode_depth: str | None = None):
+def _order_reading_claims(
+    daily_claims,
+    standing_claim_ids: set[str] | None = None,
+    daily_mode_depth: str | None = None,
+    primary_thread_claim_ids: set[str] | None = None,
+):
     """
     Split the resolved daily claims into (moon_phase_item, ordered
-    supporting_items), where supporting_items is ranked by
-    _CLAIM_PRIORITY (ties/unlisted claims keep their original relative
-    order) with transit-aspect orb as a documented secondary key --
-    tighter orb means the aspect is more exactly in effect today, a
-    real astrological quantity rather than an arbitrary tiebreaker.
+    supporting_items), where supporting_items is ranked primarily by
+    `primary_thread_claim_ids` (the real, computed claims that ground
+    today's actual `_score_threads` headline thread -- see
+    build_daily_reading's own `hit_claim_ids` side-channel), falling
+    back to `_CLAIM_PRIORITY` (a small hardcoded list of legacy special-
+    pair claim_ids) ONLY when there's no real primary thread today at
+    all, with transit-aspect orb as a documented secondary tiebreak
+    within either tier -- tighter orb means the aspect is more exactly
+    in effect today, a real astrological quantity rather than an
+    arbitrary tiebreaker.
+
+    Fallback Headline-Wiring Fix (2026-09-01): before this,
+    `_CLAIM_PRIORITY` (and, failing that, claim-construction order) was
+    the ONLY ranking signal here, completely disconnected from
+    `_score_threads`'s real, computed primary thread -- the same signal
+    Exhibit A's Option A fix already anchors the real LLM prompt on.
+    Any day landing on this deterministic path (guard rejection, or no
+    API key) bypassed Option A's fix entirely and could headline
+    whatever claim happened to resolve first during construction,
+    regardless of real significance. `primary_thread_claim_ids` closes
+    that gap: when today's real headline thread produced real, cited
+    claims (the common case), those lead; `_CLAIM_PRIORITY` only
+    engages as the fallback-of-the-fallback, for a genuinely near-
+    silent day with no real convergence to defer to.
 
     Synthesis Repair Brief Part 7: standing-only claims (Big-3 sign/
     house, Vedic Dasha, Vedic sidereal Big-3, Chinese Ten-God -- the
@@ -596,6 +620,7 @@ def _order_reading_claims(daily_claims, standing_claim_ids: set[str] | None = No
     """
 
     standing_claim_ids = standing_claim_ids or set()
+    primary_thread_claim_ids = primary_thread_claim_ids or set()
     moon_phase_item = None
     supporting = []
 
@@ -639,6 +664,13 @@ def _order_reading_claims(daily_claims, standing_claim_ids: set[str] | None = No
 
     def _priority_rank(item):
         claim_id = item.claim.claim_id
+        if primary_thread_claim_ids:
+            # A real, computed primary thread exists today -- its own
+            # claims are the ONLY primary signal here; _CLAIM_PRIORITY's
+            # legacy list is not consulted at all in this branch (it's
+            # the fallback-of-the-fallback, only reached below when
+            # there's no real primary thread to defer to at all).
+            return (0, 0) if claim_id in primary_thread_claim_ids else (1, 0)
         if claim_id in _CLAIM_PRIORITY:
             return (0, _CLAIM_PRIORITY.index(claim_id))
         return (1, 0)
@@ -678,7 +710,12 @@ def _order_reading_claims(daily_claims, standing_claim_ids: set[str] | None = No
     return moon_phase_item, ordered_supporting
 
 
-def _assemble_reading_text(daily_claims, standing_claim_ids: set[str] | None = None, daily_mode_depth: str | None = None):
+def _assemble_reading_text(
+    daily_claims,
+    standing_claim_ids: set[str] | None = None,
+    daily_mode_depth: str | None = None,
+    primary_thread_claim_ids: set[str] | None = None,
+):
     """
     DETERMINISTIC FALLBACK ONLY -- used when _synthesize_reading()
     can't run (no ANTHROPIC_API_KEY) or its output was rejected by the
@@ -701,26 +738,41 @@ def _assemble_reading_text(daily_claims, standing_claim_ids: set[str] | None = N
       thin, not padded to look like a full one. "full" (or unset, for
       backward-compatible direct callers) keeps the existing cap.
 
+    Fallback Headline-Wiring Fix: `primary_thread_claim_ids` (build_
+    daily_reading's own union of `hit_claim_ids` over today's real
+    `_score_threads` headline_thread hit(s)) is now the PRIMARY
+    ordering signal -- see _order_reading_claims's own docstring. This
+    closes a real, confirmed gap: before this, the deterministic path
+    had no way to defer to the same real primary thread Option A
+    already anchors the LLM prompt on, so a guard-rejected or no-API-
+    key day could headline whatever claim happened to resolve first
+    during construction -- completely disconnected from real
+    significance, and untouched by Option A's fix (which lives
+    entirely inside the LLM prompt this path never uses).
+
     Moon phase, when it resolved (it's now a tiered hit like
     everything else -- present only on a New/Full Moon day, see
     astrology/daily_hits.py), anchors the reading; otherwise the
-    highest-priority claim does. Any further resolved claims (within
-    the depth-scaled cap above) follow, ranked by priority, joined
-    with rotating connector phrases instead of raw concatenation. A
-    single resolved claim is returned as-is -- no connector needed for
-    a one-claim day. daily_claims here only ever contains curated
-    fragments (the computed-fact hit records built for hits without
-    one are deliberately excluded -- see build_daily_reading -- since
-    this path never calls an LLM and should only ever emit pre-
-    written, already-reviewed sentences, never assemble hit-derived
-    prose freely). Returns "" when nothing narrative-eligible remains
+    highest-priority claim does (now the real primary thread's own
+    claim, when one exists). Any further resolved claims (within the
+    depth-scaled cap above) follow, ranked by priority, joined with
+    rotating connector phrases instead of raw concatenation. A single
+    resolved claim is returned as-is -- no connector needed for a one-
+    claim day. daily_claims here only ever contains curated fragments
+    (the computed-fact hit records built for hits without one are
+    deliberately excluded -- see build_daily_reading -- since this
+    path never calls an LLM and should only ever emit pre-written,
+    already-reviewed sentences, never assemble hit-derived prose
+    freely). Returns "" when nothing narrative-eligible remains
     (daily_claims was empty, or everything present was standing-only);
     build_daily_reading replaces that with _QUIET_DAY_READING -- an
     honest "today's sky isn't saying much" line, not a recitation of
     inert Big-3 content.
     """
 
-    moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims, standing_claim_ids, daily_mode_depth)
+    moon_phase_item, ordered_supporting = _order_reading_claims(
+        daily_claims, standing_claim_ids, daily_mode_depth, primary_thread_claim_ids
+    )
 
     pieces = []
     if moon_phase_item is not None:
@@ -1692,6 +1744,26 @@ def build_daily_reading(
     headline_hit_ids = set(headline_thread["hit_ids"]) if headline_thread is not None else set()
     standout_hits = [h for h in hits if h["tier"] == "standout" or h["hit_id"] in headline_hit_ids]
 
+    # Fallback Headline-Wiring Fix: records, per hit, exactly which
+    # daily_claims entries were resolved BECAUSE of that hit -- built
+    # as a side effect of the existing per-hit note-setting loops below
+    # (each already calls a _use_*_claim/_resolve_*_claim helper and
+    # knows precisely which claim it just used). This is real
+    # attribution, not a heuristic (e.g. matching on claim_id substrings
+    # against a role name) -- a claim only ends up under a hit_id here
+    # because that specific hit's own grounding loop resolved it.
+    # _assemble_reading_text (the deterministic fallback) unions this
+    # across headline_thread["hit_ids"] to know which real claims
+    # belong to today's actual computed primary thread, instead of
+    # falling back to _CLAIM_PRIORITY's disconnected legacy-ID list or
+    # claim-construction-order as its PRIMARY signal (see Exhibit A's
+    # fallback-wiring bug).
+    hit_claim_ids: dict[str, set[str]] = {}
+
+    def _track_hit_claim(hit, claim_item):
+        if claim_item is not None:
+            hit_claim_ids.setdefault(hit["hit_id"], set()).add(claim_item.claim.claim_id)
+
     # Synthesis Repair Brief Part 2.4: every real, computed house
     # number relevant today -- transit-through (a transiting body's
     # current house) to start; natal-own (Big-3, hit-touched points,
@@ -1925,6 +1997,7 @@ def build_daily_reading(
         claim = _use_sign_claim(real_role, sign)
         if claim is not None:
             hit["natal_sign_note"] = claim.claim.statement
+        _track_hit_claim(hit, claim)
 
         natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
         natal_house_claim = _use_natal_house_claim(real_role, natal_house)
@@ -1932,10 +2005,12 @@ def build_daily_reading(
             hit["target_natal_house_note"] = (
                 f"natal {real_role} radix is in house {natal_house} -- {natal_house_claim.claim.statement}"
             )
+        _track_hit_claim(hit, natal_house_claim)
 
         cusp_sign_claim = _use_house_cusp_sign_claim(natal_house)
         if cusp_sign_claim is not None:
             hit["house_cusp_sign_note"] = cusp_sign_claim.claim.statement
+        _track_hit_claim(hit, cusp_sign_claim)
 
     # House-meaning content: same targeted-lookup restoration as the
     # sign-meaning content above, for the daily_transit_house:{body}:
@@ -1961,6 +2036,7 @@ def build_daily_reading(
         claim = _use_house_claim(hit["display"]["transiting_body"], hit["resolution"]["natal_house"])
         if claim is not None:
             hit["natal_house_note"] = claim.claim.statement
+        _track_hit_claim(hit, claim)
 
     # Aspect-meaning content: what the hit's own aspect TYPE means
     # (e.g. "a trine lets the two placements involved flow together
@@ -1989,6 +2065,7 @@ def build_daily_reading(
             aspect_meaning_claims_used[claim.claim.claim_id] = claim
             daily_claims.append(claim)
         hit["aspect_meaning_note"] = claim.claim.statement
+        _track_hit_claim(hit, claim)
 
     # Synthesis Repair Brief Part 4: the standing Western arc (always
     # computed, like vedic_dasha, independent of today's headline) and
@@ -2017,6 +2094,7 @@ def build_daily_reading(
             eclipse_meaning_claims_used[claim.claim.claim_id] = claim
             daily_claims.append(claim)
         hit["eclipse_meaning_note"] = claim.claim.statement
+        _track_hit_claim(hit, claim)
 
     # Sign-ingress meaning content: the body-agnostic pure-sign meaning
     # of the sign a body has just entered (Synthesis Repair Brief Part
@@ -2038,6 +2116,7 @@ def build_daily_reading(
             sign_claims_used[item.claim.claim_id] = item
             daily_claims.append(item)
         hit["ingress_sign_note"] = item.claim.statement
+        _track_hit_claim(hit, item)
 
     # Vedic (sidereal): full chart considered in the data layer (the
     # sidereal chart and current Dasha standing are always computed),
@@ -2128,6 +2207,8 @@ def build_daily_reading(
                 f"transiting {body} is in sidereal {sidereal_sign} -- "
                 + " ".join(c.claim.statement for c in fused)
             )
+            for c in fused:
+                _track_hit_claim(hit, c)
 
     # Chinese/BaZi Ten-God-in-position -- Combinatorial-Meaning
     # Expansion Phase 6. Confirmed by direct search: this pipeline
@@ -2246,7 +2327,19 @@ def build_daily_reading(
             synthesis_method = "guard_rejected"
 
     if reading_text is None:
-        reading_text = _assemble_reading_text(daily_claims, standing_claim_ids, daily_mode_depth)
+        # Fallback Headline-Wiring Fix: the same real, computed primary
+        # thread Option A already anchors the LLM prompt on -- unioned
+        # from hit_claim_ids (recorded above as each per-hit grounding
+        # loop resolved its own claims) over headline_thread's own
+        # hit(s). Empty when there's no real headline thread today at
+        # all (e.g. no transit_aspect/named-occasion hits), in which
+        # case _order_reading_claims correctly falls back to
+        # _CLAIM_PRIORITY as its own fallback-of-the-fallback.
+        primary_thread_claim_ids: set[str] = set()
+        if headline_thread is not None:
+            for hid in headline_thread["hit_ids"]:
+                primary_thread_claim_ids |= hit_claim_ids.get(hid, set())
+        reading_text = _assemble_reading_text(daily_claims, standing_claim_ids, daily_mode_depth, primary_thread_claim_ids)
 
     if not reading_text:
         # Genuinely nothing today -- no surviving hits, no day-pillar
