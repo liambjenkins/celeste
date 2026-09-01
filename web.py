@@ -22,6 +22,7 @@ import base64
 import json
 import os
 import secrets
+import threading
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -119,6 +120,17 @@ def _save_cache(cache: dict) -> None:
         json.dump(cache, f, indent=2)
 
 
+# Guards cache-miss regeneration: without this, two overlapping
+# requests (e.g. a double page-load, or a future multi-threaded/
+# multi-worker deploy) can each independently see an empty cache and
+# fire their own full build_daily_reading() -- two full LLM synthesis
+# + fact-check round trips for the exact same reading, doubling real
+# API cost for no benefit. Any request that arrives while another is
+# already generating waits for the lock and then re-checks the cache
+# (now warm) instead of generating its own copy.
+_generation_lock = threading.Lock()
+
+
 def _get_today_reading(force: bool = False) -> dict:
     """Generates once per calendar date, cached in data/daily_cache.json
     keyed by ISO date. `force=True` (the page's own "Regenerate" link,
@@ -132,10 +144,20 @@ def _get_today_reading(force: bool = False) -> dict:
     if not force and today_key in cache:
         return cache[today_key]
 
-    result = _build_today(datetime.now(timezone.utc))
-    cache = {today_key: result}  # only today's entry needs keeping
-    _save_cache(cache)
-    return result
+    with _generation_lock:
+        # Re-check after acquiring the lock: another thread may have
+        # already generated (and saved) today's reading while this
+        # one was waiting. A force=True request still regenerates
+        # even if it finds a fresh cache entry here -- that's the
+        # explicit point of the manual "Regenerate" trigger.
+        cache = _load_cache()
+        if not force and today_key in cache:
+            return cache[today_key]
+
+        result = _build_today(datetime.now(timezone.utc))
+        cache = {today_key: result}  # only today's entry needs keeping
+        _save_cache(cache)
+        return result
 
 
 @app.route("/")
