@@ -125,6 +125,28 @@ rule 8 above states the hard rule for how to write about them --
 never present-tense activation language unless the same fact is
 independently paired to something real today via STANDING ARC or an
 actual hit.
+
+Revised a seventh time (2026-09-01 Tone/Format Enforcement Brief):
+confirmed by direct trace-through that this was NOT a data problem --
+a genuinely exact, well-grounded hit (0.067 degree orb, real
+recurrence dates, real sign/house/aspect meaning, all correctly
+reaching this prompt as the PRIMARY THREAD) still produced vague,
+hedgy, overlong, em-dash-laden prose that never committed to the
+specific fact it was given. The existing rules already banned most of
+this abstractly (no em dashes, 6-12 words/sentence, a real payoff) --
+they just weren't holding reliably against real generation. Same fix
+philosophy as Option A (daily.py's prompt-scope fix): try the cheap,
+concrete move before building enforcement machinery. Added REAL
+observed violations (not hypothetical ones) as explicit "don't do
+this" examples directly next to the rules they violate, a new
+explicit rule against multi-option hedging constructions ("X, Y, or
+something like Z") that the existing WHO-non-specificity rule didn't
+cover and evidently invited by mistake, and a third locked worked
+example ("Say Less") -- the actual approved reference standard this
+session produced, confirmed by Liam as "better, genuinely" -- showing
+committed single-thread execution against a real day with multiple
+equally-cited competing threads (Moon/Uranus, Mars/Jupiter) that it
+correctly says nothing about at all.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -417,6 +439,14 @@ to avoid admitting a claim got compressed.
   "Whatever comes up won't just affect you" is right; "your partner"
   or "someone specific" is invented specificity the source claim
   doesn't support.
+- Non-specificity means ONE plain phrase, never a menu of options.
+  Real observed violation: "someone close — friend, partner,
+  something built on shared ground" -- offering three possibilities
+  is not staying non-specific, it's hedging dressed up as caution.
+  "Someone close to you" already IS the non-specific phrasing; don't
+  then list what that might mean. If you're reaching for "or" or
+  "something like" to cover multiple possibilities in one clause,
+  that's the tell -- pick the single plainest phrasing and stop.
 - At most ONE image or metaphor per reading, and only if it's earned
   by the claims themselves -- most readings should have zero. Never
   reach for one to dress up a plain fact, and never use more than one
@@ -430,7 +460,15 @@ to avoid admitting a claim got compressed.
   to fix by adding more sentences.
 - No em dashes, no hedging ("tends to," "may," "can sometimes"), no
   therapy-speak padding, no generic truisms a reading like this could
-  say on any day regardless of its actual claims.
+  say on any day regardless of its actual claims. Real observed
+  violations, from actual generated output, not hypotheticals: "What
+  commitment actually means — in practice, not principle — is being
+  tested directly" and "The question of what you actually need from
+  someone close — friend, partner, something built on shared ground —
+  is being tested against..." Both em dashes AND the parenthetical-
+  aside habit they enable ("in practice, not principle") are the
+  failure -- use a period or a plain comma instead, or cut the aside
+  entirely if it's not adding a new fact.
 
 ### Say it once, then stop
 
@@ -460,7 +498,16 @@ sentence, not sentence count. Fix these specifically:
   9 words; "Whatever comes up won't just affect you" is 7). A sentence
   pushing past 18-20 words is very likely doing two things at once --
   split it or cut a qualifier, don't just let it run on with commas
-  and "and."
+  and "and." Real observed violation, ~40 words in one sentence:
+  "The question of what you actually need from someone close — friend,
+  partner, something built on shared ground — is being tested against
+  what you're willing to commit to, what you can't avoid saying, and
+  what simply won't bend." That's at least three separate clauses
+  (a hedged aside, a three-item list, a triple predicate) doing the
+  work of one sentence -- exactly the "doing two [or more] things at
+  once" failure this rule already names, just not caught in practice.
+  Compare the locked "Say Less" example below, whose longest line is
+  still under 20 words.
 
 ### End on a real payoff, not a trailing description
 
@@ -485,6 +532,15 @@ support:
   papered over with an invented silver lining -- an honest, unresolved
   ending is correct when that's genuinely what the claims support;
   fabricating relief is not.
+- **A landing line is a claim, not more setup.** Real observed
+  violation: "It's not abstract, and it's not later" -- this restates
+  the pressure already established in sentences 1-2 in slightly
+  different words (more abstraction) instead of landing on anything
+  new. It reads as a payoff but functions as a fourth description.
+  Compare the locked "Say Less" example's real button line below --
+  "Stop performing him out of habit" -- which names a specific,
+  concrete thing to do or recognize, not a restatement of the tension
+  that came before it.
 
 ## Worked example (locked, for calibration -- not to be reused verbatim as content)
 
@@ -551,6 +607,53 @@ What this is doing structurally:
   is true." Compare the REJECTED version from grounding rule 3: "That's
   easier than it would otherwise be, because today actually cooperates
   with you" invents exactly the causal link "also" correctly avoids.
+
+## Third worked example (locked, for calibration -- the execution standard)
+
+Approved live reference copy (Liam's own edit, confirmed "better,
+genuinely") -- the actual bar the real-observed-violation examples
+above are checked against, not just the abstract rules restated. The
+exact underlying source claims aren't reconstructed here (not
+preserved from that session in a form precise enough to cite) --
+what's locked is the EXECUTION pattern, verified against a real night
+with two other real, equally-cited competing threads (a Moon/Uranus
+aspect, a Mars/Jupiter aspect) that this reading correctly says
+nothing about at all, not even a trailing clause.
+
+Locked reading:
+"Say less in the group chat.
+
+Whatever's being built with your friends doesn't need your voice
+right now, it needs your patience. Let go of the strict standard
+you've held yourself to around them, it's already served its purpose.
+
+You're not who you were a few months ago. Stop performing him out of
+habit."
+
+What this is doing structurally (the transferable lessons -- its
+headline-plus-three-short-paragraphs FORMAT runs longer than this
+guide's own "two to three sentences, no headers" output format below,
+which stays unchanged here; the execution quality is what's locked,
+not a format change):
+- One thread, fully committed. The two other real threads that same
+  night get zero mention -- the same restraint PRIMARY THREAD scoping
+  already requires (see "When a PRIMARY THREAD is named" above) taken
+  to its actual conclusion: "supporting texture at most" meant not
+  appearing at all, not a compressed trailing clause.
+- No em dashes, no hedging, no bracketed either/or construction --
+  every sentence is a flat declarative statement, matching the Voice
+  rules above exactly.
+- Short sentences throughout -- the longest line is under 20 words,
+  the same ceiling named in "Say it once, then stop" above.
+- A real button line: "Stop performing him out of habit" lands the
+  piece -- it names a specific thing to recognize or stop, not a
+  restatement of the tension already established. This is what "End
+  on a real payoff, not a trailing description" above is asking for.
+- One throughline idea (restraint/quiet), carried without ever being
+  named as a device, replaces needing multiple threads -- one image,
+  developed, not several topics averaged into one paragraph. This is
+  the SAME one-metaphor discipline the Voice rules already require,
+  just demonstrated at full strength.
 """
 
 OUTPUT_FORMAT = """
