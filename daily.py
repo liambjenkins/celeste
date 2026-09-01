@@ -821,7 +821,27 @@ def _render_hit_block(hit: dict) -> str:
     _attach_continuity_note) -- today's contact isn't the first time
     this slow body has crossed this exact natal degree, so synthesis
     can correctly say "this is a return visit", not imply a single
-    isolated moment."""
+    isolated moment.
+
+    Delegates the kind-specific base fact (aspect/orb/contact, plus
+    continuity/recurrence/nodal-amplification, which are factual
+    rather than interpretive) to _render_hit_core_line() -- the SAME
+    text used, on its own with no meaning-notes appended, for a non-
+    primary-thread hit's one-line compressed rendering (Exhibit A
+    fix, see _render_daily_narrative_input's own docstring)."""
+
+    return _render_hit_core_line(hit) + _render_hit_meaning_notes(hit)
+
+
+def _render_hit_core_line(hit: dict) -> str:
+    """The kind-specific base fact line for one hit -- aspect/orb/
+    contact/house, plus continuity_note/recurrence_note/nodal-
+    amplification (factual "this has happened before" context, not
+    interpretation) -- with NO meaning-notes (sign/house/aspect/
+    eclipse/ingress meaning) appended. This is the full text of a
+    non-primary-thread hit's compressed rendering; _render_hit_block
+    appends the meaning-notes on top of this same text for a primary-
+    thread hit's full grounding block."""
 
     r = hit["resolution"]
     d = hit["display"]
@@ -880,39 +900,56 @@ def _render_hit_block(hit: dict) -> str:
             f"{r['nearest_natal_point']} ({r['orb_to_nearest']:.2f} degrees, contact: {r['contact']})."
         )
 
+    return line
+
+
+def _render_hit_meaning_notes(hit: dict) -> str:
+    """The interpretive "what this means" grounding lines (sign/
+    house/aspect/eclipse/ingress meaning) -- everything _render_hit_
+    block appends on top of _render_hit_core_line's factual base line.
+    Split out on its own so a compressed (non-primary-thread) hit can
+    render its core line WITHOUT this detail (Exhibit A fix -- see
+    _render_daily_narrative_input's docstring): the full-detail
+    interpretive content is what made a minor-aspect hit look as
+    prompt-legible as the day's real headline convergence, so only
+    the PRIMARY THREAD's hits get it now."""
+
+    r = hit["resolution"]
+    notes = ""
+
     natal_sign_note = hit.get("natal_sign_note")
     if natal_sign_note:
-        line += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
+        notes += f"\n    Natal {r['nearest_natal_point']}'s sign meaning: {natal_sign_note}"
 
     natal_house_note = hit.get("natal_house_note")
     if natal_house_note:
-        line += f"\n    Transiting body's current (transit-through) house meaning: {natal_house_note}"
+        notes += f"\n    Transiting body's current (transit-through) house meaning: {natal_house_note}"
 
     target_natal_house_note = hit.get("target_natal_house_note")
     if target_natal_house_note:
-        line += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
+        notes += f"\n    Natal {r['nearest_natal_point']}'s OWN birth house: {target_natal_house_note}"
 
     house_cusp_sign_note = hit.get("house_cusp_sign_note")
     if house_cusp_sign_note:
-        line += f"\n    Sign on that house's cusp: {house_cusp_sign_note}"
+        notes += f"\n    Sign on that house's cusp: {house_cusp_sign_note}"
 
     vedic_sign_note = hit.get("vedic_sign_note")
     if vedic_sign_note:
-        line += f"\n    Vedic (sidereal): {vedic_sign_note}"
+        notes += f"\n    Vedic (sidereal): {vedic_sign_note}"
 
     aspect_meaning_note = hit.get("aspect_meaning_note")
     if aspect_meaning_note:
-        line += f"\n    What this aspect means: {aspect_meaning_note}"
+        notes += f"\n    What this aspect means: {aspect_meaning_note}"
 
     eclipse_meaning_note = hit.get("eclipse_meaning_note")
     if eclipse_meaning_note:
-        line += f"\n    What this eclipse means: {eclipse_meaning_note}"
+        notes += f"\n    What this eclipse means: {eclipse_meaning_note}"
 
     ingress_sign_note = hit.get("ingress_sign_note")
     if ingress_sign_note:
-        line += f"\n    What entering this sign means: {ingress_sign_note}"
+        notes += f"\n    What entering this sign means: {ingress_sign_note}"
 
-    return line
+    return notes
 
 
 def _render_daily_narrative_input(
@@ -947,6 +984,24 @@ def _render_daily_narrative_input(
     tighter major-aspect thread purely by hit count. Rendered as an
     explicit anchor naming the day's highest-scoring thread, so the
     reading's headline has a concrete deterministic basis.
+
+    Exhibit A fix (2026-09-01 live incident): naming the anchor alone
+    wasn't enough -- a real reading built its entire "partnership under
+    real pressure right now" narrative on a single 0.3-weight minor
+    aspect while a genuine 4-hit, 2.70-score convergence sat unused in
+    the same prompt. Root cause: every standout hit got the SAME full
+    grounding block (sign/house/aspect meaning) regardless of whether
+    it was the primary thread, so a wall of equally-detailed evidence
+    made the wrong piece look just as headline-worthy as the real one.
+    Fix, applying Part 6's tier-scoping principle one tier higher: only
+    the PRIMARY THREAD's own hit(s) get the full _render_hit_block
+    grounding; every other hit is still shown (real, available as
+    supporting texture) but compressed to _render_hit_core_line's bare
+    fact only, no meaning-notes -- paired with a hard-constraint
+    instruction line (not just an anchor) naming the primary thread as
+    the ONLY permitted headline source. When there's no headline_thread
+    at all (a day with no transit_aspect hits), every hit keeps full
+    detail -- there's no primary/secondary distinction to draw.
 
     `western_arc_standing` and `daily_mode_depth` (daily.py's own
     _compute_western_arc_standing()/_daily_mode_depth() output,
@@ -1013,17 +1068,46 @@ def _render_daily_narrative_input(
         lines.append("# Today's active astrological hits (real, resolved, tiered -- ground your writing in these)")
         lines.append("")
 
+        # Exhibit A fix (see this function's docstring): only the
+        # PRIMARY THREAD's own hit(s) get full grounding detail below;
+        # every other hit is real and still shown, but compressed to
+        # its bare fact line -- no sign/house/aspect-meaning detail to
+        # compete with the actual headline for the model's attention.
+        primary_hit_ids = set(headline_thread["hit_ids"]) if headline_thread is not None else set()
+
         if headline_thread is not None:
             lines.append(
                 f"PRIMARY THREAD (highest combined aspect-weight + convergence score, "
-                f"{headline_thread['score']:.2f}): {headline_thread['label']} -- "
-                f"lead with this hit or these converging hits ({', '.join(headline_thread['hit_ids'])}) "
-                f"as the reading's dominant story; everything else below is secondary."
+                f"{headline_thread['score']:.2f}): {headline_thread['label']}."
+            )
+            lines.append(
+                "HARD RULE: the reading's headline and dominant story MUST be built from "
+                "this thread's hit(s) below, and ONLY these -- no other hit today, however "
+                "real, may become the dominant story or receive full-committing present-"
+                "tense language on its own. Every hit under \"other real hits today\" "
+                "further below is genuine and may be woven in as brief supporting texture "
+                "at most, never as the headline."
             )
             lines.append("")
+            for hit_id in primary_hit_ids:
+                hit = next((h for h in hits if h["hit_id"] == hit_id), None)
+                if hit is not None:
+                    lines.append(_render_hit_block(hit))
+            lines.append("")
 
-        for hit in hits:
-            lines.append(_render_hit_block(hit))
+        other_hits = [h for h in hits if h["hit_id"] not in primary_hit_ids]
+        if other_hits:
+            if primary_hit_ids:
+                lines.append("# Other real hits today (supporting texture only -- do not headline from these)")
+                lines.append("")
+                for hit in other_hits:
+                    lines.append(_render_hit_core_line(hit))
+            else:
+                # No headline_thread at all today (no transit_aspect
+                # hits) -- no primary/secondary distinction to draw,
+                # every real hit keeps its full grounding detail.
+                for hit in other_hits:
+                    lines.append(_render_hit_block(hit))
 
         constraints = build_batch_overclaim_constraints(hits)
         if constraints:
