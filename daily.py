@@ -2339,6 +2339,17 @@ def build_daily_reading(
         if headline_thread is not None:
             for hid in headline_thread["hit_ids"]:
                 primary_thread_claim_ids |= hit_claim_ids.get(hid, set())
+        # Logged server-side (stderr) on every fallback call, not just
+        # guard rejections -- a real, direct diagnostic for exactly the
+        # question "what did the fallback actually see, and did it
+        # match what Option A/the fallback-wiring fix should produce"
+        # (a real live incident needed this and it didn't exist yet).
+        print(
+            f"[daily synthesis] _assemble_reading_text called. "
+            f"headline_thread={headline_thread!r} "
+            f"primary_thread_claim_ids={primary_thread_claim_ids!r}",
+            file=sys.stderr,
+        )
         reading_text = _assemble_reading_text(daily_claims, standing_claim_ids, daily_mode_depth, primary_thread_claim_ids)
 
     if not reading_text:

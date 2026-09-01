@@ -25,6 +25,7 @@ Figma to skin later. See web.py and "Celeste — Web Scaffold Brief."
 
 <p><a href="/?force=1">Regenerate</a> (manual trigger for testing; page normally caches once per day)</p>
 <p>Generation method: {{ result.synthesis_method }}</p>
+<p><small>Deployed commit: {{ deploy_commit }} &middot; This response {{ "WAS" if was_forced else "was NOT" }} a forced regeneration (?force=1) &middot; If not forced, this may be a cached result from earlier today.</small></p>
 
 <hr>
 
