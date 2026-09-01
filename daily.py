@@ -564,7 +564,7 @@ _ASTROLOGY_QUIET_NOTE = "Nothing in today's sky rises above routine background n
 _QUIET_DAY_READING = "Nothing's pulling hard today. Whatever you do with it is genuinely up to you."
 
 
-def _order_reading_claims(daily_claims):
+def _order_reading_claims(daily_claims, standing_claim_ids: set[str] | None = None, daily_mode_depth: str | None = None):
     """
     Split the resolved daily claims into (moon_phase_item, ordered
     supporting_items), where supporting_items is ranked by
@@ -572,19 +572,36 @@ def _order_reading_claims(daily_claims):
     order) with transit-aspect orb as a documented secondary key --
     tighter orb means the aspect is more exactly in effect today, a
     real astrological quantity rather than an arbitrary tiebreaker.
-    Uncapped: every resolved claim is represented in the fallback
-    reading (see _assemble_reading_text) so `reading` and the
-    attributed `claims` list can never go out of sync.
+
+    Synthesis Repair Brief Part 7: standing-only claims (Big-3 sign/
+    house, Vedic Dasha, Vedic sidereal Big-3, Chinese Ten-God -- the
+    same set Part 6 already drops from the real synthesis prompt) are
+    excluded here too, same reasoning applied to the deterministic
+    fallback path -- without this, a quiet day with no real activation
+    still reads as "your Sun is in Cancer, your Moon is in Libra"
+    every time, exactly the "reciting natal facts with no real
+    activation today" bug Part 6 fixed for the LLM path but left open
+    here. A claim genuinely hit-touched today is never in
+    standing_claim_ids (see build_daily_reading), so it still surfaces
+    normally.
+
+    Uncapped otherwise: every remaining resolved claim is represented
+    in the fallback reading (see _assemble_reading_text) so `reading`
+    and the attributed `claims` list can never go out of sync beyond
+    the deliberate standing-exclusion above.
 
     Returns (None, []) in the degenerate case where moon phase somehow
     didn't resolve (shouldn't happen -- it's a standalone daily fact --
     but this function doesn't assume it as a precondition).
     """
 
+    standing_claim_ids = standing_claim_ids or set()
     moon_phase_item = None
     supporting = []
 
     for item in daily_claims:
+        if item.claim.claim_id in standing_claim_ids:
+            continue
         if item.claim.claim_id.startswith("astrology_daily_moon_phase"):
             moon_phase_item = item
         else:
@@ -646,34 +663,64 @@ def _order_reading_claims(daily_claims):
     # specific) claims already rank above unlisted (generic fallback)
     # ones, so the cap keeps the most specific content, not just
     # whatever resolved first.
-    ordered_supporting = [item for _, item in ranked][:_MAX_FALLBACK_SUPPORTING_CLAIMS]
+    cap = _MAX_FALLBACK_SUPPORTING_CLAIMS
+    if daily_mode_depth in ("short", "near_silent"):
+        # Synthesis Repair Brief Part 7: confidence-scaled, same as
+        # real synthesis -- a day that doesn't clear the bar for a
+        # full reading gets a single grounded thread, not padded with
+        # up to 3 more claims to look like a fuller day than it is.
+        # moon_phase_item (if any) already counts as that one thread,
+        # so a genuinely quiet day with no moon-phase hit still gets
+        # exactly one supporting claim, never zero-if-avoidable.
+        cap = 0 if moon_phase_item is not None else min(1, _MAX_FALLBACK_SUPPORTING_CLAIMS)
+    ordered_supporting = [item for _, item in ranked][:cap]
 
     return moon_phase_item, ordered_supporting
 
 
-def _assemble_reading_text(daily_claims):
+def _assemble_reading_text(daily_claims, standing_claim_ids: set[str] | None = None, daily_mode_depth: str | None = None):
     """
     DETERMINISTIC FALLBACK ONLY -- used when _synthesize_reading()
-    can't run (no ANTHROPIC_API_KEY). This is ordering + connector
-    phrases, not real synthesis; it does not find a throughline or
-    fold claims together the way the real synthesis path does. Moon
-    phase, when it resolved (it's now a tiered hit like everything
-    else -- present only on a New/Full Moon day, see astrology/
-    daily_hits.py), anchors the reading; otherwise the highest-
-    priority claim does. Up to _MAX_FALLBACK_SUPPORTING_CLAIMS other
-    resolved claims follow, ranked by priority, joined with rotating
-    connector phrases instead of raw concatenation. A single resolved
-    claim is returned as-is -- no connector needed for a one-claim
-    day. daily_claims here only ever contains curated fragments (the
-    computed-fact hit records built for hits without one are
-    deliberately excluded -- see build_daily_reading -- since this
-    path never calls an LLM and should only ever emit pre-written,
-    already-reviewed sentences, never assemble hit-derived prose
-    freely). Returns "" when daily_claims is empty; build_daily_reading
-    replaces that with _QUIET_DAY_READING.
+    can't run (no ANTHROPIC_API_KEY) or its output was rejected by the
+    overclaim guard (synthesis_method == "guard_rejected"). This is
+    ordering + connector phrases, not real synthesis; it does not find
+    a throughline or fold claims together the way the real synthesis
+    path does -- but per Synthesis Repair Brief Part 7 it now follows
+    the SAME two tone rules real synthesis does, applied at the level
+    this deterministic path actually can:
+
+    - Standing-only content (Big-3 sign/house, Vedic Dasha, Vedic
+      sidereal Big-3, Chinese Ten-God) is excluded from consideration
+      entirely (see _order_reading_claims) -- never recited here just
+      because nothing else survived, matching Part 6's rule for the
+      real prompt.
+    - Confidence-scaled: daily_mode_depth "short"/"near_silent" caps
+      this to a single grounded thread (moon phase if present,
+      otherwise the single highest-priority supporting claim) instead
+      of up to _MAX_FALLBACK_SUPPORTING_CLAIMS -- a thin day reads as
+      thin, not padded to look like a full one. "full" (or unset, for
+      backward-compatible direct callers) keeps the existing cap.
+
+    Moon phase, when it resolved (it's now a tiered hit like
+    everything else -- present only on a New/Full Moon day, see
+    astrology/daily_hits.py), anchors the reading; otherwise the
+    highest-priority claim does. Any further resolved claims (within
+    the depth-scaled cap above) follow, ranked by priority, joined
+    with rotating connector phrases instead of raw concatenation. A
+    single resolved claim is returned as-is -- no connector needed for
+    a one-claim day. daily_claims here only ever contains curated
+    fragments (the computed-fact hit records built for hits without
+    one are deliberately excluded -- see build_daily_reading -- since
+    this path never calls an LLM and should only ever emit pre-
+    written, already-reviewed sentences, never assemble hit-derived
+    prose freely). Returns "" when nothing narrative-eligible remains
+    (daily_claims was empty, or everything present was standing-only);
+    build_daily_reading replaces that with _QUIET_DAY_READING -- an
+    honest "today's sky isn't saying much" line, not a recitation of
+    inert Big-3 content.
     """
 
-    moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims)
+    moon_phase_item, ordered_supporting = _order_reading_claims(daily_claims, standing_claim_ids, daily_mode_depth)
 
     pieces = []
     if moon_phase_item is not None:
@@ -2103,7 +2150,7 @@ def build_daily_reading(
             synthesis_method = "guard_rejected"
 
     if reading_text is None:
-        reading_text = _assemble_reading_text(daily_claims)
+        reading_text = _assemble_reading_text(daily_claims, standing_claim_ids, daily_mode_depth)
 
     if not reading_text:
         # Genuinely nothing today -- no surviving hits, no day-pillar
