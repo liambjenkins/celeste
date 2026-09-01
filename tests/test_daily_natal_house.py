@@ -116,29 +116,47 @@ with patch("daily._render_daily_narrative_input", side_effect=_spy):
     build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, ECLIPSE_DAY, use_synthesis=True)
 
 internal_hits = captured["hits"]
-saturn_hit = next(
-    (h for h in internal_hits if h["kind"] == "transit_aspect" and h["resolution"]["nearest_natal_point"] == "saturn"),
+# Synthesis Repair Brief Part 6: per-hit grounding (target_natal_house_
+# note included) is now scoped to standout-tier hits (captured["hits"]
+# IS that scoped set, narrative_hits, since that's what's actually
+# passed to _render_daily_narrative_input) -- the locked eclipse day's
+# own Saturn-targeting hit happens to be background-tier only (a real,
+# separate fact about this specific date, confirmed directly), so it
+# no longer gets this treatment; any real standout-tier hit touching a
+# non-Big-3 point demonstrates the same regression-tested mechanism.
+non_big3_standout_hit = next(
+    (
+        h for h in internal_hits
+        if h["kind"] == "transit_aspect"
+        and h["resolution"]["nearest_natal_point"] not in ("sun", "moon", None)
+        and h.get("target_natal_house_note")
+    ),
     None,
 )
-assert saturn_hit is not None, "expected at least one hit targeting natal saturn on the locked eclipse day"
-assert saturn_hit.get("target_natal_house_note"), "expected natal saturn's own house to be cited on this hit"
-assert "house 10" in saturn_hit["target_natal_house_note"], (
-    f"expected natal saturn's own house (10) in the note, got: {saturn_hit['target_natal_house_note']}"
+assert non_big3_standout_hit is not None, "expected at least one standout-tier hit touching a non-Big-3 natal point on the locked eclipse day"
+touched_role = non_big3_standout_hit["resolution"]["nearest_natal_point"]
+real_role = MELBOURNE["rulership"]["chart_ruler"] if touched_role == "chart_ruler" else touched_role
+expected_house = MELBOURNE["bodies"][real_role]["house"]
+assert f"house {expected_house}" in non_big3_standout_hit["target_natal_house_note"], (
+    f"expected natal {touched_role}'s own house ({expected_house}) in the note, "
+    f"got: {non_big3_standout_hit['target_natal_house_note']}"
 )
+saturn_hit = non_big3_standout_hit
 
 transit_house = saturn_hit["resolution"]["natal_house"]
-if transit_house != 10:
-    # The transiting body's current house differs from Saturn's own --
-    # confirm the two grounding lines don't collide/get confused.
+if transit_house != expected_house:
+    # The transiting body's current house differs from the touched
+    # point's own -- confirm the two grounding lines don't collide/
+    # get confused.
     assert saturn_hit.get("natal_house_note"), "expected a transit-through-house note too"
-    assert str(transit_house) not in saturn_hit["target_natal_house_note"].split("house 10")[0], (
-        "target_natal_house_note should name Saturn's OWN house, not the transiting body's current house"
+    assert str(transit_house) not in saturn_hit["target_natal_house_note"].split(f"house {expected_house}")[0], (
+        f"target_natal_house_note should name natal {touched_role}'s OWN house, not the transiting body's current house"
     )
 
 rendered_block = daily._render_hit_block(saturn_hit)
-assert "OWN birth house" in rendered_block and "house 10" in rendered_block
+assert "OWN birth house" in rendered_block and f"house {expected_house}" in rendered_block
 assert "PASSING THROUGH" in rendered_block  # the transiting body's own line, still present and distinctly labeled
-print(f"check natal Saturn's OWN house (10) is cited distinctly from the transiting body's current house (transit house {transit_house}) on the same hit")
+print(f"check natal {touched_role}'s OWN house ({expected_house}) is cited distinctly from the transiting body's current house (transit house {transit_house}) on the same hit")
 
 
 # --- Dedupe: a natal house claim never appears twice across result['claims'] ---

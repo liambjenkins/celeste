@@ -23,7 +23,7 @@ from astrology.daily_hits import compute_daily_hits
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 import daily
-from daily import _render_daily_narrative_input, _resolve_sign_claim, build_daily_reading
+from daily import _render_daily_narrative_input, _resolve_sign_claim, _score_threads, build_daily_reading
 
 print("=== DAILY SIGN CLAIMS ===")
 
@@ -84,24 +84,48 @@ print("check Big-3 (Sun/Moon/Ascendant) identity anchors carry real, correctly-s
 
 # --- Hit-relevant placements: surfaced only when touched by a real hit today ---
 
+# Synthesis Repair Brief Part 6: per-hit sign grounding (and so its
+# citation in result["claims"]) is now scoped to standout-tier hits,
+# plus anything that won today's headline thread even at background
+# tier -- same "standout_hits" definition build_daily_reading itself
+# uses (see tests/test_daily_house_claims.py). Replicated here rather
+# than hand-picking a subset, so this test tracks the real scoping
+# rule instead of a guess at it.
 hits = compute_daily_hits(MELBOURNE, ECLIPSE_DAY)
+_headline_thread = _score_threads(hits)
+_headline_hit_ids = set(_headline_thread["hit_ids"]) if _headline_thread is not None else set()
+standout_hits = [h for h in hits if h["tier"] == "standout" or h["hit_id"] in _headline_hit_ids]
 roles_touched_today = {
     h["resolution"]["nearest_natal_point"]
-    for h in hits
+    for h in standout_hits
     if h["kind"] in ("transit_aspect", "eclipse")
 }
 
 sign_claim_ids = {c["claim_id"] for c in result["claims"] if "sign" in c["claim_id"] or "outer_planet" in c["claim_id"]}
-assert "astrology_jupiter_sign_capricorn" in sign_claim_ids, "jupiter is touched by a hit today, its sign claim must be cited"
-print("check a hit-touched natal placement's sign claim is cited in result['claims']")
 
-# The actual regression test: a placement NOT touched by any hit
-# today and not Big-3 must have its sign claim NOT appear anywhere.
-# Which specific role qualifies shifts as aspect-type coverage widens
-# (e.g. completing the classical aspect set surfaced a new hit on
-# Venus on this same locked day) -- computed programmatically rather
-# than hardcoded, so this stays correct regardless.
 _big_three_roles = {"sun", "moon", "ascendant"}
+# Which specific role qualifies shifts as tiering/orb thresholds
+# change -- computed programmatically rather than hardcoded, so this
+# stays correct regardless.
+_touched_role_with_sign = next(
+    (
+        role for role in roles_touched_today
+        if role not in _big_three_roles
+        and role in MELBOURNE["bodies"]
+        and _resolve_sign_claim(role, MELBOURNE["bodies"][role]["sign"]) is not None
+    ),
+    None,
+)
+assert _touched_role_with_sign is not None, "test assumption broken -- expected at least one standout-tier hit touching a non-Big-3 role with a real sign-claim family today"
+_expected_claim = _resolve_sign_claim(_touched_role_with_sign, MELBOURNE["bodies"][_touched_role_with_sign]["sign"])
+assert _expected_claim.claim.claim_id in sign_claim_ids, (
+    f"{_touched_role_with_sign} is touched by a standout-tier hit today, its sign claim must be cited, got {sign_claim_ids}"
+)
+print(f"check a hit-touched natal placement's sign claim ({_touched_role_with_sign}) is cited in result['claims']")
+
+# The actual regression test: a placement NOT touched by any standout-
+# tier hit today and not Big-3 must have its sign claim NOT appear
+# anywhere.
 _untouched_role = next(
     (
         role for role in MELBOURNE["bodies"]
@@ -109,11 +133,11 @@ _untouched_role = next(
     ),
     None,
 )
-assert _untouched_role is not None, "test assumption broken -- every natal body is touched by a hit today, pick a different check"
+assert _untouched_role is not None, "test assumption broken -- every natal body is touched by a standout-tier hit today, pick a different check"
 assert not any(f"_{_untouched_role}_sign_" in cid for cid in sign_claim_ids), (
-    f"{_untouched_role} is untouched by any hit and isn't Big-3 -- its sign claim must not be cited, got {sign_claim_ids}"
+    f"{_untouched_role} is untouched by any standout-tier hit and isn't Big-3 -- its sign claim must not be cited, got {sign_claim_ids}"
 )
-print(f"check a natal placement untouched by any hit today ({_untouched_role}) and not Big-3 is correctly NOT cited -- no spray regression")
+print(f"check a natal placement untouched by any standout-tier hit today ({_untouched_role}) and not Big-3 is correctly NOT cited -- no spray regression")
 
 
 # --- Dedupe: a sign claim never appears twice across result['claims'] ---
@@ -162,10 +186,27 @@ print("check a hit's own natal_sign_note grounding is set correctly and rendered
 # --- Comprehensiveness fix: moon_phase hits get sign grounding too,
 # not just transit_aspect/eclipse (previously silently excluded with
 # no documented reason, even though they carry a real
-# nearest_natal_point the same as eclipse hits) ---
+# nearest_natal_point the same as eclipse hits). Since Part 6 scopes
+# per-hit grounding to standout-tier hits, this needs a date where a
+# moon_phase hit is ITSELF standout (its natal-point orb inside
+# LUNATION_CONTACT_ORB) -- the locked eclipse day's own full_moon hit
+# is background-tier (confirmed directly), so a separately-located
+# real standout-moon_phase date exercises the same mechanism. ---
 
-moon_phase_hit = next((h for h in internal_hits if h["kind"] == "moon_phase"), None)
-assert moon_phase_hit is not None, "expected a moon_phase hit on the locked eclipse day"
+MOON_PHASE_STANDOUT_DAY = datetime(2026, 1, 2, tzinfo=timezone.utc)  # real jupiter-conjunct new_moon, standout tier, confirmed directly
+_mp_captured = {}
+
+
+def _mp_spy(narrative_claims, hits=None, headline_thread=None, western_arc_standing=None, daily_mode_depth=None, standing_claim_ids=None):
+    _mp_captured["hits"] = hits
+    return real_render(narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth, standing_claim_ids)
+
+
+with patch("daily._render_daily_narrative_input", side_effect=_mp_spy):
+    build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, MOON_PHASE_STANDOUT_DAY, use_synthesis=True)
+
+moon_phase_hit = next((h for h in _mp_captured["hits"] if h["kind"] == "moon_phase"), None)
+assert moon_phase_hit is not None, "test assumption broken -- expected a standout-tier moon_phase hit on this date"
 assert moon_phase_hit["resolution"]["nearest_natal_point"] is not None
 assert moon_phase_hit.get("natal_sign_note"), "moon_phase hits should now carry sign grounding, same as eclipse hits"
 print("check moon_phase hits now carry natal_sign_note grounding (previously silently excluded)")

@@ -911,14 +911,18 @@ def _render_daily_narrative_input(
     to use both -- this function only supplies the data).
 
     `standing_claim_ids` (Synthesis Repair Brief Part 2.5, "invented
-    timeliness") is the set of claim_ids for real, natal-only/timing
-    content (Big-3 sign+house, Vedic Dasha, Vedic sidereal Big-3+
-    bhava, Chinese Ten-God-in-position) that has NO real hit backing
-    it today -- until now these rendered identically to hit-backed
-    claims in the flat loop below, with zero signal that they aren't
-    today's news. Split into their own labeled section instead of the
-    flat loop, same principle as STANDING ARC above but for these five
-    always-on identity/timing families."""
+    timeliness"; Part 6, content architecture) is the set of claim_ids
+    for real, natal-only/timing content (Big-3 sign+house, Vedic
+    Dasha, Vedic sidereal Big-3+bhava, Chinese Ten-God-in-position)
+    that has NO real STANDOUT-tier hit backing it today. Part 2.5
+    originally still sent these to the model, relabeled under their
+    own "standing" header; Part 6 found that wasn't enough on its own
+    -- a real reading traced back to 73 resolved claims with only ~3
+    actually used, and the volume alone was real, wasted cost even
+    when the labeling was respected. These are now dropped from the
+    prompt entirely rather than relabeled -- they still exist in
+    daily_claims/result["claims"] for full attribution (see
+    build_daily_reading), they just never reach the model."""
 
     lines = []
 
@@ -937,24 +941,15 @@ def _render_daily_narrative_input(
             lines.append(f"  What this arc means: {western_arc_standing['claim_text']}")
         lines.append("")
 
+    # standing_claim_ids (Big-3/Vedic Dasha/Vedic sidereal Big-3/Ten-
+    # God with no real standout-tier hit behind them today) are
+    # dropped from the prompt entirely here -- see this function's own
+    # docstring above for why (Part 6: volume itself was real, wasted
+    # cost, and labeling alone didn't reliably stop present-tense
+    # blending). They still exist in daily_claims/result["claims"] for
+    # full attribution; this is the one place they're excluded.
     standing_claim_ids = standing_claim_ids or set()
-    standing_claims = [c for c in narrative_claims if c.claim_id in standing_claim_ids]
     other_claims = [c for c in narrative_claims if c.claim_id not in standing_claim_ids]
-
-    if standing_claims:
-        lines.append(
-            "# Standing identity & context (real, natal-only facts -- NOT today's "
-            "news; only present-tense/active language if the SAME fact is also "
-            "independently named above in STANDING ARC or the hits section below)"
-        )
-        lines.append("")
-        for claim in standing_claims:
-            lines.append(f"- CLAIM_ID: {claim.claim_id}")
-            lines.append(f"  TRADITION: {claim.tradition}")
-            lines.append(f"  LIFE_DOMAIN: {claim.life_domain or 'general'}")
-            lines.append(f"  STATEMENT: {claim.statement}")
-            lines.append(f"  SOURCE: {claim.source}")
-        lines.append("")
 
     for claim in other_claims:
         lines.append(f"- CLAIM_ID: {claim.claim_id}")
@@ -1010,6 +1005,7 @@ def _synthesize_reading(
     daily_mode_depth: str | None = None,
     standing_claim_ids: set[str] | None = None,
     real_house_numbers: set[int] | None = None,
+    narrative_hits: list[dict] | None = None,
 ):
     """
     Real synthesis path: builds today's claims into the daily
@@ -1033,15 +1029,24 @@ def _synthesize_reading(
     existence, or house numbers).
 
     `hits` (astrology.daily_hits.compute_daily_hits output, already
-    resolved and tiered) is passed through to _render_daily_narrative_input
-    for the per-hit grounding block and the OVERCLAIM CONSTRAINTS
-    section -- see that function's docstring.
+    resolved and tiered, full standout+background) is used for the
+    overclaim guard's own checks below, which stay deliberately
+    conservative -- a real background-tier fact is still real, even on
+    a day it doesn't earn narrative detail. `narrative_hits` (Synthesis
+    Repair Brief Part 6) is the narrower set -- standout-tier hits,
+    plus anything that won today's headline thread even at background
+    tier -- actually sent to the model via _render_daily_narrative_
+    input's per-hit grounding block and the OVERCLAIM CONSTRAINTS
+    section. Defaults to `hits` if not given (e.g. direct/test callers)
+    so this stays additive, not a required parameter.
     """
 
+    narrative_hits = narrative_hits if narrative_hits is not None else hits
     narrative_claims = _to_narrative_claims(daily_claims)
     prompt = build_daily_synthesis_prompt(
         _render_daily_narrative_input(
-            narrative_claims, hits, headline_thread, western_arc_standing, daily_mode_depth, standing_claim_ids
+            narrative_claims, narrative_hits, headline_thread, western_arc_standing,
+            daily_mode_depth, standing_claim_ids,
         )
     )
 
@@ -1073,8 +1078,20 @@ def _synthesize_reading(
         print(f"[daily synthesis] fact-check call failed, reading kept: {exc}", file=sys.stderr)
         fact_check_findings = "(fact-check unavailable: backend call failed)"
 
+    # Domain support must be checked against what was actually SENT to
+    # the model (narrative_claims minus standing_claim_ids), not the
+    # full daily_claims -- a standing-only claim (e.g. a natal Venus
+    # sign claim tagged "relationships") that Part 6 now excludes from
+    # the prompt shouldn't be able to retroactively "justify" the
+    # model independently using relationship language it was never
+    # actually grounded in.
+    narrative_eligible_claims = [
+        item for item in daily_claims
+        if item.claim.claim_id not in (standing_claim_ids or set())
+    ]
+
     overclaim_findings = check_batch_overclaims(reading_text, hits)
-    overclaim_findings += check_life_domain_overclaims(reading_text, daily_claims)
+    overclaim_findings += check_life_domain_overclaims(reading_text, narrative_eligible_claims)
     overclaim_findings += check_occasion_overclaims(reading_text, hits, western_arc_standing)
     overclaim_findings += check_house_number_overclaims(reading_text, real_house_numbers or set())
 
@@ -1503,6 +1520,33 @@ def build_daily_reading(
     highlights = compute_todays_highlights(natal_chart, as_of_utc_time)
     headline_thread = _score_threads(hits)
 
+    # Synthesis, Tone, and Content Architecture Repair Brief Part 6: a
+    # real reading was traced back to 73 resolved claims with only ~3
+    # actually used -- background-tier hits (real, but the loosest,
+    # least narratively significant contacts; with the widened ~26-32
+    # point target set, a normal day can surface 15-35 of them) were
+    # getting the SAME full sign/house/cusp/aspect-meaning grounding
+    # treatment as standout-tier hits, then all of it got sent to the
+    # LLM twice (main synthesis + fact-check's own restated claims
+    # block) whether or not any of it was ever going to be used.
+    # `hits` itself (full standout+background) stays completely
+    # unchanged for attribution/citation (result["claims"]) and for
+    # the overclaim guard's checks, which should stay conservative --
+    # standout_hits is ONLY used to scope what actually grounds and
+    # reaches the synthesis prompt, mirroring "weaker threads get a
+    # trailing mention, not their own paragraph" (Part 3) one level
+    # up, at the data-selection stage rather than the prose stage.
+    #
+    # Not simply tier == "standout": a background-tier hit CAN still
+    # win headline selection on real convergence (e.g. three loose
+    # hits all landing on the same natal point can outscore one
+    # standout hit elsewhere) -- when that happens, it genuinely is
+    # today's story and needs full grounding, not the compressed
+    # treatment meant for hits that lost. So standout_hits here means
+    # "standout tier, OR part of today's actual headline thread."
+    headline_hit_ids = set(headline_thread["hit_ids"]) if headline_thread is not None else set()
+    standout_hits = [h for h in hits if h["tier"] == "standout" or h["hit_id"] in headline_hit_ids]
+
     # Synthesis Repair Brief Part 2.4: every real, computed house
     # number relevant today -- transit-through (a transiting body's
     # current house) to start; natal-own (Big-3, hit-touched points,
@@ -1531,15 +1575,20 @@ def build_daily_reading(
                 attach_continuity_note(natal_chart, hit, as_of_utc_time)
 
     # daily_transit_aspects/daily_moon_phase, fed to the existing
-    # concepts->features->resolve_claims machinery below, are now
-    # scoped to SURVIVING hits only -- previously this fed the full,
-    # unfiltered sweep (every transiting body's every aspect and
-    # house placement, regardless of significance), which is the
-    # actual mechanism behind a real live bug: a citation list naming
-    # houses with no connection to what the reading discussed. See
-    # astrology/daily_hits.py's docstring for the full story.
-    aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
-    moon_hit = next((h for h in hits if h["kind"] == "moon_phase"), None)
+    # concepts->features->resolve_claims machinery below, are scoped to
+    # STANDOUT-tier surviving hits only (Part 6, above) -- previously
+    # this fed every SURVIVING hit (standout+background), which was
+    # itself already a fix for an earlier bug (an unfiltered sweep of
+    # every transiting body's every aspect and house placement,
+    # regardless of significance -- see astrology/daily_hits.py's
+    # docstring), but background-tier's real breadth (15-35 hits on a
+    # normal day, given the widened point set) meant this generic
+    # blanket sweep -- which fires a claim for every distinct aspect
+    # TYPE and house NUMBER touched, regardless of how many hits share
+    # one -- still flooded the prompt with content narrowly true but
+    # never actually used in the output.
+    aspect_hits = [h for h in standout_hits if h["kind"] == "transit_aspect"]
+    moon_hit = next((h for h in standout_hits if h["kind"] == "moon_phase"), None)
 
     observations = {
         "astrology": natal_chart,
@@ -1636,25 +1685,32 @@ def build_daily_reading(
     real_house_numbers.add(natal_chart["bodies"]["sun"]["house"])
     real_house_numbers.add(natal_chart["bodies"]["moon"]["house"])
 
-    # Synthesis Repair Brief Part 2.5 ("invented timeliness"): every
-    # claim resolved unconditionally here (Big-3 sign/house, and
-    # further below Vedic Dasha/sidereal Big-3/Chinese Ten-God) is a
-    # real, permanent chart fact -- not something "activating" today.
-    # Until now these fed _render_daily_narrative_input's flat claims
-    # loop with zero temporal signal, identical in shape to a claim
-    # actually paired to a real hit today -- a real, confirmed gap:
-    # nothing told synthesis these are standing/background, not news.
-    # standing_claim_ids collects exactly which claim_ids are standing-
-    # only, so the prompt can render them under their own header with
-    # explicit "not necessarily active today" framing (see
-    # _render_daily_narrative_input) instead of unmarked in the flat
-    # list. A Big-3 point ALSO touched by a real hit today (role in
-    # hit_touched_roles) is excluded from this set -- it's legitimately
-    # paired to today's real activity via that hit, not standing-only,
-    # even though it's the same underlying claim object.
+    # Synthesis Repair Brief Part 2.5 ("invented timeliness") + Part 6
+    # (content architecture): every claim resolved unconditionally
+    # here (Big-3 sign/house, and further below Vedic Dasha/sidereal
+    # Big-3/Chinese Ten-God) is a real, permanent chart fact -- not
+    # something "activating" today. Part 2.5 originally still sent
+    # these to synthesis, just relabeled under their own "standing"
+    # header; Part 6 (a real reading traced to 73 resolved claims with
+    # only ~3 actually used) found that wasn't enough -- the volume
+    # alone was real cost, and the model still sometimes wove standing
+    # content into confident present-tense language despite the
+    # labeling. standing_claim_ids now means "excluded from the
+    # synthesis prompt entirely" (see _render_daily_narrative_input) --
+    # they still exist in daily_claims/result["claims"] for full
+    # attribution, just never reach the model. A Big-3 point ALSO
+    # touched by a real STANDOUT-tier hit today (role in
+    # hit_touched_roles) is excluded from standing_claim_ids -- it's
+    # legitimately paired to today's real activity via that hit, not
+    # standing-only, even though it's the same underlying claim
+    # object. hit_touched_roles itself is scoped to standout_hits, not
+    # all hits, matching Part 6's own tier-gating -- a role touched
+    # ONLY by a background-tier hit doesn't earn Big-3 an exemption
+    # either, for the same reason background-tier hits don't get full
+    # grounding themselves.
     hit_touched_roles = {
         h["resolution"].get("nearest_natal_point")
-        for h in hits
+        for h in standout_hits
         if h["resolution"].get("nearest_natal_point")
     }
     standing_claim_ids: set[str] = set()
@@ -1687,7 +1743,32 @@ def build_daily_reading(
             daily_claims.append(item)
         return item
 
+    # real_house_numbers stays built from the FULL hit list (every
+    # tier), independent of the narrative-grounding restriction below
+    # -- it feeds check_house_number_overclaims, which must stay
+    # conservative (a background-tier hit's real natal house is still
+    # a real house, even on a day it doesn't earn narrative detail;
+    # narrowing this to standout-only would make the guard MORE likely
+    # to falsely flag a real number as invented, the opposite of what
+    # Part 6 is trying to fix).
     for hit in hits:
+        if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase", "return", "station"):
+            continue
+        role = hit["resolution"]["nearest_natal_point"]
+        if role is None:
+            continue
+        real_role = natal_chart["rulership"]["chart_ruler"] if role == "chart_ruler" else role
+        natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
+        if natal_house is not None:
+            real_house_numbers.add(natal_house)
+
+    # Sign/house/cusp-sign grounding itself (Part 6) is scoped to
+    # standout_hits only -- this is the other half of the "every
+    # asteroid/angle/node's sign+house, every day" bloat alongside the
+    # blanket-sweep fix above: with the widened ~26-32 point target
+    # set, a normal day's background-tier hits alone can touch nearly
+    # every point in the chart.
+    for hit in standout_hits:
         if hit["kind"] not in ("transit_aspect", "eclipse", "moon_phase", "return", "station"):
             continue
         role = hit["resolution"]["nearest_natal_point"]
@@ -1701,8 +1782,6 @@ def build_daily_reading(
             hit["natal_sign_note"] = claim.claim.statement
 
         natal_house = natal_chart["bodies"].get(real_role, {}).get("house")
-        if natal_house is not None:
-            real_house_numbers.add(natal_house)
         natal_house_claim = _use_natal_house_claim(real_role, natal_house)
         if natal_house_claim is not None:
             hit["target_natal_house_note"] = (
@@ -1731,7 +1810,7 @@ def build_daily_reading(
             daily_claims.append(item)
         return item
 
-    for hit in hits:
+    for hit in standout_hits:
         if hit["kind"] not in ("transit_aspect", "return", "station", "natal_house_ingress"):
             continue
         claim = _use_house_claim(hit["display"]["transiting_body"], hit["resolution"]["natal_house"])
@@ -1750,7 +1829,7 @@ def build_daily_reading(
     # elsewhere in the very same list. See _resolve_aspect_claim.
     aspect_meaning_claims_used: dict[str, object] = {}
 
-    for hit in hits:
+    for hit in standout_hits:
         # "return" reuses this lookup too -- a return's own display.
         # aspect is always "conjunction" (see astrology/daily_hits.py's
         # _resolve_return_hits), so it resolves the same generic
@@ -1783,7 +1862,7 @@ def build_daily_reading(
     # See _resolve_eclipse_type_claim.
     eclipse_meaning_claims_used: dict[str, object] = {}
 
-    for hit in hits:
+    for hit in standout_hits:
         if hit["kind"] != "eclipse":
             continue
         claim = _resolve_eclipse_type_claim(hit)
@@ -1804,7 +1883,7 @@ def build_daily_reading(
     # not "which body's natal sign". Shares sign_claims_used's dedupe
     # cache -- the same claim family, so a sign a natal point is
     # already grounded in today shouldn't be cited twice.
-    for hit in hits:
+    for hit in standout_hits:
         if hit["kind"] != "sign_ingress":
             continue
         item = _resolve_pure_sign_claim(hit["display"]["sign"])
@@ -1889,10 +1968,11 @@ def build_daily_reading(
         _use_vedic_claims([vedic_moon_house_claim])
 
     # Today's transiting sidereal sign -- only for a body already part
-    # of a real hit today (never an unconditional sweep over all 10
-    # transiting bodies, same discipline as the natal-sign grounding
-    # above).
-    for hit in hits:
+    # of a real STANDOUT-tier hit today (Part 6 -- never an
+    # unconditional sweep over all 10 transiting bodies, and not for a
+    # merely background-tier touch either, same discipline as the
+    # natal-sign grounding above).
+    for hit in standout_hits:
         if hit["kind"] != "transit_aspect":
             continue
         body = hit["display"]["transiting_body"]
@@ -2007,6 +2087,7 @@ def build_daily_reading(
             daily_mode_depth,
             standing_claim_ids,
             real_house_numbers,
+            standout_hits,
         )
         if reading_text is not None:
             synthesis_method = "llm"

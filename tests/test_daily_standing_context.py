@@ -1,13 +1,17 @@
 """
 Tests for daily.py's Synthesis Repair Brief Part 2.5 ("invented
-timeliness") fix: real, natal-only/standing content (Big-3 sign+house,
-Vedic Dasha, Vedic sidereal Big-3+bhava, Chinese Ten-God-in-position)
-now reaches the synthesis prompt in its own labeled "# Standing
-identity & context" section instead of the flat claims loop, so
-synthesis has an explicit signal that these aren't today's news --
-unless the same point is ALSO genuinely touched by a real hit today,
-in which case it's legitimately hit-paired and stays in the flat
-section instead.
+timeliness") + Part 6 (content architecture) fix: real, natal-only/
+standing content (Big-3 sign+house, Vedic Dasha, Vedic sidereal Big-3+
+bhava, Chinese Ten-God-in-position) never reaches the synthesis prompt
+at all -- unless the same point is ALSO genuinely touched by a real
+STANDOUT-tier hit today, in which case it's legitimately hit-paired
+and stays in the flat section instead. (Part 2.5 originally relabeled
+this content under its own "Standing identity & context" header
+rather than dropping it; Part 6 found that wasn't enough on its own --
+a real reading traced back to 73 resolved claims with only ~3
+actually used -- and moved to dropping it from the prompt entirely.
+It still exists in daily_claims/result["claims"] for full
+attribution.)
 """
 
 import sys
@@ -86,23 +90,25 @@ assert dasha_ids and dasha_ids.issubset(standing_ids)
 assert ten_god_ids and ten_god_ids.issubset(standing_ids), f"ten god ids not fully standing: {ten_god_ids - standing_ids}"
 print("check Vedic Dasha and Chinese Ten-God claims are always unconditionally standing")
 
-# The rendered prompt text: every standing claim_id appears exactly
-# once total (never duplicated between the standing section and the
-# flat section below it).
+# The rendered prompt text (Part 6): every standing claim_id is
+# dropped entirely -- never appears anywhere in the rendered prompt,
+# not relabeled into its own section. Every OTHER (non-standing)
+# claim_id still appears exactly once, no duplicates.
 rendered = real_render(
     captured["narrative_claims"], hits_today, None, None, "full", standing_ids
 )
-assert "# Standing identity & context" in rendered
+assert "# Standing identity & context" not in rendered, "Part 6 drops this section header entirely, doesn't relabel"
 claim_lines = [l for l in rendered.splitlines() if l.strip().startswith("- CLAIM_ID:")]
 seen_ids = [l.split("CLAIM_ID: ")[1] for l in claim_lines]
 assert len(seen_ids) == len(set(seen_ids)), "a claim_id appears more than once in the rendered prompt"
-print(f"check rendered prompt: {len(seen_ids)} claim lines total, zero duplicates, standing header present")
+assert not (set(seen_ids) & standing_ids), "a standing-only claim_id leaked into the rendered prompt"
+print(f"check rendered prompt: {len(seen_ids)} non-standing claim lines, zero duplicates, zero standing leakage")
 
 # A day with no standing content at all (empty narrative_claims list,
-# no standing_claim_ids) must not print the header or crash.
+# no standing_claim_ids) must not crash.
 empty_render = real_render([], [], None, None, None, None)
 assert "# Standing identity & context" not in empty_render
-print("check no standing header is printed when there's nothing standing to show")
+print("check empty input renders cleanly with no crash")
 
 print()
 print("DAILY STANDING CONTEXT: OK")

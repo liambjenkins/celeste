@@ -28,7 +28,7 @@ from astrology.daily_hits import compute_daily_hits
 from astrology.time import local_to_utc
 from chinese.pillars import build_four_pillars
 import daily
-from daily import _resolve_house_claim, _resolve_natal_house_claim, build_daily_reading
+from daily import _resolve_house_claim, _resolve_natal_house_claim, _score_threads, build_daily_reading
 
 print("=== DAILY HOUSE CLAIMS ===")
 
@@ -59,7 +59,18 @@ print("check _resolve_house_claim resolves the exact house claim for a body/hous
 hits = compute_daily_hits(MELBOURNE, ECLIPSE_DAY)
 aspect_hits = [h for h in hits if h["kind"] == "transit_aspect"]
 assert aspect_hits, "test assumption broken -- expected at least one transit_aspect hit on the eclipse day"
-houses_touched_today = {h["resolution"]["natal_house"] for h in aspect_hits}
+
+# Synthesis Repair Brief Part 6: per-hit grounding (and so its
+# citation in result["claims"]) is now scoped to standout-tier hits,
+# plus anything that won today's headline thread even at background
+# tier -- same "standout_hits" definition build_daily_reading itself
+# uses. Replicated here rather than hand-picking a subset, so this
+# test tracks the real scoping rule instead of a guess at it.
+_headline_thread = _score_threads(hits)
+_headline_hit_ids = set(_headline_thread["hit_ids"]) if _headline_thread is not None else set()
+standout_hits = [h for h in hits if h["tier"] == "standout" or h["hit_id"] in _headline_hit_ids]
+standout_aspect_hits = [h for h in standout_hits if h["kind"] == "transit_aspect"]
+houses_touched_today = {h["resolution"]["natal_house"] for h in standout_aspect_hits}
 
 # Big-3 standing content, plus (since Fix 1's widening) every hit-
 # touched natal point, also cites that point's OWN house -- distinct
@@ -96,7 +107,7 @@ expected_transit_through = {f"astrology_house_{h}" for h in houses_touched_today
 _chart_ruler = MELBOURNE["rulership"]["chart_ruler"]
 _touched_roles = {
     (_chart_ruler if h["resolution"]["nearest_natal_point"] == "chart_ruler" else h["resolution"]["nearest_natal_point"])
-    for h in hits
+    for h in standout_hits
     if h["kind"] in ("transit_aspect", "eclipse", "moon_phase")
 }
 natal_own_roles = ({"sun", "moon"} | _touched_roles) & set(MELBOURNE["bodies"])
