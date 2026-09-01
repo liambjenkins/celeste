@@ -41,6 +41,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 CACHE_PATH = DATA_DIR / "daily_cache.json"
 FEEDBACK_LOG_PATH = DATA_DIR / "feedback_log.jsonl"
 GITHUB_FEEDBACK_PATH = "data/feedback_log.jsonl"
+GITHUB_CACHE_PATH = "data/daily_cache.json"
 GITHUB_API = "https://api.github.com"
 
 app = Flask(__name__)
@@ -120,6 +121,88 @@ def _save_cache(cache: dict) -> None:
         json.dump(cache, f, indent=2)
 
 
+def _github_config() -> tuple[str, str, str] | None:
+    """(token, repo, branch) if GitHub persistence is configured, else
+    None -- the shared check both the feedback log and the daily-
+    reading cache use before attempting any GitHub Contents API call."""
+
+    token = os.environ.get("CELESTE_GITHUB_TOKEN")
+    repo = os.environ.get("CELESTE_GITHUB_REPO")
+    branch = os.environ.get("CELESTE_GITHUB_BRANCH", "main")
+    if not token or not repo:
+        return None
+    return token, repo, branch
+
+
+def _load_cache_from_github() -> dict:
+    """Best-effort durable-cache read via the GitHub Contents API --
+    the only thing that survives a Render free-tier cold start. A real
+    live incident confirmed the actual bug this closes: CACHE_PATH is
+    a local file on an EPHEMERAL filesystem (same reasoning already
+    documented on _commit_feedback_entry, just never applied to this
+    cache) -- the free tier spins the container down after ~15 minutes
+    idle and spins up a fresh one on the next request, silently
+    wiping today's cached reading. Every reload after any idle gap
+    looked like a brand-new day and triggered a full 2-LLM-call
+    regeneration -- both "caching isn't working" and "very slow" were
+    the same bug. Returns {} on any failure (unconfigured, network
+    error, 404, malformed content) -- never raises; a durability-layer
+    failure must always degrade to "regenerate", never crash the
+    page."""
+
+    config = _github_config()
+    if config is None:
+        return {}
+    token, repo, branch = config
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+    url = f"{GITHUB_API}/repos/{repo}/contents/{GITHUB_CACHE_PATH}"
+
+    try:
+        resp = requests.get(url, headers=headers, params={"ref": branch}, timeout=15)
+    except requests.RequestException:
+        return {}
+    if resp.status_code != 200:
+        return {}
+    try:
+        content = base64.b64decode(resp.json()["content"]).decode("utf-8")
+        return json.loads(content)
+    except (KeyError, ValueError):
+        return {}
+
+
+def _save_cache_to_github(cache: dict) -> None:
+    """Best-effort durable-cache write, mirroring
+    _commit_feedback_entry's own fail-open discipline: a GitHub-side
+    failure here must never take down the request -- the caller
+    already has the real result to serve regardless, this only
+    affects whether the NEXT cold-started container can skip a full
+    regeneration. The cache is a single overwritten entry (today's
+    date only, same as the local file), not an append-only log, so
+    this produces at most one commit per real regeneration -- no
+    unbounded history growth."""
+
+    config = _github_config()
+    if config is None:
+        return
+    token, repo, branch = config
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+    url = f"{GITHUB_API}/repos/{repo}/contents/{GITHUB_CACHE_PATH}"
+
+    try:
+        get_resp = requests.get(url, headers=headers, params={"ref": branch}, timeout=15)
+        sha = get_resp.json()["sha"] if get_resp.status_code == 200 else None
+        payload = {
+            "message": f"Daily cache: {date.today().isoformat()}",
+            "content": base64.b64encode(json.dumps(cache, indent=2).encode("utf-8")).decode("utf-8"),
+            "branch": branch,
+        }
+        if sha:
+            payload["sha"] = sha
+        requests.put(url, headers=headers, json=payload, timeout=15)
+    except requests.RequestException:
+        pass
+
+
 # Guards cache-miss regeneration: without this, two overlapping
 # requests (e.g. a double page-load, or a future multi-threaded/
 # multi-worker deploy) can each independently see an empty cache and
@@ -136,7 +219,19 @@ def _get_today_reading(force: bool = False) -> dict:
     keyed by ISO date. `force=True` (the page's own "Regenerate" link,
     ?force=1) bypasses and overwrites the cache -- the manual
     regeneration trigger the brief asks for, so testing doesn't
-    require waiting for an actual new day."""
+    require waiting for an actual new day.
+
+    Real live incident, root-caused directly: the local cache file
+    alone is NOT durable on Render's free tier -- the container spins
+    down after ~15 minutes idle and a fresh one spins up on the next
+    request, with an empty filesystem. Every reload after any idle gap
+    silently regenerated the full reading (two LLM calls) even though
+    "caching" looked like it should have applied -- both "caching
+    isn't working" and "very slow" were this one bug. The local file
+    stays as the fast path for repeat requests within one warm
+    container's lifetime; the GitHub-backed copy (_load_cache_from_
+    github/_save_cache_to_github) is the actual durable layer, checked
+    on a local miss before paying for a real regeneration."""
 
     today_key = date.today().isoformat()
     cache = _load_cache()
@@ -154,9 +249,21 @@ def _get_today_reading(force: bool = False) -> dict:
         if not force and today_key in cache:
             return cache[today_key]
 
+        if not force:
+            # Local miss doesn't necessarily mean no one has generated
+            # today's reading yet -- a PREVIOUS container (before this
+            # one cold-started) may have, and persisted it durably.
+            # force=True skips this on purpose: it means "regenerate
+            # for real right now", not "check elsewhere first".
+            github_cache = _load_cache_from_github()
+            if today_key in github_cache:
+                _save_cache(github_cache)  # warm the local file for the rest of this container's lifetime
+                return github_cache[today_key]
+
         result = _build_today(datetime.now(timezone.utc))
         cache = {today_key: result}  # only today's entry needs keeping
         _save_cache(cache)
+        _save_cache_to_github(cache)
         return result
 
 
@@ -194,15 +301,13 @@ def _commit_feedback_entry(entry: dict) -> tuple[bool, str]:
     what to do with the result rather than this function hiding it.
     """
 
-    token = os.environ.get("CELESTE_GITHUB_TOKEN")
-    repo = os.environ.get("CELESTE_GITHUB_REPO")
-    branch = os.environ.get("CELESTE_GITHUB_BRANCH", "main")
-
-    if not token or not repo:
+    config = _github_config()
+    if config is None:
         return False, (
             "GitHub persistence not configured (CELESTE_GITHUB_TOKEN / "
             "CELESTE_GITHUB_REPO unset) -- edit saved locally only."
         )
+    token, repo, branch = config
 
     headers = {
         "Authorization": f"Bearer {token}",
