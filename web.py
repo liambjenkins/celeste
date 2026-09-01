@@ -164,7 +164,19 @@ def _get_today_reading(force: bool = False) -> dict:
 def index():
     force = request.args.get("force") == "1"
     result = _get_today_reading(force=force)
-    return render_template("daily.html", result=result, today=date.today().isoformat())
+    return render_template(
+        "daily.html",
+        result=result,
+        today=date.today().isoformat(),
+        # Render sets RENDER_GIT_COMMIT automatically on every deploy,
+        # no config needed -- surfaced on the page so "is this deploy
+        # actually running the latest code" is answerable by looking
+        # at the page, not by guessing from output shape. A real live
+        # incident (this exact page shown, stale content suspected)
+        # had no way to confirm this at all.
+        deploy_commit=os.environ.get("RENDER_GIT_COMMIT", "unknown (RENDER_GIT_COMMIT not set -- local/dev run)"),
+        was_forced=force,
+    )
 
 
 def _commit_feedback_entry(entry: dict) -> tuple[bool, str]:
