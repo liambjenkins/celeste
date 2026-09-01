@@ -1190,6 +1190,7 @@ def _synthesize_reading(
     standing_claim_ids: set[str] | None = None,
     real_house_numbers: set[int] | None = None,
     narrative_hits: list[dict] | None = None,
+    run_fact_check: bool = True,
 ):
     """
     Real synthesis path: builds today's claims into the daily
@@ -1202,15 +1203,29 @@ def _synthesize_reading(
     into implicit context, per the synthesis addendum, will legitimately
     score low on keyword overlap without that being a real bug),
     fact_check()'s findings (a real check -- catches invented
-    specificity the source claims don't support), and overclaim_
-    findings from check_batch_overclaims (the fix for a real live bug
-    where an eclipse was called "exact" 5.69 degrees off natal MC)
-    plus, per Synthesis Repair Brief Part 2.4, check_life_domain_
-    overclaims/check_occasion_overclaims/check_house_number_overclaims/
+    specificity the source claims don't support, when run_fact_check is
+    True -- see below), and overclaim_findings from
+    check_batch_overclaims (the fix for a real live bug where an
+    eclipse was called "exact" 5.69 degrees off natal MC) plus, per
+    Synthesis Repair Brief Part 2.4, check_life_domain_overclaims/
+    check_occasion_overclaims/check_house_number_overclaims/
     check_moon_phase_overclaims -- four more deterministic categories a
     real audit found check_batch_overclaims structurally can't catch
     (it only ever checks orb/contact/amplification, never domain,
     occasion-existence, house numbers, or named lunar phases).
+
+    `run_fact_check` controls the second, separate Anthropic call
+    (fact_check(), a full extra round trip on top of the main
+    synthesis call above). Confirmed by direct trace: its findings only
+    ever reach a human via main.py's CLI --narrate debug print
+    (result["synthesis_validation"]["fact_check_findings"]) -- nothing
+    in build_daily_reading's own gating (that's overclaim_findings,
+    a separate, deterministic, non-LLM check) or the served web page
+    reads it. On the web path this call was pure latency with no
+    effect on what gets shown -- roughly doubling real synthesis time
+    for zero user-facing benefit. web.py passes run_fact_check=False;
+    main.py's CLI path keeps it True (the debug print is still useful
+    there).
 
     `hits` (astrology.daily_hits.compute_daily_hits output, already
     resolved and tiered, full standout+background) is used for the
@@ -1250,17 +1265,20 @@ def _synthesize_reading(
 
     coverage = check_coverage(narrative_claims, reading_text)
 
-    try:
-        fact_check_findings = fact_check(backend, narrative_claims, reading_text)
-    except (MissingAPIKeyError, NarrativeBackendError) as exc:
-        # The reading itself already synthesized successfully above --
-        # a failure on this second, separate backend call (checking
-        # the reading, not producing it) shouldn't discard a real
-        # reading. Degrade to "fact-check unavailable" rather than
-        # raising into an unhandled 500 -- but still log the real
-        # reason, same as the main synthesis call above.
-        print(f"[daily synthesis] fact-check call failed, reading kept: {exc}", file=sys.stderr)
-        fact_check_findings = "(fact-check unavailable: backend call failed)"
+    if not run_fact_check:
+        fact_check_findings = "(fact-check skipped: not used to gate the served reading on this path)"
+    else:
+        try:
+            fact_check_findings = fact_check(backend, narrative_claims, reading_text)
+        except (MissingAPIKeyError, NarrativeBackendError) as exc:
+            # The reading itself already synthesized successfully above --
+            # a failure on this second, separate backend call (checking
+            # the reading, not producing it) shouldn't discard a real
+            # reading. Degrade to "fact-check unavailable" rather than
+            # raising into an unhandled 500 -- but still log the real
+            # reason, same as the main synthesis call above.
+            print(f"[daily synthesis] fact-check call failed, reading kept: {exc}", file=sys.stderr)
+            fact_check_findings = "(fact-check unavailable: backend call failed)"
 
     # Domain support must be checked against what was actually SENT to
     # the model (narrative_claims minus standing_claim_ids), not the
@@ -1693,6 +1711,7 @@ def build_daily_reading(
     use_synthesis: bool = True,
     backend: NarrativeBackend | None = None,
     include_debug_matrix: bool = False,
+    run_fact_check: bool = True,
 ) -> dict:
     """
     The library entry point: given an already-built natal chart
@@ -1707,6 +1726,11 @@ def build_daily_reading(
     backend can't run. `synthesis_method` in the result always says
     which path actually produced the reading; `synthesis_validation`
     is present only when real synthesis ran.
+
+    `run_fact_check` (default True) passes straight through to
+    _synthesize_reading -- see that function's docstring. Set False
+    (web.py does) to skip the second, purely-informational Anthropic
+    call and roughly halve real synthesis latency.
     """
 
     moon_phase_data = compute_current_moon_phase(as_of_utc_time)
@@ -2314,6 +2338,7 @@ def build_daily_reading(
             standing_claim_ids,
             real_house_numbers,
             standout_hits,
+            run_fact_check,
         )
         if reading_text is not None:
             synthesis_method = "llm"
