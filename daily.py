@@ -243,6 +243,42 @@ def _resolve_aspect_claim(hit: dict):
     return min(matches, key=lambda item: len(item.claim.feature_ids))
 
 
+_JUNO_SIGNIFICATION_TAGS = (
+    "juno_signification:commitment",
+    "juno_signification:equality",
+    "juno_signification:betrayal_sensitivity",
+    "juno_signification:rivalry",
+)
+
+
+def _resolve_juno_signification_claims():
+    """Celeste — Two Deliverables, One Pass, 2026-09-02, Deliverable 2:
+    4 new claims (astrology_juno_core_commitment/equality/betrayal_
+    sensitivity/rivalry, sourced to demetra_george_asteroid_goddesses_
+    1986 -- see that seed section's own comments for the two sourcing
+    checks done before writing them, including a same-session follow-
+    up that confirmed rivalry/jealousy as a real, separate facet but
+    declined a sharper, non-authored-source-backed framing) covering
+    what Juno signifies independent of its natal sign/house placement
+    -- a real gap the existing 24 sign/house claims can't cover by
+    construction, since every one of them is necessarily ABOUT a
+    specific placement. Unlike every other _resolve_*_claim helper
+    here, these four are placement-independent (no role/sign/house
+    argument): always the same claims when Juno is genuinely today's
+    real point, resolved once per claim's own single-feature tag (no
+    most-specific-wins needed, each tag matches exactly one claim).
+    Returns the list of matches
+    found (0-4 items) -- callers append whichever resolve, honest
+    partial-miss degrade if the claims store is ever out of sync."""
+
+    found = []
+    for tag in _JUNO_SIGNIFICATION_TAGS:
+        matches = resolve_claims({}, lens_id="astrology", features=[tag])
+        if matches:
+            found.append(matches[0])
+    return found
+
+
 def _resolve_eclipse_type_claim(hit: dict):
     """One targeted lookup for what an eclipse hit's own (kind, type)
     combination means -- e.g. "a total solar eclipse marks the most
@@ -862,6 +898,12 @@ def _render_hit_block(hit: dict) -> str:
     `hit.get("eclipse_meaning_note")` is the same idea for an eclipse
     hit's own (kind, type) combination (see _resolve_eclipse_type_claim)
     -- real content authored for a gap that previously had none.
+    `hit.get("juno_signification_note")` is Juno-specific: what Juno
+    signifies independent of its sign/house placement (commitment,
+    equality/power-balance, betrayal-sensitivity -- see
+    _resolve_juno_signification_claims) -- content the sign/house
+    families above structurally can't carry, since every one of them
+    is necessarily about a specific placement.
     `hit.get("ingress_sign_note")` is the body-agnostic meaning of the
     sign a sign_ingress hit's body has just entered (see
     _resolve_pure_sign_claim, called directly for these hits).
@@ -993,6 +1035,10 @@ def _render_hit_meaning_notes(hit: dict) -> str:
     aspect_meaning_note = hit.get("aspect_meaning_note")
     if aspect_meaning_note:
         notes += f"\n    What this aspect means: {aspect_meaning_note}"
+
+    juno_signification_note = hit.get("juno_signification_note")
+    if juno_signification_note:
+        notes += f"\n    What Juno itself signifies (independent of this placement): {juno_signification_note}"
 
     eclipse_meaning_note = hit.get("eclipse_meaning_note")
     if eclipse_meaning_note:
@@ -2133,6 +2179,31 @@ def build_daily_reading(
             daily_claims.append(claim)
         hit["aspect_meaning_note"] = claim.claim.statement
         _track_hit_claim(hit, claim)
+
+    # Juno signification content (Two Deliverables, One Pass, 2026-09-
+    # 02, Deliverable 2): placement-independent facts about what Juno
+    # signifies, on top of (not instead of) the sign/house meaning
+    # above -- resolved once per distinct claim (not per hit), same
+    # dedupe discipline as every other fact family here, since several
+    # of today's hits can share the same natal Juno target.
+    juno_signification_claims_used: dict[str, object] = {}
+
+    for hit in standout_hits:
+        if hit["kind"] not in ("transit_aspect", "return"):
+            continue
+        if hit["resolution"]["nearest_natal_point"] != "juno":
+            continue
+        matches = _resolve_juno_signification_claims()
+        if not matches:
+            continue
+        notes = []
+        for claim in matches:
+            if claim.claim.claim_id not in juno_signification_claims_used:
+                juno_signification_claims_used[claim.claim.claim_id] = claim
+                daily_claims.append(claim)
+            notes.append(claim.claim.statement)
+            _track_hit_claim(hit, claim)
+        hit["juno_signification_note"] = " ".join(notes)
 
     # Synthesis Repair Brief Part 4: the standing Western arc (always
     # computed, like vedic_dasha, independent of today's headline) and

@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_juno_core_equality",
+  "lens_id": "astrology",
+  "statement": "Juno signifies a union of equals -- power, voice, and give-and-take staying genuinely balanced between both partners, rather than settling toward one side.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "juno_signification:equality"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "equality",
+    "partnership"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

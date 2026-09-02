@@ -932,6 +932,107 @@ for _claim_key, _label, _roles, _house_meanings, _source in _EXTENDED_POINT_HOUS
 
 
 # ------------------------------------------------------------
+# Juno core signification (placement-independent) -- Celeste — Two
+# Deliverables, One Pass, 2026-09-02, Deliverable 2. Real gap found
+# during a content-narrowness audit: Juno's existing 24 sign/house
+# claims all cluster around one theme (what kind of partner is
+# sought), because that's genuinely the only angle the sign/house
+# combinatorial structure captures -- it says nothing about what Juno
+# signifies independent of placement. Checked the cited source
+# directly (demetra_george_asteroid_goddesses_1986, already cited for
+# two existing Juno claims) via a legitimate secondary description of
+# the book's actual content before writing anything: it explicitly
+# covers (1) Juno's association with steadfast, cyclical commitment --
+# "steadfast loyalty to relationship-for-the-sake-of-relationship,"
+# with the myth's own separation-and-return pattern read as the
+# archetype of recommitment rather than a single vow; (2) Juno as "a
+# union of intimate equals... the perfect balancing of... energies,"
+# i.e. a power-balance/equality signification distinct from any single
+# sign or house; (3) a documented "special sensitivity to the double
+# standard, and by extension, to the underdog in relationships where
+# there is a power imbalance" -- the real basis for Juno's association
+# with betrayal-sensitivity, not just a modern gloss. All three are
+# genuinely in the source, not paraphrased from the non-cited general
+# gloss that prompted this check.
+#
+# A 4th claim added on a same-session follow-up check, prompted by a
+# non-cited website's sharper "insecurity-driven need to be first,
+# trickery when threatened" framing for Juno in Aries specifically
+# (also not citable as-is). That exact framing did NOT turn up in any
+# authored source checked -- only on other astrology websites, same
+# uncitable category, not added. But the check surfaced real,
+# independently-confirmed material on a DIFFERENT, genuine facet: dark/
+# shadow Juno's own capacity for jealousy, possessiveness, and rivalry
+# toward a perceived threat -- "infidelity and the anger it inspires,
+# jealousy and possessiveness and sexual rivalry all are potentials of
+# dark Juno," with the same distortion elsewhere described as turning
+# feminine bonding "into jealousy, competitiveness, and suspicion."
+# Distinct from the betrayal_sensitivity claim above (sensitivity to a
+# PARTNER'S unfairness) -- this is Juno's own shadow-side reactivity, a
+# real, separately-sourced facet, not a duplicate.
+#
+# These are placement-independent, so they don't fit the sign/house
+# combinatorial pattern above -- feature-tagged separately
+# (juno_signification:*) and resolved by daily.py's own
+# _resolve_juno_signification_claims, called once per Juno hit
+# alongside (not instead of) the existing sign/house lookups.
+# ------------------------------------------------------------
+
+_add(
+    "juno_core_commitment",
+    (
+        "Juno signifies a capacity for steadfast, renewed commitment -- "
+        "returning to and recommitting to a relationship again and "
+        "again, not a single vow made once and left unexamined."
+    ),
+    feature_ids=["juno_signification:commitment"],
+    theme_tags=["commitment", "partnership"],
+    life_domain="relationships",
+    source_id="demetra_george_asteroid_goddesses_1986",
+)
+
+_add(
+    "juno_core_equality",
+    (
+        "Juno signifies a union of equals -- power, voice, and give-"
+        "and-take staying genuinely balanced between both partners, "
+        "rather than settling toward one side."
+    ),
+    feature_ids=["juno_signification:equality"],
+    theme_tags=["equality", "partnership"],
+    life_domain="relationships",
+    source_id="demetra_george_asteroid_goddesses_1986",
+)
+
+_add(
+    "juno_core_betrayal_sensitivity",
+    (
+        "Juno carries a heightened sensitivity to double standards and "
+        "unfairness in a relationship, especially where one partner "
+        "holds more power than the other."
+    ),
+    feature_ids=["juno_signification:betrayal_sensitivity"],
+    theme_tags=["fairness", "partnership"],
+    life_domain="relationships",
+    source_id="demetra_george_asteroid_goddesses_1986",
+)
+
+_add(
+    "juno_core_rivalry",
+    (
+        "Juno's shadow side can surface as jealousy, possessiveness, "
+        "or rivalry toward a perceived threat to the relationship, "
+        "especially when the partnership's equality or security feels "
+        "at risk."
+    ),
+    feature_ids=["juno_signification:rivalry"],
+    theme_tags=["jealousy", "partnership"],
+    life_domain="relationships",
+    source_id="demetra_george_asteroid_goddesses_1986",
+)
+
+
+# ------------------------------------------------------------
 # Sign-on-house-cusp (natal only) — Combinatorial-Meaning Expansion,
 # Phase 2. What sign colors a given house's affairs in THIS chart --
 # a distinct fact from "which planet occupies the house" (Phase 1
