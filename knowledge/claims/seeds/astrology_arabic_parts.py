@@ -33,6 +33,18 @@ from knowledge.claims.model import ApprovedClaim
 
 APPROVED_DIR = Path(__file__).resolve().parent.parent / "approved"
 
+# Same disclosure astrology.py/astrology_extended.py give every claim --
+# citation-audit gap found and fixed: this file's own _add() defaulted
+# notes to "" instead, so every claim here that didn't pass an explicit
+# override shipped with no editorial_note at all despite carrying a
+# real named source_id (Schulman, Firmicus Maternus, the Hermetic
+# Lots).
+GENERAL_NOTE = (
+    "Reflects a widely-repeated interpretation found throughout "
+    "standard astrological literature, exemplified by (not claimed "
+    "as a verbatim quotation of) the cited source."
+)
+
 ZODIAC_SIGNS = (
     "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces",
@@ -53,7 +65,7 @@ def _add(
     theme_tags=(),
     life_domain=None,
     source_id="",
-    notes="",
+    notes=GENERAL_NOTE,
 ):
     claims.append(
         ApprovedClaim(

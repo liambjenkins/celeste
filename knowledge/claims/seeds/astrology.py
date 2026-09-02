@@ -946,7 +946,7 @@ _VESTA_HOUSE_MEANINGS = {
 }
 
 _EXTENDED_POINT_HOUSE_BATCHES = (
-    ("chiron", "Chiron", ("chiron",), _CHIRON_HOUSE_MEANINGS, "melanie_reinhart_chiron_and_the_healing_journey_1989"),
+    ("chiron", "Chiron", ("chiron",), _CHIRON_HOUSE_MEANINGS, "reinhart_chiron_healing_journey_1989"),
     ("north_node", "The North Node", ("north_node_true", "north_node_mean"), _NORTH_NODE_HOUSE_MEANINGS, "schulman_karmic_astrology_1975"),
     ("south_node", "The South Node", ("south_node_true", "south_node_mean"), _SOUTH_NODE_HOUSE_MEANINGS, "schulman_karmic_astrology_1975"),
     ("lilith", "Lilith", ("lilith_mean", "lilith_true"), _LILITH_HOUSE_MEANINGS, "demetra_george_asteroid_goddesses_1986"),

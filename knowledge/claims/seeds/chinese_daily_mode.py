@@ -35,6 +35,17 @@ from knowledge.claims.model import ApprovedClaim
 
 APPROVED_DIR = Path(__file__).resolve().parent.parent / "approved"
 
+# Same disclosure the Western astrology seeds give every claim by
+# default -- citation-audit gap found and fixed: this file's own
+# _add() defaulted notes to "" instead, so every claim here shipped
+# with no editorial_note at all despite carrying a real named
+# source_id.
+GENERAL_NOTE = (
+    "Reflects a widely-repeated interpretation found throughout "
+    "standard Bazi/Chinese astrology literature, exemplified by (not "
+    "claimed as a verbatim quotation of) the cited source."
+)
+
 claims: list[ApprovedClaim] = []
 
 
@@ -46,7 +57,7 @@ def _add(
     theme_tags=(),
     life_domain=None,
     source_id="",
-    notes="",
+    notes=GENERAL_NOTE,
 ):
     claims.append(
         ApprovedClaim(
