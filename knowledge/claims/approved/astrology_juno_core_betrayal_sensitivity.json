@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_juno_core_betrayal_sensitivity",
+  "lens_id": "astrology",
+  "statement": "Juno carries a heightened sensitivity to double standards and unfairness in a relationship, especially where one partner holds more power than the other.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "juno_signification:betrayal_sensitivity"
+  ],
+  "source_ids": [
+    "demetra_george_asteroid_goddesses_1986"
+  ],
+  "theme_tags": [
+    "fairness",
+    "partnership"
+  ],
+  "life_domain": "relationships",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
