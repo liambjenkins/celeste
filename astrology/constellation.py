@@ -183,6 +183,78 @@ def headline_placements(
     return points, edges
 
 
+def _dedupe_close_points(
+    points: dict[str, tuple[str, float, float]],
+    edges: list[tuple[str, str, str, float]],
+    threshold_deg: float = 3.0,
+) -> tuple[dict[str, tuple[str, float, float]], list[tuple[str, str, str, float]]]:
+    """Merge points on the SAME ring within `threshold_deg` of each
+    other into one drawn dot/label. Real case this exists for: true
+    and mean lunar nodes are, by definition, always within ~1.4 degrees
+    of each other, so a nodal-axis convergence (see the 2027-02-06
+    house-10 sample day) would otherwise plot the true and mean North
+    Node -- and separately the true and mean South Node -- as two
+    visually-overlapping dots with garbled overlapping label text. This
+    keeps the render honest about the underlying astronomy (they really
+    are almost the same point) instead of papering over a cosmetic
+    overlap with an arbitrary label offset."""
+
+    key_map: dict[str, str] = {}
+    merged: dict[str, tuple[str, float, float]] = {}
+
+    for prefix in ("natal:", "transit:"):
+        ring_keys = sorted(
+            (k for k in points if k.startswith(prefix)), key=lambda k: points[k][1]
+        )
+        cluster: list[str] = []
+        for key in ring_keys:
+            if cluster:
+                prev_lon = points[cluster[-1]][1]
+                lon = points[key][1]
+                gap = min(abs(lon - prev_lon), 360.0 - abs(lon - prev_lon))
+                if gap > threshold_deg:
+                    _flush_cluster(cluster, points, key_map, merged)
+                    cluster = []
+            cluster.append(key)
+        if cluster:
+            _flush_cluster(cluster, points, key_map, merged)
+
+    seen_edges = set()
+    new_edges = []
+    for from_key, to_key, aspect, strength in edges:
+        edge_id = (key_map[from_key], key_map[to_key], aspect)
+        if edge_id in seen_edges:
+            continue
+        seen_edges.add(edge_id)
+        new_edges.append((key_map[from_key], key_map[to_key], aspect, strength))
+
+    return merged, new_edges
+
+
+def _flush_cluster(cluster, points, key_map, merged):
+    representative = max(cluster, key=lambda k: points[k][2])
+    for key in cluster:
+        key_map[key] = representative
+
+    # "N. Node (mean)" alongside "N. Node" is the true/mean variant of
+    # the SAME point, not a second real body -- collapse to just the
+    # base name ("N. Node") rather than a redundant, much wider merged
+    # label ("N. Node / N. Node (mean)") that then crowds whatever
+    # real, distinct point sits nearby. Genuinely different bodies
+    # that happen to land within the merge threshold (rare -- e.g.
+    # Chiron sitting almost exactly on the natal node axis) keep their
+    # own names, joined with " / ".
+    bases = []
+    for key in cluster:
+        base = points[key][0].split(" (")[0]
+        if base not in bases:
+            bases.append(base)
+
+    _, lon, _ = points[representative]
+    signal = max(points[k][2] for k in cluster)
+    merged[representative] = (" / ".join(bases), lon, signal)
+
+
 def _caption_for_thread(headline_thread: dict, hits: list[dict]) -> str:
     """One factual line describing the headline thread -- restates
     real computed data (label, hit count, kind) already on the hit
@@ -238,6 +310,7 @@ def render_headline_constellation(
             "No headline placements to render -- headline_thread is "
             "None, or none of its hit_ids resolved to a drawable point."
         )
+    points, edges = _dedupe_close_points(points, edges)
 
     fig, ax = plt.subplots(figsize=(8, 8), dpi=150)
     fig.patch.set_facecolor(_BG)
@@ -290,6 +363,30 @@ def render_headline_constellation(
             linewidth=0.6 + 2.4 * strength, alpha=0.25 + 0.55 * strength, zorder=1,
         )
 
+    # Label staggering: two points can sit close in longitude without
+    # being close enough to merge (_dedupe_close_points' 3-degree
+    # threshold is deliberately tight, since it also drops a real
+    # distinct point). Left at one shared label radius, their text
+    # still visually collides even though the dots themselves are
+    # legible -- so within each ring, any point whose gap to the
+    # previous one (by longitude) is under _LABEL_CROWD_DEG gets its
+    # label pushed one more step further from that ring, resetting
+    # whenever a real gap opens back up.
+    _LABEL_CROWD_DEG = 12.0
+    stagger: dict[str, int] = {}
+    for prefix in ("natal:", "transit:"):
+        ring_keys = sorted(
+            (k for k in points if k.startswith(prefix)), key=lambda k: points[k][1]
+        )
+        level = 0
+        for i, key in enumerate(ring_keys):
+            if i > 0:
+                prev_lon = points[ring_keys[i - 1]][1]
+                lon = points[key][1]
+                gap = min(abs(lon - prev_lon), 360.0 - abs(lon - prev_lon))
+                level = level + 1 if gap < _LABEL_CROWD_DEG else 0
+            stagger[key] = level
+
     for key, (label, lon, signal) in points.items():
         is_transit = key.startswith("transit:")
         r = _point_radius(key)
@@ -298,7 +395,8 @@ def render_headline_constellation(
         alpha_scale = 0.65 + 0.35 * signal
         _glow(x, y, base_size, _DOT_COLOR, alpha_scale=alpha_scale, zorder=3)
 
-        label_r = r - 0.13 if not is_transit else r + 0.13
+        step = 0.13 + stagger[key] * 0.10
+        label_r = r - step if not is_transit else r + step
         lx, ly = _xy(lon, label_r)
         ax.text(
             lx, ly, label, color=_TEXT_COLOR if is_transit else _DIM_TEXT_COLOR,
