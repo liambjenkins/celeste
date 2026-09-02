@@ -187,6 +187,25 @@ real Saturn/Juno data -- deliberately a low-difficulty case (all three
 given facts already agree, no real internal contradiction to resolve),
 chosen so a failure to make the voice-shift here can't be blamed on
 the astrology being hard to reconcile.
+
+Revised a tenth time, after the first confirmed-fresh test of the
+ninth revision (plus Deliverable 2's content expansion, shipped the
+same pass): real, encouraging signal on both fronts -- the reading's
+opening sentence genuinely translated a natal trait into today's-
+active-energy voice, and it used "recommitting" specifically, the
+exact word from Deliverable 2's new commitment claim, confirming the
+new content is actually being drawn on, not just sitting unused. But a
+distinct, separate problem survived: a second sentence ran ~42 words,
+comma-splicing a "the question isn't X, it's Y" reframe together with
+two further "when it..." clauses -- the same class of failure as the
+~40-word violation already named above, just in a new rhetorical
+shape (a reframe construction) and with no em dash this time, so
+neither the em-dash strip nor the existing word-count rule caught it.
+Added a second real-shape description (reframe-plus-stacked-clauses)
+alongside the first, naming the specific mechanism (an "isn't X, it's
+Y" reframe invites further qualification, which is where the extra
+clauses come from) so the rule targets the actual generative habit,
+not just its word count.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -612,6 +631,22 @@ sentence, not sentence count. Fix these specifically:
   list + triple predicate) has not actually fixed the problem, only
   disguised it. Compare the locked "Say Less" example below, whose
   longest line is still under 20 words.
+
+  A second, distinct real observed failure shape (pattern only -- do
+  not reproduce or closely paraphrase any specific sentence built this
+  way), ~40 words in one sentence, no em dash this time: a "the
+  question isn't X, it's Y" reframe, where Y itself gets built out of
+  two parallel "when it..." clauses stacked on with commas ("when it
+  costs something, when it pulls against..."). The "isn't X, it's Y"
+  reframe is a recognizable rhetorical move that INVITES exactly this
+  -- it sets up "Y" as the sentence's real content, which then feels
+  like it needs qualifying, so a second and third clause get piled on
+  rather than the sentence ending. If you reach for an "isn't X, it's
+  Y" reframe, treat that as the cue to stop the sentence right after Y
+  -- any further "when," "because," or comma-joined clause belongs in
+  a separate sentence or should be cut, not appended. A rewritten
+  version using different nouns in the same X/Y-plus-two-more-clauses
+  shape has not fixed the problem.
 
 ### End on a real payoff, not a trailing description
 
