@@ -167,6 +167,26 @@ clause structure doesn't count as a fix. The one deliberate exception
 is the "Say Less" worked example, which stays fully quoted -- it's a
 POSITIVE example the model should pattern-match toward, where
 imitation is the entire point.
+
+Revised a ninth time (2026-09-02 "Two Deliverables, One Pass" brief,
+Deliverable 1): a real, separate cause identified by pulling the
+actual live prompt text for a real night's PRIMARY THREAD (Saturn
+conjunct natal Juno) -- every fact given for it (sign meaning, house
+meaning, aspect meaning, cusp-sign meaning) is written in permanent
+natal-trait voice ("seeks," "governs," "unifies"), and the model was
+being asked to simultaneously (1) select what matters from up to ~18
+such atomic facts across a 3-hit thread, (2) do the classical planet-
+in-sign-in-house synthesis a human astrologer would do by hand, and
+(3) translate that into today's-active-energy voice -- three real
+steps left implicit and simultaneous, with only a negative rule
+(grounding rule 8: don't say a standing fact is "activating" unless
+paired to real evidence) and no positive worked example of the voice-
+shift itself. Fixed by making the fusion and the voice-translation two
+explicit, sequenced steps with a worked demonstration using that same
+real Saturn/Juno data -- deliberately a low-difficulty case (all three
+given facts already agree, no real internal contradiction to resolve),
+chosen so a failure to make the voice-shift here can't be blamed on
+the astrology being hard to reconcile.
 """
 
 DAILY_GROUNDING_RULES = """
@@ -316,6 +336,61 @@ that detail gap as a real signal, not an accident: the PRIMARY
 THREAD's hits are where the reading's committed, present-tense
 language belongs, and the compressed hits are where a brief, honest
 mention (if any) belongs.
+
+### Before writing the PRIMARY THREAD's story: fuse its facts, then translate them to today's voice
+
+The PRIMARY THREAD's hit(s) come with several separate grounding lines
+-- sign meaning, house meaning, aspect meaning, and (when given)
+further facts like the sign on that house's cusp or what the point
+itself signifies independent of placement. These are raw material, not
+finished sentences, and turning them into the reading is two distinct
+steps -- do them in order, not blended into one guess:
+
+**Step 1 -- fuse the raw facts into one classical picture.** Before any
+prose gets written, combine the PRIMARY THREAD's own facts the way a
+human astrologer reads "planet in sign in house" as ONE picture, not
+three separate facts recited in sequence. Every element of the fused
+picture must still trace to a given fact (grounding rule 1 applies in
+full here -- fusion is combination, not new interpretation): find how
+the facts agree, reinforce, or genuinely pull in different directions,
+then state that combined picture in your own head as one coherent
+idea before drafting a single sentence of the actual reading.
+
+**Step 2 -- translate the fused picture from natal voice into today's
+voice.** Every fact given to you (sign meaning, house meaning, aspect
+meaning, what a point signifies) is written in permanent-trait voice --
+"seeks," "governs," "signifies," "tends to give." That describes who
+someone IS, not what's live today. The reading itself must never just
+restate the fused picture in that same voice -- it has to say what the
+real transit (the hit's own aspect, orb, tightness, retrograde status,
+recurrence) is asking of that trait, testing in it, or activating about
+it right now. A trait that's simply true is not itself daily content; a
+trait meeting a real, specific transit today is. This is grounding rule
+8 applied to the PRIMARY THREAD's own hit, not just to standing/
+identity content: even a real, cited, on-topic fact stays natal-voice
+description until something in today's actual data gives it a today
+reason to be said.
+
+**Worked demonstration (real data, not hypothetical):** a night this
+system actually generated used a natal Juno in Aries, in the 11th
+house, itself cusped by Aries -- three separate given facts that happen
+to agree rather than conflict (an easy fusion, not a hard one, which
+makes it a clean test: if the voice-shift still doesn't happen here, a
+harder case won't fix it either).
+
+- *Fusion (Step 1, still natal voice, not the final sentence):*
+  Juno's whole picture agrees on one thing here -- partnership sought
+  through directness and independence, built and proven inside
+  friendship and shared community rather than private or domestic
+  ground.
+- *Voice translation (Step 2, what actually belongs in the reading):*
+  the hit's own real transit (an exact conjunction, tight and current)
+  is what makes this today's content -- not the trait itself, but
+  that trait being asked to hold up under real weight right now, not
+  just held as a preference. Write toward THAT, using the transit's
+  own real character (conjunction, exactness, retrograde, recurrence,
+  whichever actually apply) to say why it's live today, never toward
+  a restatement of the fused picture alone.
 
 ### Confidence-scaling by signal strength
 
