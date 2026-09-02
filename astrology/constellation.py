@@ -19,6 +19,17 @@ one body and, when the station/return lands near a real natal point,
 the natal point it's nearest to. A point-convergence or house-
 convergence thread draws every transiting body/natal point pair that
 won the day's scoring.
+
+Visual language (confirmed with Liam against an earlier reference
+mockup): dark field, glowing dots, monochrome -- no per-aspect-type
+color coding. Dot size encodes each placement's own "signal" (how
+tight/weighty the real contact touching it is); line weight/opacity
+encodes that same real strength for the aspect itself. Natal placements
+sit on an inner ring (dim, small), today's transiting placements on an
+outer ring (bright, larger) -- both still positioned at each
+placement's REAL zodiacal longitude (a deliberate choice for this
+narrower, few-node headline-only case, not the freely-scattered
+force-layout the denser standout/background prototype used).
 """
 
 from __future__ import annotations
@@ -30,8 +41,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from astrology.event_significance import natal_targets  # noqa: E402
+from astrology.event_significance import ASPECT_WEIGHTS, natal_targets  # noqa: E402
 from astrology.normaliser import ZODIAC_SIGNS  # noqa: E402
+from astrology.transits import TRANSIT_ORBS  # noqa: E402
 
 # Short display labels for every role that can appear in a hit's
 # display/resolution dicts -- deliberately covers the full
@@ -51,34 +63,12 @@ BODY_LABELS = {
     "ceres": "Ceres", "pallas": "Pallas", "juno": "Juno", "vesta": "Vesta",
 }
 
-# Aspect-type render style -- color/dash groups roughly by classical
-# harmony (soft aspects green, hard aspects red, the unifying
-# conjunction gold), matching this project's own ASPECT_WEIGHTS
-# grouping (astrology/event_significance.py) rather than inventing a
-# new taxonomy.
-_HARD = dict(color="#e0555d", linewidth=1.6)
-_SOFT = dict(color="#5fd3a6", linewidth=1.4)
-_MINOR = dict(color="#8a93b3", linewidth=0.9, linestyle=(0, (1, 2)))
-ASPECT_STYLES = {
-    "conjunction": dict(color="#f2c14e", linewidth=1.8),
-    "opposition": {**_HARD, "linestyle": "--"},
-    "square": {**_HARD, "linestyle": "-"},
-    "trine": {**_SOFT, "linestyle": "-"},
-    "sextile": {**_SOFT, "linestyle": "--"},
-    "quincunx": _MINOR,
-    "semisquare": _MINOR,
-    "sesquiquadrate": _MINOR,
-    "semisextile": _MINOR,
-    "station": dict(color="#f2c14e", linewidth=2.2, linestyle=":"),
-    "return": dict(color="#f2c14e", linewidth=1.8),
-}
-_DEFAULT_STYLE = dict(color="#8a93b3", linewidth=1.0, linestyle="-")
-
-_BG = "#0b1026"
-_RING_COLOR = "#2a3363"
-_TRANSIT_COLOR = "#f2c14e"
-_NATAL_COLOR = "#eef1fb"
-_TEXT_COLOR = "#c9cfe8"
+_BG = "#040406"
+_RING_COLOR = "#33364a"
+_DOT_COLOR = "#f5f6fa"
+_LINE_COLOR = "#c7cbe0"
+_TEXT_COLOR = "#e7e9f5"
+_DIM_TEXT_COLOR = "#8d92ab"
 
 
 def _label(role: str) -> str:
@@ -93,24 +83,52 @@ def _longitude_from_display(display: dict) -> float | None:
     return ZODIAC_SIGNS.index(sign) * 30.0 + float(degree)
 
 
+def _hit_strength(hit: dict) -> float:
+    """0-1 real-signal strength for one hit -- the same weight *
+    (1 - orb/max_orb) shape daily.py's own _score_threads uses for
+    aspect-type thread scoring, extended to stations/returns (full
+    aspect weight, scaled by the station/return's own orb against its
+    own direct-hit orb boundary). Drives both this hit's line weight
+    and (via the max over each point's incident hits) that point's dot
+    size -- real computed tightness, not a stand-in for narrative
+    importance."""
+
+    orb = hit["resolution"]["orb_to_nearest"]
+    if orb is None:
+        return 0.6
+
+    if hit["kind"] == "transit_aspect":
+        aspect = hit["display"]["aspect"]
+        weight = ASPECT_WEIGHTS.get(aspect, 0.5)
+        max_orb = TRANSIT_ORBS.get(aspect, 2.0)
+    else:
+        weight = 1.0
+        max_orb = hit["resolution"].get("direct_hit_orb_used") or 2.0
+
+    if max_orb <= 0:
+        return weight
+    return weight * max(0.0, min(1.0, 1.0 - (orb / max_orb)))
+
+
 def headline_placements(
     natal_chart: dict, hits: list[dict], headline_thread: dict | None
-) -> tuple[dict[str, tuple[str, float]], list[tuple[str, str, str]]]:
+) -> tuple[dict[str, tuple[str, float, float]], list[tuple[str, str, str, float]]]:
     """The filtered point/edge set a headline-only constellation draws
     -- ONLY placements belonging to headline_thread['hit_ids'], never
     the full standout+background hit list. Returns (points, edges):
 
-    points: {point_key: (display_label, longitude_degrees)}, one entry
-    per distinct natal or transiting placement actually involved.
+    points: {point_key: (display_label, longitude_degrees, signal)}.
     point_key is prefixed ("transit:"/"natal:") so the same body can
     appear twice (its natal degree and today's transiting degree)
-    without colliding.
+    without colliding. signal is the max _hit_strength() of every hit
+    touching that point.
 
-    edges: [(from_point_key, to_point_key, aspect_or_kind), ...], one
-    per hit, connecting the transiting placement to the natal point it
-    touches. A station/return with no resolvable nearest natal point
-    (rare -- resolution['nearest_natal_point'] is None) contributes its
-    point but no edge, since there's nothing real to connect it to.
+    edges: [(from_point_key, to_point_key, aspect_or_kind, strength)],
+    one per hit, connecting the transiting placement to the natal
+    point it touches. A station/return with no resolvable nearest
+    natal point (rare -- resolution['nearest_natal_point'] is None)
+    contributes its point but no edge, since there's nothing real to
+    connect it to.
     """
 
     if headline_thread is None:
@@ -122,14 +140,16 @@ def headline_placements(
         return {}, []
 
     targets = natal_targets(natal_chart)
-    points: dict[str, tuple[str, float]] = {}
-    edges: list[tuple[str, str, str]] = []
+    raw_points: dict[str, tuple[str, float]] = {}
+    signals: dict[str, float] = {}
+    edges: list[tuple[str, str, str, float]] = []
 
     for hit in winning_hits:
         kind = hit["kind"]
         display = hit["display"]
         transiting_body = display.get("transiting_body")
         transit_lon = _longitude_from_display(display)
+        strength = _hit_strength(hit)
 
         if kind == "transit_aspect":
             target_role = display["target_role"]
@@ -140,7 +160,8 @@ def headline_placements(
 
         transit_key = f"transit:{transiting_body}"
         if transit_lon is not None and transiting_body is not None:
-            points[transit_key] = (_label(transiting_body), transit_lon)
+            raw_points[transit_key] = (_label(transiting_body), transit_lon)
+            signals[transit_key] = max(signals.get(transit_key, 0.0), strength)
 
         if target_role is None:
             continue
@@ -149,12 +170,46 @@ def headline_placements(
         if natal_lon is None:
             continue
         natal_key = f"natal:{target_role}"
-        points[natal_key] = (_label(target_role), natal_lon)
+        raw_points[natal_key] = (_label(target_role), natal_lon)
+        signals[natal_key] = max(signals.get(natal_key, 0.0), strength)
 
         if transit_lon is not None and transiting_body is not None:
-            edges.append((transit_key, natal_key, aspect))
+            edges.append((transit_key, natal_key, aspect, strength))
 
+    points = {
+        key: (label, lon, signals.get(key, 0.6))
+        for key, (label, lon) in raw_points.items()
+    }
     return points, edges
+
+
+def _caption_for_thread(headline_thread: dict, hits: list[dict]) -> str:
+    """One factual line describing the headline thread -- restates
+    real computed data (label, hit count, kind) already on the hit
+    dicts, same "computed fact, no interpretive claim" discipline
+    daily.py's own _computed_hit_claim uses, never invented prose."""
+
+    winning_ids = set(headline_thread["hit_ids"])
+    winning_hits = [h for h in hits if h["hit_id"] in winning_ids]
+    label = headline_thread.get("label", "")
+
+    if headline_thread.get("score") == float("inf") and len(winning_hits) == 1:
+        hit = winning_hits[0]
+        d = hit["display"]
+        role = hit["resolution"].get("nearest_natal_point")
+        orb = hit["resolution"].get("orb_to_nearest")
+        body = _label(d.get("transiting_body", ""))
+        if hit["kind"] == "station":
+            verb = f"stations {'retrograde' if d.get('retrograde') else 'direct'}"
+        else:
+            verb = "returns to its own natal degree"
+        base = f"{body} {verb} at {d.get('sign')} {d.get('degree')}°"
+        if role and orb is not None:
+            return f"{base} -- {orb:.2f}° from natal {_label(role)}."
+        return base + "."
+
+    n = len(winning_hits)
+    return f"{n} real aspect{'s' if n != 1 else ''} converge on today's headline: {label}."
 
 
 def render_headline_constellation(
@@ -165,11 +220,12 @@ def render_headline_constellation(
     date_label: str | None = None,
 ) -> str:
     """Render the headline-only constellation PNG to `output_path`.
-    Draws a zodiac ring (sign boundaries only -- this is a longitude
-    wheel, not a house wheel, since headline placements are about
-    which sign/degree is active, not the natal house wheel daily.py's
-    own text output already covers) plus one star-marker per placement
-    in headline_placements() above, connected by aspect-styled lines.
+
+    Positions every placement at its real zodiacal longitude around
+    two concentric rings (natal inner, transiting-today outer) rather
+    than a free force-layout -- with only a handful of points in a
+    headline-only image, real angle stays legible instead of colliding
+    the way it would across a full standout+background hit set.
 
     Raises ValueError if the headline thread resolves to no placements
     at all (nothing to draw) -- callers should treat that as "no
@@ -191,8 +247,6 @@ def render_headline_constellation(
     ax.set_aspect("equal")
     ax.axis("off")
 
-    ring_r = 1.15
-
     def _xy(longitude_deg: float, radius: float) -> tuple[float, float]:
         # 0 deg (Aries 0) at the top, increasing clockwise -- a plain
         # reading-friendly convention, not the traditional Ascendant-
@@ -200,88 +254,79 @@ def render_headline_constellation(
         math_angle = math.radians(90.0 - longitude_deg)
         return radius * math.cos(math_angle), radius * math.sin(math_angle)
 
-    # Zodiac ring: 12 boundary spokes + sign name at each wedge's midpoint.
-    circle = plt.Circle((0, 0), ring_r, fill=False, color=_RING_COLOR, linewidth=1.2)
-    ax.add_patch(circle)
-    for i, sign in enumerate(ZODIAC_SIGNS):
-        boundary_deg = i * 30.0
-        x0, y0 = _xy(boundary_deg, ring_r - 0.03)
-        x1, y1 = _xy(boundary_deg, ring_r + 0.03)
-        ax.plot([x0, x1], [y0, y1], color=_RING_COLOR, linewidth=1.0)
-
-        mid_deg = boundary_deg + 15.0
-        lx, ly = _xy(mid_deg, ring_r + 0.09)
-        ax.text(
-            lx, ly, sign, color=_TEXT_COLOR, fontsize=8, ha="center", va="center",
-            fontfamily="serif",
-        )
-
-    # Two concentric point-rings, not one shared radius -- a
-    # conjunction (the most common real case: a station or an exact
-    # aspect landing near-exactly on its target) puts a transiting and
-    # a natal placement at nearly the SAME longitude, which collided
-    # into unreadable overlapping stars/labels when both were plotted
-    # at one radius. Natal placements sit on the inner ring, today's
-    # transiting placements on the outer ring (still inside the zodiac
-    # ring), so a conjunction reads as a short near-radial connector
-    # instead of two markers stacked on top of each other.
-    natal_r = 0.52
-    transit_r = 0.84
+    # Two concentric guide rings, no zodiac sign labels -- matches the
+    # confirmed reference: dot size/line weight carry the real signal,
+    # the rings only separate "natal (fixed)" from "transiting today".
+    natal_r = 0.50
+    transit_r = 0.92
 
     for guide_r in (natal_r, transit_r):
         ax.add_patch(
             plt.Circle((0, 0), guide_r, fill=False, color=_RING_COLOR,
-                       linewidth=0.6, linestyle=(0, (1, 3)))
+                       linewidth=0.7, linestyle=(0, (1, 3)))
         )
 
     def _point_radius(key: str) -> float:
         return transit_r if key.startswith("transit:") else natal_r
 
-    # Aspect lines first, so star markers/labels draw on top.
-    for from_key, to_key, aspect in edges:
-        style = ASPECT_STYLES.get(aspect, _DEFAULT_STYLE)
-        _, from_lon = points[from_key]
-        _, to_lon = points[to_key]
+    def _glow(x, y, base_size, color, alpha_scale=1.0, zorder=2):
+        for mult, alpha in ((3.2, 0.05), (2.0, 0.10), (1.0, 1.0)):
+            ax.scatter(
+                [x], [y], s=base_size * mult, color=color,
+                alpha=alpha * alpha_scale if mult != 1.0 else min(1.0, alpha_scale),
+                linewidths=0, zorder=zorder,
+            )
+
+    # Aspect lines first, so dots/labels draw on top. Width and alpha
+    # both scale with the edge's real strength (_hit_strength) --
+    # never with anything about how the reading text used it.
+    for from_key, to_key, _aspect, strength in edges:
+        _, from_lon, _ = points[from_key]
+        _, to_lon, _ = points[to_key]
         x0, y0 = _xy(from_lon, _point_radius(from_key))
         x1, y1 = _xy(to_lon, _point_radius(to_key))
-        ax.plot([x0, x1], [y0, y1], alpha=0.85, solid_capstyle="round", **style)
+        ax.plot(
+            [x0, x1], [y0, y1], color=_LINE_COLOR, solid_capstyle="round",
+            linewidth=0.6 + 2.4 * strength, alpha=0.25 + 0.55 * strength, zorder=1,
+        )
 
-    for key, (label, lon) in points.items():
+    for key, (label, lon, signal) in points.items():
         is_transit = key.startswith("transit:")
-        color = _TRANSIT_COLOR if is_transit else _NATAL_COLOR
         r = _point_radius(key)
         x, y = _xy(lon, r)
-        ax.scatter(
-            [x], [y], s=170 if is_transit else 130,
-            marker="*", color=color, edgecolors=_BG, linewidths=0.6, zorder=3,
-        )
-        # Natal labels sit just inside their ring (toward center);
-        # transiting labels sit just outside theirs (toward the zodiac
-        # ring) -- opposite directions, so the two rings' labels never
-        # compete for the same band even when longitudes are close.
+        base_size = (55 if is_transit else 30) + (140 if is_transit else 80) * signal
+        alpha_scale = 0.65 + 0.35 * signal
+        _glow(x, y, base_size, _DOT_COLOR, alpha_scale=alpha_scale, zorder=3)
+
         label_r = r - 0.13 if not is_transit else r + 0.13
         lx, ly = _xy(lon, label_r)
-        tag = "transiting" if is_transit else "natal"
         ax.text(
-            lx, ly, f"{label}\n({tag})", color=color, fontsize=8.5,
-            ha="center", va="center", zorder=4,
+            lx, ly, label, color=_TEXT_COLOR if is_transit else _DIM_TEXT_COLOR,
+            fontsize=9.5 if is_transit else 8, ha="center", va="center", zorder=4,
         )
-
-    if headline_thread is not None:
-        headline_label = headline_thread.get("label", "")
-        subtitle = f"headline: {headline_label}"
-    else:
-        subtitle = "no headline thread"
 
     title = date_label or ""
     ax.text(
-        0, 1.32, title, color=_NATAL_COLOR, fontsize=14, ha="center", va="center",
+        0, 1.30, title, color=_TEXT_COLOR, fontsize=15, ha="center", va="center",
         fontweight="bold", fontfamily="serif",
     )
+
+    if headline_thread is not None:
+        caption = _caption_for_thread(headline_thread, hits)
+    else:
+        caption = "No headline thread today."
     ax.text(
-        0, 1.23, subtitle, color=_TEXT_COLOR, fontsize=10.5, ha="center", va="center",
-        fontstyle="italic",
+        0, -1.30, caption, color=_DIM_TEXT_COLOR, fontsize=9.5, ha="center",
+        va="center", fontstyle="italic", wrap=True,
     )
+
+    legend_y = -1.20
+    ax.scatter([-0.55], [legend_y], s=40, color=_DOT_COLOR, alpha=0.55, linewidths=0)
+    ax.text(-0.49, legend_y, "natal (inner ring, fixed)", color=_DIM_TEXT_COLOR,
+            fontsize=8, ha="left", va="center")
+    ax.scatter([0.55], [legend_y], s=110, color=_DOT_COLOR, linewidths=0)
+    ax.text(0.61, legend_y, "transiting today (outer ring)", color=_DIM_TEXT_COLOR,
+            fontsize=8, ha="left", va="center")
 
     fig.tight_layout()
     fig.savefig(output_path, facecolor=fig.get_facecolor())
