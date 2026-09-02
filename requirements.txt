@@ -8,3 +8,4 @@ numpy
 tzdata
 flask
 gunicorn
+matplotlib

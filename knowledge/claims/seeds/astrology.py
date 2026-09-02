@@ -506,6 +506,44 @@ for _planet, (_statement, _domain) in _OUTER_PLANETS.items():
 
 
 # ------------------------------------------------------------
+# Uranus by sign — the generational-context claim above is real but
+# insufficient alone: when a transit (e.g. a Pluto station) lands
+# exactly on natal Uranus, the natal sign IS individually relevant
+# that day (it's this person's own placement, not a cohort trait),
+# and _resolve_sign_claim had nothing more specific to return.
+# _resolve_sign_claim's existing tie-break (fewest feature_ids wins)
+# means this single-sign claim naturally outranks the 12-sign
+# generational one without any code change.
+# Source: Alan Oken, Alan Oken's Complete Astrology (1980)
+# ------------------------------------------------------------
+
+_URANUS_SIGNS = {
+    "Aries": "breaks new ground through bold, sudden action, rebelling against anything that limits personal freedom",
+    "Taurus": "seeks freedom through slow, deliberate upheaval, disrupting security only once the old structure stops serving it",
+    "Gemini": "breaks convention through restless curiosity, rebelling against fixed ideas and rigid routine",
+    "Cancer": "disrupts inherited emotional patterns, seeking freedom within or from family roles and tradition",
+    "Leo": "asserts individuality through bold, unconventional self-expression, rebelling against anonymity",
+    "Virgo": "reforms through unconventional method, rebelling against inefficient or outdated systems",
+    "Libra": "seeks freedom within partnership, disrupting relationships that become too confining or unequal",
+    "Scorpio": "transforms through sudden, radical upheaval, rebelling against control and hidden power structures",
+    "Sagittarius": "seeks freedom through belief and exploration, rebelling against dogma and narrow philosophy",
+    "Capricorn": "reforms structure and authority from within, rebelling against outdated tradition while building new order",
+    "Aquarius": "is on home territory here — individuality and reform expressed with natural fluency",
+    "Pisces": "seeks freedom through imagination and dissolution, rebelling against rigid material boundaries",
+}
+
+for _sign, _trait in _URANUS_SIGNS.items():
+    _add(
+        f"uranus_sign_{_sign.lower()}",
+        f"Uranus in {_sign} {_trait}.",
+        feature_ids=[f"sign:uranus:{_sign}"],
+        theme_tags=["individuality", "disruption_and_change"],
+        life_domain="transformation",
+        source_id="oken_complete_astrology_1980",
+    )
+
+
+# ------------------------------------------------------------
 # Houses
 # Source: Howard Sasportas, The Twelve Houses (1985)
 # ------------------------------------------------------------

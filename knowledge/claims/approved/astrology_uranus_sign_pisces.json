@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_uranus_sign_pisces",
+  "lens_id": "astrology",
+  "statement": "Uranus in Pisces seeks freedom through imagination and dissolution, rebelling against rigid material boundaries.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:uranus:Pisces"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "individuality",
+    "disruption_and_change"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

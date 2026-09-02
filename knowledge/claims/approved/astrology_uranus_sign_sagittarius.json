@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_uranus_sign_sagittarius",
+  "lens_id": "astrology",
+  "statement": "Uranus in Sagittarius seeks freedom through belief and exploration, rebelling against dogma and narrow philosophy.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:uranus:Sagittarius"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "individuality",
+    "disruption_and_change"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

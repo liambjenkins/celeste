@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_uranus_sign_libra",
+  "lens_id": "astrology",
+  "statement": "Uranus in Libra seeks freedom within partnership, disrupting relationships that become too confining or unequal.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:uranus:Libra"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "individuality",
+    "disruption_and_change"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}

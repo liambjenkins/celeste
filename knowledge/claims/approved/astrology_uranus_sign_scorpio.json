@@ -1,0 +1,20 @@
+{
+  "claim_id": "astrology_uranus_sign_scorpio",
+  "lens_id": "astrology",
+  "statement": "Uranus in Scorpio transforms through sudden, radical upheaval, rebelling against control and hidden power structures.",
+  "passage_ids": [],
+  "concept_ids": [],
+  "feature_ids": [
+    "sign:uranus:Scorpio"
+  ],
+  "source_ids": [
+    "oken_complete_astrology_1980"
+  ],
+  "theme_tags": [
+    "individuality",
+    "disruption_and_change"
+  ],
+  "life_domain": "transformation",
+  "editorial_note": "Reflects a widely-repeated interpretation found throughout standard astrological literature, exemplified by (not claimed as a verbatim quotation of) the cited source.",
+  "status": "approved"
+}
