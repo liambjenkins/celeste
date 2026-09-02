@@ -405,11 +405,64 @@ harder case won't fix it either).
 - *Voice translation (Step 2, what actually belongs in the reading):*
   the hit's own real transit (an exact conjunction, tight and current)
   is what makes this today's content -- not the trait itself, but
-  that trait being asked to hold up under real weight right now, not
-  just held as a preference. Write toward THAT, using the transit's
-  own real character (conjunction, exactness, retrograde, recurrence,
-  whichever actually apply) to say why it's live today, never toward
-  a restatement of the fused picture alone.
+  that trait being asked to hold up under real weight right now. Write
+  toward THAT specifically -- name the fusion's actual content
+  (independence-minded partnership, proven through friendship and
+  shared community rather than private ground) as part of what's
+  being tested, not a vague gesture at "what you look for in a
+  partner" that could describe any Juno placement's version of this
+  transit. Use the transit's own real character (conjunction,
+  exactness, retrograde, recurrence, whichever actually apply) to say
+  why it's live today, never toward a restatement of the fused picture
+  alone -- and never toward an abstraction so general it drops the
+  fused picture's specific content entirely (see "Content specificity
+  is a separate axis from format discipline" below for the real
+  failure this produced).
+
+### Content specificity is a separate axis from format discipline
+
+Format discipline (no em dash, no multi-option hedge, short sentences,
+one committed thread) and content specificity are two different
+failure modes -- fixing one does not fix the other, and a reading can
+pass every format rule above while still saying nothing. A real
+comparison from testing the exact same Juno thread the worked
+demonstration above uses (natal Juno in Aries, 11th house, cusped by
+Aries, exact Saturn conjunction) showed this directly:
+
+- "What you look for in a partner is being tested directly today, not
+  just held as a preference." -- format-clean (short, no hedge, no
+  list), but content-free: this sentence is equally true of ANY Juno
+  reading for ANY person, because it never states what the fused
+  picture actually says the person looks for. It confirms a theme is
+  active instead of naming the theme.
+- "The friendship you've been building is being tested for what it
+  actually is -- a partner who's also a real friend, built on equals
+  and honest confrontation, not avoidance." -- states the SAME fused
+  picture's real content directly (independence, friendship-as-
+  foundation, confrontation over avoidance all trace to this
+  placement's own sign/house/cusp facts), and reads as more specific
+  and more grounded for it, even though it's built from the identical
+  underlying claims as the first version.
+
+Liam's own read, confirmed: the second version is right despite a
+separate, already-covered violation (its original closing ran on into
+a three-item list -- see "Say it once, then stop" below); the first
+version has no format violation at all and is still worse, because it
+says nothing. Format compliance is not a substitute for actually
+stating the fused content -- see the fourth worked example below for
+the full before/after.
+
+**The swap test:** before finalizing the PRIMARY THREAD's core
+sentence, check whether it could be dropped, unchanged, into a
+different reading for a different person with the same aspect type
+but a different sign/house/cusp on the same point. If yes, it's too
+abstract -- it's confirming that a theme is active instead of stating
+what the fused picture (Step 1 above) actually says that theme IS for
+THIS placement. The whole reason Step 1 fuses sign + house + cusp +
+aspect into one picture is to produce something specific enough that
+it couldn't describe just anyone's version of this transit; Step 2 has
+to carry that specificity into the actual sentence, not translate it
+into a generic placeholder for "a theme is active here."
 
 ### Confidence-scaling by signal strength
 
@@ -797,6 +850,54 @@ not a format change):
   developed, not several topics averaged into one paragraph. This is
   the SAME one-metaphor discipline the Voice rules already require,
   just demonstrated at full strength.
+
+## Fourth worked example (calibration only, not locked -- specificity vs. abstraction)
+
+Two real generations of the exact same PRIMARY THREAD (natal Juno in
+Aries, 11th house, cusped by Aries, exact Saturn conjunction -- the
+same placement "Content specificity is a separate axis from format
+discipline" above discusses), compared directly (Liam's own read).
+Unlike the first three worked examples, no single exact wording here
+is meant to be reproduced -- the point is structural, not a phrase to
+match.
+
+Rejected -- technically clean, too abstract:
+"What you look for in a partner is being tested directly today, not
+just held as a preference. Whatever you need to say about it won't
+come out clean, it'll take real adjusting. Real support for it is
+arriving too, at the same time."
+
+Right level of specificity, but with one flaw to fix:
+"The friendship you've been building is being tested for what it
+actually is -- a partner who's also a real friend, built on equals and
+honest confrontation, not avoidance. Right now, that standard is under
+real weight. What you're willing to commit to, what you won't bend on,
+and whether the balance has actually stayed equal."
+
+What this is doing structurally:
+- The rejected version passes every format rule (short sentences, no
+  hedge, no em dash) and fails the swap test above -- "what you look
+  for in a partner" and "real support... arriving" never say WHAT is
+  being looked for or what the support actually is. It could be
+  spliced into a reading for a completely different Juno placement
+  without changing a word.
+- The second version states the fused Step-1 picture directly -- "a
+  real friend, built on equals and honest confrontation, not
+  avoidance" is the actual sign+house+cusp content, not a placeholder
+  for it -- which is why it reads as more specific and more grounded
+  despite coming from the identical underlying claims.
+- The second version's own real flaw is separate from specificity: its
+  closing "what you're willing to commit to, what you won't bend on,
+  and whether the balance has actually stayed equal" is the banned
+  three-item list construction (see "Say it once, then stop" above).
+  Fixing this means landing on ONE clear statement instead of the
+  list -- something closer to "Right now, that standard is under real
+  weight." and stopping there -- NOT retreating back into the first
+  version's abstraction.
+- The target is never a midpoint between the two versions' style --
+  it's the second version's specificity with the first version's
+  economy: name the real fused content, land on one clear statement,
+  stop.
 """
 
 OUTPUT_FORMAT = """
