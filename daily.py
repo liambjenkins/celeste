@@ -600,6 +600,107 @@ _ASTROLOGY_QUIET_NOTE = "Nothing in today's sky rises above routine background n
 # materially more likely, since moon phase is no longer unconditional.
 _QUIET_DAY_READING = "Nothing's pulling hard today. Whatever you do with it is genuinely up to you."
 
+# Real, confirmed bug (2026-09-04, natal Lilith guard_rejected): the
+# deterministic fallback correctly RESOLVES the primary thread's own
+# claims (including the generic aspect-type meaning claim, e.g.
+# astrology_aspect_opposition) into the same tier-0 priority bucket as
+# the sign/house/cusp claims -- but _order_reading_claims' orb tiebreak
+# only recognizes the hyper-specific daily_transit_aspect:{body}:
+# {aspect}:{role} feature tag, which the generic aspect-type claim
+# never carries (it's tagged transit_aspect:{aspect} instead), so it
+# always loses the tiebreak to whichever sign/house claim happened to
+# be constructed first and never survives the 3-claim cap. Net result:
+# a real, live, near-exact hit produced a reading that never once said
+# anything was happening TODAY -- pure permanent-trait natal recitation
+# ("Lilith in Leo expresses through...") with zero connection to the
+# actual Pluto/Neptune/Mercury activity driving the headline.
+#
+# This can't be fixed by re-including the raw aspect-meaning claim text
+# verbatim either -- that text ("An opposition polarizes...") names the
+# aspect type directly, which grounding rule 4 forbids appearing in
+# reader-facing text at all (aspect/planet names stay backend). Real
+# LLM synthesis solves this via the fuse-and-translate step; this
+# deterministic path has no LLM to do that translation, so instead of
+# leaving the reading with zero "today" signal, one fixed, backend-safe
+# sentence is generated from the primary thread's own real hit data
+# (aspect character + near_exact) and prepended -- honest about what it
+# is (a template, not synthesis), but no longer silent about there
+# being live, active, real news today.
+_ASPECT_TODAY_PHRASES = {
+    "conjunction": "unifying with real force",
+    "opposition": "pulling in two directions at once, asking for real balance",
+    "square": "creating real tension that calls for effort",
+    "trine": "flowing with real ease",
+    "sextile": "opening a real, easy opportunity",
+    "quincunx": "asking for real, awkward adjustment",
+    "semisquare": "creating a subtle, stimulating friction",
+    "sesquiquadrate": "creating a subtle, stimulating friction",
+    "semisextile": "offering quiet, low-key support",
+    "novile": "quietly refining something real",
+    "septile": "stirring something real beneath the surface",
+}
+
+_STATION_TODAY_SENTENCES = {
+    "direct": "Something that had turned inward has stopped and is moving forward again today{exactness}.",
+    "retrograde": "Something that was moving forward has stopped and turned inward today{exactness}.",
+}
+
+_RETURN_TODAY_SENTENCE = "Something real is returning to exactly where it started today{exactness}."
+
+
+def _fallback_today_anchor(headline_thread: dict | None, hits: list[dict] | None) -> str | None:
+    """One deterministic, backend-safe sentence anchoring the
+    fallback reading to TODAY's real, live hit -- see the block
+    comment above _ASPECT_TODAY_PHRASES for the bug this fixes.
+    Returns None when there's no real headline thread to anchor to
+    (a genuinely quiet day already gets _QUIET_DAY_READING instead,
+    never this).
+
+    Picks the thread's own standout-tier, tightest-orb hit first (a
+    background-tier hit can have a numerically tighter orb than a
+    standout one without being the real headline-grade signal -- same
+    tier-then-orb ordering astrology.daily_hits.compute_daily_hits
+    itself sorts by) -- for a named-occasion thread (station/return,
+    score==inf) that's simply its one hit. Exactness language is gated
+    on that hit's own near_exact flag, same discipline
+    check_batch_overclaims enforces on the LLM path -- this path isn't
+    guard-checked, so the same care has to be taken by construction.
+    """
+
+    if not headline_thread or not hits:
+        return None
+
+    winning_ids = set(headline_thread["hit_ids"])
+    winning_hits = [h for h in hits if h["hit_id"] in winning_ids]
+    if not winning_hits:
+        return None
+
+    non_aspect = [h for h in winning_hits if h["kind"] in ("station", "return")]
+    if non_aspect:
+        anchor = non_aspect[0]
+    else:
+        aspect_hits = [h for h in winning_hits if h["kind"] == "transit_aspect"]
+        if not aspect_hits:
+            return None
+        tier_rank = {"standout": 2, "background": 1, "appendix": 0}
+        anchor = min(
+            aspect_hits,
+            key=lambda h: (-tier_rank.get(h["tier"], 0), h["resolution"]["orb_to_nearest"]),
+        )
+
+    near_exact = bool(anchor["resolution"].get("near_exact"))
+    exactness = ", and it's exact" if near_exact else ""
+
+    if anchor["kind"] == "station":
+        direction = "retrograde" if anchor["display"].get("retrograde") else "direct"
+        return _STATION_TODAY_SENTENCES[direction].format(exactness=exactness)
+    if anchor["kind"] == "return":
+        return _RETURN_TODAY_SENTENCE.format(exactness=exactness)
+
+    aspect = anchor["display"]["aspect"]
+    phrase = _ASPECT_TODAY_PHRASES.get(aspect, "genuinely active")
+    return f"Something real is {phrase} today{exactness}."
+
 
 def _order_reading_claims(
     daily_claims,
@@ -752,6 +853,8 @@ def _assemble_reading_text(
     standing_claim_ids: set[str] | None = None,
     daily_mode_depth: str | None = None,
     primary_thread_claim_ids: set[str] | None = None,
+    headline_thread: dict | None = None,
+    hits: list[dict] | None = None,
 ):
     """
     DETERMINISTIC FALLBACK ONLY -- used when _synthesize_reading()
@@ -805,6 +908,15 @@ def _assemble_reading_text(
     build_daily_reading replaces that with _QUIET_DAY_READING -- an
     honest "today's sky isn't saying much" line, not a recitation of
     inert Big-3 content.
+
+    `headline_thread`/`hits` (both optional, default None for direct/
+    test callers that don't have them) feed _fallback_today_anchor:
+    one fixed, backend-safe sentence stating that today's real hit is
+    genuinely live (see that function's docstring for the bug this
+    closes -- a real, near-exact hit producing a reading with zero
+    "today" language at all). Prepended ahead of the claim-based
+    content when a real headline thread resolves a drawable hit;
+    omitted entirely otherwise, same as before this fix existed.
     """
 
     moon_phase_item, ordered_supporting = _order_reading_claims(
@@ -816,17 +928,17 @@ def _assemble_reading_text(
         pieces.append(moon_phase_item.claim.statement)
     pieces.extend(item.claim.statement for item in ordered_supporting)
 
+    anchor = _fallback_today_anchor(headline_thread, hits)
+
     if not pieces:
-        return ""
-    if len(pieces) == 1:
-        return pieces[0]
+        return anchor or ""
 
     reading = pieces[0]
     for index, piece in enumerate(pieces[1:]):
         connector = _CONNECTORS[index % len(_CONNECTORS)]
         reading += f" {connector}, {piece[0].lower()}{piece[1:]}"
 
-    return reading
+    return f"{anchor} {reading}" if anchor else reading
 
 
 # daily_claims only ever comes from these two lenses (see
@@ -2489,7 +2601,10 @@ def build_daily_reading(
             f"primary_thread_claim_ids={primary_thread_claim_ids!r}",
             file=sys.stderr,
         )
-        reading_text = _assemble_reading_text(daily_claims, standing_claim_ids, daily_mode_depth, primary_thread_claim_ids)
+        reading_text = _assemble_reading_text(
+            daily_claims, standing_claim_ids, daily_mode_depth, primary_thread_claim_ids,
+            headline_thread, hits,
+        )
 
     if not reading_text:
         # Genuinely nothing today -- no surviving hits, no day-pillar

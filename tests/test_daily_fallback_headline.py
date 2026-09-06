@@ -94,13 +94,24 @@ result = build_daily_reading(MELBOURNE, MELBOURNE_PILLARS, EXHIBIT_A_DAY, use_sy
 assert result["headline_thread"] is not None and result["headline_thread"]["label"] == "natal juno", (
     f"test assumption broken -- expected the locked natal-juno primary thread, got {result['headline_thread']}"
 )
-assert "juno" in result["reading"].lower()[:20], (
-    f"the fallback text must LEAD with the real primary thread (juno), got: {result['reading']}"
+# Fallback-Voice Fix (2026-09-04, real Lilith guard_rejected incident):
+# _assemble_reading_text now leads with one deterministic "today" anchor
+# sentence (_fallback_today_anchor) ahead of the claim content, so the
+# very first word is no longer the primary-thread claim itself -- but
+# the anchor is itself derived from the SAME real primary-thread hit,
+# and the claim content immediately following it must still be the
+# real primary thread (juno), not legacy/disconnected content.
+sentences = result["reading"].split(". ")
+assert sentences[0].startswith("Something real is"), (
+    f"expected the today-anchor sentence to lead, got: {result['reading']}"
+)
+assert len(sentences) >= 2 and "juno" in sentences[1].lower(), (
+    f"the claim content right after the today-anchor must be the real primary thread (juno), got: {result['reading']}"
 )
 assert "descendant" not in result["reading"].lower(), (
     "the fallback must not surface the old Descendant-flavored framing that construction-order produced"
 )
-print(f"check the locked Exhibit A date's fallback text now leads with the real primary thread: {result['reading'][:80]}...")
+print(f"check the locked Exhibit A date's fallback text now leads with a real today-anchor, then the real primary thread: {result['reading'][:100]}...")
 
 print()
 print("DAILY FALLBACK HEADLINE: OK")
