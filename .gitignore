@@ -11,3 +11,9 @@ llama-*.tar.gz
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Flashcard authoring tool: local SQLite DB (authored content + any
+# imported Document A export) never belongs in git.
+flashcards/data/
+
+.venv/

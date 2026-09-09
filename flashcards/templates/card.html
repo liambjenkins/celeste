@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Celeste — Document B authoring: {{ planet|capitalize }} / House {{ house }}</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+  h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+  .progress { color: #555; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap; }
+  .nav a { text-decoration: none; padding: 0.4rem 0.9rem; border: 1px solid #ccc; border-radius: 4px; color: #222; }
+  .nav a:hover { background: #f0f0f0; }
+  fieldset { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 1.5rem; padding: 1rem; }
+  legend { font-weight: 600; padding: 0 0.4rem; }
+  .doc-a-tags { font-weight: 600; margin-bottom: 0.4rem; }
+  .doc-a-notes { color: #444; white-space: pre-wrap; }
+  .reference { background: #fafafa; }
+  .reference ul { margin: 0.3rem 0 0; padding-left: 1.2rem; }
+  textarea.fragment { width: 100%; box-sizing: border-box; min-height: 2.6rem; font: inherit; padding: 0.5rem; margin-bottom: 0.3rem; border: 1px solid #bbb; border-radius: 4px; resize: vertical; }
+  .word-count { font-size: 0.8rem; color: #888; margin-bottom: 0.8rem; }
+  .word-count.over { color: #b33; font-weight: 600; }
+  #add-variant { margin-bottom: 1.5rem; }
+  select, button { font: inherit; padding: 0.4rem 0.8rem; }
+  .save-row { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+  .jump-form { display: flex; gap: 0.4rem; align-items: center; }
+</style>
+</head>
+<body>
+
+<h1>{{ planet|capitalize }} in House {{ house }}</h1>
+<div class="progress">
+  Card {{ index + 1 }} of {{ total }} &middot;
+  {{ progress.with_fragments }}/{{ progress.total }} have at least one fragment &middot;
+  {{ progress.locked }}/{{ progress.total }} locked
+</div>
+
+<div class="nav">
+  <a href="{{ url_for('card_view', index=index - 1) }}">&larr; Previous</a>
+
+  <form class="jump-form" action="{{ url_for('jump') }}" method="get">
+    <select name="planet">
+      {% for p in planets %}
+        <option value="{{ p }}" {% if p == planet %}selected{% endif %}>{{ p|capitalize }}</option>
+      {% endfor %}
+    </select>
+    <select name="house">
+      {% for h in houses %}
+        <option value="{{ h }}" {% if h == house %}selected{% endif %}>House {{ h }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Jump</button>
+  </form>
+
+  <a href="{{ url_for('card_view', index=index + 1) }}">Next &rarr;</a>
+</div>
+
+<fieldset>
+  <legend>Document A — House {{ house }} reference</legend>
+  {% if document_a.tags or document_a.notes %}
+    <div class="doc-a-tags">{{ document_a.tags }}</div>
+    <div class="doc-a-notes">{{ document_a.notes }}</div>
+  {% else %}
+    <p><em>No Document A data imported yet for House {{ house }} — run
+    <code>python -m flashcards.import_document_a &lt;csv path&gt;</code> first.</em></p>
+  {% endif %}
+</fieldset>
+
+{% if reference_card.fragments %}
+<fieldset class="reference">
+  <legend>{{ planet|capitalize }} in House {{ reference_card.house }} — for voice consistency</legend>
+  <ul>
+    {% for fragment in reference_card.fragments %}
+      <li>{{ fragment }}</li>
+    {% endfor %}
+  </ul>
+</fieldset>
+{% endif %}
+
+<form method="post" action="{{ url_for('save', index=index) }}" id="card-form">
+  <fieldset>
+    <legend>Fragments (variant pool — aim for 3–5)</legend>
+    <div id="fragments-container">
+      {% for fragment in card.fragments %}
+        <textarea class="fragment" name="fragment">{{ fragment }}</textarea>
+        <div class="word-count"></div>
+      {% endfor %}
+      {% if not card.fragments %}
+        <textarea class="fragment" name="fragment"></textarea>
+        <div class="word-count"></div>
+      {% endif %}
+    </div>
+    <button type="button" id="add-variant">+ Add another variant</button>
+  </fieldset>
+
+  <div class="save-row">
+    <label for="status">Status:</label>
+    <select name="status" id="status">
+      {% for s in ("draft", "reviewed", "locked") %}
+        <option value="{{ s }}" {% if s == card.status %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" name="next_action" value="stay">Save</button>
+    <button type="submit" name="next_action" value="next">Save &amp; Next &rarr;</button>
+  </div>
+</form>
+
+<script>
+  const container = document.getElementById('fragments-container');
+  const WORD_LIMIT_WARNING = 25; // rough "this has drifted into a sentence, not a paragraph" flag
+
+  function wordCount(text) {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function updateCount(textarea) {
+    const counter = textarea.nextElementSibling;
+    const count = wordCount(textarea.value);
+    counter.textContent = count + ' word' + (count === 1 ? '' : 's');
+    counter.classList.toggle('over', count > WORD_LIMIT_WARNING);
+  }
+
+  function wireTextarea(textarea) {
+    updateCount(textarea);
+    textarea.addEventListener('input', () => updateCount(textarea));
+  }
+
+  container.querySelectorAll('textarea.fragment').forEach(wireTextarea);
+
+  document.getElementById('add-variant').addEventListener('click', () => {
+    const textareas = container.querySelectorAll('textarea.fragment');
+    if (textareas.length >= 5) {
+      alert('5 variants is the target pool size — consider replacing a weaker one instead.');
+      return;
+    }
+    const textarea = document.createElement('textarea');
+    textarea.className = 'fragment';
+    textarea.name = 'fragment';
+    const counter = document.createElement('div');
+    counter.className = 'word-count';
+    container.appendChild(textarea);
+    container.appendChild(counter);
+    wireTextarea(textarea);
+    textarea.focus();
+  });
+</script>
+
+</body>
+</html>
