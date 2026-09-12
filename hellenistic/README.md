@@ -33,10 +33,17 @@ uses. No new dependency needed.
   no orbs — `hellenistic/aspects.py`), with degree-based proximity
   layered on top only to decide applying/separating and effect. Two
   separate jobs, not competing methods, per the brief.
-- **Void of course**: the Hellenistic-consistent definition — the Moon
-  is void when it will complete no further whole-sign aspect before
-  leaving its current sign (`hellenistic/lunar_phase.py`) — not the
-  looser popular/modern convention.
+- **Void of course**: revised after this build's first pass. The
+  original implementation cut the completion search off at the Moon's
+  sign boundary — an engineering note from content development
+  (source: Demetra George, *Ancient Astrology in Theory and Practice*
+  Vol. 1, Ch. 28) identified that as actually the popular MODERN
+  convention, not the Hellenistic one. The corrected version
+  (`hellenistic/lunar_phase.py`) checks a fixed 30-degree forward
+  window from the Moon's current degree that is allowed to run past
+  the sign cusp into the next sign — this makes genuine void-of-course
+  rarer, matching George's account, since fewer near-cusp completions
+  get missed.
 - **Egyptian bounds table**: verified via three independent sources
   during this build; an initial recollection of Virgo's Venus segment
   (7-13°) was wrong and caught by cross-checking — the table now in
@@ -64,6 +71,20 @@ uses. No new dependency needed.
   "common" rather than fixed, is resolved from its own oriental/
   occidental status (a real classical tie-in, not an arbitrary
   default) rather than hardcoded to one value.
+- **Zodiacal releasing's sign-years table is per-SIGN, not per-planet**
+  — Saturn's two signs get different values (Capricorn 27, Aquarius
+  30), unlike the general "planetary years" table (Saturn 30 for
+  both) used elsewhere in the tradition. Confirmed correct for ZR
+  specifically per an engineering note from content development that
+  flagged the split for a closer look — see `zr.py`'s docstring.
+- **Solar phase is now also computed LIVE for the daily/activation
+  layer** (`daily_layer["solar_phase_today"]`), not just as a fixed
+  natal fact — added per an engineering note: content needs Venus's
+  oriental/occidental status and the Moon's phase checked against
+  today's sky, not just birth. `lunar_phase_today_three_way` is an
+  inferred New/Waxing-to-Full/Waning collapse of the 5-way phase,
+  flagged back for label confirmation since content specified the
+  three buckets without exact key names.
 
 ## Explicitly not built (per the brief)
 

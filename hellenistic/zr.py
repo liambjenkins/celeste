@@ -12,6 +12,20 @@ a known point of textual disagreement in the source material itself
 resolution most current Hellenistic practitioners and software use,
 documented here as a deliberate choice rather than a silent default.
 
+IMPORTANT -- this is a per-SIGN table, not a per-PLANET one, and the
+two differ for Saturn specifically: this table gives Capricorn 27 but
+Aquarius 30, even though Saturn domicile-rules both. That's not a
+typo. It's a separate, well-documented table from the general
+"planetary years" set (Sun 19, Moon 25, Mercury 20, Venus 8, Mars 15,
+Jupiter 12, Saturn 30) used elsewhere in the tradition (e.g. Firdaria)
+-- for every OTHER planet the two tables happen to agree on both of
+its signs, which is what makes Capricorn's 27 look like the odd one
+out rather than the expected exception. Confirmed against George Vol.
+1 Ch. 26 per an engineering note from content development, which
+listed the general planetary-years table and flagged the Capricorn/
+Aquarius split for a closer look -- the split is correct for
+zodiacal releasing specifically and should NOT be "fixed" to 30/30.
+
 Level units: L1 periods are sized in years, L2 in months, L3 in days,
 L4 in hours -- but using a uniform 360-day "releasing year" (12
 months of 30 days each = 360 days) at every level, NOT the true

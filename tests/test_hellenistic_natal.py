@@ -66,5 +66,14 @@ def test_daily_layer_runs_against_natal_chart():
     assert daily["zr_fortune"]["L1"]["current_period_lord"] in chart["planets"]
     assert daily["zr_spirit"]["L1"]["current_period_lord"] in chart["planets"]
     assert daily["lunar_phase_today"] in ("new", "waxing", "full", "waning", "balsamic")
+    assert daily["lunar_phase_today_three_way"] in ("new", "waxing_to_full", "waning")
     assert isinstance(daily["void_of_course"], bool)
+
+    # Today's LIVE solar phase (distinct from the natal chart's fixed
+    # birth-moment solar_phase) -- added per an engineering note: Venus
+    # oriental/occidental and Moon phase content both need this
+    # checked against today's sky, not just birth.
+    assert "venus" in daily["solar_phase_today"]
+    assert daily["solar_phase_today"]["venus"]["visibility"] in ("oriental", "occidental")
+    assert "bonding" in daily["solar_phase_today"]["moon"]
     assert len(daily["transits"]) == 7
