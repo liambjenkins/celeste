@@ -49,7 +49,7 @@ def build_daily_layer(natal_chart: dict, birth_utc_time: datetime, as_of_utc_tim
         "transits": transits,
         "solar_phase_today": solar_phase_today,
         "lunar_phase_today": lunar_phase["phase"],
-        "lunar_phase_today_three_way": lunar_phase["phase_three_way"],
+        "lunar_phase_today_hellenistic": lunar_phase["phase_hellenistic"],
         "void_of_course": lunar_phase["void_of_course"],
         "stations_today": stations,
         "eclipses": eclipses,

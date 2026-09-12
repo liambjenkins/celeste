@@ -74,7 +74,33 @@ def applying_or_separating(
     return "applying" if (diff * rate) < 0 else "separating"
 
 
-def _effect(aspect_name: str, this_planet: str, other_planet: str, other_sect_status: str) -> str:
+def degrees_to_exact(longitude_a: float, speed_a: float, longitude_b: float, speed_b: float, exact_angle: float):
+    """
+    Absolute degrees body A must still travel (at its own current
+    speed) to reach the exact aspect angle with body B -- None if the
+    aspect isn't approaching (already separating, or the relative
+    speed is zero and it will never perfect). Shared by build_aspects
+    (to report each aspect's imminence) and hellenistic.lunar_phase's
+    void-of-course window check, which is the same computation
+    applied to the Moon specifically.
+    """
+
+    sep = _signed_separation(longitude_a, longitude_b)
+    target = exact_angle if sep >= 0 else -exact_angle
+    diff = sep - target
+    relative_speed = speed_a - speed_b
+
+    if relative_speed == 0:
+        return None
+
+    time_to_exact = -diff / relative_speed
+    if time_to_exact < 0:
+        return None
+
+    return speed_a * time_to_exact
+
+
+def _effect(aspect_name: str, other_planet: str, other_sect_status: str) -> str:
     """
     Simplified bonification/maltreatment heuristic (not full classical
     "affliction" doctrine, which also weighs reception, overcoming,
@@ -96,11 +122,55 @@ def _effect(aspect_name: str, this_planet: str, other_planet: str, other_sect_st
     return "neutral"
 
 
+def _aspect_entry(this_body, other_name, other_body, aspect_name, exact_angle, phase, other_sect_status):
+    return {
+        "to_planet": other_name,
+        "aspect_type": aspect_name,
+        "phase": phase,
+        "effect": _effect(aspect_name, other_name, other_sect_status),
+        # Degrees this planet still has to travel to perfect the
+        # aspect -- None once it's separating (already past exact).
+        # This entry only exists because whole_sign_aspect() already
+        # confirmed the two planets' SIGNS are in a real aspect
+        # relationship (see build_aspects/module docstring), so a
+        # small degrees_to_exact here always reflects a genuine
+        # aspect -- never a coincidental close degree separation
+        # between two planets that happen to be in aversion signs.
+        "degrees_to_exact": degrees_to_exact(
+            this_body["longitude"],
+            this_body["longitude_speed"] or 0.0,
+            other_body["longitude"],
+            other_body["longitude_speed"] or 0.0,
+            exact_angle,
+        ),
+    }
+
+
+def next_applying_aspect(aspects: list):
+    """
+    Among one planet's own aspects list, the single applying contact
+    closest to perfecting (smallest degrees_to_exact) -- or None if it
+    has no applying aspects at all. This is specifically the "which
+    contact is imminent, and does it carry real testimony" fact: since
+    every entry in `aspects` already required a genuine whole-sign
+    relationship to exist (see build_aspects), an applying entry here
+    always corresponds to a real aspect, never a coincidental close
+    degree separation between planets in aversion.
+    """
+
+    applying = [a for a in aspects if a["phase"] == "applying" and a["degrees_to_exact"] is not None]
+    if not applying:
+        return None
+
+    return min(applying, key=lambda a: a["degrees_to_exact"])
+
+
 def build_aspects(bodies: dict, sect_status_by_planet: dict) -> dict:
     """
-    Returns {planet: [ {to_planet, aspect_type, phase, effect}, ... ]}
-    for every classical-planet pair that forms a whole-sign aspect.
-    Each existing pair contributes one entry to each side.
+    Returns {planet: [ {to_planet, aspect_type, phase, effect,
+    degrees_to_exact}, ... ]} for every classical-planet pair that
+    forms a whole-sign aspect. Each existing pair contributes one
+    entry to each side.
     """
 
     names = [name for name in CLASSICAL_PLANETS if name in bodies]
@@ -126,24 +196,14 @@ def build_aspects(bodies: dict, sect_status_by_planet: dict) -> dict:
             )
 
             per_planet[name_a].append(
-                {
-                    "to_planet": name_b,
-                    "aspect_type": aspect_name,
-                    "phase": phase,
-                    "effect": _effect(
-                        aspect_name, name_a, name_b, sect_status_by_planet.get(name_b)
-                    ),
-                }
+                _aspect_entry(
+                    body_a, name_b, body_b, aspect_name, exact_angle, phase, sect_status_by_planet.get(name_b)
+                )
             )
             per_planet[name_b].append(
-                {
-                    "to_planet": name_a,
-                    "aspect_type": aspect_name,
-                    "phase": phase,
-                    "effect": _effect(
-                        aspect_name, name_b, name_a, sect_status_by_planet.get(name_a)
-                    ),
-                }
+                _aspect_entry(
+                    body_b, name_a, body_a, aspect_name, exact_angle, phase, sect_status_by_planet.get(name_a)
+                )
             )
 
     return per_planet

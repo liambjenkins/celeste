@@ -1,4 +1,4 @@
-from hellenistic.lunar_phase import is_void_of_course, moon_phase, moon_phase_three_way
+from hellenistic.lunar_phase import is_void_of_course, moon_phase, moon_phase_hellenistic
 
 
 def test_moon_phase_new():
@@ -9,12 +9,31 @@ def test_moon_phase_full():
     assert moon_phase(sun_longitude=100.0, moon_longitude=280.0) == "full"
 
 
-def test_moon_phase_three_way_collapses_waxing_and_full():
-    assert moon_phase_three_way("new") == "new"
-    assert moon_phase_three_way("waxing") == "waxing_to_full"
-    assert moon_phase_three_way("full") == "waxing_to_full"
-    assert moon_phase_three_way("waning") == "waning"
-    assert moon_phase_three_way("balsamic") == "waning"
+def test_moon_phase_hellenistic_new_band_around_conjunction():
+    # Elongation near 0 (both just before and just after exact
+    # conjunction, i.e. wrapping through 360) is New.
+    assert moon_phase_hellenistic(sun_longitude=100.0, moon_longitude=105.0) == "new"
+    assert moon_phase_hellenistic(sun_longitude=100.0, moon_longitude=90.0) == "new"
+
+
+def test_moon_phase_hellenistic_full_band_around_opposition():
+    assert moon_phase_hellenistic(sun_longitude=100.0, moon_longitude=280.0) == "full"
+
+
+def test_moon_phase_hellenistic_dark_is_everything_else():
+    # Neither near conjunction (0) nor opposition (180) -- e.g. a
+    # first-quarter-ish elongation of 90 degrees.
+    assert moon_phase_hellenistic(sun_longitude=100.0, moon_longitude=190.0) == "dark"
+
+
+def test_moon_phase_hellenistic_is_not_a_rebucketing_of_the_five_way_phase():
+    # Regression guard for the earlier (wrong) implementation, which
+    # collapsed waxing+full into one bucket and waning+balsamic into
+    # another -- a different, non-Hellenistic partition. An elongation
+    # just past 180 (i.e. the 5-way "waning" bucket) must still land
+    # in the Hellenistic "full" band, not a "waning"-derived one.
+    assert moon_phase(sun_longitude=0.0, moon_longitude=195.0) == "waning"
+    assert moon_phase_hellenistic(sun_longitude=0.0, moon_longitude=195.0) == "full"
 
 
 def test_voc_true_when_no_aspect_completes_within_the_window():

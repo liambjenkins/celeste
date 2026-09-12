@@ -66,7 +66,7 @@ def test_daily_layer_runs_against_natal_chart():
     assert daily["zr_fortune"]["L1"]["current_period_lord"] in chart["planets"]
     assert daily["zr_spirit"]["L1"]["current_period_lord"] in chart["planets"]
     assert daily["lunar_phase_today"] in ("new", "waxing", "full", "waning", "balsamic")
-    assert daily["lunar_phase_today_three_way"] in ("new", "waxing_to_full", "waning")
+    assert daily["lunar_phase_today_hellenistic"] in ("new", "full", "dark")
     assert isinstance(daily["void_of_course"], bool)
 
     # Today's LIVE solar phase (distinct from the natal chart's fixed
@@ -77,3 +77,37 @@ def test_daily_layer_runs_against_natal_chart():
     assert daily["solar_phase_today"]["venus"]["visibility"] in ("oriental", "occidental")
     assert "bonding" in daily["solar_phase_today"]["moon"]
     assert len(daily["transits"]) == 7
+
+
+def test_next_applying_aspect_is_a_real_whole_sign_aspect():
+    chart = build_natal_chart(_birth_utc(), LATITUDE, LONGITUDE)
+
+    for planet, entry in chart["planets"].items():
+        next_aspect = entry["next_applying_aspect"]
+        if next_aspect is None:
+            continue
+        assert next_aspect["phase"] == "applying"
+        assert next_aspect in entry["aspects"]
+
+
+def test_planet_conditions_are_built_for_every_planet():
+    chart = build_natal_chart(_birth_utc(), LATITUDE, LONGITUDE)
+
+    assert set(chart["planet_conditions"].keys()) == set(chart["planets"].keys())
+
+    for planet, condition in chart["planet_conditions"].items():
+        assert condition["nature"] in ("luminary", "benefic", "malefic", "common")
+        assert condition["essential_dignity"]["status"] == chart["planets"][planet]["dignity"]["status"]
+        assert condition["condition_of_domicile_lord"]["counteraction"] in ("helps", "hinders", "neutral")
+        assert "judgment_grade" not in condition  # explicitly the assembly layer's job, not this engine's
+
+    # The Moon has no self-referential lunar_aspects; every other
+    # planet's lunar_aspects (if present) must actually be one of the
+    # Moon's own recorded aspects to that planet.
+    assert chart["planet_conditions"]["moon"]["lunar_aspects"] is None
+    for planet, condition in chart["planet_conditions"].items():
+        if planet == "moon":
+            continue
+        if condition["lunar_aspects"] is not None:
+            assert condition["lunar_aspects"]["to_planet"] == planet
+            assert condition["lunar_aspects"] in chart["planets"]["moon"]["aspects"]

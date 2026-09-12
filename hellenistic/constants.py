@@ -184,6 +184,21 @@ FIXED_GENDER = {
     "mercury": None,
 }
 
+# Planetary nature -- uncontested classical classification, used by
+# hellenistic.condition's Master Planet Condition object. Mercury is
+# "common" (not fixed benefic/malefic) for the same reason its gender
+# and sect are unfixed -- it takes on the nature of what it's
+# configured with rather than having one of its own.
+PLANET_NATURE = {
+    "sun": "luminary",
+    "moon": "luminary",
+    "venus": "benefic",
+    "jupiter": "benefic",
+    "mars": "malefic",
+    "saturn": "malefic",
+    "mercury": "common",
+}
+
 # Classical planetary joys by whole-sign house. Uncontested across
 # the tradition (Valens, Dorotheus, Firmicus all agree on this table).
 JOY_HOUSE = {

@@ -12,7 +12,8 @@ depends on "today", only on birth moment + location.
 from datetime import datetime
 
 from hellenistic.angularity import angularity
-from hellenistic.aspects import build_aspects
+from hellenistic.aspects import build_aspects, next_applying_aspect
+from hellenistic.condition import build_all_planet_conditions
 from hellenistic.constants import CLASSICAL_PLANETS, FIXED_GENDER
 from hellenistic.dignity import build_all_dignity
 from hellenistic.houses import build_house_rulerships, build_joy
@@ -76,6 +77,7 @@ def build_natal_chart(utc_time: datetime, latitude: float, longitude: float) -> 
             continue
 
         body = bodies[planet]
+        planet_aspects = aspects.get(planet, [])
         entry = {
             "sign": body["sign"],
             "degree": body["degree"],
@@ -87,7 +89,17 @@ def build_natal_chart(utc_time: datetime, latitude: float, longitude: float) -> 
             "angularity": angularity(body["house"]),
             "gender": genders[planet],
             "solar_phase": solar_phase[planet],
-            "aspects": aspects.get(planet, []),
+            "aspects": planet_aspects,
+            # The single applying aspect closest to perfecting, or
+            # None -- distinct from "is this planet void of course"
+            # (that's a Moon-specific, fixed-window concept; see
+            # hellenistic.lunar_phase), but built the same way: only
+            # ever populated from a whole-sign-confirmed aspect (see
+            # hellenistic.aspects.next_applying_aspect), so a non-None
+            # result here always carries real testimony, per an
+            # engineering note distinguishing "has a next contact by
+            # degree" from "that contact is a genuine aspect".
+            "next_applying_aspect": next_applying_aspect(planet_aspects),
             "reception": {
                 "received_by_dispositor": reception[planet]["received_by_dispositor"],
                 "mutual_reception_with": reception[planet]["mutual_reception_with"],
@@ -103,7 +115,7 @@ def build_natal_chart(utc_time: datetime, latitude: float, longitude: float) -> 
 
         planets[planet] = entry
 
-    return {
+    chart = {
         "utc_time": positions["utc_time"],
         "julian_day": positions["julian_day"],
         "location": positions["location"],
@@ -117,3 +129,11 @@ def build_natal_chart(utc_time: datetime, latitude: float, longitude: float) -> 
         "prenatal_lunation": prenatal_lunation,
         "planets": planets,
     }
+
+    # A consolidated, George-ordered view of each planet's condition,
+    # built entirely from the facts already assembled above -- see
+    # hellenistic/condition.py. Sits alongside `planets`, not in place
+    # of it.
+    chart["planet_conditions"] = build_all_planet_conditions(chart)
+
+    return chart
