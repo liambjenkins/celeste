@@ -81,10 +81,49 @@ uses. No new dependency needed.
   layer** (`daily_layer["solar_phase_today"]`), not just as a fixed
   natal fact — added per an engineering note: content needs Venus's
   oriental/occidental status and the Moon's phase checked against
-  today's sky, not just birth. `lunar_phase_today_three_way` is an
-  inferred New/Waxing-to-Full/Waning collapse of the 5-way phase,
-  flagged back for label confirmation since content specified the
-  three buckets without exact key names.
+  today's sky, not just birth.
+- **Lunar phase vocabulary**: the original 5-way phase (new/waxing/
+  full/waning/balsamic, per the variable spec's own enum) is confirmed
+  a cut of Dane Rudhyar's 1936 modern eight-phase model, not ancient
+  doctrine. Added `moon_phase_hellenistic()` (New/Full/Dark — Artemis/
+  Selene/Hecate; George Vol. 1 Ch. 29) as a genuine band around exact
+  conjunction/opposition, exposed alongside (not replacing) the
+  original 5-way enum. The band width is this author's inference —
+  George's exact degree boundaries weren't findable via search — and
+  is flagged in `lunar_phase.py` pending confirmation from content's
+  Moon tab.
+- **Void of course vs. aspect testimony are two separate checks**: a
+  non-void Moon (has a next contact by degree) can still fail to
+  improve the other planet's condition if no real whole-sign aspect
+  connects them — confirmed `is_void_of_course` already gates every
+  completion on `whole_sign_aspect()` existing, so this engine never
+  reports "not void" without a genuine aspect behind it. Added the
+  missing convenience pieces: every aspect now carries
+  `degrees_to_exact`, and each planet gets `next_applying_aspect` (the
+  soonest-to-perfect one, or `None`).
+- **Master Planet Condition object** (`hellenistic/condition.py`,
+  `chart["planet_conditions"]`): one structure per planet in the order
+  George uses in her own worked examples (Vol. 1 Ch. 57-59) — nature,
+  sect, sect rejoicing, lords, essential dignity, solar phase, lunar
+  aspects, testimony, condition of domicile lord. Pure repackaging of
+  facts this engine already computes, plus one new static fact
+  (planetary nature). Deliberately stops short of a "judgment grade" —
+  that final synthesis is the assembly layer's job, not this engine's.
+- **Empty houses default to "check the ruler"**: most houses in most
+  charts are empty (7 planets, 12 houses), and per George Vol. 2 Ch.
+  83 an empty house's topics flow entirely through wherever its ruler
+  sits — not suppressed. `chart["houses"]` gives every house's sign,
+  ruler, occupants, `is_empty`, and the ruler's own house directly, so
+  an interpretive layer can follow that rule without inverting
+  `house_rulerships` itself.
+- **Fortune-anchored house wheel + ZR intensity weighting**: per
+  George Vol. 2 Ch. 88, Fortune's own house position generates a
+  second whole-sign house wheel (`chart["fortune_houses"]`,
+  `hellenistic/fortune_houses.py`) used to weight zodiacal releasing —
+  a period landing on the house containing Fortune, or angular to it,
+  is traditionally more dramatic. Every ZR level (both the Fortune and
+  Spirit clocks) now carries `house_from_fortune` and
+  `is_angular_to_fortune`.
 
 ## Explicitly not built (per the brief)
 

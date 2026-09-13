@@ -23,6 +23,43 @@ def build_house_rulerships(house_signs: dict) -> dict:
     return rulerships
 
 
+def build_house_occupancy(bodies: dict, house_signs: dict) -> dict:
+    """
+    Per-house facts for all 12 whole-sign houses: sign, ruler
+    (domicile lord), which planets occupy it, whether it's empty, and
+    where its ruler is placed. Built specifically per an engineering
+    note (source: George Vol. 2 Ch. 83): an empty house's topics still
+    fully play out through wherever its ruler sits -- most houses in
+    most charts are empty (7 planets across 12 houses), so this is the
+    default case an interpretive layer needs to handle, not an edge
+    case. `ruler_house` is given directly so that layer doesn't have
+    to invert house_rulerships/bodies itself on every empty house.
+    """
+
+    occupants_by_house = {house_num: [] for house_num in range(1, 13)}
+    for planet in CLASSICAL_PLANETS:
+        body = bodies.get(planet)
+        if body is not None:
+            occupants_by_house[body["house"]].append(planet)
+
+    result = {}
+    for house_str, sign in house_signs.items():
+        house_num = int(house_str)
+        ruler = DOMICILE_LORDS[sign]
+        occupants = occupants_by_house[house_num]
+        ruler_body = bodies.get(ruler)
+
+        result[house_str] = {
+            "sign": sign,
+            "ruler": ruler,
+            "occupants": occupants,
+            "is_empty": len(occupants) == 0,
+            "ruler_house": ruler_body["house"] if ruler_body else None,
+        }
+
+    return result
+
+
 def build_joy(bodies: dict, ascendant_longitude: float, chart_sect: str) -> dict:
     result = {}
 

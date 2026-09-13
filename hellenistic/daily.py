@@ -20,11 +20,20 @@ from providers.astronomy import get_astronomy
 def build_daily_layer(natal_chart: dict, birth_utc_time: datetime, as_of_utc_time: datetime) -> dict:
     profection = build_profection(birth_utc_time, as_of_utc_time, natal_chart["house_signs"])
 
+    fortune_sign_index = natal_chart["lot_of_fortune"]["sign_index"]
+
+    # fortune_sign_index is passed to BOTH tracks (not just Fortune's
+    # own) -- per an engineering note, Fortune's house governs the
+    # traditional intensity/drama weighting for a ZR period regardless
+    # of which lot's clock produced it.
     zr_fortune = build_zr_track(
-        natal_chart["lot_of_fortune"]["sign_index"], birth_utc_time, as_of_utc_time
+        fortune_sign_index, birth_utc_time, as_of_utc_time, fortune_sign_index=fortune_sign_index
     )
     zr_spirit = build_zr_track(
-        natal_chart["lot_of_spirit"]["sign_index"], birth_utc_time, as_of_utc_time
+        natal_chart["lot_of_spirit"]["sign_index"],
+        birth_utc_time,
+        as_of_utc_time,
+        fortune_sign_index=fortune_sign_index,
     )
 
     transits = build_transits(natal_chart, as_of_utc_time)

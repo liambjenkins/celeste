@@ -145,14 +145,28 @@ def _is_boundary_today(period: dict, as_of_time: datetime) -> bool:
 
 
 def build_zr_track(
-    lot_sign_index: int, birth_utc_time: datetime, as_of_utc_time: datetime, max_level: int = MAX_LEVEL
+    lot_sign_index: int,
+    birth_utc_time: datetime,
+    as_of_utc_time: datetime,
+    fortune_sign_index: int = None,
+    max_level: int = MAX_LEVEL,
 ) -> dict:
     """
     One independent ZR clock (Fortune or Spirit -- caller picks the
     starting sign). Returns {"L1": {...}, "L2": {...}, ...} up to
     max_level, each level anchored inside the period located at the
     level above.
+
+    fortune_sign_index (per an engineering note, source: George Vol.
+    2 Ch. 88): if given, each level is also checked for angularity to
+    the Lot of FORTUNE specifically -- not the clock's own starting
+    lot -- since Fortune's house governs the traditional intensity/
+    drama weighting for a period regardless of whether this is the
+    Fortune or the Spirit clock. Omit (None) to skip this -- e.g. for
+    a caller that doesn't have Fortune's position at all.
     """
+
+    from hellenistic.fortune_houses import house_from_fortune, is_angular_to_fortune
 
     levels = {}
     anchor_sign_index = lot_sign_index
@@ -160,7 +174,7 @@ def build_zr_track(
 
     for level in range(1, max_level + 1):
         period = locate_period(anchor_sign_index, level, anchor_start_time, as_of_utc_time)
-        levels[f"L{level}"] = {
+        level_entry = {
             "level": level,
             "current_period_lord": period["lord"],
             "sign": period["sign"],
@@ -169,6 +183,12 @@ def build_zr_track(
             "is_boundary_today": _is_boundary_today(period, as_of_utc_time),
             "is_loosing_of_bond": period["is_loosing_of_bond"],
         }
+
+        if fortune_sign_index is not None:
+            level_entry["house_from_fortune"] = house_from_fortune(period["sign_index"], fortune_sign_index)
+            level_entry["is_angular_to_fortune"] = is_angular_to_fortune(period["sign_index"], fortune_sign_index)
+
+        levels[f"L{level}"] = level_entry
         anchor_sign_index = period["sign_index"]
         anchor_start_time = period["start_time"]
 

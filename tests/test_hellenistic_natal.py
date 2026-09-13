@@ -43,6 +43,18 @@ def test_natal_chart_structure_and_known_values():
     assert "bonding" in chart["planets"]["moon"]
     assert chart["prenatal_lunation"]["type"] in ("new", "full")
 
+    # Per-house occupancy: every house is accounted for, and an empty
+    # house always resolves to a real ruler placement.
+    assert set(chart["houses"].keys()) == {str(n) for n in range(1, 13)}
+    for house_num, info in chart["houses"].items():
+        assert info["is_empty"] == (len(info["occupants"]) == 0)
+        if info["is_empty"]:
+            assert info["ruler_house"] in range(1, 13)
+
+    # Fortune-anchored house wheel: Fortune's own sign is always its
+    # own 1st house.
+    assert chart["fortune_houses"]["1"] == chart["lot_of_fortune"]["sign"]
+
 
 def test_reception_is_internally_consistent():
     chart = build_natal_chart(_birth_utc(), LATITUDE, LONGITUDE)
@@ -77,6 +89,15 @@ def test_daily_layer_runs_against_natal_chart():
     assert daily["solar_phase_today"]["venus"]["visibility"] in ("oriental", "occidental")
     assert "bonding" in daily["solar_phase_today"]["moon"]
     assert len(daily["transits"]) == 7
+
+    # ZR angularity-to-Fortune weighting applies to BOTH clocks (not
+    # just Fortune's own), per the engineering note it was added for.
+    for track in (daily["zr_fortune"], daily["zr_spirit"]):
+        for level_info in track.values():
+            assert level_info["house_from_fortune"] in range(1, 13)
+            assert isinstance(level_info["is_angular_to_fortune"], bool)
+            expected = level_info["house_from_fortune"] in (1, 4, 7, 10)
+            assert level_info["is_angular_to_fortune"] == expected
 
 
 def test_next_applying_aspect_is_a_real_whole_sign_aspect():

@@ -16,7 +16,8 @@ from hellenistic.aspects import build_aspects, next_applying_aspect
 from hellenistic.condition import build_all_planet_conditions
 from hellenistic.constants import CLASSICAL_PLANETS, FIXED_GENDER
 from hellenistic.dignity import build_all_dignity
-from hellenistic.houses import build_house_rulerships, build_joy
+from hellenistic.fortune_houses import build_fortune_houses
+from hellenistic.houses import build_house_occupancy, build_house_rulerships, build_joy
 from hellenistic.lots import build_lots
 from hellenistic.lunation import find_prenatal_lunation
 from hellenistic.positions import build_positions
@@ -122,9 +123,22 @@ def build_natal_chart(utc_time: datetime, latitude: float, longitude: float) -> 
         "sect": sect,
         "ascendant": positions["ascendant"],
         "house_signs": positions["house_signs"],
+        # Per-house facts (sign, ruler, occupants, is_empty, and the
+        # ruler's own house placement) -- added per an engineering
+        # note: most houses in most charts are empty, and an empty
+        # house's topics flow through its ruler's placement, not
+        # nothing (George Vol. 2 Ch. 83). Gives that lookup directly
+        # rather than requiring it be inverted from house_rulerships.
+        "houses": build_house_occupancy(bodies, positions["house_signs"]),
         "nodes": positions["nodes"],
         "lot_of_fortune": lots["fortune"],
         "lot_of_spirit": lots["spirit"],
+        # A second whole-sign house wheel anchored at Fortune instead
+        # of the Ascendant -- added per an engineering note (George
+        # Vol. 2 Ch. 88), used for ZR's angular-to-Fortune intensity
+        # weighting (see hellenistic.zr.build_zr_track) and available
+        # generally for any other Fortune-relative technique.
+        "fortune_houses": build_fortune_houses(lots["fortune"]["sign_index"]),
         "other_lots": [],  # stub -- explicitly deferred per the brief
         "prenatal_lunation": prenatal_lunation,
         "planets": planets,
