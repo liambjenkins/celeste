@@ -83,6 +83,18 @@ def degrees_to_exact(longitude_a: float, speed_a: float, longitude_b: float, spe
     (to report each aspect's imminence) and hellenistic.lunar_phase's
     void-of-course window check, which is the same computation
     applied to the Moon specifically.
+
+    Returns a MAGNITUDE (always >= 0), not a signed quantity: time_to_
+    exact already correctly accounts for direction via the signed
+    relative_speed below, so the distance A itself covers to get there
+    is abs(speed_a) * time_to_exact regardless of which way A is
+    currently moving. A previous version returned speed_a * time_to_
+    exact unabsoluted, which silently went negative for any retrograde
+    planet (speed_a < 0) -- caught when Jupiter and Saturn, both
+    retrograde in the reference chart, produced negative "degrees to
+    exact" values that then broke next_applying_aspect's imminence
+    ordering (it favored the most-negative value, i.e. the LEAST
+    imminent retrograde aspect, not the closest one).
     """
 
     sep = _signed_separation(longitude_a, longitude_b)
@@ -97,7 +109,7 @@ def degrees_to_exact(longitude_a: float, speed_a: float, longitude_b: float, spe
     if time_to_exact < 0:
         return None
 
-    return speed_a * time_to_exact
+    return abs(speed_a) * time_to_exact
 
 
 def _effect(aspect_name: str, other_planet: str, other_sect_status: str) -> str:

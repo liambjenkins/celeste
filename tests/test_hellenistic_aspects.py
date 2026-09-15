@@ -1,4 +1,6 @@
-from hellenistic.aspects import applying_or_separating, sign_distance, whole_sign_aspect
+import pytest
+
+from hellenistic.aspects import applying_or_separating, degrees_to_exact, next_applying_aspect, sign_distance, whole_sign_aspect
 
 
 def test_whole_sign_conjunction():
@@ -42,3 +44,31 @@ def test_separating_when_past_exact():
         longitude_a=15.0, speed_a=1.0, longitude_b=70.0, speed_b=0.0, exact_angle=60.0
     )
     assert phase == "separating"
+
+
+def test_degrees_to_exact_is_never_negative_for_a_retrograde_body():
+    # Regression guard: an earlier version returned speed_a *
+    # time_to_exact unabsoluted, which went negative whenever body A
+    # was retrograde (speed_a < 0) -- caught on a real chart where
+    # Jupiter and Saturn (both retrograde) produced negative "degrees
+    # to exact" values. Body A here is retrograde (speed -0.1) and 91
+    # degrees from body B, applying toward an exact 90-degree square
+    # (i.e. only 1 more degree of its own backward travel needed).
+    result = degrees_to_exact(
+        longitude_a=100.0, speed_a=-0.1, longitude_b=9.0, speed_b=0.0, exact_angle=90.0
+    )
+    assert result is not None
+    assert result == pytest.approx(1.0)
+
+
+def test_next_applying_aspect_picks_the_truly_closest_one_not_the_most_negative():
+    # Regression guard for the same bug's downstream effect: with
+    # negative degrees_to_exact values in play, a naive min() would
+    # have favored the most-negative (least imminent) entry instead of
+    # the one nearest to perfecting.
+    aspects = [
+        {"to_planet": "a", "phase": "applying", "degrees_to_exact": 5.0},
+        {"to_planet": "b", "phase": "applying", "degrees_to_exact": 0.5},
+        {"to_planet": "c", "phase": "separating", "degrees_to_exact": None},
+    ]
+    assert next_applying_aspect(aspects)["to_planet"] == "b"
